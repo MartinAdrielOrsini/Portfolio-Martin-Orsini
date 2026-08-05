@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martín — Diseñador Gráfico · Buenos Aires</title>
+<meta name="description" content="Portafolio de Martín, diseñador gráfico en Buenos Aires. Identidad de marca, tipografía, motion graphics y herramientas interactivas.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" aria-label="Navegación principal">
+  <a href="#hero" class="nav-logo">martín<span>.</span></a>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
+    <span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#index">Trabajo</a></li>
+    <li><a href="#case-studies">Casos</a></li>
+    <li><a href="#playground">Lab</a></li>
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <a href="#contact" class="btn btn-primary nav-cta">Escribime</a>
+</nav>
+
+<main>
+
+<!-- ============ 1. HERO ============ -->
+<section id="hero" class="hero container">
+  <div class="hero-badge glass">
+    <span class="pulse-dot"></span>
+    Disponible para nuevos proyectos — Q3 2026
+  </div>
+
+  <h1 class="hero-title">
+    <span class="line"><span>Diseño</span></span>
+    <span class="line"><span>sistemas,</span></span>
+    <span class="line"><span>no piezas sueltas.</span></span>
+  </h1>
+
+  <p class="hero-sub">
+    Soy Martín, diseñador gráfico recibido en la UBA (FADU). Trabajo identidad de marca,
+    tipografía y motion graphics con la misma lógica: cada proyecto es un sistema visual,
+    no una colección de imágenes aisladas.
+  </p>
+
+  <div class="hero-meta">
+    <a href="#index" class="btn btn-primary">Ver trabajo</a>
+    <a href="#contact" class="btn btn-outline">Hablemos de tu proyecto</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="bar"></span>
+    Scroll
+  </div>
+</section>
+
+<!-- ============ 2. ÍNDICE DE ESPECÍMENES ============ -->
+<section id="index" class="container">
+  <div class="section-head reveal">
+    <span class="eyebrow">Índice 01 — Portfolio</span>
+    <h2>El índice de especímenes.</h2>
+    <p>Cada proyecto, despiezado: paleta, tipografía y pieza final. Filtrá por disciplina para ver el detalle técnico de cada sistema.</p>
+  </div>
+
+  <div class="filters reveal" role="group" aria-label="Filtrar proyectos por categoría">
+    <button class="filter-btn is-active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="branding">Branding</button>
+    <button class="filter-btn" data-filter="tipografia">Tipografía</button>
+    <button class="filter-btn" data-filter="motion">Motion</button>
+    <button class="filter-btn" data-filter="interactivo">Interactivo</button>
+    <button class="filter-btn" data-filter="editorial">Editorial</button>
+  </div>
+
+  <div class="project-grid" id="projectGrid">
+
+    <article class="project-card glass reveal" data-category="branding tipografia" tabindex="0">
+      <div class="card-visual">
+        <div class="swatch-bg" style="background:linear-gradient(135deg,#C41E3A 0%,#8C1024 45%,#1A1A1A 100%);"></div>
+        <span class="card-label">MUSTARD FONT</span>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><h3>Mustard Font</h3><span class="card-year">2026</span></div>
+        <span class="card-cat">Branding · Tipografía</span>
+        <div class="card-spec">
+          <div class="chip-row" aria-hidden="true">
+            <span class="chip" style="background:#C41E3A;"></span>
+            <span class="chip" style="background:#F5E6C8;"></span>
+            <span class="chip" style="background:#1A1A1A;"></span>
+          </div>
+          <span class="card-font">Display / Grotesk Vintage</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card glass reveal" data-category="motion branding" tabindex="0">
+      <div class="card-visual">
+        <div class="swatch-bg" style="background:linear-gradient(135deg,#0F1B1A 0%,#1B2E2A 55%,#FF5500 130%);"></div>
+        <span class="card-label">MUSH</span>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><h3>MUSH</h3><span class="card-year">2026</span></div>
+        <span class="card-cat">Motion · Narrativa de marca</span>
+        <div class="card-spec">
+          <div class="chip-row" aria-hidden="true">
+            <span class="chip" style="background:#0F1B1A;"></span>
+            <span class="chip" style="background:#E8DFC8;"></span>
+            <span class="chip" style="background:#FF5500;"></span>
+          </div>
+          <span class="card-font">18 escenas / 1:20</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card glass reveal" data-category="interactivo" tabindex="0">
+      <div class="card-visual">
+        <div class="swatch-bg" style="background:linear-gradient(135deg,#0B6E4F 0%,#08492F 55%,#FFD447 140%);"></div>
+        <span class="card-label">MUNDIAL 2026</span>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><h3>Simulador Mundial 2026</h3><span class="card-year">2026</span></div>
+        <span class="card-cat">Interactivo · UI/UX</span>
+        <div class="card-spec">
+          <div class="chip-row" aria-hidden="true">
+            <span class="chip" style="background:#0B6E4F;"></span>
+            <span class="chip" style="background:#FFD447;"></span>
+            <span class="chip" style="background:#FFFFFF;"></span>
+          </div>
+          <span class="card-font">Bracket / 48 equipos</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card glass reveal" data-category="interactivo editorial" tabindex="0">
+      <div class="card-visual">
+        <div class="swatch-bg" style="background:linear-gradient(135deg,#0B1F3A 0%,#132A4D 55%,#C9A227 140%);"></div>
+        <span class="card-label">LIBERTADORES LAB</span>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><h3>Copa Libertadores — Data Lab</h3><span class="card-year">2026</span></div>
+        <span class="card-cat">Interactivo · Visualización</span>
+        <div class="card-spec">
+          <div class="chip-row" aria-hidden="true">
+            <span class="chip" style="background:#0B1F3A;"></span>
+            <span class="chip" style="background:#C9A227;"></span>
+            <span class="chip" style="background:#F5F5F0;"></span>
+          </div>
+          <span class="card-font">Sistema olímpico</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card glass reveal" data-category="editorial" tabindex="0">
+      <div class="card-visual">
+        <div class="swatch-bg" style="background:linear-gradient(135deg,#141414 0%,#242424 55%,#D8433A 140%);"></div>
+        <span class="card-label">CÁTEDRA BELLUCCIA</span>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><h3>Material Cátedra · FADU</h3><span class="card-year">2025–26</span></div>
+        <span class="card-cat">Editorial · Docencia</span>
+        <div class="card-spec">
+          <div class="chip-row" aria-hidden="true">
+            <span class="chip" style="background:#141414;"></span>
+            <span class="chip" style="background:#D8433A;"></span>
+            <span class="chip" style="background:#F5F5F0;"></span>
+          </div>
+          <span class="card-font">Sistema editorial</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card glass reveal" data-category="tipografia" tabindex="0">
+      <div class="card-visual">
+        <div class="swatch-bg" style="background:linear-gradient(135deg,#F5F5F0 0%,#D8D8D0 55%,#0A0A0B 140%);"></div>
+        <span class="card-label" style="color:#0A0A0B;">ESPÉCIMEN TIPOGRÁFICO</span>
+      </div>
+      <div class="card-body">
+        <div class="card-top"><h3>Espécimen personal</h3><span class="card-year">2025</span></div>
+        <span class="card-cat">Tipografía · Investigación</span>
+        <div class="card-spec">
+          <div class="chip-row" aria-hidden="true">
+            <span class="chip" style="background:#F5F5F0;"></span>
+            <span class="chip" style="background:#0A0A0B;"></span>
+            <span class="chip" style="background:#FF5500;"></span>
+          </div>
+          <span class="card-font">Variable / display</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ 3. CASOS DE ESTUDIO ============ -->
+<section id="case-studies" class="container">
+  <div class="section-head reveal">
+    <span class="eyebrow">Índice 02 — Profundidad</span>
+    <h2>Dos sistemas, de punta a punta.</h2>
+    <p>Del brief al resultado: cómo se construyeron dos de los proyectos más completos de los últimos meses.</p>
+  </div>
+
+  <article class="case reveal">
+    <div class="case-visual glass">
+      <div class="swatch-bg" style="position:absolute;inset:0;background:linear-gradient(160deg,#C41E3A 0%,#8C1024 45%,#F5E6C8 100%);"></div>
+      <span class="tag">Mustard Font — universo de marca</span>
+    </div>
+    <div class="case-copy">
+      <div class="case-index">Caso 01 / 02</div>
+      <h3 class="case-title">Mustard Font</h3>
+      <div class="case-block">
+        <h4>El desafío</h4>
+        <p>Construir, a partir de una tipografía propia, un universo gráfico completo: no solo la fuente, sino el mundo visual que la sostiene y le da lógica de marca.</p>
+      </div>
+      <div class="case-block">
+        <h4>La exploración</h4>
+        <p>Dirección estética anclada en el diner americano vintage — paleta roja y blanca, tramas a cuadrillé y tipografía de los años 50 y 60. Se desarrollaron piezas ilustradas: un póster vintage, un envoltorio de hamburguesa y un menú tipo pizarra, cada una probando la tipografía en un contexto real de uso.</p>
+      </div>
+      <div class="case-block">
+        <h4>El resultado</h4>
+        <p>Un sistema tipográfico con identidad narrativa propia, capaz de sostenerse en distintos soportes sin perder coherencia visual.</p>
+      </div>
+      <div class="case-stats">
+        <div><strong>3</strong><span>Piezas ilustradas</span></div>
+        <div><strong>1</strong><span>Universo de marca</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="case reveal">
+    <div class="case-visual glass">
+      <div class="swatch-bg" style="position:absolute;inset:0;background:linear-gradient(160deg,#0F1B1A 0%,#1B2E2A 55%,#FF5500 140%);"></div>
+      <span class="tag">MUSH — pieza de motion graphics</span>
+    </div>
+    <div class="case-copy">
+      <div class="case-index">Caso 02 / 02</div>
+      <h3 class="case-title">MUSH</h3>
+      <div class="case-block">
+        <h4>El desafío</h4>
+        <p>Traducir la identidad de la marca MUSH en una narrativa animada capaz de sostener el interés en poco más de un minuto.</p>
+      </div>
+      <div class="case-block">
+        <h4>La exploración</h4>
+        <p>El guion se estructuró en cinco actos y dieciocho escenas, cada una storyboardeada en detalle antes de pasar a producción, con un widget interactivo propio para visualizar el recorrido completo de la pieza.</p>
+      </div>
+      <div class="case-block">
+        <h4>El resultado</h4>
+        <p>Una estructura narrativa clara y verificable escena por escena, lista para producción, que redujo la ambigüedad creativa antes de animar un solo frame.</p>
+      </div>
+      <div class="case-stats">
+        <div><strong>18</strong><span>Escenas</span></div>
+        <div><strong>1:20</strong><span>Duración</span></div>
+        <div><strong>5</strong><span>Actos</span></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ============ 4. LABORATORIO ============ -->
+<section id="playground" class="container">
+  <div class="section-head reveal">
+    <span class="eyebrow">Índice 03 — Archivo</span>
+    <h2>Laboratorio.</h2>
+    <p>Proyectos personales, exploración tipográfica y piezas sin cliente. Donde se prueban las ideas antes de que sean sistemas.</p>
+  </div>
+
+  <div class="playground-track reveal" tabindex="0" role="region" aria-label="Galería de proyectos experimentales, desplazable horizontalmente">
+    <div class="play-item tall glass"><div class="play-visual" style="background:linear-gradient(160deg,#C41E3A,#1A1A1A);">Póster diario 01</div></div>
+    <div class="play-item short glass"><div class="play-visual" style="background:linear-gradient(160deg,#0B6E4F,#08492F);">Render 3D — tipo</div></div>
+    <div class="play-item tall glass"><div class="play-visual" style="background:linear-gradient(160deg,#0B1F3A,#C9A227);">Espécimen variable</div></div>
+    <div class="play-item short glass"><div class="play-visual" style="background:linear-gradient(160deg,#FF5500,#0F1B1A);">Loop — motion test</div></div>
+    <div class="play-item tall glass"><div class="play-visual" style="background:linear-gradient(160deg,#F5E6C8,#8C1024);">Póster diario 02</div></div>
+    <div class="play-item short glass"><div class="play-visual" style="background:linear-gradient(160deg,#141414,#D8433A);">Estudio cromático</div></div>
+  </div>
+</section>
+
+<!-- ============ 5. SOBRE MÍ ============ -->
+<section id="about" class="container">
+  <div class="about-grid">
+    <div class="about-portrait glass reveal">
+      <div class="swatch-bg" style="position:absolute;inset:0;background:linear-gradient(160deg,#1a1a1a,#0a0a0b);"></div>
+      <span class="frame-label">Martín — Buenos Aires</span>
+    </div>
+    <div class="about-copy reveal">
+      <span class="eyebrow">Índice 04 — Filosofía</span>
+      <h2 style="font-family:var(--font-display); font-size:clamp(28px,3.5vw,42px); margin-top:14px; margin-bottom:20px;">Sobre mí</h2>
+      <p>Soy diseñador gráfico, recibido en la Facultad de Arquitectura, Diseño y Urbanismo de la UBA. Además de mi trabajo como freelance, soy ayudante de cátedra en Diseño Gráfico 3 (Cátedra Belluccia), lo que mantiene mi mirada tan crítica como práctica.</p>
+      <p>Trabajo en la intersección entre el diseño editorial clásico y las herramientas digitales — de una tipografía dibujada a mano a un simulador interactivo, el proceso es siempre el mismo: entender el sistema antes de dibujar la pieza.</p>
+
+      <div class="pillars">
+        <div class="pillar">
+          <span class="pillar-index">01</span>
+          <div><h4>Sistema antes que pieza</h4><p>Ninguna imagen se diseña sola. Cada elemento responde a una lógica que se puede repetir, escalar y defender.</p></div>
+        </div>
+        <div class="pillar">
+          <span class="pillar-index">02</span>
+          <div><h4>La tecnología como material</h4><p>El código y las herramientas digitales no reemplazan el proceso de diseño: son un material más, con su propia textura.</p></div>
+        </div>
+        <div class="pillar">
+          <span class="pillar-index">03</span>
+          <div><h4>Rigor con calidez</h4><p>La precisión metodológica no está peleada con lo hecho a mano — ahí está, de hecho, lo memorable.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. SERVICIOS Y PROCESO ============ -->
+<section id="services" class="container">
+  <div class="section-head reveal">
+    <span class="eyebrow">Índice 05 — Cómo trabajo</span>
+    <h2>Capacidades y proceso.</h2>
+    <p>De la identidad de marca a la entrega final, con un proceso transparente en cuatro fases.</p>
+  </div>
+
+  <div class="service-grid">
+    <div class="service-card glass reveal">
+      <span class="num">Servicio</span>
+      <h3>Identidad de marca</h3>
+      <p>Sistemas de marca completos: logotipo, paleta, tipografía y aplicaciones.</p>
+    </div>
+    <div class="service-card glass reveal">
+      <span class="num">Servicio</span>
+      <h3>Dirección de arte</h3>
+      <p>Definición de la mirada visual de un proyecto de principio a fin.</p>
+    </div>
+    <div class="service-card glass reveal">
+      <span class="num">Servicio</span>
+      <h3>Diseño digital</h3>
+      <p>Interfaces, herramientas interactivas y piezas para web.</p>
+    </div>
+    <div class="service-card glass reveal">
+      <span class="num">Servicio</span>
+      <h3>Packaging</h3>
+      <p>Diseño de envases y sistemas gráficos aplicados a producto.</p>
+    </div>
+  </div>
+
+  <div class="process reveal" id="processAccordion">
+    <div class="process-item is-open">
+      <button class="process-trigger" aria-expanded="true">
+        <span class="p-num">01</span>
+        <h3>Investigación</h3>
+        <span class="p-icon"></span>
+      </button>
+      <div class="process-panel"><p>Relevamiento del contexto, la competencia y el problema real detrás del pedido.</p></div>
+    </div>
+    <div class="process-item">
+      <button class="process-trigger" aria-expanded="false">
+        <span class="p-num">02</span>
+        <h3>Conceptualización</h3>
+        <span class="p-icon"></span>
+      </button>
+      <div class="process-panel"><p>Definición del territorio visual y la lógica del sistema antes de producir una sola pieza final.</p></div>
+    </div>
+    <div class="process-item">
+      <button class="process-trigger" aria-expanded="false">
+        <span class="p-num">03</span>
+        <h3>Producción</h3>
+        <span class="p-icon"></span>
+      </button>
+      <div class="process-panel"><p>Ejecución de todas las piezas del sistema, con revisiones intermedias claras.</p></div>
+    </div>
+    <div class="process-item">
+      <button class="process-trigger" aria-expanded="false">
+        <span class="p-num">04</span>
+        <h3>Entrega</h3>
+        <span class="p-icon"></span>
+      </button>
+      <div class="process-panel"><p>Archivos finales organizados y documentados, listos para producción o desarrollo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. PRUEBA SOCIAL ============ -->
+<section id="trust">
+  <div class="marquee reveal">
+    <div class="marquee-track" id="marqueeTrack">
+      <span>FADU — UBA</span>
+      <span>Cátedra Belluccia</span>
+      <span>Mustard Font</span>
+      <span>MUSH</span>
+      <span>[ Tu próximo cliente ]</span>
+      <span>FADU — UBA</span>
+      <span>Cátedra Belluccia</span>
+      <span>Mustard Font</span>
+      <span>MUSH</span>
+      <span>[ Tu próximo cliente ]</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Índice 06 — Trayectoria</span>
+      <h2>Hitos y reconocimientos.</h2>
+    </div>
+    <table class="awards-table reveal">
+      <thead>
+        <tr><th>Año</th><th>Hito</th><th>Detalle</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2026</td><td>Licenciatura en Diseño Gráfico</td><td>UBA — FADU</td></tr>
+        <tr><td>2025–26</td><td>Ayudante de Cátedra</td><td>Diseño Gráfico 3, Cátedra Belluccia</td></tr>
+        <tr><td>2026</td><td>Mustard Font</td><td>Proyecto tipográfico independiente</td></tr>
+        <tr><td>2026</td><td>MUSH</td><td>Pieza de motion graphics, 5 actos</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 8. CONTACTO / FOOTER ============ -->
+<section id="contact" class="container contact">
+  <div class="contact-grid">
+    <div class="contact-copy reveal">
+      <span class="eyebrow">Índice 07 — Contacto</span>
+      <h2 style="margin-top:14px;">Armemos<br>algo juntos.</h2>
+      <p style="color:var(--text-secondary); margin-top:20px; max-width:42ch;">Escribime directamente o dejá tu mensaje acá al lado. Respondo siempre.</p>
+
+      <button class="email-copy glass" id="copyEmailBtn" type="button">
+        <span id="emailText">hola@martindiseno.com</span>
+        <span class="copy-status" id="copyStatus">¡Copiado!</span>
+      </button>
+
+      <div class="social-row">
+        <a href="https://behance.net" target="_blank" rel="noopener">Behance</a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://dribbble.com" target="_blank" rel="noopener">Dribbble</a>
+      </div>
+    </div>
+
+    <form class="contact-form reveal" id="contactForm" novalidate>
+      <div class="field" id="fieldName">
+        <label for="inputName">Nombre</label>
+        <input type="text" id="inputName" name="name" autocomplete="name" required>
+        <span class="field-error">Contame tu nombre.</span>
+      </div>
+      <div class="field" id="fieldEmail">
+        <label for="inputEmail">Email</label>
+        <input type="email" id="inputEmail" name="email" autocomplete="email" required>
+        <span class="field-error">Necesito un email válido.</span>
+      </div>
+      <div class="field" id="fieldMessage">
+        <label for="inputMessage">Mensaje</label>
+        <textarea id="inputMessage" name="message" required></textarea>
+        <span class="field-error">Contame un poco del proyecto.</span>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Enviar mensaje</button>
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <footer class="site-footer">
+    <span>Martín — Diseño Gráfico, Buenos Aires</span>
+    <span id="footerYear">© 2026</span>
+  </footer>
+</section>
+
+</main>
+
+<script src="../javascript/script.js"></script>
+</body>
+</html>
