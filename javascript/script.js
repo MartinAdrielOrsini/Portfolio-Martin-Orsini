@@ -1,5 +1,5 @@
 /* ============================================================
-   MARTÍN — PORTFOLIO · script.js (vanilla, sin dependencias)
+   PORTFOLIO — script.js (vanilla, sin dependencias)
    ============================================================ */
 (function () {
   "use strict";
@@ -13,7 +13,6 @@
       var isOpen = navLinks.classList.toggle("is-open");
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
-
     navLinks.querySelectorAll("a").forEach(function (link) {
       link.addEventListener("click", function () {
         navLinks.classList.remove("is-open");
@@ -22,70 +21,68 @@
     });
   }
 
-  /* ---------- Filtro de proyectos ---------- */
-  var filterButtons = document.querySelectorAll(".filter-btn");
-  var projectCards = document.querySelectorAll(".project-card");
+  /* ---------- Carrusel de proyectos ---------- */
+  var track = document.getElementById("carouselTrack");
+  var prevBtn = document.getElementById("carouselPrev");
+  var nextBtn = document.getElementById("carouselNext");
 
-  filterButtons.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      filterButtons.forEach(function (b) { b.classList.remove("is-active"); });
-      btn.classList.add("is-active");
+  function cardStep() {
+    var card = track.querySelector(".work-card");
+    if (!card) return 320;
+    var styles = window.getComputedStyle(track);
+    var gap = parseFloat(styles.columnGap || styles.gap || "24");
+    return card.getBoundingClientRect().width + gap;
+  }
 
-      var filter = btn.getAttribute("data-filter");
-
-      projectCards.forEach(function (card) {
-        var categories = card.getAttribute("data-category") || "";
-        var matches = filter === "all" || categories.indexOf(filter) !== -1;
-        card.classList.toggle("is-hidden", !matches);
-      });
+  if (track && prevBtn && nextBtn) {
+    prevBtn.addEventListener("click", function () {
+      track.scrollBy({ left: -cardStep(), behavior: "smooth" });
     });
-  });
-
-  /* Tap para revelar la ficha técnica en pantallas táctiles */
-  projectCards.forEach(function (card) {
-    card.addEventListener("click", function () {
-      if (window.matchMedia("(hover: none)").matches) {
-        var wasOpen = card.classList.contains("spec-open");
-        projectCards.forEach(function (c) { c.classList.remove("spec-open"); });
-        if (!wasOpen) card.classList.add("spec-open");
-      }
+    nextBtn.addEventListener("click", function () {
+      track.scrollBy({ left: cardStep(), behavior: "smooth" });
     });
-  });
-
-  /* ---------- Acordeón de proceso ---------- */
-  var processItems = document.querySelectorAll(".process-item");
-  processItems.forEach(function (item) {
-    var trigger = item.querySelector(".process-trigger");
-    trigger.addEventListener("click", function () {
-      var willOpen = !item.classList.contains("is-open");
-      processItems.forEach(function (other) {
-        other.classList.remove("is-open");
-        other.querySelector(".process-trigger").setAttribute("aria-expanded", "false");
-      });
-      if (willOpen) {
-        item.classList.add("is-open");
-        trigger.setAttribute("aria-expanded", "true");
-      }
-    });
-  });
+  }
 
   /* ---------- Reveal on scroll ---------- */
   var revealEls = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window) {
-    var observer = new IntersectionObserver(
+    var revealObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
+            revealObserver.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
-    revealEls.forEach(function (el) { observer.observe(el); });
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
   } else {
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+  }
+
+  /* ---------- Índice lateral: punto activo según sección visible ---------- */
+  var indexDots = document.querySelectorAll(".page-index a");
+  var trackedSections = ["hero", "about", "work", "project-01", "project-02", "project-03", "project-04", "project-05", "project-06"]
+    .map(function (id) { return document.getElementById(id); })
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && indexDots.length) {
+    var sectionObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.getAttribute("id");
+            indexDots.forEach(function (dot) {
+              dot.classList.toggle("is-active", dot.getAttribute("data-index") === id);
+            });
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    trackedSections.forEach(function (el) { sectionObserver.observe(el); });
   }
 
   /* ---------- Copiar email al portapapeles ---------- */
@@ -120,50 +117,6 @@
     temp.select();
     try { document.execCommand("copy"); onSuccess(); } catch (e) { /* noop */ }
     document.body.removeChild(temp);
-  }
-
-  /* ---------- Validación del formulario de contacto ---------- */
-  var form = document.getElementById("contactForm");
-  var formStatus = document.getElementById("formStatus");
-
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      var name = document.getElementById("inputName");
-      var email = document.getElementById("inputEmail");
-      var message = document.getElementById("inputMessage");
-
-      var valid = true;
-
-      valid = validateField(name, name.value.trim().length > 1) && valid;
-      valid = validateField(email, isValidEmail(email.value.trim())) && valid;
-      valid = validateField(message, message.value.trim().length > 5) && valid;
-
-      if (valid) {
-        formStatus.textContent = "¡Gracias! Tu mensaje quedó listo — conectá este formulario a tu servicio de envío preferido (Formspree, Resend, etc.) para recibirlo por email.";
-        form.reset();
-      } else {
-        formStatus.textContent = "Revisá los campos marcados antes de enviar.";
-      }
-    });
-
-    [document.getElementById("inputName"), document.getElementById("inputEmail"), document.getElementById("inputMessage")].forEach(function (input) {
-      input.addEventListener("input", function () {
-        var fieldWrap = input.closest(".field");
-        if (fieldWrap) fieldWrap.classList.remove("has-error");
-      });
-    });
-  }
-
-  function validateField(input, isValid) {
-    var fieldWrap = input.closest(".field");
-    if (fieldWrap) fieldWrap.classList.toggle("has-error", !isValid);
-    return isValid;
-  }
-
-  function isValidEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   }
 
   /* ---------- Año dinámico ---------- */
