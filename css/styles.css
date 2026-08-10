@@ -385,8 +385,27 @@ em { font-style: italic; }
 .ar-1x1  { aspect-ratio: 1 / 1; }
 .ar-4x3  { aspect-ratio: 4 / 3; }
 .ar-3x2  { aspect-ratio: 3 / 2; }
+.ar-7x5  { aspect-ratio: 7 / 5; }     /* doble página A4 y similares */
 .ar-16x10{ aspect-ratio: 16 / 10; }
 .ar-2x1  { aspect-ratio: 2 / 1; }
+.ar-strip{ aspect-ratio: 13 / 2; }    /* tira horizontal muy apaisada */
+
+/* En mobile una tira 13:2 quedaría de 40 px de alto: se le da más
+   altura y se deja arrastrar en horizontal dentro del propio marco. */
+@media (max-width: 767px) {
+  .fig__frame.ar-strip {
+    aspect-ratio: 5 / 2;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .fig__frame.ar-strip::-webkit-scrollbar { display: none; }
+  .fig__frame.ar-strip img {
+    width: auto;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+  }
+}
 .ar-16x9 { aspect-ratio: 16 / 9; }
 .ar-21x9 { aspect-ratio: 16 / 10; }   /* en mobile se afina, ver @media */
 .ar-3x4  { aspect-ratio: 3 / 4; }
