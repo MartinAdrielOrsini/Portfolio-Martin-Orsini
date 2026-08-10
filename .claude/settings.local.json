@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($c = @\\('python3','py','node','npm','pwsh'\\); foreach\\($n in $c\\){ $g = Get-Command $n -ErrorAction SilentlyContinue; if\\($g\\){ \"$n -> $\\($g.Source\\)\" } else { \"$n -> MISSING\" } })",
+      "PowerShell(& \"C:\\\\Users\\\\damia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Martin-PORTFOLIO-WEB\\\\b680a3a2-dc36-43da-ba59-14ad3d8293a4\\\\scratchpad\\\\extract.ps1\" -Path \"C:\\\\Users\\\\damia\\\\Downloads\\\\Prompt Maestro - Portfolio Web de Dise�ador Gr�fico.pdf\" -Out \"C:\\\\Users\\\\damia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Martin-PORTFOLIO-WEB\\\\b680a3a2-dc36-43da-ba59-14ad3d8293a4\\\\scratchpad\\\\raw.txt\")",
+      "PowerShell(& \"C:\\\\Users\\\\damia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Martin-PORTFOLIO-WEB\\\\b680a3a2-dc36-43da-ba59-14ad3d8293a4\\\\scratchpad\\\\decode.ps1\" -In \"C:\\\\Users\\\\damia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Martin-PORTFOLIO-WEB\\\\b680a3a2-dc36-43da-ba59-14ad3d8293a4\\\\scratchpad\\\\raw.txt\" -Out \"C:\\\\Users\\\\damia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Martin-PORTFOLIO-WEB\\\\b680a3a2-dc36-43da-ba59-14ad3d8293a4\\\\scratchpad\\\\spec.txt\")",
+      "PowerShell(\"---\")",
+      "PowerShell(Get-ChildItem -Recurse -Force -File \"D:\\\\Martin\\\\PORTFOLIO WEB\" -ErrorAction SilentlyContinue | Group-Object { $_.Directory.FullName.Replace\\(\"D:\\\\Martin\\\\PORTFOLIO WEB\\\\\",\"\"\\) } | Select-Object Count,Name | Format-Table -AutoSize -Wrap)",
+      "Bash(kill %b8blf2dug)",
+      "Bash(taskkill //F //FI \"WINDOWTITLE eq *serve*\")",
+      "PowerShell(\\(Get-CimInstance Win32_Process -Filter \"ProcessId=12560\"\\).CommandLine)"
+    ]
+  }
+}

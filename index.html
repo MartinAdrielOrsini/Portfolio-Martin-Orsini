@@ -3,417 +3,1099 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Martín — Diseño Gráfico</title>
-<meta name="description" content="Portafolio de Martín, diseñador gráfico en Buenos Aires. Identidad de marca, tipografía, motion graphics y proyectos interactivos.">
+<title>Nombre Apellido — Diseñador Gráfico</title>
+<meta name="description" content="Portfolio de Nombre Apellido, diseñador gráfico. Identidad visual, diseño editorial, branding y diseño digital.">
+<meta name="theme-color" content="#F3F0EA">
+
+<!-- ============================================================
+     CONFIGURACIÓN RÁPIDA — qué editar primero
+     ------------------------------------------------------------
+     1. Nombre        → buscá "Nombre Apellido" y reemplazá (aparece en
+                        <title>, header, hero, about, contacto y footer).
+     2. Email         → buscá "hola@tudominio.com" (aparece en el botón
+                        de copiar, el enlace mailto y el footer).
+     3. Redes         → los href="#" de Instagram / Behance / LinkedIn
+                        en la sección de contacto.
+     4. Imágenes      → cada <img> apunta a images/<proyecto>/<archivo>.
+                        Soltá tus archivos con ESE nombre exacto y
+                        aparecen solas, sin tocar el layout.
+                        Mientras el archivo no exista se muestra un
+                        placeholder diseñado con la etiqueta del slot.
+     5. Colores/tipos → css/styles.css, bloque ":root" al inicio.
+     ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<!-- ============ ÍNDICE LATERAL ============ -->
-<nav class="page-index" aria-label="Índice de secciones">
-  <a href="#hero" data-index="hero" aria-label="Inicio"></a>
-  <a href="#about" data-index="about" aria-label="Sobre mí"></a>
-  <a href="#work" data-index="work" aria-label="Proyectos"></a>
-  <a href="#project-01" data-index="project-01" aria-label="Proyecto 01"></a>
-  <a href="#project-02" data-index="project-02" aria-label="Proyecto 02"></a>
-  <a href="#project-03" data-index="project-03" aria-label="Proyecto 03"></a>
-  <a href="#project-04" data-index="project-04" aria-label="Proyecto 04"></a>
-  <a href="#project-05" data-index="project-05" aria-label="Proyecto 05"></a>
-  <a href="#project-06" data-index="project-06" aria-label="Proyecto 06"></a>
-</nav>
+<a class="skip-link" href="#hero">Saltar al contenido</a>
 
-<!-- ============ NAV ============ -->
-<nav class="nav" aria-label="Navegación principal">
-  <a href="#hero" class="nav-logo">Martín</a>
-  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
-    <span></span><span></span>
-  </button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#about">Sobre mí</a></li>
-    <li><a href="#work">Proyectos</a></li>
-    <li><a href="#footer">Contacto</a></li>
-  </ul>
-</nav>
+<!-- ============================================================
+     HEADER / NAVEGACIÓN
+     ============================================================ -->
+<header class="site-header" id="siteHeader">
+  <div class="site-header__inner container">
+    <a class="brand" href="#hero" aria-label="Inicio — Nombre Apellido">
+      <span class="brand__name">Nombre Apellido</span>
+      <span class="brand__role">Diseñador Gráfico</span>
+    </a>
 
-<main>
+    <nav class="nav" id="primaryNav" aria-label="Navegación principal">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="#hero">Inicio</a></li>
+        <li><a class="nav__link" href="#about">Sobre mí</a></li>
+        <li><a class="nav__link" href="#projects">Proyectos</a></li>
+        <li><a class="nav__link" href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
 
-<!-- ============ 1. HERO ============ -->
-<section id="hero" class="hero container">
-  <div class="hero-eyebrow"><span class="eyebrow">Diseño gráfico — Buenos Aires</span></div>
-  <h1 class="hero-title">Menos, pero<br><em>mejor</em>.</h1>
-  <div class="hero-row">
-    <p class="hero-sub">Soy Martín, diseñador gráfico. Trabajo identidad de marca, tipografía y motion graphics con una idea simple: quitar hasta que solo quede lo necesario.</p>
-    <span class="hero-scroll"><span class="dot"></span>Desplazate para ver el trabajo</span>
+    <button class="menu-toggle" id="menuToggle" type="button"
+            aria-expanded="false" aria-controls="primaryNav" aria-label="Abrir menú">
+      <span class="menu-toggle__bar"></span>
+      <span class="menu-toggle__bar"></span>
+    </button>
+  </div>
+</header>
+
+<div class="nav-backdrop" id="navBackdrop" hidden></div>
+
+<main id="main">
+
+<!-- ============================================================
+     1 — HERO
+     ============================================================ -->
+<section class="section hero" id="hero">
+  <div class="container hero__inner">
+    <p class="eyebrow reveal">Portfolio 2021 — 2026</p>
+
+    <h1 class="hero__title reveal">
+      <span class="hero__line">Nombre</span>
+      <span class="hero__line hero__line--em">Apellido</span>
+    </h1>
+
+    <div class="hero__foot">
+      <p class="hero__lead reveal">
+        Diseñador gráfico. Trabajo en identidad visual, editorial y
+        sistemas de marca: proyectos donde la forma tiene que explicar
+        algo, no solo decorarlo.
+      </p>
+
+      <div class="hero__actions reveal">
+        <a class="btn btn--primary" href="#projects">
+          Ver proyectos
+          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="btn btn--ghost" href="#contact">Trabajemos juntos</a>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <span class="hero__scroll-label">Scroll</span>
+      <span class="hero__scroll-line"></span>
+    </div>
   </div>
 </section>
 
-<!-- ============ 2. SOBRE MÍ ============ -->
-<section id="about" class="section container">
-  <div class="about-grid">
-    <div class="about-portrait reveal">
-      <div class="frame-label">Martín — Retrato</div>
-    </div>
-    <div class="about-copy reveal">
-      <span class="eyebrow">Sobre mí</span>
-      <p style="margin-top:20px; font-family:var(--font-display); font-size:clamp(24px,2.6vw,32px); font-weight:500; color:var(--ink); max-width:20ch;">Diseñador gráfico recibido en la UBA, con la mirada puesta en los sistemas antes que en las piezas sueltas.</p>
-      <p style="margin-top:32px;">Trabajo en la intersección entre el diseño editorial clásico y las herramientas digitales. Cada proyecto empieza con la misma pregunta: <strong>¿qué se puede sacar sin perder sentido?</strong></p>
-      <p>Además de mi trabajo independiente, soy ayudante de cátedra en Diseño Gráfico 3, lo que mantiene mi mirada tan crítica como práctica — enseñar obliga a explicar cada decisión, no solo a tomarla.</p>
-
-      <dl class="about-facts">
-        <div><dt>Base</dt><dd>Buenos Aires, Argentina</dd></div>
-        <div><dt>Formación</dt><dd>Lic. en Diseño Gráfico, UBA</dd></div>
-        <div><dt>Disponibilidad</dt><dd>Proyectos nuevos, 2026</dd></div>
-      </dl>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 3. ÍNDICE DE PROYECTOS (CARRUSEL) ============ -->
-<section id="work" class="section section-alt work-carousel">
+<!-- ============================================================
+     2 — SOBRE MÍ
+     ============================================================ -->
+<section class="section section--rule" id="about">
   <div class="container">
-    <div class="section-head reveal">
-      <div><span class="section-num">Índice — 01 / 06</span><h2>Proyectos.</h2></div>
-      <p style="max-width:34ch; color:var(--ink-soft); font-size:16px;">Seis sistemas de diseño, de la tipografía al motion graphics. Deslizá o usá las flechas.</p>
+    <header class="section-head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">01</span> Sobre mí</p>
+      <h2 class="section-title">Diseño sistemas,<br>no piezas sueltas.</h2>
+    </header>
+
+    <div class="about">
+      <div class="about__portrait reveal">
+        <figure class="fig">
+          <div class="fig__frame ar-3x4" data-slot="Retrato">
+            <img src="images/retrato.jpg"
+                 alt="Retrato de Nombre Apellido en su espacio de trabajo"
+                 loading="lazy" decoding="async">
+          </div>
+          <figcaption class="fig__cap">Estudio propio, Buenos Aires.</figcaption>
+        </figure>
+      </div>
+
+      <div class="about__body">
+        <p class="lead reveal">
+          Me llamo <strong>Nombre Apellido</strong> y hace seis años que
+          construyo identidades para marcas que necesitan sonar distinto
+          sin gritar. Me interesa el punto donde la tipografía, el
+          sistema y la impresión se cruzan.
+        </p>
+
+        <p class="reveal">
+          Trabajo con clubes, editoriales, cervecerías y equipos de
+          producto. Suelo entrar temprano en el proceso: antes del
+          logotipo hay una conversación sobre qué tiene que resistir esa
+          marca durante los próximos diez años. Después vienen las
+          formas.
+        </p>
+
+        <div class="about__grid">
+          <div class="about__block reveal">
+            <h3 class="about__label">Formación</h3>
+            <ul class="plain-list">
+              <li>Diseño Gráfico — UBA FADU<span class="muted"> · 2016–2021</span></li>
+              <li>Posgrado en Tipografía — UBA<span class="muted"> · 2022</span></li>
+              <li>Diseño Editorial Contemporáneo — Domestika<span class="muted"> · 2023</span></li>
+            </ul>
+          </div>
+
+          <div class="about__block reveal">
+            <h3 class="about__label">Experiencia</h3>
+            <ul class="plain-list">
+              <li>Freelance / Estudio propio<span class="muted"> · 2022 — hoy</span></li>
+              <li>Diseñador senior — Estudio Ánima<span class="muted"> · 2020–2022</span></li>
+              <li>Diseñador junior — Taller Norte<span class="muted"> · 2018–2020</span></li>
+            </ul>
+          </div>
+
+          <div class="about__block reveal">
+            <h3 class="about__label">Áreas de interés</h3>
+            <ul class="tag-list">
+              <li>Identidad visual</li>
+              <li>Tipografía</li>
+              <li>Editorial</li>
+              <li>Packaging</li>
+              <li>Dirección de arte</li>
+              <li>Diseño de producto digital</li>
+              <li>Serigrafía</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="carousel-track reveal" id="carouselTrack" tabindex="0" role="region" aria-label="Carrusel de proyectos">
-
-    <a href="#project-01" class="work-card">
-      <div class="work-card-visual"><div class="wc-fill fill-01"></div><span class="wc-num">01</span></div>
-      <div class="work-card-meta"><h3>Mustard Font</h3><span>Branding</span></div>
-    </a>
-
-    <a href="#project-02" class="work-card">
-      <div class="work-card-visual"><div class="wc-fill fill-02"></div><span class="wc-num">02</span></div>
-      <div class="work-card-meta"><h3>MUSH</h3><span>Motion</span></div>
-    </a>
-
-    <a href="#project-03" class="work-card">
-      <div class="work-card-visual"><div class="wc-fill fill-03"></div><span class="wc-num">03</span></div>
-      <div class="work-card-meta"><h3>Mundial 2026</h3><span>Interactivo</span></div>
-    </a>
-
-    <a href="#project-04" class="work-card">
-      <div class="work-card-visual"><div class="wc-fill fill-04"></div><span class="wc-num">04</span></div>
-      <div class="work-card-meta"><h3>Libertadores Lab</h3><span>Data / UX</span></div>
-    </a>
-
-    <a href="#project-05" class="work-card">
-      <div class="work-card-visual"><div class="wc-fill fill-05"></div><span class="wc-num">05</span></div>
-      <div class="work-card-meta"><h3>Cátedra Belluccia</h3><span>Editorial</span></div>
-    </a>
-
-    <a href="#project-06" class="work-card">
-      <div class="work-card-visual"><div class="wc-fill fill-06"></div><span class="wc-num">06</span></div>
-      <div class="work-card-meta"><h3>Espécimen</h3><span>Tipografía</span></div>
-    </a>
-
+<!-- ============================================================
+     3 — ÍNDICE DE PROYECTOS
+     ============================================================ -->
+<section class="section section--rule" id="projects">
+  <div class="container">
+    <header class="section-head section-head--split reveal">
+      <div>
+        <p class="eyebrow"><span class="eyebrow__num">02</span> Índice de proyectos</p>
+        <h2 class="section-title">Trabajo<br>seleccionado.</h2>
+      </div>
+      <p class="section-head__note">
+        Cuatro proyectos desarrollados en profundidad. Tocá cualquiera
+        para ir directo al caso.
+      </p>
+    </header>
   </div>
 
   <div class="container">
-    <div class="carousel-controls">
-      <button class="carousel-btn" id="carouselPrev" aria-label="Proyecto anterior">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
-      </button>
-      <button class="carousel-btn" id="carouselNext" aria-label="Proyecto siguiente">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
+    <div class="index-track" id="indexTrack" role="list">
+      <!-- Card 01 -->
+      <a class="pcard reveal" href="#project-01" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Estrella de Maldonado — Portada">
+            <img src="images/estrella-de-maldonado/01-portada.jpg"
+                 alt="Identidad visual del club Estrella de Maldonado aplicada sobre fondo bordó"
+                 loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">01</p>
+          <h3 class="pcard__title">Estrella de Maldonado</h3>
+          <p class="pcard__meta"><span>Identidad visual</span><span class="dot"></span><span>2025</span></p>
+          <p class="pcard__desc">
+            Rediseño completo del escudo y el sistema gráfico de un club
+            de barrio con 94 años de historia.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 02 -->
+      <a class="pcard reveal" href="#project-02" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Fascículos — Portadas">
+            <img src="images/fasciculos-editorial/01-portadas.jpg"
+                 alt="Serie de portadas de la colección de fascículos coleccionables"
+                 loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">02</p>
+          <h3 class="pcard__title">Fascículos</h3>
+          <p class="pcard__meta"><span>Editorial</span><span class="dot"></span><span>2024</span></p>
+          <p class="pcard__desc">
+            Colección de doce fascículos coleccionables sobre arquitectura
+            moderna argentina.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 03 -->
+      <a class="pcard reveal" href="#project-03" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Cerveceros del Sur — Packaging">
+            <img src="images/cerveceros-del-sur/01-packaging.jpg"
+                 alt="Latas de la línea Cerveceros del Sur con la nueva identidad"
+                 loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">03</p>
+          <h3 class="pcard__title">Cerveceros del Sur</h3>
+          <p class="pcard__meta"><span>Branding / Campaña</span><span class="dot"></span><span>2024</span></p>
+          <p class="pcard__desc">
+            Marca paraguas, packaging y campaña de lanzamiento para una
+            cooperativa de seis cervecerías patagónicas.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 04 -->
+      <a class="pcard reveal" href="#project-04" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Green Eat — App">
+            <img src="images/app-green-eat/01-hero.jpg"
+                 alt="Pantallas de la aplicación Green Eat sobre fondo verde"
+                 loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">04</p>
+          <h3 class="pcard__title">Green Eat</h3>
+          <p class="pcard__meta"><span>Diseño digital</span><span class="dot"></span><span>2026</span></p>
+          <p class="pcard__desc">
+            Sistema de diseño y rediseño de la app de pedidos: 40
+            pantallas, tokens y una tipografía variable.
+          </p>
+        </div>
+      </a>
+    </div>
+
+    <div class="track-dots" id="trackDots" aria-hidden="true">
+      <span class="track-dots__dot is-active"></span>
+      <span class="track-dots__dot"></span>
+      <span class="track-dots__dot"></span>
+      <span class="track-dots__dot"></span>
     </div>
   </div>
 </section>
 
-<!-- ============ 4. PROYECTO 01 — MUSTARD FONT ============ -->
-<section id="project-01" class="section project-section container">
-  <div class="project-head reveal">
-    <div>
-      <span class="project-num">Proyecto 01 / 06</span>
-      <h2 class="project-title">Mustard Font</h2>
-    </div>
-    <div class="project-tags"><span>Branding</span><span>Tipografía</span><span>2026</span></div>
-  </div>
-
-  <div class="project-visual reveal"><div class="wc-fill fill-01" style="position:absolute;inset:0;"></div></div>
-
-  <div class="project-body reveal">
-    <div class="project-facts">
-      <dl>
-        <div><dt>Año</dt><dd>2026</dd></div>
-        <div><dt>Rol</dt><dd>Dirección de arte, tipografía</dd></div>
-        <div><dt>Categoría</dt><dd>Proyecto independiente</dd></div>
-        <div><dt>Entregables</dt><dd>Tipografía, póster, packaging, menú</dd></div>
-      </dl>
-    </div>
-    <div class="project-copy">
-      <h4>El desafío</h4>
-      <p>Construir, a partir de una tipografía propia, un universo gráfico completo — no solo la fuente, sino el mundo visual que la sostiene.</p>
-      <h4>El proceso</h4>
-      <p>Dirección estética anclada en el diner americano vintage: paleta roja y blanca, tramas a cuadrillé y formas de los años 50. Cada pieza — un póster, un envoltorio, un menú de pizarra — puso a prueba la tipografía en un contexto real de uso.</p>
-      <h4>El resultado</h4>
-      <p>Un sistema tipográfico con identidad narrativa propia, capaz de sostenerse en distintos soportes sin perder coherencia.</p>
-    </div>
-  </div>
-
-  <div class="project-gallery reveal">
-    <div class="g-item"><div class="wc-fill fill-01" style="width:100%; height:100%;"></div></div>
-    <div class="g-item"><div class="wc-fill fill-02" style="width:100%; height:100%;"></div></div>
-  </div>
-
-  <div class="project-nav">
-    <a href="#work">← Índice</a>
-    <a href="#project-02" class="next">MUSH →</a>
-  </div>
-</section>
-
-<!-- ============ 5. PROYECTO 02 — MUSH ============ -->
-<section id="project-02" class="section section-alt project-section container">
-  <div class="project-head reveal">
-    <div>
-      <span class="project-num">Proyecto 02 / 06</span>
-      <h2 class="project-title">MUSH</h2>
-    </div>
-    <div class="project-tags"><span>Motion</span><span>Narrativa</span><span>2026</span></div>
-  </div>
-
-  <div class="project-visual reveal"><div class="wc-fill fill-02" style="position:absolute;inset:0;"></div></div>
-
-  <div class="project-body reveal">
-    <div class="project-facts">
-      <dl>
-        <div><dt>Año</dt><dd>2026</dd></div>
-        <div><dt>Rol</dt><dd>Guion, storyboard</dd></div>
-        <div><dt>Formato</dt><dd>Pieza animada, 1:20</dd></div>
-        <div><dt>Estructura</dt><dd>5 actos, 18 escenas</dd></div>
-      </dl>
-    </div>
-    <div class="project-copy">
-      <h4>El desafío</h4>
-      <p>Traducir la identidad de la marca MUSH en una narrativa animada capaz de sostener el interés en poco más de un minuto.</p>
-      <h4>El proceso</h4>
-      <p>El guion se estructuró en cinco actos y dieciocho escenas, cada una storyboardeada en detalle antes de pasar a producción, con un recorrido visual pensado escena por escena.</p>
-      <h4>El resultado</h4>
-      <p>Una estructura narrativa clara y verificable, lista para producción, que redujo la ambigüedad creativa antes de animar un solo frame.</p>
-    </div>
-  </div>
-
-  <div class="project-gallery reveal">
-    <div class="g-item"><div class="wc-fill fill-02" style="width:100%; height:100%;"></div></div>
-    <div class="g-item"><div class="wc-fill fill-05" style="width:100%; height:100%;"></div></div>
-  </div>
-
-  <div class="project-nav">
-    <a href="#project-01">← Mustard Font</a>
-    <a href="#project-03" class="next">Mundial 2026 →</a>
-  </div>
-</section>
-
-<!-- ============ 6. PROYECTO 03 — MUNDIAL 2026 ============ -->
-<section id="project-03" class="section project-section container">
-  <div class="project-head reveal">
-    <div>
-      <span class="project-num">Proyecto 03 / 06</span>
-      <h2 class="project-title">Simulador Mundial 2026</h2>
-    </div>
-    <div class="project-tags"><span>Interactivo</span><span>UI/UX</span><span>2026</span></div>
-  </div>
-
-  <div class="project-visual reveal"><div class="wc-fill fill-03" style="position:absolute;inset:0;"></div></div>
-
-  <div class="project-body reveal">
-    <div class="project-facts">
-      <dl>
-        <div><dt>Año</dt><dd>2026</dd></div>
-        <div><dt>Rol</dt><dd>Diseño de interfaz, lógica de producto</dd></div>
-        <div><dt>Alcance</dt><dd>48 equipos, fase de grupos y llaves</dd></div>
-        <div><dt>Formato</dt><dd>Herramienta interactiva</dd></div>
-      </dl>
-    </div>
-    <div class="project-copy">
-      <h4>El desafío</h4>
-      <p>Diseñar una herramienta donde predecir el Mundial 2026 fuera tan claro como divertido, con datos reales del sorteo.</p>
-      <h4>El proceso</h4>
-      <p>Se construyó la interfaz de grupos, cruces y llaves respetando la estructura oficial de 12 grupos, incorporando un mecanismo propio de selección de mejores terceros.</p>
-      <h4>El resultado</h4>
-      <p>Un simulador funcional de bracket completo, con una interfaz que prioriza la lectura rápida del avance del torneo.</p>
-    </div>
-  </div>
-
-  <div class="project-gallery reveal">
-    <div class="g-item"><div class="wc-fill fill-03" style="width:100%; height:100%;"></div></div>
-    <div class="g-item"><div class="wc-fill fill-04" style="width:100%; height:100%;"></div></div>
-  </div>
-
-  <div class="project-nav">
-    <a href="#project-02">← MUSH</a>
-    <a href="#project-04" class="next">Libertadores Lab →</a>
-  </div>
-</section>
-
-<!-- ============ 7. PROYECTO 04 — LIBERTADORES LAB ============ -->
-<section id="project-04" class="section section-alt project-section container">
-  <div class="project-head reveal">
-    <div>
-      <span class="project-num">Proyecto 04 / 06</span>
-      <h2 class="project-title">Copa Libertadores — Data Lab</h2>
-    </div>
-    <div class="project-tags"><span>Interactivo</span><span>Visualización</span><span>2026</span></div>
-  </div>
-
-  <div class="project-visual reveal"><div class="wc-fill fill-04" style="position:absolute;inset:0;"></div></div>
-
-  <div class="project-body reveal">
-    <div class="project-facts">
-      <dl>
-        <div><dt>Año</dt><dd>2026</dd></div>
-        <div><dt>Rol</dt><dd>Diseño de información</dd></div>
-        <div><dt>Tema</dt><dd>Escenarios de Grupo D</dd></div>
-        <div><dt>Formato</dt><dd>Panel de datos interactivo</dd></div>
-      </dl>
-    </div>
-    <div class="project-copy">
-      <h4>El desafío</h4>
-      <p>Convertir probabilidades de clasificación y reglas de desempate en algo legible para cualquier hincha, no solo para un analista.</p>
-      <h4>El proceso</h4>
-      <p>Se diseñó un panel que cruza la forma reciente de los equipos con el sistema olímpico de desempate de Conmebol, priorizando jerarquía visual clara sobre densidad de datos.</p>
-      <h4>El resultado</h4>
-      <p>Una pieza de diseño de información que explica escenarios complejos de un vistazo.</p>
-    </div>
-  </div>
-
-  <div class="project-gallery reveal">
-    <div class="g-item"><div class="wc-fill fill-04" style="width:100%; height:100%;"></div></div>
-    <div class="g-item"><div class="wc-fill fill-03" style="width:100%; height:100%;"></div></div>
-  </div>
-
-  <div class="project-nav">
-    <a href="#project-03">← Mundial 2026</a>
-    <a href="#project-05" class="next">Cátedra Belluccia →</a>
-  </div>
-</section>
-
-<!-- ============ 8. PROYECTO 05 — CÁTEDRA BELLUCCIA ============ -->
-<section id="project-05" class="section project-section container">
-  <div class="project-head reveal">
-    <div>
-      <span class="project-num">Proyecto 05 / 06</span>
-      <h2 class="project-title">Material — Cátedra Belluccia</h2>
-    </div>
-    <div class="project-tags"><span>Editorial</span><span>Docencia</span><span>2025–26</span></div>
-  </div>
-
-  <div class="project-visual reveal"><div class="wc-fill fill-05" style="position:absolute;inset:0;"></div></div>
-
-  <div class="project-body reveal">
-    <div class="project-facts">
-      <dl>
-        <div><dt>Año</dt><dd>2025–2026</dd></div>
-        <div><dt>Rol</dt><dd>Ayudante de cátedra, diseño editorial</dd></div>
-        <div><dt>Cátedra</dt><dd>Diseño Gráfico 3, FADU-UBA</dd></div>
-        <div><dt>Formato</dt><dd>Sistema de material didáctico</dd></div>
-      </dl>
-    </div>
-    <div class="project-copy">
-      <h4>El desafío</h4>
-      <p>Diseñar material didáctico que fuera tan claro para explicar como riguroso para consultar.</p>
-      <h4>El proceso</h4>
-      <p>Se definió un sistema editorial con jerarquía tipográfica estricta, pensado para sostenerse a lo largo de un cuatrimestre completo de entregas y correcciones.</p>
-      <h4>El resultado</h4>
-      <p>Un sistema replicable que hoy usan los propios estudiantes como referencia de consulta.</p>
-    </div>
-  </div>
-
-  <div class="project-gallery reveal">
-    <div class="g-item"><div class="wc-fill fill-05" style="width:100%; height:100%;"></div></div>
-    <div class="g-item"><div class="wc-fill fill-01" style="width:100%; height:100%;"></div></div>
-  </div>
-
-  <div class="project-nav">
-    <a href="#project-04">← Libertadores Lab</a>
-    <a href="#project-06" class="next">Espécimen →</a>
-  </div>
-</section>
-
-<!-- ============ 9. PROYECTO 06 — ESPÉCIMEN TIPOGRÁFICO ============ -->
-<section id="project-06" class="section section-alt project-section container">
-  <div class="project-head reveal">
-    <div>
-      <span class="project-num">Proyecto 06 / 06</span>
-      <h2 class="project-title">Espécimen personal</h2>
-    </div>
-    <div class="project-tags"><span>Tipografía</span><span>Investigación</span><span>2025</span></div>
-  </div>
-
-  <div class="project-visual reveal"><div class="wc-fill fill-06" style="position:absolute;inset:0;"></div></div>
-
-  <div class="project-body reveal">
-    <div class="project-facts">
-      <dl>
+<!-- ============================================================
+     4 — PROYECTO 01 · IDENTIDAD VISUAL
+     ============================================================ -->
+<section class="section section--rule project" id="project-01">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">03</span> Proyecto 01 — Identidad visual</p>
+      <h2 class="project__title">Estrella de<br>Maldonado</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>Club Social y Deportivo Estrella de Maldonado</dd></div>
         <div><dt>Año</dt><dd>2025</dd></div>
-        <div><dt>Rol</dt><dd>Diseño tipográfico</dd></div>
-        <div><dt>Tipo</dt><dd>Display variable</dd></div>
-        <div><dt>Formato</dt><dd>Espécimen impreso y digital</dd></div>
+        <div><dt>Categoría</dt><dd>Identidad visual · Sistema gráfico</dd></div>
+        <div><dt>Rol</dt><dd>Dirección de arte y diseño</dd></div>
       </dl>
-    </div>
-    <div class="project-copy">
-      <h4>El desafío</h4>
-      <p>Diseñar una tipografía propia sin marca detrás — solo la letra, probada en el vacío.</p>
-      <h4>El proceso</h4>
-      <p>Exploración de un esqueleto display de alto contraste, documentado en un espécimen que muestra pesos, escalas y comportamiento en distintos tamaños de texto.</p>
-      <h4>El resultado</h4>
-      <p>Una base tipográfica personal que hoy alimenta otros proyectos, incluido Mustard Font.</p>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-21x9" data-slot="Imagen principal del proyecto">
+        <img src="images/estrella-de-maldonado/02-apertura.jpg"
+             alt="Escudo rediseñado de Estrella de Maldonado pintado sobre el paredón del club"
+             loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">El escudo nuevo, pintado a mano sobre el paredón de la cancha.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <p class="project__lead reveal">
+      Estrella de Maldonado es un club de barrio fundado en 1931. Tenía
+      once versiones distintas de su escudo circulando al mismo tiempo:
+      una en las camisetas, otra en el cartel de la entrada, otra en el
+      Instagram. Ninguna estaba mal. El problema era que no eran la
+      misma.
+    </p>
+
+    <div class="two-col">
+      <div class="two-col__item reveal">
+        <h3 class="block-title">El desafío</h3>
+        <p>
+          Unificar sin borrar. El club no quería una marca nueva: quería
+          la suya, ordenada. Cualquier cosa que se pareciera a un logo de
+          empresa iba a ser rechazada por los socios, con razón.
+        </p>
+        <p>
+          Trabajamos sobre el archivo: fotos de 1954, banderines,
+          estatutos impresos y la chapa esmaltada del portón original,
+          que resultó ser la versión más antigua que sobrevive.
+        </p>
+      </div>
+
+      <div class="two-col__item reveal">
+        <h3 class="block-title">El concepto</h3>
+        <p>
+          <em>Una sola estrella.</em> El sistema se ordena alrededor de un
+          único elemento capaz de funcionar solo: la estrella de cinco
+          puntas, redibujada con las proporciones de la chapa de 1931.
+        </p>
+        <p>
+          Todo lo demás —escudo completo, versión horizontal, monograma,
+          patrón— se deriva de esa forma. Un solo gesto que se repite en
+          cuatro escalas distintas.
+        </p>
+      </div>
     </div>
   </div>
 
-  <div class="project-gallery reveal">
-    <div class="g-item"><div class="wc-fill fill-06" style="width:100%; height:100%;"></div></div>
-    <div class="g-item"><div class="wc-fill fill-02" style="width:100%; height:100%;"></div></div>
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Desarrollo visual</h3>
+
+    <div class="grid-3">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Construcción del escudo">
+          <img src="images/estrella-de-maldonado/03-construccion.jpg"
+               alt="Grilla de construcción geométrica del escudo"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Construcción sobre grilla de 12 módulos.</figcaption>
+      </figure>
+
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Logotipo principal">
+          <img src="images/estrella-de-maldonado/04-logotipo.jpg"
+               alt="Logotipo principal de Estrella de Maldonado en positivo"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Versión principal, positivo.</figcaption>
+      </figure>
+
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Versiones y monograma">
+          <img src="images/estrella-de-maldonado/05-versiones.jpg"
+               alt="Versiones reducidas y monograma del escudo"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Reducciones y monograma.</figcaption>
+      </figure>
+    </div>
   </div>
 
-  <div class="project-nav">
-    <a href="#project-05">← Cátedra Belluccia</a>
-    <a href="#footer" class="next">Contacto →</a>
+  <div class="container">
+    <div class="split">
+      <div class="split__text reveal">
+        <h3 class="block-title">Tipografías</h3>
+        <p>
+          Una grotesca condensada para los títulos y los números de
+          camiseta, y una serif de texto para los documentos internos y
+          el estatuto. Dos familias, seis pesos, ningún adorno.
+        </p>
+      </div>
+      <div class="split__aside">
+        <div class="specimen reveal">
+          <p class="specimen__glyphs specimen__glyphs--display">Aa</p>
+          <div class="specimen__info">
+            <p class="specimen__name">Instrument Serif</p>
+            <p class="specimen__use">Títulos, editorial, documentos</p>
+          </div>
+        </div>
+        <div class="specimen reveal">
+          <p class="specimen__glyphs">Aa</p>
+          <div class="specimen__info">
+            <p class="specimen__name">Space Grotesk</p>
+            <p class="specimen__use">Interfaz, señalética, numeración</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div class="container">
+    <div class="split">
+      <div class="split__text reveal">
+        <h3 class="block-title">Paleta cromática</h3>
+        <p>
+          El bordó y el crema salieron de la chapa esmaltada original.
+          El verde aparece solo en la línea deportiva y el negro sostiene
+          todo lo demás.
+        </p>
+      </div>
+      <div class="split__aside">
+        <ul class="swatches reveal">
+          <li class="swatch" style="--c:#7A1B2B"><span class="swatch__chip"></span><span class="swatch__name">Bordó club</span><span class="swatch__hex">#7A1B2B</span></li>
+          <li class="swatch" style="--c:#E8DFCB"><span class="swatch__chip"></span><span class="swatch__name">Crema chapa</span><span class="swatch__hex">#E8DFCB</span></li>
+          <li class="swatch" style="--c:#1F4232"><span class="swatch__chip"></span><span class="swatch__name">Verde cancha</span><span class="swatch__hex">#1F4232</span></li>
+          <li class="swatch" style="--c:#14120F"><span class="swatch__chip"></span><span class="swatch__name">Negro tinta</span><span class="swatch__hex">#14120F</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
+
+    <div class="grid-asym">
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-3x2" data-slot="Camisetas y equipación">
+          <img src="images/estrella-de-maldonado/06-camisetas.jpg"
+               alt="Camisetas del club con el escudo y la numeración nueva"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Equipación temporada 2025.</figcaption>
+      </figure>
+
+      <figure class="fig reveal">
+        <div class="fig__frame ar-3x4" data-slot="Carnet de socio">
+          <img src="images/estrella-de-maldonado/07-carnet.jpg"
+               alt="Carnet de socio impreso con la identidad nueva"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Carnet de socio, impresión offset.</figcaption>
+      </figure>
+
+      <figure class="fig reveal">
+        <div class="fig__frame ar-3x4" data-slot="Señalética del club">
+          <img src="images/estrella-de-maldonado/08-senaletica.jpg"
+               alt="Señalética de acceso a las tribunas del club"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Señalética de tribunas.</figcaption>
+      </figure>
+
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-3x2" data-slot="Banderines y merchandising">
+          <img src="images/estrella-de-maldonado/09-merch.jpg"
+               alt="Banderines, gorras y merchandising del club"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Banderines y línea de merchandising.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-16x9" data-slot="Manual de marca — mockup">
+        <img src="images/estrella-de-maldonado/10-manual.jpg"
+             alt="Manual de marca abierto mostrando las normas de uso del escudo"
+             loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">Manual de marca, 68 páginas.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev is-disabled" href="#projects">
+        <span class="project-nav__dir">Volver al índice</span>
+        <span class="project-nav__name">Todos los proyectos</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#project-02">
+        <span class="project-nav__dir">Proyecto siguiente</span>
+        <span class="project-nav__name">Fascículos</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     5 — PROYECTO 02 · EDITORIAL
+     ============================================================ -->
+<section class="section section--rule project" id="project-02">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">04</span> Proyecto 02 — Editorial</p>
+      <h2 class="project__title">Fascículos</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>Editorial Recorte</dd></div>
+        <div><dt>Año</dt><dd>2024</dd></div>
+        <div><dt>Categoría</dt><dd>Diseño editorial · Colección</dd></div>
+        <div><dt>Rol</dt><dd>Diseño y maquetación</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <p class="project__lead">
+      Doce fascículos coleccionables sobre arquitectura moderna
+      argentina, de venta en kioscos. Cada entrega tenía que funcionar
+      sola en la góndola y, apiladas, formar una sola imagen en el lomo.
+    </p>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-3x2" data-slot="Colección completa">
+        <img src="images/fasciculos-editorial/02-coleccion.jpg"
+             alt="Los doce fascículos de la colección ordenados sobre una mesa"
+             loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">Los doce números, colección completa.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Portadas</h3>
+    <div class="grid-4">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-2x3" data-slot="Portada 01">
+          <img src="images/fasciculos-editorial/03-portada-01.jpg" alt="Portada del fascículo número uno" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">N.º 01 — Casa sobre el arroyo</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-2x3" data-slot="Portada 04">
+          <img src="images/fasciculos-editorial/04-portada-04.jpg" alt="Portada del fascículo número cuatro" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">N.º 04 — Hormigón visto</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-2x3" data-slot="Portada 07">
+          <img src="images/fasciculos-editorial/05-portada-07.jpg" alt="Portada del fascículo número siete" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">N.º 07 — Vivienda colectiva</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-2x3" data-slot="Portada 12">
+          <img src="images/fasciculos-editorial/06-portada-12.jpg" alt="Portada del fascículo número doce" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">N.º 12 — El último modernismo</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Dobles páginas</h3>
+    <div class="stack">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-2x1" data-slot="Doble página — apertura de capítulo">
+          <img src="images/fasciculos-editorial/07-spread-apertura.jpg"
+               alt="Doble página de apertura de capítulo con fotografía a sangre"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Apertura de capítulo: foto a sangre, título en la página impar.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-2x1" data-slot="Doble página — texto y notas">
+          <img src="images/fasciculos-editorial/08-spread-texto.jpg"
+               alt="Doble página de texto corrido con columna de notas al margen"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Texto corrido con columna de notas al margen.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-2x1" data-slot="Doble página — planos y fichas">
+          <img src="images/fasciculos-editorial/09-spread-planos.jpg"
+               alt="Doble página con planos técnicos y fichas de obra"
+               loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Planos y fichas de obra sobre fondo crema.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="split split--reverse">
+      <div class="split__text reveal">
+        <h3 class="block-title">Retícula</h3>
+        <p>
+          Seis columnas con una séptima angosta reservada para notas,
+          epígrafes y numeración. Doce módulos verticales que permiten
+          bajar el texto sin romper la línea base compartida entre
+          páginas enfrentadas.
+        </p>
+        <ul class="spec-list">
+          <li><span>Formato</span><span>210 × 280 mm</span></li>
+          <li><span>Columnas</span><span>6 + 1 marginal</span></li>
+          <li><span>Base</span><span>13 pt</span></li>
+          <li><span>Márgenes</span><span>18 / 22 / 16 / 24 mm</span></li>
+        </ul>
+      </div>
+      <div class="split__aside">
+        <!-- Diagrama de retícula dibujado con CSS -->
+        <div class="grid-diagram reveal" aria-hidden="true">
+          <div class="grid-diagram__page">
+            <span class="grid-diagram__col"></span><span class="grid-diagram__col"></span>
+            <span class="grid-diagram__col"></span><span class="grid-diagram__col"></span>
+            <span class="grid-diagram__col"></span><span class="grid-diagram__col"></span>
+            <span class="grid-diagram__col grid-diagram__col--narrow"></span>
+          </div>
+          <div class="grid-diagram__page">
+            <span class="grid-diagram__col grid-diagram__col--narrow"></span>
+            <span class="grid-diagram__col"></span><span class="grid-diagram__col"></span>
+            <span class="grid-diagram__col"></span><span class="grid-diagram__col"></span>
+            <span class="grid-diagram__col"></span><span class="grid-diagram__col"></span>
+          </div>
+        </div>
+        <p class="fig__cap">Retícula base, páginas enfrentadas.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Detalles</h3>
+    <div class="grid-3">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x3" data-slot="Detalle — tipografía">
+          <img src="images/fasciculos-editorial/10-detalle-tipografia.jpg" alt="Detalle de la tipografía de titulares impresa" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Titulares en 42 pt.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x3" data-slot="Detalle — lomo">
+          <img src="images/fasciculos-editorial/11-detalle-lomo.jpg" alt="Detalle de los lomos formando una imagen continua" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Los lomos forman una fachada continua.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x3" data-slot="Detalle — papel e impresión">
+          <img src="images/fasciculos-editorial/12-detalle-papel.jpg" alt="Detalle del papel y la impresión a dos tintas" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Bookcel 80 g, dos tintas.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#project-01">
+        <span class="project-nav__dir">Proyecto anterior</span>
+        <span class="project-nav__name">Estrella de Maldonado</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#project-03">
+        <span class="project-nav__dir">Proyecto siguiente</span>
+        <span class="project-nav__name">Cerveceros del Sur</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     6 — PROYECTO 03 · BRANDING / CAMPAÑA
+     ============================================================ -->
+<section class="section section--dark project" id="project-03">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">05</span> Proyecto 03 — Branding / Campaña</p>
+      <h2 class="project__title">Cerveceros<br>del Sur</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>Cooperativa Cerveceros del Sur</dd></div>
+        <div><dt>Año</dt><dd>2024</dd></div>
+        <div><dt>Categoría</dt><dd>Identidad · Packaging · Campaña</dd></div>
+        <div><dt>Rol</dt><dd>Dirección de arte</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <p class="project__lead">
+      Seis cervecerías patagónicas que producían por separado y competían
+      entre sí decidieron vender juntas. Necesitaban una marca paraguas
+      que no tapara a ninguna: una firma común, seis voces.
+    </p>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-21x9" data-slot="Imagen de campaña">
+        <img src="images/cerveceros-del-sur/02-campana.jpg"
+             alt="Pieza principal de la campaña de lanzamiento de Cerveceros del Sur"
+             loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">Pieza principal de lanzamiento.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <div class="two-col">
+      <div class="two-col__item reveal">
+        <h3 class="block-title">Sistema</h3>
+        <p>
+          Una banda tipográfica fija en el tercio inferior de cada
+          etiqueta actúa como firma de la cooperativa. Arriba, cada
+          cervecería mantiene su color, su ilustración y su carácter.
+        </p>
+      </div>
+      <div class="two-col__item reveal">
+        <h3 class="block-title">Campaña</h3>
+        <p>
+          <em>«Seis sures, una sola mano».</em> La gráfica de vía pública
+          usa manos sosteniendo latas distintas, siempre con el mismo
+          encuadre. Repetición como argumento.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
+    <div class="grid-asym">
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-3x2" data-slot="Packaging — línea completa">
+          <img src="images/cerveceros-del-sur/03-packaging-linea.jpg" alt="Línea completa de latas de las seis cervecerías" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Las seis etiquetas con la banda común.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-3x4" data-slot="Papelería">
+          <img src="images/cerveceros-del-sur/04-papeleria.jpg" alt="Papelería institucional de la cooperativa" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Papelería institucional.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-3x4" data-slot="Cartelería vía pública">
+          <img src="images/cerveceros-del-sur/05-carteleria.jpg" alt="Cartel de vía pública de la campaña" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Vía pública, formato municipal.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Redes sociales">
+          <img src="images/cerveceros-del-sur/06-redes.jpg" alt="Piezas para redes sociales de la campaña" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Grilla de Instagram.</figcaption>
+      </figure>
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-16x9" data-slot="Publicidad y piezas gráficas">
+          <img src="images/cerveceros-del-sur/07-publicidad.jpg" alt="Avisos gráficos y piezas de publicidad impresa" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Avisos gráficos, revista y prensa.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Piezas gráficas sueltas">
+          <img src="images/cerveceros-del-sur/08-piezas.jpg" alt="Posavasos, chapas y piezas gráficas menores" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Posavasos y chapas esmaltadas.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#project-02">
+        <span class="project-nav__dir">Proyecto anterior</span>
+        <span class="project-nav__name">Fascículos</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#project-04">
+        <span class="project-nav__dir">Proyecto siguiente</span>
+        <span class="project-nav__name">Green Eat</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     7 — PROYECTO 04 · DISEÑO DIGITAL / EXPERIMENTAL
+     ============================================================ -->
+<section class="section section--rule project" id="project-04">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">06</span> Proyecto 04 — Diseño digital</p>
+      <h2 class="project__title">Green Eat</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>Green Eat — App de pedidos</dd></div>
+        <div><dt>Año</dt><dd>2026</dd></div>
+        <div><dt>Categoría</dt><dd>UI / UX · Sistema de diseño · Motion</dd></div>
+        <div><dt>Rol</dt><dd>Diseño de producto</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <p class="project__lead">
+      La app tenía 40 pantallas construidas por cuatro personas distintas
+      en tres años. Antes de rediseñar nada hubo que inventariar: 27
+      verdes diferentes, 11 tamaños de botón, cuatro tipografías.
+    </p>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-16x9" data-slot="Pantallas principales">
+        <img src="images/app-green-eat/02-pantallas.jpg"
+             alt="Conjunto de pantallas rediseñadas de la aplicación Green Eat"
+             loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">Flujo principal de pedido, rediseñado.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <div class="two-col">
+      <div class="two-col__item reveal">
+        <h3 class="block-title">Tokens</h3>
+        <p>
+          Los 27 verdes se redujeron a una escala de seis. Cada valor
+          tiene nombre semántico, no descriptivo: nadie vuelve a pedir
+          «el verde del botón viejo».
+        </p>
+      </div>
+      <div class="two-col__item reveal">
+        <h3 class="block-title">Motion</h3>
+        <p>
+          Tres curvas y dos duraciones para toda la app. Las
+          transiciones explican de dónde viene cada pantalla; ninguna
+          dura más de 240 ms.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Interfaz</h3>
+    <div class="grid-4">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-9x16" data-slot="Pantalla — inicio">
+          <img src="images/app-green-eat/03-ui-inicio.jpg" alt="Pantalla de inicio de la aplicación" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Inicio</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-9x16" data-slot="Pantalla — menú">
+          <img src="images/app-green-eat/04-ui-menu.jpg" alt="Pantalla de menú y categorías" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Menú</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-9x16" data-slot="Pantalla — detalle">
+          <img src="images/app-green-eat/05-ui-detalle.jpg" alt="Pantalla de detalle de producto" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Detalle</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-9x16" data-slot="Pantalla — checkout">
+          <img src="images/app-green-eat/06-ui-checkout.jpg" alt="Pantalla de confirmación de pedido" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Checkout</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="split">
+      <div class="split__text reveal">
+        <h3 class="block-title">Sistema de color</h3>
+        <p>
+          Seis valores, nombres semánticos, contraste verificado contra
+          AA en los dos modos. La escala completa vive en Figma y en el
+          repositorio como variables.
+        </p>
+      </div>
+      <div class="split__aside">
+        <ul class="swatches reveal">
+          <li class="swatch" style="--c:#0E3B23"><span class="swatch__chip"></span><span class="swatch__name">surface/strong</span><span class="swatch__hex">#0E3B23</span></li>
+          <li class="swatch" style="--c:#1E7A48"><span class="swatch__chip"></span><span class="swatch__name">action/default</span><span class="swatch__hex">#1E7A48</span></li>
+          <li class="swatch" style="--c:#8FD1A8"><span class="swatch__chip"></span><span class="swatch__name">action/subtle</span><span class="swatch__hex">#8FD1A8</span></li>
+          <li class="swatch" style="--c:#F0F6F1"><span class="swatch__chip"></span><span class="swatch__name">surface/base</span><span class="swatch__hex">#F0F6F1</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-3x2" data-slot="Componentes y documentación">
+        <img src="images/app-green-eat/07-sistema.jpg"
+             alt="Librería de componentes documentada del sistema de diseño"
+             loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">Librería de componentes: 46 elementos documentados.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#project-03">
+        <span class="project-nav__dir">Proyecto anterior</span>
+        <span class="project-nav__name">Cerveceros del Sur</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#playground">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Otros trabajos</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     8 — OTROS TRABAJOS / EXPERIMENTOS
+     ============================================================ -->
+<section class="section section--rule" id="playground">
+  <div class="container">
+    <header class="section-head section-head--split reveal">
+      <div>
+        <p class="eyebrow"><span class="eyebrow__num">07</span> Otros trabajos</p>
+        <h2 class="section-title">Playground.</h2>
+      </div>
+      <p class="section-head__note">
+        Encargos chicos, experimentos tipográficos y cosas que hice
+        porque sí. Sin caso de estudio.
+      </p>
+    </header>
+
+    <div class="playground">
+      <figure class="pg-item reveal">
+        <div class="fig__frame ar-3x4" data-slot="Dosel — juego de mesa">
+          <img src="images/playground/dosel.jpg" alt="Piezas y tablero del juego de mesa Dosel" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="pg-item__cap"><span>Dosel</span><span class="muted">Juego de mesa · 2025</span></figcaption>
+      </figure>
+
+      <figure class="pg-item reveal">
+        <div class="fig__frame ar-1x1" data-slot="Mush — fuente tipográfica">
+          <img src="images/playground/mush-fuente.jpg" alt="Espécimen de la fuente tipográfica Mush" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="pg-item__cap"><span>Mush</span><span class="muted">Fuente display · 2024</span></figcaption>
+      </figure>
+
+      <figure class="pg-item reveal">
+        <div class="fig__frame ar-4x3" data-slot="Remeras custom — serigrafía">
+          <img src="images/playground/remeras-custom.jpg" alt="Remeras estampadas en serigrafía a dos tintas" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="pg-item__cap"><span>Remeras Custom</span><span class="muted">Serigrafía · 2023</span></figcaption>
+      </figure>
+
+      <figure class="pg-item reveal">
+        <div class="fig__frame ar-2x3" data-slot="Cine Digital BA — cartel">
+          <img src="images/playground/cine-digital-ba.jpg" alt="Cartel del evento Cine Digital BA" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="pg-item__cap"><span>Cine Digital BA</span><span class="muted">Cartel de evento · 2023</span></figcaption>
+      </figure>
+
+      <figure class="pg-item reveal">
+        <div class="fig__frame ar-1x1" data-slot="Centenera FC — escudo">
+          <img src="images/playground/centenera-fc.jpg" alt="Escudo y camiseta del club Centenera FC" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="pg-item__cap"><span>Centenera FC</span><span class="muted">Escudo · 2022</span></figcaption>
+      </figure>
+
+      <figure class="pg-item reveal">
+        <div class="fig__frame ar-4x3" data-slot="Almacenit — sitio web">
+          <img src="images/playground/almacenit.jpg" alt="Sitio web del almacén Almacenit en distintos dispositivos" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="pg-item__cap"><span>Almacenit</span><span class="muted">Sitio web · 2023</span></figcaption>
+      </figure>
+
+      <figure class="pg-item reveal">
+        <div class="fig__frame ar-3x4" data-slot="Suma — rediseño de marca">
+          <img src="images/playground/rediseno-suma.jpg" alt="Rediseño de la marca Suma aplicado a papelería" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="pg-item__cap"><span>Suma</span><span class="muted">Rediseño de marca · 2022</span></figcaption>
+      </figure>
+
+      <figure class="pg-item reveal">
+        <div class="fig__frame ar-1x1" data-slot="Exploración tipográfica">
+          <img src="images/playground/exploracion-tipografica.jpg" alt="Exploración tipográfica modular en blanco y negro" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="pg-item__cap"><span>Módulos</span><span class="muted">Exploración tipográfica · 2025</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     9 — CONTACTO / FOOTER
+     ============================================================ -->
+<section class="section section--dark contact" id="contact">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">08</span> Contacto</p>
+      <h2 class="contact__claim">
+        ¿Tenés un proyecto<br>dando vueltas?<br>
+        <em>Trabajemos juntos.</em>
+      </h2>
+    </header>
+
+    <div class="contact__grid">
+      <div class="contact__direct">
+        <div class="reveal">
+          <h3 class="about__label">Escribime</h3>
+          <div class="email-row">
+            <a class="email-link" href="mailto:hola@tudominio.com">hola@tudominio.com</a>
+            <button class="btn btn--copy" type="button" id="copyEmail" data-email="hola@tudominio.com">
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M5 15V6a2 2 0 0 1 2-2h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <span id="copyEmailLabel">Copiar</span>
+            </button>
+          </div>
+          <p class="copy-status" id="copyStatus" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="reveal">
+          <h3 class="about__label">En otros lados</h3>
+          <ul class="social-list">
+            <li><a href="#" rel="noopener">Instagram <span class="social-list__at">@tuusuario</span></a></li>
+            <li><a href="#" rel="noopener">Behance <span class="social-list__at">/tuusuario</span></a></li>
+            <li><a href="#" rel="noopener">LinkedIn <span class="social-list__at">/in/tuusuario</span></a></li>
+            <li><a href="#" rel="noopener">Descargar CV <span class="social-list__at">PDF · 1,2 MB</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Formulario de contacto (validación en javascript/main.js) -->
+      <form class="form reveal" id="contactForm" novalidate>
+        <div class="form__field">
+          <label class="form__label" for="fName">Nombre</label>
+          <input class="form__input" type="text" id="fName" name="name" autocomplete="name"
+                 aria-describedby="errName" placeholder="Cómo te llamás">
+          <p class="form__error" id="errName"></p>
+        </div>
+
+        <div class="form__field">
+          <label class="form__label" for="fEmail">Email</label>
+          <input class="form__input" type="email" id="fEmail" name="email" autocomplete="email"
+                 aria-describedby="errEmail" placeholder="tu@email.com">
+          <p class="form__error" id="errEmail"></p>
+        </div>
+
+        <div class="form__field">
+          <label class="form__label" for="fMessage">Mensaje</label>
+          <textarea class="form__input form__input--area" id="fMessage" name="message" rows="5"
+                    aria-describedby="errMessage" placeholder="Contame en qué estás pensando"></textarea>
+          <p class="form__error" id="errMessage"></p>
+        </div>
+
+        <button class="btn btn--solid" type="submit">
+          Enviar mensaje
+          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__copy">
+        © <span id="year">2026</span> Nombre Apellido — Diseñador Gráfico
+      </p>
+      <p class="footer__note">Buenos Aires, Argentina</p>
+      <a class="footer__top" href="#hero">
+        Volver arriba
+        <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 19V5M6 11l6-6 6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
 </section>
 
 </main>
 
-<!-- ============ FOOTER / CONTACTO ============ -->
-<footer class="site-footer" id="footer">
-  <div class="footer-top">
-    <div class="footer-cta">
-      <h2>Armemos algo juntos.</h2>
-      <button class="footer-email" id="copyEmailBtn" type="button">
-        <span id="emailText">hola@martindiseno.com</span>
-        <span class="copied-tag" id="copyStatus">copiado</span>
-      </button>
-    </div>
-    <div class="footer-col">
-      <h5>Navegación</h5>
-      <ul>
-        <li><a href="#about">Sobre mí</a></li>
-        <li><a href="#work">Proyectos</a></li>
-        <li><a href="#hero">Inicio</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Redes</h5>
-      <ul>
-        <li><a href="https://behance.net" target="_blank" rel="noopener">Behance</a></li>
-        <li><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>Martín — Diseño Gráfico, Buenos Aires</span>
-    <span id="footerYear">© 2026</span>
-  </div>
-</footer>
-
-<script src="../javascript/script.js"></script>
+<script src="javascript/main.js"></script>
 </body>
 </html>
