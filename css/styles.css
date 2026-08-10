@@ -29,23 +29,27 @@
   --dark-soft:     #A29A90;
   --dark-line:     rgba(243, 240, 234, 0.16);
 
-  /* Tipografía */
+  /* Tipografía — todo sans. Archivo es variable y tiene eje de ancho
+     (wdth 62–125): los títulos usan la versión expandida y pesada. */
   --font-sans:    'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --wdth-expanded: 'wdth' 125;
 
   --fs-micro:  0.6875rem;                          /* 11px  — eyebrows */
   --fs-small:  0.8125rem;                          /* 13px  — metadatos */
   --fs-body:   clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
   --fs-lead:   clamp(1.125rem, 1rem + 0.7vw, 1.5rem);
   --fs-h3:     clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
-  --fs-h2:     clamp(2rem, 1.3rem + 3.4vw, 4.5rem);
+  /* El piso es bajo a propósito: en mayúsculas y expandida, una palabra
+     como "SELECCIONADO." no entra en 320 px con un cuerpo más grande. */
+  --fs-h2:     clamp(1.625rem, 1.1rem + 3.2vw, 4.5rem);
   --fs-h1:     clamp(3rem, 1.4rem + 9vw, 10rem);
 
   /* Ritmo y medidas */
   --gutter:        20px;
   --max-w:         1560px;
   --measure:       62ch;
-  --section-y:     clamp(4.5rem, 3rem + 7vw, 10rem);
+  --section-y:     clamp(3.5rem, 2.5rem + 5vw, 7rem);
   --gap:           clamp(1rem, 0.6rem + 1.6vw, 2.25rem);
   --header-h:      64px;
 
@@ -139,12 +143,16 @@ em { font-style: italic; }
 .section-title,
 .project__title {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-variation-settings: var(--wdth-expanded);
+  font-weight: 800;
   font-size: var(--fs-h2);
-  line-height: 0.94;
-  letter-spacing: -0.015em;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
+.section-title em,
+.project__title em { font-style: normal; font-weight: 400; color: var(--accent); }
 
 .block-title {
   font-family: var(--font-sans);
@@ -220,6 +228,9 @@ em { font-style: italic; }
 .section-head { margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 5rem); }
 .section-head .eyebrow { margin-bottom: 1.25rem; }
 .section-head--split { display: grid; gap: 1.75rem; }
+/* Sin esto, un título largo en caja alta fija el min-content del grid y
+   lo desborda en pantallas chicas. */
+.section-head--split > * { min-width: 0; }
 .section-head__note {
   color: var(--ink-soft);
   max-width: 34ch;
@@ -237,7 +248,7 @@ em { font-style: italic; }
 
 .stack { display: grid; gap: clamp(1.5rem, 1rem + 2vw, 3.5rem); }
 
-.grid-3, .grid-4 { display: grid; gap: var(--gap); }
+.grid-2, .grid-3, .grid-4 { display: grid; gap: var(--gap); }
 .grid-asym  { display: grid; gap: var(--gap); }
 
 .plain-list li {
@@ -373,6 +384,21 @@ em { font-style: italic; }
 .fig__frame.is-loaded::before,
 .fig__frame.is-loaded::after { display: none; }
 
+/* Recortes con transparencia (productos, iconos): entran completos y con
+   aire, sin que el encuadre les coma los bordes. */
+.fig__frame--contain img { object-fit: contain; }
+.fig__frame--contain { padding: clamp(0.75rem, 2vw, 1.75rem); }
+
+/* Captura de sitio web completa: la imagen es mucho más alta que el marco
+   y se recorre dentro de él, como si fuera la ventana del navegador. */
+.fig__frame--scroll { overflow-y: auto; scrollbar-width: thin; }
+.fig__frame--scroll img { height: auto; object-fit: contain; }
+.fig__frame--scroll::-webkit-scrollbar { width: 6px; }
+.fig__frame--scroll::-webkit-scrollbar-thumb {
+  background: rgba(20, 18, 15, 0.25);
+  border-radius: 3px;
+}
+
 .fig__cap {
   margin-top: 0.7rem;
   font-size: var(--fs-small);
@@ -472,7 +498,11 @@ em { font-style: italic; }
   display: block;
   padding: 0.9rem 0;
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-variation-settings: var(--wdth-expanded);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: 1.5rem;
   line-height: 1.2;
   border-bottom: 1px solid var(--line-soft);
   transition: color var(--t-fast) var(--ease);
@@ -539,16 +569,17 @@ em { font-style: italic; }
 
 .hero__title {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-variation-settings: var(--wdth-expanded);
+  font-weight: 800;
   font-size: var(--fs-h1);
-  line-height: 0.86;
-  letter-spacing: -0.03em;
+  line-height: 0.82;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
   margin: 0;
 }
 .hero__line { display: block; }
 .hero__line--em {
-  font-style: italic;
-  padding-left: 0.08em;
+  font-weight: 400;
   color: var(--accent);
 }
 
@@ -672,7 +703,9 @@ em { font-style: italic; }
 }
 .pcard__title {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-variation-settings: 'wdth' 112;
+  font-weight: 700;
+  text-transform: uppercase;
   font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
   line-height: 1.06;
   letter-spacing: -0.015em;
@@ -842,6 +875,9 @@ em { font-style: italic; }
 .section--dark .project-nav__dir { color: var(--dark-soft); }
 .project-nav__name {
   font-family: var(--font-display);
+  font-variation-settings: 'wdth' 112;
+  font-weight: 700;
+  text-transform: uppercase;
   font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
   line-height: 1.1;
 }
@@ -879,7 +915,9 @@ em { font-style: italic; }
 .contact { padding-bottom: 0; }
 .contact__claim {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-variation-settings: var(--wdth-expanded);
+  font-weight: 800;
+  text-transform: uppercase;
   font-size: var(--fs-h2);
   line-height: 0.98;
   letter-spacing: -0.02em;
@@ -899,6 +937,8 @@ em { font-style: italic; }
 }
 .email-link {
   font-family: var(--font-display);
+  font-variation-settings: 'wdth' 105;
+  font-weight: 600;
   font-size: clamp(1.375rem, 1rem + 2vw, 2.25rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -1051,6 +1091,7 @@ em { font-style: italic; }
   .split--reverse .split__text { order: 2; }
   .split--reverse .split__aside { order: 1; }
 
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(3, 1fr); }
   .grid-4 { grid-template-columns: repeat(4, 1fr); }
 
@@ -1145,6 +1186,11 @@ em { font-style: italic; }
 @media (min-width: 1440px) {
   :root { --gutter: 80px; }
   .about { grid-template-columns: 0.7fr 1.3fr; }
+
+  /* Con diez proyectos, tres columnas evitan que el índice se estire */
+  .index-track { grid-template-columns: repeat(3, 1fr); }
+  .pcard:nth-child(even) { margin-top: 0; }
+  .pcard:nth-child(3n + 2) { margin-top: clamp(1.5rem, 3vw, 3.5rem); }
 }
 
 /* --- ≥ 1920px : evita que la línea de texto se estire --- */

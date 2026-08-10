@@ -3,30 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nombre Apellido — Diseñador Gráfico</title>
-<meta name="description" content="Portfolio de Nombre Apellido, diseñador gráfico. Identidad visual, diseño editorial, branding y diseño digital.">
+<title>Martin Orsini — Diseñador Gráfico</title>
+<meta name="description" content="Portfolio de Martin Orsini, diseñador gráfico. Identidad visual, packaging, editorial, redes y diseño digital.">
 <meta name="theme-color" content="#F3F0EA">
 
 <!-- ============================================================
      CONFIGURACIÓN RÁPIDA — qué editar primero
      ------------------------------------------------------------
-     1. Nombre        → buscá "Nombre Apellido" y reemplazá (aparece en
-                        <title>, header, hero, about, contacto y footer).
-     2. Email         → buscá "hola@tudominio.com" (aparece en el botón
-                        de copiar, el enlace mailto y el footer).
-     3. Redes         → los href="#" de Instagram / Behance / LinkedIn
-                        en la sección de contacto.
-     4. Imágenes      → cada <img> apunta a images/<proyecto>/<archivo>.
-                        Soltá tus archivos con ESE nombre exacto y
-                        aparecen solas, sin tocar el layout.
-                        Mientras el archivo no exista se muestra un
-                        placeholder diseñado con la etiqueta del slot.
-     5. Colores/tipos → css/styles.css, bloque ":root" al inicio.
+     1. Email     → buscá "hola@tudominio.com".
+     2. Redes     → los href="#" de la sección de contacto.
+     3. Imágenes  → cada <img> apunta a assets/images/<proyecto>/.
+                    Soltá tu archivo con ESE nombre exacto y aparece
+                    solo. Si no existe, se ve un placeholder con la
+                    etiqueta de qué va ahí.
+     4. Estilo    → css/styles.css, bloque ":root".
+
+     ESTRUCTURA — 14 secciones
+       1  Hero
+       2  Presentación personal
+       3  Índice de proyectos (cards)
+       4  Rediseño de SUMA
+       5  Redes Centenera FC
+       6  Rediseño app Green Eat
+       7  Identidad Cerveceros del Sur   ← destacado
+       8  Juego de mesa Dosel
+       9  Fascículos editorial
+      10  Web Almacenit
+      11  Identidad Estrella de Maldonado ← destacado
+      12  Remeras custom
+      13  Mush Type
+      14  Footer / contacto
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -38,8 +49,8 @@
      ============================================================ -->
 <header class="site-header" id="siteHeader">
   <div class="site-header__inner container">
-    <a class="brand" href="#hero" aria-label="Inicio — Nombre Apellido">
-      <span class="brand__name">Nombre Apellido</span>
+    <a class="brand" href="#hero" aria-label="Inicio — Martin Orsini">
+      <span class="brand__name">Martin Orsini</span>
       <span class="brand__role">Diseñador Gráfico</span>
     </a>
 
@@ -78,9 +89,9 @@
 
     <div class="hero__foot">
       <p class="hero__lead reveal">
-        Diseñador gráfico. Trabajo en identidad visual, editorial y
-        sistemas de marca: proyectos donde la forma tiene que explicar
-        algo, no solo decorarlo.
+        Diseñador gráfico. Identidad, packaging, editorial y sistemas de
+        marca: proyectos donde la forma tiene que explicar algo, no solo
+        decorarlo.
       </p>
 
       <div class="hero__actions reveal">
@@ -102,13 +113,13 @@
 </section>
 
 <!-- ============================================================
-     2 — SOBRE MÍ
+     2 — PRESENTACIÓN PERSONAL
      ============================================================ -->
 <section class="section section--rule" id="about">
   <div class="container">
     <header class="section-head reveal">
       <p class="eyebrow"><span class="eyebrow__num">01</span> Sobre mí</p>
-      <h2 class="section-title">Diseño sistemas,<br>no piezas sueltas.</h2>
+      <h2 class="section-title">Diseño sistemas, no piezas sueltas.</h2>
     </header>
 
     <div class="about">
@@ -116,58 +127,54 @@
         <figure class="fig">
           <div class="fig__frame ar-3x4" data-slot="Retrato">
             <img src="assets/images/retrato.jpg"
-                 alt="Retrato de Nombre Apellido en su espacio de trabajo"
+                 alt="Retrato de Martin Orsini"
                  loading="lazy" decoding="async">
           </div>
-          <figcaption class="fig__cap">Estudio propio, Buenos Aires.</figcaption>
         </figure>
       </div>
 
       <div class="about__body">
         <p class="lead reveal">
-          Me llamo <strong>Nombre Apellido</strong> y hace seis años que
-          construyo identidades para marcas que necesitan sonar distinto
-          sin gritar. Me interesa el punto donde la tipografía, el
-          sistema y la impresión se cruzan.
+          Me llamo <strong>Martin Orsini</strong> y soy diseñador gráfico.
+          Me interesa el punto donde la tipografía, el sistema y la
+          impresión se cruzan: marcas que tienen que resistir en la
+          góndola, en la cancha y en la pantalla.
         </p>
 
         <p class="reveal">
-          Trabajo con clubes, editoriales, cervecerías y equipos de
-          producto. Suelo entrar temprano en el proceso: antes del
-          logotipo hay una conversación sobre qué tiene que resistir esa
-          marca durante los próximos diez años. Después vienen las
-          formas.
+          Trabajo con clubes, cervecerías, editoriales y comercios de
+          barrio. Suelo entrar temprano en el proceso: antes del logotipo
+          hay una conversación sobre qué tiene que aguantar esa marca en
+          los próximos diez años. Después vienen las formas.
         </p>
 
         <div class="about__grid">
           <div class="about__block reveal">
             <h3 class="about__label">Formación</h3>
             <ul class="plain-list">
-              <li>Diseño Gráfico — UBA FADU<span class="muted"> · 2016–2021</span></li>
-              <li>Posgrado en Tipografía — UBA<span class="muted"> · 2022</span></li>
-              <li>Diseño Editorial Contemporáneo — Domestika<span class="muted"> · 2023</span></li>
+              <li>Diseño Gráfico — UBA FADU<span class="muted"> · en curso</span></li>
             </ul>
           </div>
 
           <div class="about__block reveal">
-            <h3 class="about__label">Experiencia</h3>
+            <h3 class="about__label">Hago</h3>
             <ul class="plain-list">
-              <li>Freelance / Estudio propio<span class="muted"> · 2022 — hoy</span></li>
-              <li>Diseñador senior — Estudio Ánima<span class="muted"> · 2020–2022</span></li>
-              <li>Diseñador junior — Taller Norte<span class="muted"> · 2018–2020</span></li>
+              <li>Identidad visual y sistemas de marca</li>
+              <li>Packaging y piezas gráficas</li>
+              <li>Editorial y publicaciones</li>
+              <li>Contenido para redes</li>
             </ul>
           </div>
 
           <div class="about__block reveal">
             <h3 class="about__label">Áreas de interés</h3>
             <ul class="tag-list">
-              <li>Identidad visual</li>
               <li>Tipografía</li>
-              <li>Editorial</li>
               <li>Packaging</li>
+              <li>Editorial</li>
               <li>Dirección de arte</li>
-              <li>Diseño de producto digital</li>
-              <li>Serigrafía</li>
+              <li>Motion</li>
+              <li>Diseño digital</li>
             </ul>
           </div>
         </div>
@@ -184,118 +191,859 @@
     <header class="section-head section-head--split reveal">
       <div>
         <p class="eyebrow"><span class="eyebrow__num">02</span> Índice de proyectos</p>
-        <h2 class="section-title">Trabajo<br>seleccionado.</h2>
+        <h2 class="section-title">Trabajo seleccionado.</h2>
       </div>
       <p class="section-head__note">
-        Cuatro proyectos desarrollados en profundidad. Tocá cualquiera
-        para ir directo al caso.
+        Diez proyectos. Tocá cualquiera para ir directo al caso.
       </p>
     </header>
   </div>
 
   <div class="container">
     <div class="index-track" id="indexTrack" role="list">
-      <!-- Card 01 -->
-      <a class="pcard reveal" href="#project-01" role="listitem">
+
+      <a class="pcard reveal" href="#p-suma" role="listitem">
         <div class="pcard__media">
-          <div class="fig__frame ar-4x3" data-slot="Estrella de Maldonado — Indumentaria">
-            <img src="assets/images/estrella-de-maldonado/01-mockup.jpg"
-                 alt="Camisetas 2025 del club Estrella de Maldonado"
-                 loading="lazy" decoding="async">
+          <div class="fig__frame ar-4x3" data-slot="SUMA — Marquesina">
+            <img src="assets/images/suma/01-marquesina.jpg" alt="Marquesina del supermercado SUMA con la marca rediseñada" loading="lazy" decoding="async">
           </div>
           <span class="pcard__cue">Ver caso</span>
         </div>
         <div class="pcard__info">
           <p class="pcard__index">01</p>
-          <h3 class="pcard__title">Estrella de Maldonado</h3>
-          <p class="pcard__meta"><span>Identidad visual</span><span class="dot"></span><span>2025</span></p>
-          <p class="pcard__desc">
-            Indumentaria y anuario para un club de barrio: una misma
-            grilla sostiene la camiseta y la doble página.
-          </p>
+          <h3 class="pcard__title">Rediseño de SUMA</h3>
+          <p class="pcard__meta"><span>Identidad · Retail</span></p>
         </div>
       </a>
 
-      <!-- Card 02 -->
-      <a class="pcard reveal" href="#project-02" role="listitem">
+      <a class="pcard reveal" href="#p-centenera" role="listitem">
         <div class="pcard__media">
-          <div class="fig__frame ar-4x3" data-slot="Sillas — Doble página">
-            <img src="assets/images/fasciculos-editorial/01-card.jpg"
-                 alt="Doble página del libro Sillas con una fotografía en blanco y negro"
-                 loading="lazy" decoding="async">
+          <div class="fig__frame ar-4x3" data-slot="Centenera FC — Convocados">
+            <img src="assets/images/centenera-fc/01-portada.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async">
           </div>
           <span class="pcard__cue">Ver caso</span>
         </div>
         <div class="pcard__info">
           <p class="pcard__index">02</p>
-          <h3 class="pcard__title">Sillas</h3>
-          <p class="pcard__meta"><span>Editorial</span><span class="dot"></span><span>2025</span></p>
-          <p class="pcard__desc">
-            Libro de autor sobre el objeto más repetido del país: la
-            silla de plástico blanca.
-          </p>
+          <h3 class="pcard__title">Redes Centenera FC</h3>
+          <p class="pcard__meta"><span>Contenido · Deportivo</span></p>
         </div>
       </a>
 
-      <!-- Card 03 -->
-      <a class="pcard reveal" href="#project-03" role="listitem">
+      <a class="pcard reveal" href="#p-green-eat" role="listitem">
         <div class="pcard__media">
-          <div class="fig__frame ar-4x3" data-slot="Cerveceros del Sur — Packaging">
-            <img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg"
-                 alt="Las latas Stout, IPA y Honey de Cerveceros del Sur sobre una mesa del salón"
-                 loading="lazy" decoding="async">
+          <div class="fig__frame ar-4x3" data-slot="Green Eat — Iconos">
+            <img src="assets/images/green-eat/01-card.jpg" alt="Set de iconos ilustrados del programa de puntos de Green Eat" loading="lazy" decoding="async">
           </div>
           <span class="pcard__cue">Ver caso</span>
         </div>
         <div class="pcard__info">
           <p class="pcard__index">03</p>
-          <h3 class="pcard__title">Cerveceros del Sur</h3>
-          <p class="pcard__meta"><span>Branding / Campaña</span><span class="dot"></span><span>2025</span></p>
-          <p class="pcard__desc">
-            Identidad, packaging y campaña para una cervecería artesanal
-            con local en La Boca.
-          </p>
+          <h3 class="pcard__title">App Green Eat</h3>
+          <p class="pcard__meta"><span>UI / UX · Ilustración</span></p>
         </div>
       </a>
 
-      <!-- Card 04 -->
-      <a class="pcard reveal" href="#project-04" role="listitem">
+      <a class="pcard reveal" href="#p-cerveceros" role="listitem">
         <div class="pcard__media">
-          <div class="fig__frame ar-4x3" data-slot="Mush type — Portada">
-            <img src="assets/images/mush-type/01-card.jpg"
-                 alt="Portada de Mush type: el nombre en amarillo sobre fondo rojo"
-                 loading="lazy" decoding="async">
+          <div class="fig__frame ar-4x3" data-slot="Cerveceros del Sur — Latas">
+            <img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg" alt="Las latas Stout, IPA y Honey de Cerveceros del Sur" loading="lazy" decoding="async">
           </div>
           <span class="pcard__cue">Ver caso</span>
         </div>
         <div class="pcard__info">
           <p class="pcard__index">04</p>
-          <h3 class="pcard__title">Mush type</h3>
-          <p class="pcard__meta"><span>Tipografía · Motion</span><span class="dot"></span><span>2026</span></p>
-          <p class="pcard__desc">
-            Una fuente display blanda y una pieza animada donde las
-            letras se deforman en vez de entrar y salir.
-          </p>
+          <h3 class="pcard__title">Cerveceros del Sur</h3>
+          <p class="pcard__meta"><span>Identidad · Packaging</span></p>
         </div>
       </a>
+
+      <a class="pcard reveal" href="#p-dosel" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Dosel — Caja">
+            <img src="assets/images/dosel/01-caja.jpg" alt="Caja del juego de mesa Dosel" loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">05</p>
+          <h3 class="pcard__title">Dosel</h3>
+          <p class="pcard__meta"><span>Juego de mesa</span></p>
+        </div>
+      </a>
+
+      <a class="pcard reveal" href="#p-fasciculos" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Fascículos — Doble página">
+            <img src="assets/images/fasciculos-editorial/01-card.jpg" alt="Doble página de la publicación editorial" loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">06</p>
+          <h3 class="pcard__title">Fascículos editorial</h3>
+          <p class="pcard__meta"><span>Editorial</span></p>
+        </div>
+      </a>
+
+      <a class="pcard reveal" href="#p-almacenit" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Almacenit — Home">
+            <img src="assets/images/almacenit/01-home.jpg" alt="Home del sitio web Almacenit" loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">07</p>
+          <h3 class="pcard__title">Web Almacenit</h3>
+          <p class="pcard__meta"><span>Diseño web</span></p>
+        </div>
+      </a>
+
+      <a class="pcard reveal" href="#p-estrella" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Estrella de Maldonado — Camisetas">
+            <img src="assets/images/estrella-de-maldonado/01-mockup.jpg" alt="Camisetas 2025 de Estrella de Maldonado" loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">08</p>
+          <h3 class="pcard__title">Estrella de Maldonado</h3>
+          <p class="pcard__meta"><span>Identidad · Indumentaria</span></p>
+        </div>
+      </a>
+
+      <a class="pcard reveal" href="#p-remeras" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Remeras custom">
+            <img src="assets/images/remeras/01-billie.jpg" alt="Remera custom estampada" loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">09</p>
+          <h3 class="pcard__title">Remeras custom</h3>
+          <p class="pcard__meta"><span>Ilustración · Estampa</span></p>
+        </div>
+      </a>
+
+      <a class="pcard reveal" href="#p-mush" role="listitem">
+        <div class="pcard__media">
+          <div class="fig__frame ar-4x3" data-slot="Mush type — Portada">
+            <img src="assets/images/mush-type/01-card.jpg" alt="Portada de Mush type" loading="lazy" decoding="async">
+          </div>
+          <span class="pcard__cue">Ver caso</span>
+        </div>
+        <div class="pcard__info">
+          <p class="pcard__index">10</p>
+          <h3 class="pcard__title">Mush Type</h3>
+          <p class="pcard__meta"><span>Tipografía · Motion</span></p>
+        </div>
+      </a>
+
     </div>
 
-    <div class="track-dots" id="trackDots" aria-hidden="true">
-      <span class="track-dots__dot is-active"></span>
-      <span class="track-dots__dot"></span>
-      <span class="track-dots__dot"></span>
-      <span class="track-dots__dot"></span>
-    </div>
+    <div class="track-dots" id="trackDots" aria-hidden="true"></div>
   </div>
 </section>
 
 <!-- ============================================================
-     4 — PROYECTO 01 · IDENTIDAD VISUAL
+     4 — PROYECTO 01 · REDISEÑO DE SUMA
      ============================================================ -->
-<section class="section section--rule project" id="project-01">
+<section class="section section--rule project" id="p-suma">
   <div class="container">
     <header class="project__head reveal">
-      <p class="eyebrow"><span class="eyebrow__num">03</span> Proyecto 01 — Identidad visual</p>
+      <p class="eyebrow"><span class="eyebrow__num">03</span> Proyecto 01</p>
+      <h2 class="project__title">Rediseño<br>de SUMA</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>SUMA Supermercados</dd></div>
+        <div><dt>Categoría</dt><dd>Rediseño de marca · Retail</dd></div>
+        <div><dt>Rol</dt><dd>Identidad y aplicaciones</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-16x9" data-slot="Marquesina">
+        <img src="assets/images/suma/01-marquesina.jpg" alt="Marquesina de la sucursal con la marca SUMA rediseñada" loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">Marquesina de sucursal.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <p class="project__lead reveal">
+      Un supermercado de cercanía con una marca que había crecido a los
+      parches. El rediseño buscó un signo simple, imprimible en cualquier
+      soporte y reconocible desde la vereda de enfrente.
+    </p>
+
+    <div class="grid-asym">
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-7x5" data-slot="Antes y después">
+          <img src="assets/images/suma/02-marcas.jpg" alt="Comparación entre la marca anterior y la nueva" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Antes y después.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Panel de presentación">
+          <img src="assets/images/suma/03-panel.jpg" alt="Panel de presentación del sistema de marca" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Panel de sistema.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
+    <div class="grid-3">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-7x5" data-slot="Bolsa">
+          <img src="assets/images/suma/05-bolsa.jpg" alt="Bolsa de compras con la nueva marca" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-7x5" data-slot="Canasta">
+          <img src="assets/images/suma/06-canasta.jpg" alt="Canasta de supermercado marcada" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x3" data-slot="Gorra">
+          <img src="assets/images/suma/07-gorra.jpg" alt="Gorra del uniforme del personal" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="grid-asym">
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-4x3" data-slot="Vía pública">
+          <img src="assets/images/suma/04-viapublica.jpg" alt="Cartel de vía pública con la campaña de la marca" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Vía pública.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x5" data-slot="Uniforme">
+          <img src="assets/images/suma/08-polo.jpg" alt="Chomba del uniforme del personal" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Uniforme.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#projects">
+        <span class="project-nav__dir">Volver al índice</span>
+        <span class="project-nav__name">Proyectos</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#p-centenera">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Centenera FC</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     5 — PROYECTO 02 · REDES CENTENERA FC
+     ============================================================ -->
+<section class="section section--rule project" id="p-centenera">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">04</span> Proyecto 02</p>
+      <h2 class="project__title">Redes<br>Centenera FC</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>Centenera FC</dd></div>
+        <div><dt>Categoría</dt><dd>Contenido para redes · Deportivo</dd></div>
+        <div><dt>Rol</dt><dd>Diseño y bajada semanal</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-16x10" data-slot="Pieza de convocados">
+        <img src="assets/images/centenera-fc/01-portada.jpg" alt="Pieza de convocados de Centenera FC en formato apaisado" loading="lazy" decoding="async">
+      </div>
+    </figure>
+  </div>
+
+  <div class="container">
+    <p class="project__lead reveal">
+      Un sistema de piezas para bancar el torneo entero: la misma
+      plantilla se rellena fecha a fecha con las fotos de la semana, sin
+      rediseñar nada.
+    </p>
+
+    <h3 class="block-title block-title--section reveal">Fecha a fecha</h3>
+    <div class="grid-4">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x5" data-slot="Convocados">
+          <img src="assets/images/centenera-fc/02-convocados.jpg" alt="Placa de convocados, fecha 1" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x5" data-slot="Convocados">
+          <img src="assets/images/centenera-fc/03-convocados.jpg" alt="Placa de convocados, fecha 2" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x5" data-slot="Convocados">
+          <img src="assets/images/centenera-fc/04-convocados.jpg" alt="Placa de convocados, fecha 3" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x5" data-slot="Convocados">
+          <img src="assets/images/centenera-fc/05-convocados.jpg" alt="Placa de convocados, fecha 4" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="grid-asym">
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-3x2" data-slot="Equipo">
+          <img src="assets/images/centenera-fc/07-equipo.jpg" alt="Fotografía del plantel de Centenera FC" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">La materia prima: fotos del torneo.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Camiseta">
+          <img src="assets/images/centenera-fc/08-camiseta.jpg" alt="Presentación de la camiseta suplente" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Presentación de camiseta.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#p-suma">
+        <span class="project-nav__dir">Anterior</span>
+        <span class="project-nav__name">SUMA</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#p-green-eat">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Green Eat</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     6 — PROYECTO 03 · APP GREEN EAT
+     Sin imágenes todavía: los marcos muestran el placeholder.
+     ============================================================ -->
+<section class="section section--rule project" id="p-green-eat">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">05</span> Proyecto 03</p>
+      <h2 class="project__title">App<br>Green Eat</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>Green Eat</dd></div>
+        <div><dt>Categoría</dt><dd>UI / UX · Ilustración · Programa de puntos</dd></div>
+        <div><dt>Rol</dt><dd>Sistema visual e ilustración</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container">
+    <p class="project__lead reveal">
+      El programa de fidelidad de la app necesitaba un mundo propio: una
+      zanahoria que se va llenando a medida que sumás puntos, y un set de
+      iconos dibujados a mano alzada que sostiene todo el sistema.
+    </p>
+
+    <h3 class="block-title block-title--section reveal">Onboarding</h3>
+    <div class="grid-3">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Onboarding — QR y niveles">
+          <img src="assets/images/green-eat/02-onboarding-a.jpg" alt="Pantalla de onboarding con el QR y la zanahoria por niveles" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Escaneá y sumá.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Onboarding — beneficios">
+          <img src="assets/images/green-eat/03-onboarding-b.jpg" alt="Pantalla de onboarding con cupones y descuentos alrededor de la zanahoria" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Canjeá beneficios.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Onboarding — cierre">
+          <img src="assets/images/green-eat/04-onboarding-c.jpg" alt="Tercera pantalla de onboarding del programa de puntos" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Subí de nivel.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="split">
+      <div class="split__text reveal">
+        <h3 class="block-title">El sistema de iconos</h3>
+        <p>
+          Todo dibujado con el mismo trazo: línea negra irregular, relleno
+          plano y un desfase de color que asoma por detrás. Verde oscuro y
+          naranja mandan; el amarillo y el rojo aparecen sólo en cupones y
+          ubicaciones.
+        </p>
+      </div>
+      <div class="split__aside reveal">
+        <figure class="fig">
+          <div class="fig__frame fig__frame--contain ar-16x10" data-slot="Set de iconos">
+            <img src="assets/images/green-eat/05-sistema.jpg" alt="Set completo de iconos e ilustraciones del programa de puntos" loading="lazy" decoding="async">
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Producto</h3>
+    <div class="grid-3">
+      <figure class="fig reveal">
+        <div class="fig__frame fig__frame--contain ar-2x1" data-slot="Café">
+          <img src="assets/images/green-eat/06-cafe.png" alt="Ilustración de un café de la carta" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame fig__frame--contain ar-2x1" data-slot="Hamburguesa">
+          <img src="assets/images/green-eat/07-hamburguesa.png" alt="Ilustración de una hamburguesa de la carta" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame fig__frame--contain ar-2x1" data-slot="Wraps">
+          <img src="assets/images/green-eat/08-wraps.png" alt="Ilustración de wraps de la carta" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#p-centenera">
+        <span class="project-nav__dir">Anterior</span>
+        <span class="project-nav__name">Centenera FC</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#p-cerveceros">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Cerveceros del Sur</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     7 — PROYECTO 04 · CERVECEROS DEL SUR  (destacado)
+     ============================================================ -->
+<section class="section section--dark project" id="p-cerveceros">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">06</span> Proyecto 04 — Destacado</p>
+      <h2 class="project__title">Cerveceros<br>del Sur</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>Cervecería artesanal, La Boca</dd></div>
+        <div><dt>Año</dt><dd>2025</dd></div>
+        <div><dt>Categoría</dt><dd>Identidad · Packaging · Campaña</dd></div>
+        <div><dt>Rol</dt><dd>Identidad y dirección de arte</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-21x9" data-slot="Fachada — cartel">
+        <img src="assets/images/cerveceros-del-sur/02-fachada.jpg" alt="Cartel colgante y letras corpóreas iluminadas en la fachada del local" loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">Cartel colgante y letras corpóreas en la fachada.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <p class="project__lead reveal">
+      Una cervecería artesanal con local en La Boca. La identidad se
+      construyó desde una ilustración —un pingüino con una jarra— y una
+      tipografía de cartel antiguo, capaz de sostener la lata en la
+      góndola y la pared del salón.
+    </p>
+
+    <div class="two-col">
+      <div class="two-col__item reveal">
+        <h3 class="block-title">El sistema</h3>
+        <p>
+          El isologotipo funciona como escudo completo en las piezas
+          grandes y se reduce a la tipografía sola cuando el espacio no
+          alcanza. Detrás de todo hay un mismo grabado de montaña y
+          bosque, que aparece como trama, fondo o textura de lata.
+        </p>
+      </div>
+      <div class="two-col__item reveal">
+        <h3 class="block-title">La campaña</h3>
+        <p>
+          <em>«La mejor, es del Sur».</em> Polaroids apiladas sobre el
+          grabado, con la bajada manuscrita <em>«Volver a disfrutar»</em>.
+          El recurso baja a Instagram, vía pública y table tents sin
+          rediseñar nada.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Marca y packaging</h3>
+    <div class="grid-asym">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Isologotipo">
+          <img src="assets/images/cerveceros-del-sur/12-marca.png" alt="Isologotipo: un pingüino con una jarra de cerveza dentro de un escudo" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Isologotipo.</figcaption>
+      </figure>
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-16x10" data-slot="Latas en el salón">
+          <img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg" alt="Las latas Stout, IPA y Honey sobre una mesa del salón" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Stout, IPA y Honey: misma estructura, distinto valor de fondo.</figcaption>
+      </figure>
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-4x3" data-slot="Línea de latas">
+          <img src="assets/images/cerveceros-del-sur/01-packaging.jpg" alt="Las tres latas de la línea vistas de frente" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Etiquetas de 473 ml.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Carta">
+          <img src="assets/images/cerveceros-del-sur/04-menu.jpg" alt="Carta de cervezas, cocktails y whiskeys" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Carta.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Campaña y aplicaciones</h3>
+    <div class="grid-asym">
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-2x1" data-slot="Afiche de campaña">
+          <img src="assets/images/cerveceros-del-sur/07-afiche.jpg" alt="Afiche de campaña con polaroids apiladas y el claim La mejor, es del Sur" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x5" data-slot="Instagram">
+          <img src="assets/images/cerveceros-del-sur/06-redes.jpg" alt="Pieza de Instagram con polaroids" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-4x3" data-slot="Vía pública">
+          <img src="assets/images/cerveceros-del-sur/08-viapublica.jpg" alt="Cartel de vía pública sobre una pared de ladrillo" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-3x4" data-slot="Señalética">
+          <img src="assets/images/cerveceros-del-sur/05-senaletica.jpg" alt="Letras corpóreas retroiluminadas en el patio del local" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-3x2" data-slot="Papelería">
+          <img src="assets/images/cerveceros-del-sur/09-papeleria.jpg" alt="Papelería institucional: tarjeta, flyer y hoja membretada" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x3" data-slot="Table tent">
+          <img src="assets/images/cerveceros-del-sur/13-table-tent.png" alt="Table tent de mesa con la promo y el QR de la carta" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig fig--span2 reveal">
+        <div class="fig__frame ar-16x10" data-slot="Posavasos">
+          <img src="assets/images/cerveceros-del-sur/10-posavasos.jpg" alt="Posavasos troquelados con el isologotipo" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-4x3" data-slot="Tarjeta personal">
+          <img src="assets/images/cerveceros-del-sur/11-tarjeta.jpg" alt="Tarjeta personal impresa" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#p-green-eat">
+        <span class="project-nav__dir">Anterior</span>
+        <span class="project-nav__name">Green Eat</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#p-dosel">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Dosel</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     8 — PROYECTO 05 · DOSEL
+     ============================================================ -->
+<section class="section section--rule project" id="p-dosel">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">07</span> Proyecto 05</p>
+      <h2 class="project__title">Dosel</h2>
+      <dl class="project__meta">
+        <div><dt>Proyecto</dt><dd>Juego de mesa</dd></div>
+        <div><dt>Categoría</dt><dd>Packaging · Ilustración · Sistema de cartas</dd></div>
+        <div><dt>Rol</dt><dd>Diseño integral</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-2x1" data-slot="Fauna">
+        <img src="assets/images/dosel/10-fauna-wide.jpg" alt="Ilustración de fauna autóctona del juego Dosel" loading="lazy" decoding="async">
+      </div>
+    </figure>
+  </div>
+
+  <div class="container">
+    <p class="project__lead reveal">
+      Un juego de mesa sobre fauna autóctona argentina. Cada carta cruza
+      un animal con el ambiente donde vive; el sistema tenía que
+      distinguir esos ambientes de un vistazo, sin texto.
+    </p>
+
+    <div class="grid-3">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Caja">
+          <img src="assets/images/dosel/01-caja.jpg" alt="Caja del juego de mesa Dosel" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Caja.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Caja — alternativa">
+          <img src="assets/images/dosel/02-caja-alt.jpg" alt="Versión alternativa de la caja del juego" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Alternativa de tapa.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Dorso de carta">
+          <img src="assets/images/dosel/08-dorso.jpg" alt="Dorso de las cartas del juego" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Dorso.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Ambientes</h3>
+    <div class="grid-4">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Pastizal">
+          <img src="assets/images/dosel/03-pastizal.jpg" alt="Carta de ambiente: pastizal" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Pastizal</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Río">
+          <img src="assets/images/dosel/04-rio.jpg" alt="Carta de ambiente: río" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Río</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Selva">
+          <img src="assets/images/dosel/05-selva.jpg" alt="Carta de ambiente: selva" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Selva</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-1x1" data-slot="Tierra roja">
+          <img src="assets/images/dosel/06-tierra.jpg" alt="Carta de ambiente: tierra roja" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Tierra roja</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#p-cerveceros">
+        <span class="project-nav__dir">Anterior</span>
+        <span class="project-nav__name">Cerveceros del Sur</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#p-fasciculos">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Fascículos</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     9 — PROYECTO 06 · FASCÍCULOS EDITORIAL
+     ============================================================ -->
+<section class="section section--rule project" id="p-fasciculos">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">08</span> Proyecto 06</p>
+      <h2 class="project__title">Fascículos<br>editorial</h2>
+      <dl class="project__meta">
+        <div><dt>Proyecto</dt><dd>Publicación de autor</dd></div>
+        <div><dt>Categoría</dt><dd>Editorial · Fotografía</dd></div>
+        <div><dt>Rol</dt><dd>Fotografía, diseño y maquetación</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-7x5" data-slot="Doble página de apertura">
+        <img src="assets/images/fasciculos-editorial/02-apertura.jpg" alt="Doble página de apertura con una fotografía en blanco y negro" loading="lazy" decoding="async">
+      </div>
+      <figcaption class="fig__cap">Apertura. La página par se deja en blanco.</figcaption>
+    </figure>
+  </div>
+
+  <div class="container">
+    <p class="project__lead reveal">
+      Una publicación fotográfica en blanco y negro sobre un solo objeto
+      repetido. La maqueta deja que cada imagen elija su escala: el
+      blanco de la página funciona como silencio entre foto y foto.
+    </p>
+
+    <h3 class="block-title block-title--section reveal">Páginas</h3>
+    <div class="grid-4">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Página interior">
+          <img src="assets/images/fasciculos-editorial/03-pagina-a.jpg" alt="Página interior con fotografía en blanco y negro" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Página interior">
+          <img src="assets/images/fasciculos-editorial/04-pagina-b.jpg" alt="Página interior con un detalle fotográfico" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Página interior">
+          <img src="assets/images/fasciculos-editorial/05-pagina-c.jpg" alt="Página interior con composición vertical" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-5x7" data-slot="Página interior">
+          <img src="assets/images/fasciculos-editorial/06-pagina-d.jpg" alt="Página interior con fotografía a sangre" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Dobles páginas</h3>
+    <div class="grid-2">
+      <figure class="fig reveal">
+        <div class="fig__frame ar-7x5" data-slot="Doble página">
+          <img src="assets/images/fasciculos-editorial/07-spread-a.jpg" alt="Doble página con la imagen desplazada al margen derecho" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-7x5" data-slot="Doble página">
+          <img src="assets/images/fasciculos-editorial/09-spread-c.jpg" alt="Doble página con una fotografía cruzando el lomo" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-7x5" data-slot="Doble página">
+          <img src="assets/images/fasciculos-editorial/12-spread-f.jpg" alt="Doble página con composición asimétrica" loading="lazy" decoding="async">
+        </div>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame ar-7x5" data-slot="Doble página">
+          <img src="assets/images/fasciculos-editorial/10-spread-d.jpg" alt="Doble página con un plano detalle a gran escala" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#p-dosel">
+        <span class="project-nav__dir">Anterior</span>
+        <span class="project-nav__name">Dosel</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#p-almacenit">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Almacenit</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     10 — PROYECTO 07 · WEB ALMACENIT
+     ============================================================ -->
+<section class="section section--rule project" id="p-almacenit">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">09</span> Proyecto 07</p>
+      <h2 class="project__title">Web<br>Almacenit</h2>
+      <dl class="project__meta">
+        <div><dt>Cliente</dt><dd>Almacenit — Almacén de barrio</dd></div>
+        <div><dt>Categoría</dt><dd>Diseño web · E-commerce</dd></div>
+        <div><dt>Rol</dt><dd>Diseño de interfaz y maquetado</dd></div>
+      </dl>
+    </header>
+  </div>
+
+  <div class="container">
+    <p class="project__lead reveal">
+      Un sitio de compra para un almacén de barrio. La grilla de
+      productos manda: fotos grandes, precio legible y un camino corto
+      entre la home y el carrito.
+    </p>
+
+    <div class="two-col">
+      <div class="two-col__item reveal">
+        <h3 class="block-title">Home</h3>
+        <figure class="fig">
+          <div class="fig__frame fig__frame--scroll ar-3x4" data-slot="Home — captura completa">
+            <img src="assets/images/almacenit/01-home.jpg" alt="Captura completa de la home del sitio Almacenit" loading="lazy" decoding="async">
+          </div>
+          <figcaption class="fig__cap">Arrastrá dentro del marco para recorrer la página.</figcaption>
+        </figure>
+      </div>
+      <div class="two-col__item reveal">
+        <h3 class="block-title">Detalle de producto</h3>
+        <figure class="fig">
+          <div class="fig__frame fig__frame--scroll ar-3x4" data-slot="Detalle — captura completa">
+            <img src="assets/images/almacenit/02-detalle.jpg" alt="Captura completa de la ficha de producto del sitio Almacenit" loading="lazy" decoding="async">
+          </div>
+          <figcaption class="fig__cap">Ficha de producto completa.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="project-nav" aria-label="Navegación entre proyectos">
+      <a class="project-nav__link project-nav__link--prev" href="#p-fasciculos">
+        <span class="project-nav__dir">Anterior</span>
+        <span class="project-nav__name">Fascículos</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="#p-estrella">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Estrella de Maldonado</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============================================================
+     11 — PROYECTO 08 · ESTRELLA DE MALDONADO  (destacado)
+     ============================================================ -->
+<section class="section section--dark project" id="p-estrella">
+  <div class="container">
+    <header class="project__head reveal">
+      <p class="eyebrow"><span class="eyebrow__num">10</span> Proyecto 08 — Destacado</p>
       <h2 class="project__title">Estrella de<br>Maldonado</h2>
       <dl class="project__meta">
         <div><dt>Cliente</dt><dd>Estrella de Maldonado — Club deportivo</dd></div>
@@ -309,9 +1057,7 @@
   <div class="container reveal">
     <figure class="fig">
       <div class="fig__frame ar-21x9" data-slot="Camisetas 2025">
-        <img src="assets/images/estrella-de-maldonado/02-apertura.jpg"
-             alt="Presentación de las camisetas 2025 de Estrella de Maldonado con jugadoras del club"
-             loading="lazy" decoding="async">
+        <img src="assets/images/estrella-de-maldonado/02-apertura.jpg" alt="Presentación de las camisetas 2025 con jugadoras del club" loading="lazy" decoding="async">
       </div>
       <figcaption class="fig__cap">Lanzamiento de la indumentaria 2025.</figcaption>
     </figure>
@@ -319,38 +1065,27 @@
 
   <div class="container">
     <p class="project__lead reveal">
-      Estrella de Maldonado es un club de barrio con equipos de futsal y
-      vóley en todas las categorías. El encargo fue la identidad de una
-      temporada completa: tres camisetas, el anuario del club y las
-      piezas que las presentan.
+      Un club de barrio con equipos de futsal y vóley en todas las
+      categorías. El encargo fue la identidad de una temporada completa:
+      tres camisetas, el anuario y las piezas que las presentan.
     </p>
 
     <div class="two-col">
       <div class="two-col__item reveal">
         <h3 class="block-title">El desafío</h3>
         <p>
-          El escudo ya existía y no estaba en discusión: una estrella
-          blanca sobre franja celeste, sencilla y muy querida. Lo que
-          faltaba era todo lo que va alrededor, y que cambiaba de año en
-          año según quién lo hiciera.
-        </p>
-        <p>
-          Había que darle al club un sistema propio que aguantara tanto
-          una camiseta como una doble página de anuario.
+          El escudo no estaba en discusión: una estrella blanca sobre
+          franja celeste, sencilla y muy querida. Faltaba todo lo que va
+          alrededor, y que cambiaba de año en año según quién lo hiciera.
         </p>
       </div>
-
       <div class="two-col__item reveal">
         <h3 class="block-title">El sistema</h3>
         <p>
           <em>Una grilla que se ve.</em> Las tres camisetas comparten una
-          retícula de líneas finas y marcas rojas que aparece impresa
-          sobre la tela: en la titular sobre blanco gastado, en la
-          suplente sobre un azul saturado, y de nuevo en la auxiliar.
-        </p>
-        <p>
+          retícula de líneas finas y marcas rojas impresa sobre la tela.
           Esa misma grilla ordena el anuario, donde funciona como hoja
-          cuadriculada sobre la que se pegan fotos, recortes y firmas.
+          cuadriculada.
         </p>
       </div>
     </div>
@@ -358,33 +1093,24 @@
 
   <div class="container">
     <h3 class="block-title block-title--section reveal">Indumentaria 2025</h3>
-
-    <div class="stack">
+    <div class="grid-3">
       <figure class="fig reveal">
         <div class="fig__frame ar-16x9" data-slot="Camiseta titular">
-          <img src="assets/images/estrella-de-maldonado/03-titular.jpg"
-               alt="Camiseta titular blanca con franja celeste y el escudo del club, frente y espalda"
-               loading="lazy" decoding="async">
+          <img src="assets/images/estrella-de-maldonado/03-titular.jpg" alt="Camiseta titular blanca con franja celeste, frente y espalda" loading="lazy" decoding="async">
         </div>
-        <figcaption class="fig__cap">Titular. Blanco gastado, franja celeste y numeración condensada.</figcaption>
+        <figcaption class="fig__cap">Titular.</figcaption>
       </figure>
-
       <figure class="fig reveal">
         <div class="fig__frame ar-16x9" data-slot="Camiseta suplente">
-          <img src="assets/images/estrella-de-maldonado/04-suplente.jpg"
-               alt="Camiseta suplente azul con la trama de grilla impresa, frente y espalda"
-               loading="lazy" decoding="async">
+          <img src="assets/images/estrella-de-maldonado/04-suplente.jpg" alt="Camiseta suplente azul con la trama de grilla impresa" loading="lazy" decoding="async">
         </div>
         <figcaption class="fig__cap">Suplente. La misma grilla, ahora sobre azul.</figcaption>
       </figure>
-
       <figure class="fig reveal">
         <div class="fig__frame ar-16x9" data-slot="Camiseta auxiliar">
-          <img src="assets/images/estrella-de-maldonado/05-auxiliar.jpg"
-               alt="Tercera camiseta del club, frente y espalda"
-               loading="lazy" decoding="async">
+          <img src="assets/images/estrella-de-maldonado/05-auxiliar.jpg" alt="Tercera camiseta del club, frente y espalda" loading="lazy" decoding="async">
         </div>
-        <figcaption class="fig__cap">Auxiliar, la tercera del juego.</figcaption>
+        <figcaption class="fig__cap">Auxiliar.</figcaption>
       </figure>
     </div>
   </div>
@@ -392,39 +1118,25 @@
   <div class="container reveal">
     <figure class="fig">
       <div class="fig__frame ar-strip" data-slot="Las tres camisetas en línea">
-        <img src="assets/images/estrella-de-maldonado/06-linea.jpg"
-             alt="Las tres camisetas de la temporada alineadas horizontalmente"
-             loading="lazy" decoding="async">
+        <img src="assets/images/estrella-de-maldonado/06-linea.jpg" alt="Las tres camisetas de la temporada alineadas horizontalmente" loading="lazy" decoding="async">
       </div>
       <figcaption class="fig__cap">El juego completo: una sola trama, tres lecturas.</figcaption>
     </figure>
   </div>
 
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Anuario del club</h3>
-    <p class="reveal" style="max-width:44ch;margin-bottom:var(--gap);color:var(--ink-soft)">
-      Un anuario que cuenta la historia del club a través de sus
-      jugadores. Cada perfil se arma como una hoja de carpeta: fotos
-      pegadas, títulos en azul, anotaciones a mano.
-    </p>
-
-    <div class="stack">
+    <h3 class="block-title block-title--section reveal">Anuario</h3>
+    <div class="grid-2">
       <figure class="fig reveal">
         <div class="fig__frame ar-7x5" data-slot="Anuario — doble página">
-          <img src="assets/images/estrella-de-maldonado/07-anuario-a.jpg"
-               alt="Doble página del anuario con el perfil de un jugador, fotos pegadas y títulos"
-               loading="lazy" decoding="async">
+          <img src="assets/images/estrella-de-maldonado/07-anuario-a.jpg" alt="Doble página del anuario con el perfil de un jugador" loading="lazy" decoding="async">
         </div>
         <figcaption class="fig__cap">Perfil de jugador: collage sobre hoja cuadriculada.</figcaption>
       </figure>
-
       <figure class="fig reveal">
         <div class="fig__frame ar-7x5" data-slot="Anuario — doble página">
-          <img src="assets/images/estrella-de-maldonado/08-anuario-b.jpg"
-               alt="Segunda doble página del anuario del club"
-               loading="lazy" decoding="async">
+          <img src="assets/images/estrella-de-maldonado/08-anuario-b.jpg" alt="Segunda doble página del anuario" loading="lazy" decoding="async">
         </div>
-        <figcaption class="fig__cap">La grilla de la camiseta, ahora como retícula editorial.</figcaption>
       </figure>
     </div>
   </div>
@@ -432,435 +1144,143 @@
   <div class="container">
     <div class="grid-asym">
       <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-3x2" data-slot="Anuario — mockup impreso">
-          <img src="assets/images/estrella-de-maldonado/09-anuario-mockup.jpg"
-               alt="El anuario impreso abierto sobre una superficie"
-               loading="lazy" decoding="async">
+        <div class="fig__frame ar-3x2" data-slot="Anuario impreso">
+          <img src="assets/images/estrella-de-maldonado/09-anuario-mockup.jpg" alt="El anuario impreso abierto" loading="lazy" decoding="async">
         </div>
-        <figcaption class="fig__cap">El anuario impreso.</figcaption>
       </figure>
-
       <figure class="fig reveal">
         <div class="fig__frame ar-3x4" data-slot="En cancha">
-          <img src="assets/images/estrella-de-maldonado/10-cancha.jpg"
-               alt="Jugadores del club con la camiseta nueva en la cancha"
-               loading="lazy" decoding="async">
+          <img src="assets/images/estrella-de-maldonado/10-cancha.jpg" alt="Jugadores con la camiseta nueva en la cancha" loading="lazy" decoding="async">
         </div>
-        <figcaption class="fig__cap">La camiseta donde importa.</figcaption>
       </figure>
-
       <figure class="fig fig--span2 reveal">
         <div class="fig__frame ar-4x3" data-slot="Entrenamiento">
-          <img src="assets/images/estrella-de-maldonado/11-entrenamiento.jpg"
-               alt="Equipo del club entrenando con la indumentaria nueva"
-               loading="lazy" decoding="async">
+          <img src="assets/images/estrella-de-maldonado/11-entrenamiento.jpg" alt="Equipo entrenando con la indumentaria nueva" loading="lazy" decoding="async">
         </div>
-        <figcaption class="fig__cap">Entrenamiento con el juego completo.</figcaption>
       </figure>
-
       <figure class="fig reveal">
         <div class="fig__frame ar-4x3" data-slot="Mockup de la línea">
-          <img src="assets/images/estrella-de-maldonado/01-mockup.jpg"
-               alt="Mockup de presentación de la indumentaria del club"
-               loading="lazy" decoding="async">
+          <img src="assets/images/estrella-de-maldonado/01-mockup.jpg" alt="Mockup de presentación de la indumentaria" loading="lazy" decoding="async">
         </div>
-        <figcaption class="fig__cap">Presentación de la línea.</figcaption>
       </figure>
     </div>
   </div>
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
-      <a class="project-nav__link project-nav__link--prev is-disabled" href="#projects">
-        <span class="project-nav__dir">Volver al índice</span>
-        <span class="project-nav__name">Todos los proyectos</span>
+      <a class="project-nav__link project-nav__link--prev" href="#p-almacenit">
+        <span class="project-nav__dir">Anterior</span>
+        <span class="project-nav__name">Almacenit</span>
       </a>
-      <a class="project-nav__link project-nav__link--next" href="#project-02">
-        <span class="project-nav__dir">Proyecto siguiente</span>
-        <span class="project-nav__name">Sillas</span>
+      <a class="project-nav__link project-nav__link--next" href="#p-remeras">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Remeras custom</span>
       </a>
     </nav>
   </div>
 </section>
 
 <!-- ============================================================
-     5 — PROYECTO 02 · EDITORIAL
+     12 — PROYECTO 09 · REMERAS CUSTOM
      ============================================================ -->
-<section class="section section--rule project" id="project-02">
+<section class="section section--rule project" id="p-remeras">
   <div class="container">
     <header class="project__head reveal">
-      <p class="eyebrow"><span class="eyebrow__num">04</span> Proyecto 02 — Editorial</p>
-      <h2 class="project__title">Sillas</h2>
+      <p class="eyebrow"><span class="eyebrow__num">11</span> Proyecto 09</p>
+      <h2 class="project__title">Remeras<br>custom</h2>
       <dl class="project__meta">
-        <div><dt>Proyecto</dt><dd>Libro de autor</dd></div>
-        <div><dt>Año</dt><dd>2025</dd></div>
-        <div><dt>Categoría</dt><dd>Editorial · Fotografía</dd></div>
-        <div><dt>Rol</dt><dd>Fotografía, diseño y maquetación</dd></div>
+        <div><dt>Proyecto</dt><dd>Serie de estampas</dd></div>
+        <div><dt>Categoría</dt><dd>Ilustración · Estampa textil</dd></div>
+        <div><dt>Rol</dt><dd>Diseño y composición</dd></div>
       </dl>
     </header>
   </div>
 
-  <div class="container reveal">
-    <p class="project__lead">
-      Un libro de fotografía sobre un solo objeto: la silla de plástico
-      blanca, apilada, repetida, en todos lados. Blanco y negro, alto
-      contraste, y una maqueta que deja que la imagen decida cuánto
-      espacio ocupa.
+  <div class="container">
+    <p class="project__lead reveal">
+      Estampas de encargo sobre músicos. Cada una arma un collage con el
+      mundo visual del artista: color, tipografía y textura salen de sus
+      propias tapas.
     </p>
-  </div>
 
-  <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-7x5" data-slot="Doble página de apertura">
-        <img src="assets/images/fasciculos-editorial/02-apertura.jpg"
-             alt="Doble página de apertura del libro con una fotografía en blanco y negro de sillas apiladas"
-             loading="lazy" decoding="async">
-      </div>
-      <figcaption class="fig__cap">Apertura. La página par se deja en blanco.</figcaption>
-    </figure>
-  </div>
-
-  <div class="container">
-    <div class="two-col">
-      <div class="two-col__item reveal">
-        <h3 class="block-title">El punto de partida</h3>
-        <p>
-          La silla monobloc es probablemente el objeto más repetido del
-          país. Está en el patio, en el club, en la vereda, en el
-          velorio. Nadie la mira.
-        </p>
-      </div>
-      <div class="two-col__item reveal">
-        <h3 class="block-title">La maqueta</h3>
-        <p>
-          <em>Aire alrededor.</em> Ninguna imagen se pega al borde por
-          obligación: cada una elige su escala y su posición dentro de la
-          caja. El blanco de la página funciona como silencio entre foto
-          y foto.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Páginas</h3>
     <div class="grid-4">
       <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Página interior">
-          <img src="assets/images/fasciculos-editorial/03-pagina-a.jpg" alt="Página interior con fotografía en blanco y negro de sillas apiladas" loading="lazy" decoding="async">
+        <div class="fig__frame ar-4x5" data-slot="Remera — Billie Eilish">
+          <img src="assets/images/remeras/01-billie.jpg" alt="Remera estampada con ilustración de Billie Eilish" loading="lazy" decoding="async">
         </div>
+        <figcaption class="fig__cap">Billie Eilish</figcaption>
       </figure>
       <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Página interior">
-          <img src="assets/images/fasciculos-editorial/04-pagina-b.jpg" alt="Página interior con un detalle de respaldos apilados" loading="lazy" decoding="async">
+        <div class="fig__frame ar-4x5" data-slot="Remera — Kendrick Lamar">
+          <img src="assets/images/remeras/02-kendrick.jpg" alt="Remera estampada con ilustración de Kendrick Lamar" loading="lazy" decoding="async">
         </div>
+        <figcaption class="fig__cap">Kendrick Lamar</figcaption>
       </figure>
       <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Página interior">
-          <img src="assets/images/fasciculos-editorial/05-pagina-c.jpg" alt="Página interior con una composición vertical de sillas" loading="lazy" decoding="async">
+        <div class="fig__frame ar-4x5" data-slot="Remera — Rauw Alejandro">
+          <img src="assets/images/remeras/03-rauw.jpg" alt="Remera estampada con ilustración de Rauw Alejandro" loading="lazy" decoding="async">
         </div>
+        <figcaption class="fig__cap">Rauw Alejandro</figcaption>
       </figure>
       <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Página interior">
-          <img src="assets/images/fasciculos-editorial/06-pagina-d.jpg" alt="Página interior del libro con fotografía a sangre" loading="lazy" decoding="async">
+        <div class="fig__frame ar-4x5" data-slot="Remera — variante">
+          <img src="assets/images/remeras/04-billie-2.jpg" alt="Segunda variante de la remera de Billie Eilish" loading="lazy" decoding="async">
         </div>
-      </figure>
-    </div>
-  </div>
-
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Dobles páginas</h3>
-    <div class="stack">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/07-spread-a.jpg" alt="Doble página con la imagen desplazada al margen derecho" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/08-spread-b.jpg" alt="Doble página con dos fotografías enfrentadas" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/09-spread-c.jpg" alt="Doble página con una fotografía cruzando el lomo" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/10-spread-d.jpg" alt="Doble página con un plano detalle a gran escala" loading="lazy" decoding="async">
-        </div>
-      </figure>
-    </div>
-  </div>
-
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Cierre</h3>
-    <div class="grid-3">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/11-spread-e.jpg" alt="Doble página del tramo final del libro" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/12-spread-f.jpg" alt="Doble página con composición asimétrica" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/13-spread-g.jpg" alt="Doble página de cierre del libro" loading="lazy" decoding="async">
-        </div>
+        <figcaption class="fig__cap">Variante</figcaption>
       </figure>
     </div>
   </div>
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
-      <a class="project-nav__link project-nav__link--prev" href="#project-01">
-        <span class="project-nav__dir">Proyecto anterior</span>
+      <a class="project-nav__link project-nav__link--prev" href="#p-estrella">
+        <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">Estrella de Maldonado</span>
       </a>
-      <a class="project-nav__link project-nav__link--next" href="#project-03">
-        <span class="project-nav__dir">Proyecto siguiente</span>
-        <span class="project-nav__name">Cerveceros del Sur</span>
+      <a class="project-nav__link project-nav__link--next" href="#p-mush">
+        <span class="project-nav__dir">Siguiente</span>
+        <span class="project-nav__name">Mush Type</span>
       </a>
     </nav>
   </div>
 </section>
 
 <!-- ============================================================
-     6 — PROYECTO 03 · BRANDING / CAMPAÑA
+     13 — PROYECTO 10 · MUSH TYPE
      ============================================================ -->
-<section class="section section--dark project" id="project-03">
+<section class="section section--rule project" id="p-mush">
   <div class="container">
     <header class="project__head reveal">
-      <p class="eyebrow"><span class="eyebrow__num">05</span> Proyecto 03 — Branding / Campaña</p>
-      <h2 class="project__title">Cerveceros<br>del Sur</h2>
-      <dl class="project__meta">
-        <div><dt>Cliente</dt><dd>Cerveceros del Sur — Cervecería artesanal</dd></div>
-        <div><dt>Año</dt><dd>2025</dd></div>
-        <div><dt>Categoría</dt><dd>Identidad · Packaging · Campaña</dd></div>
-        <div><dt>Rol</dt><dd>Identidad y dirección de arte</dd></div>
-      </dl>
-    </header>
-  </div>
-
-  <div class="container reveal">
-    <p class="project__lead">
-      Una cervecería artesanal con local en La Boca que necesitaba una
-      marca capaz de sostener dos cosas a la vez: la lata en la góndola y
-      la pared del salón. La identidad se construyó desde una ilustración
-      —un pingüino con una jarra— y una tipografía de cartel antiguo.
-    </p>
-  </div>
-
-  <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-21x9" data-slot="Fachada — cartel">
-        <img src="assets/images/cerveceros-del-sur/02-fachada.jpg"
-             alt="Cartel colgante y letras corpóreas iluminadas de Cerveceros del Sur en la fachada del local"
-             loading="lazy" decoding="async">
-      </div>
-      <figcaption class="fig__cap">Cartel colgante y letras corpóreas iluminadas en la fachada.</figcaption>
-    </figure>
-  </div>
-
-  <div class="container">
-    <div class="two-col">
-      <div class="two-col__item reveal">
-        <h3 class="block-title">El sistema</h3>
-        <p>
-          El isologotipo funciona como escudo completo en las piezas
-          grandes y se reduce a la tipografía sola cuando el espacio no
-          alcanza. Detrás de todo hay un mismo grabado de montaña y
-          bosque que aparece como trama, como fondo o como textura de
-          lata según la pieza.
-        </p>
-        <p>
-          Tres variedades —Stout, IPA y Honey— comparten estructura de
-          etiqueta y se diferencian solo por el valor del fondo: negro,
-          verde agua y blanco.
-        </p>
-      </div>
-      <div class="two-col__item reveal">
-        <h3 class="block-title">La campaña</h3>
-        <p>
-          <em>«La mejor, es del Sur».</em> La gráfica usa polaroids
-          apiladas sobre el grabado: fotos de gente en el local, pegadas
-          con cinta, con la bajada manuscrita <em>«Volver a disfrutar»</em>.
-        </p>
-        <p>
-          El mismo recurso baja a Instagram, a la vía pública y a los
-          table tents de las mesas sin necesidad de rediseñar nada.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Marca y packaging</h3>
-    <div class="grid-asym">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Isologotipo">
-          <img src="assets/images/cerveceros-del-sur/12-marca.png" alt="Isologotipo de Cerveceros del Sur: un pingüino con una jarra de cerveza dentro de un escudo" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Isologotipo, versión principal a cuatro tintas.</figcaption>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-16x10" data-slot="Latas en el salón">
-          <img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg" alt="Las latas Stout, IPA y Honey sobre una mesa de madera en el salón del local" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Stout, IPA y Honey: misma estructura, distinto valor de fondo.</figcaption>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-4x3" data-slot="Línea de latas">
-          <img src="assets/images/cerveceros-del-sur/01-packaging.jpg" alt="Las tres latas de la línea vistas de frente sobre fondo blanco" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Etiquetas de 473 ml con el grabado de montaña como fondo.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Carta">
-          <img src="assets/images/cerveceros-del-sur/04-menu.jpg" alt="Carta de cervezas, cocktails y whiskeys sobre el grabado de montaña" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Carta: el grabado pasa a fondo y baja de contraste.</figcaption>
-      </figure>
-    </div>
-  </div>
-
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Campaña y aplicaciones</h3>
-    <div class="grid-asym">
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-2x1" data-slot="Afiche de campaña">
-          <img src="assets/images/cerveceros-del-sur/07-afiche.jpg" alt="Afiche de campaña con polaroids apiladas y el claim La mejor, es del Sur" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Afiche de campaña. Polaroids sobre el grabado.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Instagram">
-          <img src="assets/images/cerveceros-del-sur/06-redes.jpg" alt="Pieza de Instagram con polaroids y el mensaje Vení a crear tu próximo recuerdo" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Instagram, formato 4:5.</figcaption>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-4x3" data-slot="Vía pública">
-          <img src="assets/images/cerveceros-del-sur/08-viapublica.jpg" alt="Cartel de vía pública de la campaña montado sobre una pared de ladrillo" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Vía pública, formato billboard.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-3x4" data-slot="Señalética del salón">
-          <img src="assets/images/cerveceros-del-sur/05-senaletica.jpg" alt="Letras corpóreas retroiluminadas sobre la pared de ladrillo del patio del local" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Letras corpóreas retroiluminadas en el patio.</figcaption>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-3x2" data-slot="Papelería">
-          <img src="assets/images/cerveceros-del-sur/09-papeleria.jpg" alt="Papelería institucional: tarjeta personal, flyer y hoja membretada" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Papelería: la marca en positivo, sin ilustración.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x3" data-slot="Table tent">
-          <img src="assets/images/cerveceros-del-sur/13-table-tent.png" alt="Table tent de mesa con la promoción 2x1 y el QR de la carta" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Table tent: promo de un lado, QR de la carta del otro.</figcaption>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-16x10" data-slot="Posavasos">
-          <img src="assets/images/cerveceros-del-sur/10-posavasos.jpg" alt="Posavasos troquelados con el isologotipo sobre una mesa de madera" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Posavasos troquelados siguiendo el contorno del escudo.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x3" data-slot="Tarjeta personal">
-          <img src="assets/images/cerveceros-del-sur/11-tarjeta.jpg" alt="Tarjeta personal impresa con la marca y el QR" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Tarjeta personal, impresión a una tinta.</figcaption>
-      </figure>
-    </div>
-  </div>
-
-  <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
-      <a class="project-nav__link project-nav__link--prev" href="#project-02">
-        <span class="project-nav__dir">Proyecto anterior</span>
-        <span class="project-nav__name">Sillas</span>
-      </a>
-      <a class="project-nav__link project-nav__link--next" href="#project-04">
-        <span class="project-nav__dir">Proyecto siguiente</span>
-        <span class="project-nav__name">Mush type</span>
-      </a>
-    </nav>
-  </div>
-</section>
-
-<!-- ============================================================
-     7 — PROYECTO 04 · DISEÑO DIGITAL / EXPERIMENTAL
-     ============================================================ -->
-<section class="section section--rule project" id="project-04">
-  <div class="container">
-    <header class="project__head reveal">
-      <p class="eyebrow"><span class="eyebrow__num">06</span> Proyecto 04 — Tipografía en movimiento</p>
-      <h2 class="project__title">Mush type</h2>
+      <p class="eyebrow"><span class="eyebrow__num">12</span> Proyecto 10</p>
+      <h2 class="project__title">Mush<br>Type</h2>
       <dl class="project__meta">
         <div><dt>Proyecto</dt><dd>Fuente display y pieza audiovisual</dd></div>
         <div><dt>Año</dt><dd>2026</dd></div>
-        <div><dt>Categoría</dt><dd>Tipografía · Motion · Universo gráfico</dd></div>
+        <div><dt>Categoría</dt><dd>Tipografía · Motion</dd></div>
         <div><dt>Rol</dt><dd>Diseño y animación, con Jerónimo Etchevés</dd></div>
       </dl>
     </header>
   </div>
 
   <div class="container reveal">
-    <p class="project__lead">
-      Una tipografía display blanda, hecha de bultos que se tocan, y una
-      pieza en movimiento que la explica sin explicarla: las letras se
-      inflan, se derriten y se vuelven a acomodar.
-    </p>
-  </div>
-
-  <div class="container reveal">
     <figure class="fig">
       <div class="fig__frame ar-16x9" data-slot="Frame de la pieza">
-        <img src="assets/images/mush-type/02-apertura.jpg"
-             alt="Frame de la pieza animada de Mush type con las letras deformándose"
-             loading="lazy" decoding="async">
+        <img src="assets/images/mush-type/02-apertura.jpg" alt="Frame de la pieza animada de Mush type" loading="lazy" decoding="async">
       </div>
-      <figcaption class="fig__cap">Frame de la pieza animada.</figcaption>
     </figure>
   </div>
 
   <div class="container">
-    <div class="two-col">
-      <div class="two-col__item reveal">
-        <h3 class="block-title">La letra</h3>
-        <p>
-          Sin astas rectas y sin ángulos: cada signo se resuelve con
-          curvas que se ensanchan y se estrangulan. Los contornos
-          internos casi se cierran, y eso es lo que le da el aire de masa
-          cruda que buscábamos.
-        </p>
-      </div>
-      <div class="two-col__item reveal">
-        <h3 class="block-title">El movimiento</h3>
-        <p>
-          <em>La tipografía como materia.</em> En la animación las letras
-          no entran ni salen: se deforman. El par amarillo y rojo se
-          invierte según la escena y aguanta el contraste incluso cuando
-          la forma se vuelve casi ilegible.
-        </p>
-      </div>
-    </div>
-  </div>
+    <p class="project__lead reveal">
+      Una tipografía display blanda, hecha de bultos que se tocan, y una
+      pieza en movimiento donde las letras no entran ni salen: se
+      deforman.
+    </p>
 
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">La pieza</h3>
-    <div class="stack">
+    <div class="grid-3">
       <figure class="fig reveal">
         <div class="fig__frame ar-16x9" data-slot="Frame — letras">
-          <img src="assets/images/mush-type/03-letras.jpg" alt="Frame con múltiples letras de Mush type en pantalla" loading="lazy" decoding="async">
+          <img src="assets/images/mush-type/03-letras.jpg" alt="Frame con múltiples letras de Mush type" loading="lazy" decoding="async">
         </div>
       </figure>
       <figure class="fig reveal">
@@ -870,7 +1290,7 @@
       </figure>
       <figure class="fig reveal">
         <div class="fig__frame ar-16x9" data-slot="Frame — composición">
-          <img src="assets/images/mush-type/05-frame.jpg" alt="Frame de composición tipográfica de la pieza" loading="lazy" decoding="async">
+          <img src="assets/images/mush-type/05-frame.jpg" alt="Frame de composición tipográfica" loading="lazy" decoding="async">
         </div>
       </figure>
     </div>
@@ -880,149 +1300,49 @@
     <h3 class="block-title block-title--section reveal">Universo gráfico</h3>
     <div class="grid-4">
       <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Pieza del universo gráfico">
+        <div class="fig__frame ar-4x5" data-slot="Pieza">
           <img src="assets/images/mush-type/06-pieza-a.jpg" alt="Pieza gráfica del universo visual de Mush type" loading="lazy" decoding="async">
         </div>
       </figure>
       <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Pieza del universo gráfico">
-          <img src="assets/images/mush-type/07-pieza-b.jpg" alt="Segunda pieza gráfica del universo visual" loading="lazy" decoding="async">
+        <div class="fig__frame ar-4x5" data-slot="Pieza">
+          <img src="assets/images/mush-type/07-pieza-b.jpg" alt="Segunda pieza del universo visual" loading="lazy" decoding="async">
         </div>
       </figure>
       <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Pieza del universo gráfico">
-          <img src="assets/images/mush-type/08-pieza-c.jpg" alt="Tercera pieza gráfica del universo visual" loading="lazy" decoding="async">
+        <div class="fig__frame ar-4x5" data-slot="Pieza">
+          <img src="assets/images/mush-type/08-pieza-c.jpg" alt="Tercera pieza del universo visual" loading="lazy" decoding="async">
         </div>
       </figure>
       <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Pieza del universo gráfico">
-          <img src="assets/images/mush-type/09-pieza-d.jpg" alt="Cuarta pieza gráfica del universo visual" loading="lazy" decoding="async">
+        <div class="fig__frame ar-4x5" data-slot="Pieza">
+          <img src="assets/images/mush-type/09-pieza-d.jpg" alt="Cuarta pieza del universo visual" loading="lazy" decoding="async">
         </div>
-      </figure>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="grid-asym">
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-16x9" data-slot="Cierre">
-          <img src="assets/images/mush-type/10-cierre.jpg" alt="Frame de cierre de la pieza de Mush type" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Cierre de la pieza.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Instagram">
-          <img src="assets/images/mush-type/11-ig.jpg" alt="Pieza del proyecto adaptada a formato Instagram" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Bajada a redes.</figcaption>
       </figure>
     </div>
   </div>
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
-      <a class="project-nav__link project-nav__link--prev" href="#project-03">
-        <span class="project-nav__dir">Proyecto anterior</span>
-        <span class="project-nav__name">Cerveceros del Sur</span>
+      <a class="project-nav__link project-nav__link--prev" href="#p-remeras">
+        <span class="project-nav__dir">Anterior</span>
+        <span class="project-nav__name">Remeras custom</span>
       </a>
-      <a class="project-nav__link project-nav__link--next" href="#playground">
+      <a class="project-nav__link project-nav__link--next" href="#contact">
         <span class="project-nav__dir">Siguiente</span>
-        <span class="project-nav__name">Otros trabajos</span>
+        <span class="project-nav__name">Contacto</span>
       </a>
     </nav>
   </div>
 </section>
 
 <!-- ============================================================
-     8 — OTROS TRABAJOS / EXPERIMENTOS
-     ============================================================ -->
-<section class="section section--rule" id="playground">
-  <div class="container">
-    <header class="section-head section-head--split reveal">
-      <div>
-        <p class="eyebrow"><span class="eyebrow__num">07</span> Otros trabajos</p>
-        <h2 class="section-title">Playground.</h2>
-      </div>
-      <p class="section-head__note">
-        Encargos chicos, experimentos tipográficos y cosas que hice
-        porque sí. Sin caso de estudio.
-      </p>
-    </header>
-
-    <div class="playground">
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-7x5" data-slot="Muzacchio — presentación">
-          <img src="assets/images/playground/muzacchio-1.jpg" alt="Doble página de la presentación de marca de la pizzería Muzacchio" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Muzacchio</span><span class="muted">Marca de pizzería</span></figcaption>
-      </figure>
-
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-4x5" data-slot="Remera — Billie Eilish">
-          <img src="assets/images/playground/remera-billie.jpg" alt="Diseño de remera con ilustración de Billie Eilish" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Billie</span><span class="muted">Remera custom</span></figcaption>
-      </figure>
-
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-1x1" data-slot="Laudato Si — marca">
-          <img src="assets/images/playground/laudato-si.png" alt="Isologotipo Laudato Si: un árbol sostenido por dos manos" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Laudato Si</span><span class="muted">Marca institucional</span></figcaption>
-      </figure>
-
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-4x5" data-slot="Remera — Kendrick Lamar">
-          <img src="assets/images/playground/remera-kendrick.jpg" alt="Diseño de remera con ilustración de Kendrick Lamar" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Kendrick</span><span class="muted">Remera custom</span></figcaption>
-      </figure>
-
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-7x5" data-slot="Muzacchio — piezas">
-          <img src="assets/images/playground/muzacchio-2.jpg" alt="Piezas gráficas y packaging de la pizzería Muzacchio" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Muzacchio</span><span class="muted">Packaging y piezas</span></figcaption>
-      </figure>
-
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-4x5" data-slot="Fauna — ilustración">
-          <img src="assets/images/playground/fauna.jpg" alt="Ilustración de fauna autóctona argentina" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Fauna</span><span class="muted">Ilustración</span></figcaption>
-      </figure>
-
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-4x5" data-slot="Remera — Rauw Alejandro">
-          <img src="assets/images/playground/remera-rauw.jpg" alt="Diseño de remera con ilustración de Rauw Alejandro" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Rauw</span><span class="muted">Remera custom</span></figcaption>
-      </figure>
-
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-7x5" data-slot="Flyer de torneo">
-          <img src="assets/images/playground/flyer-taekwondo.jpg" alt="Flyer de un torneo de taekwondo" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Taekwondo</span><span class="muted">Flyer de torneo</span></figcaption>
-      </figure>
-
-      <figure class="pg-item reveal">
-        <div class="fig__frame ar-1x1" data-slot="Avancemos — marca">
-          <img src="assets/images/playground/avancemos.jpg" alt="Logotipo de Avancemos" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="pg-item__cap"><span>Avancemos</span><span class="muted">Logotipo</span></figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     9 — CONTACTO / FOOTER
+     14 — FOOTER / CONTACTO
      ============================================================ -->
 <section class="section section--dark contact" id="contact">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow"><span class="eyebrow__num">08</span> Contacto</p>
+      <p class="eyebrow"><span class="eyebrow__num">13</span> Contacto</p>
       <h2 class="contact__claim">
         ¿Tenés un proyecto<br>dando vueltas?<br>
         <em>Trabajemos juntos.</em>
@@ -1052,7 +1372,7 @@
             <li><a href="#" rel="noopener">Instagram <span class="social-list__at">@tuusuario</span></a></li>
             <li><a href="#" rel="noopener">Behance <span class="social-list__at">/tuusuario</span></a></li>
             <li><a href="#" rel="noopener">LinkedIn <span class="social-list__at">/in/tuusuario</span></a></li>
-            <li><a href="#" rel="noopener">Descargar CV <span class="social-list__at">PDF · 1,2 MB</span></a></li>
+            <li><a href="#" rel="noopener">Descargar CV <span class="social-list__at">PDF</span></a></li>
           </ul>
         </div>
       </div>
@@ -1092,12 +1412,9 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer__inner">
-      <p class="footer__copy">
-        © <span id="year">2026</span> Nombre Apellido — Diseñador Gráfico
-      </p>
+      <p class="footer__copy">© <span id="year">2026</span> Martin Orsini — Diseñador Gráfico</p>
       <p class="footer__note">Buenos Aires, Argentina</p>
       <a class="footer__top" href="#hero">
         Volver arriba

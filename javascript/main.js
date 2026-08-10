@@ -176,7 +176,7 @@
       if (id === 'hero') return '#hero';
       if (id === 'about') return '#about';
       if (id === 'contact') return '#contact';
-      return '#projects'; // projects, project-01..04, playground
+      return '#projects'; // projects y todas las secciones p-*
     };
 
     let currentHash = null;
@@ -270,8 +270,16 @@
     if (!track || !dots) return;
 
     const cards = $$('.pcard', track);
+    if (!cards.length) return;
+
+    // Un punto por card: así el índice puede crecer sin tocar el HTML.
+    dots.textContent = '';
+    cards.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'track-dots__dot' + (i === 0 ? ' is-active' : '');
+      dots.appendChild(dot);
+    });
     const marks = $$('.track-dots__dot', dots);
-    if (!cards.length || !marks.length) return;
 
     let ticking = false;
 
