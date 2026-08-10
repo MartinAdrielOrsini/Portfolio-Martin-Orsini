@@ -41,18 +41,29 @@
   function initImageFallbacks() {
     const images = $$('.fig__frame img');
 
-    const markMissing = (img) => img.classList.add('is-missing');
+    const markMissing = (img) => {
+      img.classList.add('is-missing');
+      if (img.parentElement) img.parentElement.classList.remove('is-loaded');
+    };
+
+    // Con la imagen cargada se apaga el placeholder del marco: si no, la
+    // trama se vería por detrás de los PNG con transparencia.
+    const markLoaded = (img) => {
+      img.classList.remove('is-missing');
+      if (img.parentElement) img.parentElement.classList.add('is-loaded');
+    };
 
     images.forEach((img) => {
       img.addEventListener('error', () => markMissing(img));
-
-      // La imagen puede haber fallado antes de que corriera este script.
-      if (img.complete && img.naturalWidth === 0) markMissing(img);
-
-      // Si más tarde se corrige el src, se vuelve a mostrar.
       img.addEventListener('load', () => {
-        if (img.naturalWidth > 0) img.classList.remove('is-missing');
+        if (img.naturalWidth > 0) markLoaded(img);
       });
+
+      // La imagen puede haberse resuelto antes de que corriera este script.
+      if (img.complete) {
+        if (img.naturalWidth === 0) markMissing(img);
+        else markLoaded(img);
+      }
     });
   }
 

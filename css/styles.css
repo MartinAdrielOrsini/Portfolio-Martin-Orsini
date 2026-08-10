@@ -368,6 +368,11 @@ em { font-style: italic; }
 /* Imagen que todavía no existe: se oculta y queda el placeholder */
 .fig__frame img.is-missing { display: none; }
 
+/* Imagen ya cargada: se apaga el placeholder. Necesario para los PNG con
+   transparencia, donde si no se vería la trama por detrás del recorte. */
+.fig__frame.is-loaded::before,
+.fig__frame.is-loaded::after { display: none; }
+
 .fig__cap {
   margin-top: 0.7rem;
   font-size: var(--fs-small);
@@ -380,10 +385,13 @@ em { font-style: italic; }
 .ar-1x1  { aspect-ratio: 1 / 1; }
 .ar-4x3  { aspect-ratio: 4 / 3; }
 .ar-3x2  { aspect-ratio: 3 / 2; }
+.ar-16x10{ aspect-ratio: 16 / 10; }
 .ar-2x1  { aspect-ratio: 2 / 1; }
 .ar-16x9 { aspect-ratio: 16 / 9; }
 .ar-21x9 { aspect-ratio: 16 / 10; }   /* en mobile se afina, ver @media */
 .ar-3x4  { aspect-ratio: 3 / 4; }
+.ar-4x5  { aspect-ratio: 4 / 5; }
+.ar-5x7  { aspect-ratio: 5 / 7; }
 .ar-2x3  { aspect-ratio: 2 / 3; }
 .ar-9x16 { aspect-ratio: 9 / 16; }
 

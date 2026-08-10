@@ -8,7 +8,9 @@
       "PowerShell(Get-ChildItem -Recurse -Force -File \"D:\\\\Martin\\\\PORTFOLIO WEB\" -ErrorAction SilentlyContinue | Group-Object { $_.Directory.FullName.Replace\\(\"D:\\\\Martin\\\\PORTFOLIO WEB\\\\\",\"\"\\) } | Select-Object Count,Name | Format-Table -AutoSize -Wrap)",
       "Bash(kill %b8blf2dug)",
       "Bash(taskkill //F //FI \"WINDOWTITLE eq *serve*\")",
-      "PowerShell(\\(Get-CimInstance Win32_Process -Filter \"ProcessId=12560\"\\).CommandLine)"
+      "PowerShell(\\(Get-CimInstance Win32_Process -Filter \"ProcessId=12560\"\\).CommandLine)",
+      "PowerShell(& \"C:\\\\Users\\\\damia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Martin-PORTFOLIO-WEB\\\\b680a3a2-dc36-43da-ba59-14ad3d8293a4\\\\scratchpad\\\\resize.ps1\")",
+      "PowerShell(& \"C:\\\\Users\\\\damia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Martin-PORTFOLIO-WEB\\\\b680a3a2-dc36-43da-ba59-14ad3d8293a4\\\\scratchpad\\\\serve.ps1\" -Root \"C:\\\\Users\\\\damia\\\\OneDrive\\\\Documents\\\\GitHub\\\\Portfolio-Martin-Orsini\" -Port 8099)"
     ]
   }
 }
