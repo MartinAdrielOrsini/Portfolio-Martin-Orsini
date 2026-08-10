@@ -38,7 +38,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
+     cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
+<link rel="stylesheet" href="css/styles.css?v=3">
 </head>
 <body>
 
@@ -147,36 +149,37 @@
           hay una conversación sobre qué tiene que aguantar esa marca en
           los próximos diez años. Después vienen las formas.
         </p>
+      </div>
 
-        <div class="about__grid">
-          <div class="about__block reveal">
-            <h3 class="about__label">Formación</h3>
-            <ul class="plain-list">
-              <li>Diseño Gráfico — UBA FADU<span class="muted"> · en curso</span></li>
-            </ul>
-          </div>
+      <!-- Tercera columna en desktop: así la sección entra en una pantalla -->
+      <div class="about__grid">
+        <div class="about__block reveal">
+          <h3 class="about__label">Formación</h3>
+          <ul class="plain-list">
+            <li>Diseño Gráfico — UBA FADU<span class="muted"> · en curso</span></li>
+          </ul>
+        </div>
 
-          <div class="about__block reveal">
-            <h3 class="about__label">Hago</h3>
-            <ul class="plain-list">
-              <li>Identidad visual y sistemas de marca</li>
-              <li>Packaging y piezas gráficas</li>
-              <li>Editorial y publicaciones</li>
-              <li>Contenido para redes</li>
-            </ul>
-          </div>
+        <div class="about__block reveal">
+          <h3 class="about__label">Hago</h3>
+          <ul class="plain-list">
+            <li>Identidad visual y sistemas de marca</li>
+            <li>Packaging y piezas gráficas</li>
+            <li>Editorial y publicaciones</li>
+            <li>Contenido para redes</li>
+          </ul>
+        </div>
 
-          <div class="about__block reveal">
-            <h3 class="about__label">Áreas de interés</h3>
-            <ul class="tag-list">
-              <li>Tipografía</li>
-              <li>Packaging</li>
-              <li>Editorial</li>
-              <li>Dirección de arte</li>
-              <li>Motion</li>
-              <li>Diseño digital</li>
-            </ul>
-          </div>
+        <div class="about__block reveal">
+          <h3 class="about__label">Áreas de interés</h3>
+          <ul class="tag-list">
+            <li>Tipografía</li>
+            <li>Packaging</li>
+            <li>Editorial</li>
+            <li>Dirección de arte</li>
+            <li>Motion</li>
+            <li>Diseño digital</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -307,7 +310,8 @@
       <a class="index__preview" id="indexPreview" href="#p-suma" aria-hidden="true" tabindex="-1">
         <div class="fig__frame ar-4x3" data-slot="Vista previa">
           <img id="indexPreviewImg" src="assets/images/suma/01-marquesina.jpg"
-               alt="" loading="lazy" decoding="async">
+               alt="Marquesina del supermercado SUMA con la marca rediseñada"
+               loading="lazy" decoding="async">
         </div>
         <p class="index__preview-desc" id="indexPreviewDesc">
           Un supermercado de cercanía con una marca crecida a los parches. Un
@@ -1404,6 +1408,6 @@
 
 </main>
 
-<script src="javascript/main.js"></script>
+<script src="javascript/main.js?v=3"></script>
 </body>
 </html>
