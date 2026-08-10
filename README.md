@@ -53,15 +53,58 @@ proporciones del material.
 5. **Los textos** — están redactados mirando las piezas, no los briefs.
    Revisá cliente, año y rol de cada caso.
 
+## Sistema visual — pizarrón
+
+La web es un pizarrón de aula. Todo el lenguaje gráfico sale de ahí.
+
+**Paleta** (en `:root` de `css/styles.css`):
+
+| Rol | Token | Hex |
+|---|---|---|
+| Pizarrón verde (base) | `--bg` | `#4F5321` OLIVE |
+| Pizarrón negro (destacados) | `--dark-bg` | `#191B10` |
+| Tiza (texto) | `--ink` | `#DEDBD2` STONE |
+| Acento, rellenos | `--accent` | `#C87330` RUST |
+| Acento, texto | `--accent-ink` | `#EFB985` |
+| Reserva | `--sage` | `#9CA35A` SAGE |
+
+> El rust puro sobre el verde da 2,3:1 de contraste y no se lee. Por eso
+> como **texto** se usa `--accent-ink`, un rust aclarado que da 4,6:1 y
+> que además es exactamente el aspecto de una tiza naranja. El rust puro
+> queda para rellenos (fondo de botón, barra del hero).
+
+**Textura**, toda en CSS, sin imágenes:
+- `--grano` — ruido `feTurbulence` en un SVG embebido, fijo sobre toda
+  la página con `mix-blend-mode: overlay`. Es el poro de la pizarra.
+- `--manchones` — gradientes radiales muy tenues: tiza mal borrada.
+- Viñeta en `body::after`: los bordes de un pizarrón nunca están tan
+  limpios como el centro.
+
+Las superficies que pintan su propio fondo (header, menú mobile,
+secciones negras, navegación entre proyectos) reaplican el grano como
+capa de `background` con `background-blend-mode`, porque tapan la capa
+fija.
+
 ## Tipografía
 
 - **Títulos:** Archivo (variable), eje de ancho `wdth 125` —24% más
-  expandida que la normal—, peso 800, en caja alta.
+  expandida que la normal—, peso 800, en caja alta, con un halo de tiza
+  hecho con dos `text-shadow` muy abiertos.
 - **Texto e interfaz:** Space Grotesk.
-- Sin serif en ninguna parte, como pediste.
+- **Anotaciones a mano:** Caveat, en epígrafes, el aviso de scroll, el
+  "Ver caso" y la navegación entre proyectos. Es lo que en un pizarrón
+  se escribiría al margen.
+- Sin serif en ninguna parte.
 
 Para cambiar el grado de expansión, tocá `--wdth-expanded` en el bloque
-`:root` de `css/styles.css` (rango válido: 62 a 125).
+`:root` (rango válido: 62 a 125).
+
+## Contraste
+
+Verificado recorriendo el DOM: **cero textos por debajo de AA**. Si
+tocás la paleta, revisá que la tiza translúcida (`--ink-soft`,
+`--ink-faint`) no baje de 0.84 de alfa: sobre el verde pierde contraste
+mucho más rápido que sobre el negro.
 
 ## Cómo cambiar o agregar imágenes
 

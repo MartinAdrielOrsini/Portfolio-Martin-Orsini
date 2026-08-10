@@ -13,26 +13,42 @@
    Tocá acá para cambiar colores, tipografías y ritmo.
    ============================================================ */
 :root {
-  /* Color */
-  --bg:            #F3F0EA;
-  --bg-warm:       #EBE6DC;
-  --ink:           #14120F;
-  --ink-soft:      #6A635B;
-  --ink-faint:     #9A938A;
-  --line:          rgba(20, 18, 15, 0.14);
-  --line-soft:     rgba(20, 18, 15, 0.08);
-  --accent:        #C13B18;
+  /* --- Paleta --------------------------------------------------
+     OLIVE #4F5321 · SAGE #9CA35A · RUST #C87330 · STONE #DEDBD2
+     La web es un pizarrón: fondo verde, texto de tiza, naranja de
+     acento. Las secciones destacadas usan pizarrón negro.          */
+  --olive:         #4F5321;
+  --sage:          #9CA35A;
+  --rust:          #C87330;
+  --stone:         #DEDBD2;
 
-  /* Color — áreas oscuras */
-  --dark-bg:       #14120F;
-  --dark-ink:      #F3F0EA;
-  --dark-soft:     #A29A90;
-  --dark-line:     rgba(243, 240, 234, 0.16);
+  /* Pizarrón verde (base) */
+  --bg:            #4F5321;
+  --bg-warm:       #454A1D;   /* marcos y cajas, un tono más hondo */
+  --ink:           #DEDBD2;   /* tiza */
+  /* Sobre el verde la tiza translúcida pierde contraste rápido: 0.85 es
+     el mínimo que todavía pasa AA (4,74:1) para texto chico. */
+  --ink-soft:      rgba(222, 219, 210, 0.92);
+  --ink-faint:     rgba(222, 219, 210, 0.84);
+  --line:          rgba(222, 219, 210, 0.34);
+  --line-soft:     rgba(222, 219, 210, 0.18);
+  /* RUST puro para rellenos (botones, barras). Sobre el verde tiene
+     2,3:1 de contraste, así que como TEXTO se usa la versión aclarada
+     —que además es lo que parece una tiza naranja—: 4,6:1. */
+  --accent:        #C87330;
+  --accent-ink:    #EFB985;
+
+  /* Pizarrón negro (secciones destacadas) */
+  --dark-bg:       #191B10;
+  --dark-ink:      #DEDBD2;
+  --dark-soft:     rgba(222, 219, 210, 0.62);
+  --dark-line:     rgba(222, 219, 210, 0.20);
 
   /* Tipografía — todo sans. Archivo es variable y tiene eje de ancho
      (wdth 62–125): los títulos usan la versión expandida y pesada. */
   --font-sans:    'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-chalk:   'Caveat', 'Segoe Print', cursive;  /* anotaciones a mano */
   --wdth-expanded: 'wdth' 125;
 
   /* Tamaños calibrados para un portátil de 1366x768 (≈640 px útiles de
@@ -92,6 +108,58 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+/* ============================================================
+   2b — TEXTURA DE PIZARRÓN
+   Tres capas, todas en CSS (sin imágenes):
+     · grano fino  → el poro de la pizarra
+     · manchones   → restos de tiza mal borrada
+     · viñeta      → los bordes siempre quedan más sucios
+   ============================================================ */
+:root {
+  --grano: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E");
+
+  --manchones:
+    radial-gradient(58% 34% at 18% 12%, rgba(222,219,210,0.055), transparent 70%),
+    radial-gradient(46% 26% at 82% 34%, rgba(222,219,210,0.04), transparent 72%),
+    radial-gradient(70% 30% at 45% 68%, rgba(222,219,210,0.035), transparent 74%),
+    radial-gradient(38% 44% at 88% 88%, rgba(222,219,210,0.03), transparent 70%);
+}
+
+/* El grano va fijo sobre todo: así el pizarrón se lee como una sola
+   superficie continua y no como secciones apiladas. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: var(--grano);
+  background-size: 260px 260px;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+}
+
+/* Viñeta: los bordes de un pizarrón nunca están tan limpios como el centro */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%,
+              transparent 42%, rgba(0, 0, 0, 0.28) 100%);
+}
+
+/* El contenido va por encima de las dos capas de textura */
+.site-header, main, .nav, .nav-backdrop, .skip-link { position: relative; z-index: 2; }
+.site-header { z-index: 100; }
+.skip-link { z-index: 200; }
+
+/* Los manchones de tiza sí van por sección, para que el negro de los
+   destacados tenga su propio desgaste. */
+.section { background-image: var(--manchones); }
+
 h1, h2, h3, h4, p, dl, dd, figure, blockquote { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
 img, svg, video { display: block; max-width: 100%; }
@@ -101,13 +169,13 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 a { color: inherit; text-decoration: none; }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-ink);
   outline-offset: 3px;
   border-radius: 2px;
 }
 .section--dark :focus-visible { outline-color: var(--dark-ink); }
 
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--accent); color: var(--stone); }
 
 .skip-link {
   position: fixed;
@@ -143,9 +211,25 @@ em { font-style: italic; }
 }
 .eyebrow__num {
   font-variant-numeric: tabular-nums;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .section--dark .eyebrow { color: var(--dark-soft); }
+
+/* --- Trazo de tiza ------------------------------------------------
+   La tiza no imprime parejo: el borde se deshilacha y suelta polvo.
+   Se resuelve con dos sombras muy abiertas y una opacidad apenas
+   menor al blanco puro. */
+.chalk,
+.hero__title,
+.section-title,
+.project__title,
+.contact__claim {
+  color: var(--ink);
+  text-shadow:
+    0 0 1px rgba(222, 219, 210, 0.55),
+    0 0 6px rgba(222, 219, 210, 0.20),
+    0 1px 0 rgba(0, 0, 0, 0.22);
+}
 
 .section-title,
 .project__title {
@@ -159,7 +243,28 @@ em { font-style: italic; }
   text-wrap: balance;
 }
 .section-title em,
-.project__title em { font-style: normal; font-weight: 400; color: var(--accent); }
+.project__title em { font-style: normal; font-weight: 400; color: var(--accent-ink); }
+
+/* --- Anotaciones a mano -------------------------------------------
+   Lo que en un pizarrón se escribiría al margen: epígrafes, avisos y
+   pistas. Caveat necesita más cuerpo que una sans para leerse igual. */
+.fig__cap,
+.hero__scroll-label,
+.index__preview-cue,
+.project-nav__dir,
+.section-head__note,
+.copy-status,
+.form__status {
+  font-family: var(--font-chalk);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+.fig__cap,
+.section-head__note { font-size: 1.15rem; line-height: 1.3; }
+.hero__scroll-label,
+.index__preview-cue,
+.project-nav__dir { font-size: 1.05rem; letter-spacing: 0.02em; }
 
 .block-title {
   font-family: var(--font-sans);
@@ -220,17 +325,23 @@ em { font-style: italic; }
 }
 .section--rule { border-top: 1px solid var(--line); }
 
+/* Pizarrón negro. Como pinta su propio fondo, tapa la capa de grano
+   fija: se le vuelve a aplicar acá como capa de background mezclada. */
 .section--dark {
-  background: var(--dark-bg);
+  background-color: var(--dark-bg);
+  background-image: var(--grano), var(--manchones);
+  background-size: 260px 260px, auto;
+  background-attachment: fixed, scroll;
+  background-blend-mode: overlay, normal;
   color: var(--dark-ink);
 }
 .section--dark .fig__cap,
 .section--dark .project__meta dt { color: var(--dark-soft); }
 .section--dark .fig__frame {
-  background: #1D1A16;
+  background: #232616;
   border-color: var(--dark-line);
 }
-.section--dark .fig__frame::after { color: rgba(243, 240, 234, 0.42); }
+.section--dark .fig__frame::after { color: rgba(222, 219, 210, 0.45); }
 
 .section-head { margin-bottom: clamp(1.25rem, 0.9rem + 1vw, 2rem); }
 .section-head .eyebrow { margin-bottom: 0.75rem; }
@@ -253,7 +364,6 @@ em { font-style: italic; }
 .split__text p { max-width: 38ch; color: var(--ink-soft); }
 .section--dark .split__text p { color: var(--dark-soft); }
 
-.stack { display: grid; gap: var(--gap); }
 
 .grid-2, .grid-3, .grid-4 { display: grid; gap: var(--gap); }
 .grid-asym  { display: grid; gap: var(--gap); }
@@ -274,18 +384,6 @@ em { font-style: italic; }
   border-radius: 100px;
   line-height: 1.4;
 }
-
-.spec-list { margin-top: 1.25rem; }
-.spec-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-block: 0.55rem;
-  border-bottom: 1px solid var(--line-soft);
-  font-size: var(--fs-small);
-}
-.spec-list li span:first-child { color: var(--ink-faint); }
-.spec-list li span:last-child { font-variant-numeric: tabular-nums; }
 
 
 /* ------------ Botones ------------ */
@@ -308,8 +406,8 @@ em { font-style: italic; }
 }
 .btn__icon { width: 16px; height: 16px; flex: none; }
 
-.btn--primary { background: var(--ink); color: var(--bg); }
-.btn--primary:hover { background: var(--accent); }
+.btn--primary { background: var(--ink); color: var(--olive); }
+.btn--primary:hover { background: var(--accent); color: var(--stone); }
 
 .btn--ghost { border-color: var(--line); color: var(--ink); }
 .btn--ghost:hover { border-color: var(--ink); }
@@ -319,7 +417,7 @@ em { font-style: italic; }
   color: var(--dark-bg);
   align-self: start;
 }
-.btn--solid:hover { background: var(--accent); color: #fff; }
+.btn--solid:hover { background: var(--accent); color: var(--stone); }
 
 .btn--copy {
   min-height: 44px;
@@ -328,7 +426,7 @@ em { font-style: italic; }
   color: var(--dark-ink);
 }
 .btn--copy:hover { border-color: var(--dark-ink); }
-.btn--copy.is-done { border-color: var(--accent); color: var(--accent); }
+.btn--copy.is-done { border-color: var(--accent-ink); color: var(--accent-ink); }
 
 .btn:active { transform: translateY(1px); }
 
@@ -353,7 +451,7 @@ em { font-style: italic; }
   border-radius: 2px;
 }
 
-/* Trama diagonal del placeholder */
+/* Trama diagonal del placeholder: rayado de tiza sobre el pizarrón */
 .fig__frame::before {
   content: "";
   position: absolute;
@@ -361,7 +459,7 @@ em { font-style: italic; }
   background-image: repeating-linear-gradient(
     -45deg,
     transparent 0 9px,
-    rgba(20, 18, 15, 0.045) 9px 10px
+    rgba(222, 219, 210, 0.09) 9px 10px
   );
 }
 
@@ -461,7 +559,11 @@ em { font-style: italic; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: var(--grano);
+  background-size: 260px 260px;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
   border-bottom: 1px solid transparent;
   transition: border-color var(--t-mid) var(--ease);
 }
@@ -492,7 +594,10 @@ em { font-style: italic; }
 .nav {
   position: fixed;
   inset: var(--header-h) 0 auto 0;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: var(--grano);
+  background-size: 260px 260px;
+  background-blend-mode: overlay;
   border-bottom: 1px solid var(--line);
   padding: 1rem var(--gutter) 2rem;
   transform: translateY(-102%);
@@ -517,8 +622,8 @@ em { font-style: italic; }
   border-bottom: 1px solid var(--line-soft);
   transition: color var(--t-fast) var(--ease);
 }
-.nav__link:hover { color: var(--accent); }
-.nav__link.is-active { color: var(--accent); }
+.nav__link:hover { color: var(--accent-ink); }
+.nav__link.is-active { color: var(--accent-ink); }
 
 .nav-backdrop {
   position: fixed;
@@ -592,7 +697,7 @@ em { font-style: italic; }
 .hero__line { display: block; }
 .hero__line--em {
   font-weight: 400;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .hero__foot { display: grid; gap: 2rem; }
@@ -623,6 +728,7 @@ em { font-style: italic; }
   width: 56px;
   height: 1px;
   background: var(--line);
+  margin-bottom: 0.35rem;
   position: relative;
   overflow: hidden;
 }
@@ -716,9 +822,9 @@ em { font-style: italic; }
 
 .index__item:hover,
 .index__item:focus-visible,
-.index__item.is-active { color: var(--accent); }
+.index__item.is-active { color: var(--accent-ink); }
 .index__item:hover .index__num,
-.index__item.is-active .index__num { color: var(--accent); }
+.index__item.is-active .index__num { color: var(--accent-ink); }
 
 /* La vista previa no aporta nada en mobile: ahí manda la lista. */
 .index__preview { display: none; }
@@ -771,7 +877,7 @@ em { font-style: italic; }
     font-size: var(--fs-micro);
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent-ink);
   }
   .index__preview-cue svg { width: 14px; height: 14px; }
 }
@@ -802,79 +908,6 @@ em { font-style: italic; }
 .project__lead { margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 .project .container + .container { margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 
-/* --- Espécimen tipográfico --- */
-.specimen {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 1.25rem;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-}
-.specimen + .specimen { margin-top: 0.75rem; }
-.specimen__glyphs {
-  font-size: 3.25rem;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  flex: none;
-  min-width: 2.2ch;
-}
-.specimen__glyphs--display { font-family: var(--font-display); }
-.specimen__name { font-weight: 500; font-size: var(--fs-body); }
-.specimen__use { font-size: var(--fs-small); color: var(--ink-soft); }
-
-/* --- Paleta cromática --- */
-.swatches { display: grid; gap: 0.5rem; }
-.swatch {
-  display: grid;
-  grid-template-columns: 44px 1fr auto;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.6rem;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  font-size: var(--fs-small);
-}
-.section--dark .swatch { border-color: var(--dark-line); }
-.swatch__chip {
-  width: 44px;
-  height: 44px;
-  border-radius: 2px;
-  background: var(--c);
-  border: 1px solid var(--line-soft);
-}
-.swatch__hex {
-  color: var(--ink-faint);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
-}
-.section--dark .swatch__hex { color: var(--dark-soft); }
-
-/* --- Diagrama de retícula (dibujado en CSS) --- */
-.grid-diagram {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  padding: 1rem;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  background: var(--bg-warm);
-}
-.grid-diagram__page {
-  aspect-ratio: 3 / 4;
-  display: flex;
-  gap: 3px;
-  padding: 10%  8%;
-  background: var(--bg);
-  border: 1px solid var(--line-soft);
-}
-.grid-diagram__col {
-  flex: 1;
-  background: rgba(193, 59, 24, 0.14);
-  border-top: 1px solid rgba(193, 59, 24, 0.35);
-  border-bottom: 1px solid rgba(193, 59, 24, 0.35);
-}
-.grid-diagram__col--narrow { flex: 0 0 12%; background: rgba(20, 18, 15, 0.07); }
 
 /* --- Navegación entre proyectos --- */
 .project-nav {
@@ -892,12 +925,16 @@ em { font-style: italic; }
 .project-nav__link {
   display: grid;
   gap: 0.3rem;
-  padding: 1.4rem 0;
-  background: var(--bg);
+  padding: 1.1rem 0;
+  background-color: var(--bg);
+  background-image: var(--grano);
+  background-size: 260px 260px;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
   transition: color var(--t-fast) var(--ease), padding var(--t-fast) var(--ease);
 }
-.section--dark .project-nav__link { background: var(--dark-bg); }
-.project-nav__link:hover { color: var(--accent); }
+.section--dark .project-nav__link { background-color: var(--dark-bg); }
+.project-nav__link:hover { color: var(--accent-ink); }
 .project-nav__link--next { text-align: right; }
 .project-nav__dir {
   font-size: var(--fs-micro);
@@ -956,7 +993,7 @@ em { font-style: italic; }
   letter-spacing: -0.02em;
   margin-top: 1.25rem;
 }
-.contact__claim em { color: var(--accent); }
+.contact__claim em { color: var(--accent-ink); }
 
 .contact__grid { display: grid; gap: clamp(2.5rem, 1.5rem + 4vw, 5rem); }
 .contact__direct { display: grid; gap: 2.5rem; align-content: start; }
@@ -978,13 +1015,13 @@ em { font-style: italic; }
   border-bottom: 1px solid var(--dark-line);
   transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
 }
-.email-link:hover { color: var(--accent); border-color: var(--accent); }
+.email-link:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
 
 .copy-status {
   min-height: 1.25rem;
   margin-top: 0.6rem;
   font-size: var(--fs-small);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .social-list { margin-top: 0.9rem; }
@@ -999,7 +1036,7 @@ em { font-style: italic; }
   font-size: var(--fs-body);
   transition: color var(--t-fast) var(--ease), padding-left var(--t-fast) var(--ease);
 }
-.social-list a:hover { color: var(--accent); padding-left: 0.4rem; }
+.social-list a:hover { color: var(--accent-ink); padding-left: 0.4rem; }
 .social-list__at { font-size: var(--fs-small); color: var(--dark-soft); }
 
 /* --- Formulario --- */
@@ -1026,15 +1063,15 @@ em { font-style: italic; }
 .form__input::placeholder { color: rgba(162, 154, 144, 0.6); }
 .form__input:hover { border-bottom-color: var(--dark-soft); }
 .form__input:focus { outline: none; border-bottom-color: var(--dark-ink); }
-.form__input:focus-visible { outline: none; border-bottom-color: var(--accent); }
+.form__input:focus-visible { outline: none; border-bottom-color: var(--accent-ink); }
 .form__input--area { resize: vertical; min-height: 120px; line-height: 1.6; }
 
-.form__input[aria-invalid="true"] { border-bottom-color: var(--accent); }
+.form__input[aria-invalid="true"] { border-bottom-color: var(--accent-ink); }
 .form__error {
   min-height: 1.1rem;
   margin-top: 0.4rem;
   font-size: var(--fs-small);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 .form__status {
   min-height: 1.4rem;
@@ -1135,7 +1172,6 @@ em { font-style: italic; }
 
   .playground { columns: 3; }
 
-  .swatches { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* --- ≥ 1024px : desktop — el índice pasa a retícula --- */
@@ -1190,7 +1226,6 @@ em { font-style: italic; }
     gap: 3rem;
   }
 
-  .specimen__glyphs { font-size: 4rem; }
 }
 
 /* --- ≥ 1200px : "Sobre mí" pasa a tres columnas ---
@@ -1239,7 +1274,16 @@ em { font-style: italic; }
 @media print {
   .site-header, .menu-toggle, .hero__scroll,
   .form, .footer__top, .skip-link { display: none !important; }
-  .section--dark { background: #fff; color: #000; }
+  /* En papel el pizarrón no va: se imprime en blanco y negro */
+  body { background: #fff !important; color: #000 !important; }
+  body::before, body::after { display: none !important; }
+  .section, .section--dark {
+    background: #fff !important;
+    background-image: none !important;
+    color: #000 !important;
+  }
+  .chalk, .hero__title, .section-title,
+  .project__title, .contact__claim { text-shadow: none !important; color: #000 !important; }
   .js .reveal { opacity: 1; transform: none; }
   .fig__frame { break-inside: avoid; }
 }
