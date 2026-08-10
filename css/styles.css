@@ -35,23 +35,30 @@
   --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --wdth-expanded: 'wdth' 125;
 
+  /* Tamaños calibrados para un portátil de 1366x768 (≈640 px útiles de
+     alto). Los clamp crecen con el ancho PERO el tope se limita después
+     con la altura de viewport, más abajo. */
   --fs-micro:  0.6875rem;                          /* 11px  — eyebrows */
   --fs-small:  0.8125rem;                          /* 13px  — metadatos */
   --fs-body:   clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
-  --fs-lead:   clamp(1.125rem, 1rem + 0.7vw, 1.5rem);
-  --fs-h3:     clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+  --fs-lead:   clamp(1.0625rem, 0.95rem + 0.5vw, 1.3125rem);
+  --fs-h3:     clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
   /* El piso es bajo a propósito: en mayúsculas y expandida, una palabra
      como "SELECCIONADO." no entra en 320 px con un cuerpo más grande. */
-  --fs-h2:     clamp(1.625rem, 1.1rem + 3.2vw, 4.5rem);
-  --fs-h1:     clamp(3rem, 1.4rem + 9vw, 10rem);
+  --fs-h2:     clamp(1.5rem, 1.05rem + 1.9vw, 3rem);
+  --fs-h1:     clamp(2.5rem, 1.5rem + 5vw, 6.5rem);
 
   /* Ritmo y medidas */
   --gutter:        20px;
   --max-w:         1560px;
   --measure:       62ch;
-  --section-y:     clamp(3.5rem, 2.5rem + 5vw, 7rem);
-  --gap:           clamp(1rem, 0.6rem + 1.6vw, 2.25rem);
+  --section-y:     clamp(2.5rem, 1.9rem + 2.4vw, 4.5rem);
+  --gap:           clamp(0.875rem, 0.6rem + 1.1vw, 1.75rem);
   --header-h:      64px;
+
+  /* Ninguna imagen debe superar esto: así una figura siempre entra en
+     pantalla sin scrollear, incluso en portátiles bajos. */
+  --media-max-h:   72svh;
 
   /* Movimiento */
   --ease:          cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -225,8 +232,8 @@ em { font-style: italic; }
 }
 .section--dark .fig__frame::after { color: rgba(243, 240, 234, 0.42); }
 
-.section-head { margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 5rem); }
-.section-head .eyebrow { margin-bottom: 1.25rem; }
+.section-head { margin-bottom: clamp(1.5rem, 1rem + 1.4vw, 2.5rem); }
+.section-head .eyebrow { margin-bottom: 0.75rem; }
 .section-head--split { display: grid; gap: 1.75rem; }
 /* Sin esto, un título largo en caja alta fija el min-content del grid y
    lo desborda en pantallas chicas. */
@@ -238,15 +245,15 @@ em { font-style: italic; }
 }
 .section--dark .section-head__note { color: var(--dark-soft); }
 
-.two-col { display: grid; gap: var(--gap); margin-bottom: var(--section-y); }
+.two-col { display: grid; gap: var(--gap); margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 .two-col__item p { max-width: var(--measure); }
 .two-col__item p + p { margin-top: 0.9rem; }
 
-.split { display: grid; gap: var(--gap); margin-bottom: var(--section-y); }
+.split { display: grid; gap: var(--gap); margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 .split__text p { max-width: 38ch; color: var(--ink-soft); }
 .section--dark .split__text p { color: var(--dark-soft); }
 
-.stack { display: grid; gap: clamp(1.5rem, 1rem + 2vw, 3.5rem); }
+.stack { display: grid; gap: var(--gap); }
 
 .grid-2, .grid-3, .grid-4 { display: grid; gap: var(--gap); }
 .grid-asym  { display: grid; gap: var(--gap); }
@@ -338,6 +345,9 @@ em { font-style: italic; }
   position: relative;
   overflow: hidden;
   aspect-ratio: 3 / 2;
+  /* Tope de altura: sin esto una figura vertical en una columna ancha
+     se vuelve más alta que la pantalla y obliga a scrollear para verla. */
+  max-height: var(--media-max-h);
   background: var(--bg-warm);
   border: 1px solid var(--line-soft);
   border-radius: 2px;
@@ -552,14 +562,16 @@ em { font-style: italic; }
    7 — HERO
    ============================================================ */
 .hero {
+  /* Exactamente una pantalla: el header es sticky, así que el hero
+     arranca debajo y hay que descontarlo. */
   min-height: calc(100svh - var(--header-h));
   display: flex;
-  padding-block: clamp(3rem, 2rem + 6vw, 7rem);
+  padding-block: clamp(1.75rem, 1.2rem + 2vw, 3.25rem);
 }
 .hero__inner {
   display: flex;
   flex-direction: column;
-  gap: clamp(1.75rem, 1rem + 4vw, 3.5rem);
+  gap: clamp(1.25rem, 0.8rem + 1.6vw, 2.25rem);
   width: 100%;
   /* Centrado vertical con margin auto en vez de align-items: center.
      Si el contenido es más alto que la pantalla, el margen se resuelve
@@ -627,7 +639,7 @@ em { font-style: italic; }
 /* ============================================================
    8 — SOBRE MÍ
    ============================================================ */
-.about { display: grid; gap: clamp(2rem, 1rem + 4vw, 4rem); }
+.about { display: grid; gap: clamp(1.25rem, 0.8rem + 2vw, 2.5rem); }
 .about__body { display: grid; gap: 1.1rem; }
 .about__body > p { max-width: var(--measure); }
 .about__grid { display: grid; gap: 2rem; margin-top: 1.5rem; }
@@ -650,105 +662,118 @@ em { font-style: italic; }
 
 /* ============================================================
    9 — ÍNDICE DE PROYECTOS
-   Mobile: carrusel horizontal con scroll-snap (swipe nativo).
-   Desktop: retícula de dos columnas.
+   Mobile: sólo la lista, compacta.
+   Desktop: lista a la izquierda + vista previa del seleccionado.
    ============================================================ */
-.index-track {
-  display: flex;
-  gap: var(--gap);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  /* sale al borde de la pantalla sin generar overflow en el body */
-  margin-inline: calc(var(--gutter) * -1);
-  padding-inline: var(--gutter);
-  padding-bottom: 0.5rem;
-}
-.index-track::-webkit-scrollbar { display: none; }
+.index { display: grid; gap: var(--gap); }
 
-.pcard {
-  flex: 0 0 82%;
-  scroll-snap-align: start;
+.index__list { border-top: 1px solid var(--line); }
+
+.index__item {
   display: grid;
-  gap: 1rem;
-  align-content: start;
+  grid-template-columns: 2.5ch 1fr;
+  align-items: baseline;
+  column-gap: 0.9rem;
+  padding: 0.7rem 0;
+  min-height: 48px;
+  border-bottom: 1px solid var(--line);
+  transition: color var(--t-fast) var(--ease),
+              padding-left var(--t-fast) var(--ease);
 }
 
-.pcard__media { position: relative; overflow: hidden; border-radius: 2px; }
-.pcard__cue {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
-  padding: 0.55rem 1.1rem;
-  border-radius: 100px;
-  background: var(--ink);
-  color: var(--bg);
+.index__num {
   font-size: var(--fs-micro);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--t-mid) var(--ease), transform var(--t-mid) var(--ease);
-}
-
-.pcard__index {
-  font-size: var(--fs-micro);
-  letter-spacing: 0.16em;
-  color: var(--accent);
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  transition: color var(--t-fast) var(--ease);
 }
-.pcard__title {
+
+.index__name {
   font-family: var(--font-display);
   font-variation-settings: 'wdth' 112;
   font-weight: 700;
   text-transform: uppercase;
-  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
-  line-height: 1.06;
-  letter-spacing: -0.015em;
-  margin-top: 0.35rem;
-}
-.pcard__meta {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin-top: 0.5rem;
-  font-size: var(--fs-small);
-  color: var(--ink-soft);
-}
-.pcard__desc {
-  margin-top: 0.7rem;
-  font-size: var(--fs-small);
-  line-height: 1.55;
-  color: var(--ink-soft);
-  max-width: 40ch;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  font-size: clamp(1rem, 0.85rem + 0.7vw, 1.5rem);
 }
 
-/* Puntos del carrusel — solo mobile */
-.track-dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.4rem;
-  margin-top: 1.5rem;
+.index__cat {
+  grid-column: 2;
+  font-size: var(--fs-small);
+  color: var(--ink-faint);
+  line-height: 1.4;
 }
-.track-dots__dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--line);
-  transition: background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
-}
-.track-dots__dot.is-active { background: var(--accent); transform: scale(1.25); }
 
+.index__item:hover,
+.index__item:focus-visible,
+.index__item.is-active { color: var(--accent); }
+.index__item:hover .index__num,
+.index__item.is-active .index__num { color: var(--accent); }
+
+/* La vista previa no aporta nada en mobile: ahí manda la lista. */
+.index__preview { display: none; }
+
+@media (min-width: 1024px) {
+  .index {
+    grid-template-columns: 1fr 0.62fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+
+  .index__item {
+    grid-template-columns: 2.5ch 1fr auto;
+    column-gap: 1.25rem;
+    padding: 0.6rem 0;
+    /* El mínimo táctil no hace falta con mouse, y con diez ítems son
+       casi cien píxeles que deciden si la lista entra en pantalla. */
+    min-height: 0;
+  }
+  .index__cat { grid-column: 3; text-align: right; }
+  .index__item:hover,
+  .index__item.is-active { padding-left: 0.6rem; }
+
+  .index__preview {
+    display: block;
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+  /* Es un adelanto, no la obra: se le pone un techo propio para que la
+     sección entera entre en pantalla en un portátil. */
+  .index__preview .fig__frame { max-height: 42svh; }
+  .index__preview .fig__frame img {
+    transition: opacity var(--t-fast) var(--ease);
+  }
+  .index__preview.is-swapping .fig__frame img { opacity: 0; }
+
+  .index__preview-desc {
+    margin-top: 0.9rem;
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 42ch;
+  }
+
+  .index__preview-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .index__preview-cue svg { width: 14px; height: 14px; }
+}
 
 /* ============================================================
    10 — PROYECTOS
    ============================================================ */
-.project__head { margin-bottom: clamp(2rem, 1.2rem + 3vw, 4rem); }
-.project__head .eyebrow { margin-bottom: 1.25rem; }
-.project__title { margin-bottom: 2rem; }
+.project__head { margin-bottom: clamp(1.25rem, 0.9rem + 1.2vw, 2rem); }
+.project__head .eyebrow { margin-bottom: 0.75rem; }
+.project__title { margin-bottom: 1.1rem; }
 
 .project__meta {
   display: grid;
@@ -766,8 +791,8 @@ em { font-style: italic; }
 }
 .project__meta dd { margin: 0; font-size: var(--fs-small); line-height: 1.45; }
 
-.project__lead { margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
-.project .container + .container { margin-top: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
+.project__lead { margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
+.project .container + .container { margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 
 /* --- Espécimen tipográfico --- */
 .specimen {
@@ -847,7 +872,7 @@ em { font-style: italic; }
 .project-nav {
   display: grid;
   gap: 1px;
-  margin-top: clamp(3rem, 2rem + 3vw, 5rem);
+  margin-top: clamp(1.75rem, 1.2rem + 1.8vw, 3rem);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   background: var(--line);
@@ -1060,7 +1085,6 @@ em { font-style: italic; }
 /* --- ≥ 480px : móviles grandes --- */
 @media (min-width: 480px) {
   :root { --gutter: 28px; }
-  .pcard { flex-basis: 70%; }
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .about__grid { grid-template-columns: repeat(2, 1fr); }
   .about__grid .about__block:last-child { grid-column: 1 / -1; }
@@ -1145,26 +1169,6 @@ em { font-style: italic; }
   .nav__link:hover::after,
   .nav__link.is-active::after { transform: scaleX(1); }
 
-  /* Índice de proyectos: dos columnas, sin carrusel */
-  .index-track {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(2.5rem, 3vw, 4.5rem) var(--gap);
-    overflow: visible;
-    margin-inline: 0;
-    padding-inline: 0;
-    padding-bottom: 0;
-  }
-  .pcard { display: grid; }
-  /* Ritmo asimétrico: las cards pares bajan un poco */
-  .pcard:nth-child(even) { margin-top: clamp(2rem, 5vw, 6rem); }
-
-  .pcard:hover .fig__frame img { transform: scale(1.035); }
-  .pcard:hover .pcard__cue { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  .pcard:hover .pcard__title { color: var(--accent); }
-  .pcard__title { transition: color var(--t-fast) var(--ease); }
-
-  .track-dots { display: none; }
 
   .pg-item:hover .fig__frame { transform: translateY(-6px); }
   .pg-item .fig__frame img { transition: transform var(--t-slow) var(--ease); }
@@ -1187,10 +1191,6 @@ em { font-style: italic; }
   :root { --gutter: 80px; }
   .about { grid-template-columns: 0.7fr 1.3fr; }
 
-  /* Con diez proyectos, tres columnas evitan que el índice se estire */
-  .index-track { grid-template-columns: repeat(3, 1fr); }
-  .pcard:nth-child(even) { margin-top: 0; }
-  .pcard:nth-child(3n + 2) { margin-top: clamp(1.5rem, 3vw, 3.5rem); }
 }
 
 /* --- ≥ 1920px : evita que la línea de texto se estire --- */
@@ -1214,7 +1214,6 @@ em { font-style: italic; }
 
   .js .reveal { opacity: 1; transform: none; }
   .hero__scroll-line::after { animation: none; transform: none; width: 100%; }
-  .pcard:hover .fig__frame img,
   .pg-item:hover .fig__frame,
   .pg-item:hover .fig__frame img { transform: none; }
 }
@@ -1224,7 +1223,7 @@ em { font-style: italic; }
    IMPRESIÓN
    ============================================================ */
 @media print {
-  .site-header, .menu-toggle, .hero__scroll, .track-dots,
+  .site-header, .menu-toggle, .hero__scroll,
   .form, .footer__top, .skip-link { display: none !important; }
   .section--dark { background: #fff; color: #000; }
   .js .reveal { opacity: 1; transform: none; }

@@ -260,48 +260,65 @@
 
 
   /* ==========================================================
-     8 — PUNTOS DEL CARRUSEL DEL ÍNDICE
-     El swipe es scroll nativo (CSS scroll-snap). Esto solo
-     refleja la posición. En desktop los puntos están ocultos.
+     8 — ÍNDICE DE PROYECTOS
+     La lista manda. Al pasar el cursor (o tabular) por un ítem,
+     la vista previa de la derecha cambia de imagen, descripción
+     y destino. En mobile la vista previa no se muestra.
      ========================================================== */
-  function initTrackDots() {
-    const track = $('#indexTrack');
-    const dots  = $('#trackDots');
-    if (!track || !dots) return;
+  function initProjectIndex() {
+    const list    = $('#indexList');
+    const preview = $('#indexPreview');
+    if (!list || !preview) return;
 
-    const cards = $$('.pcard', track);
-    if (!cards.length) return;
+    const items = $$('.index__item', list);
+    const img   = $('#indexPreviewImg');
+    const desc  = $('#indexPreviewDesc');
+    if (!items.length || !img || !desc) return;
 
-    // Un punto por card: así el índice puede crecer sin tocar el HTML.
-    dots.textContent = '';
-    cards.forEach((_, i) => {
-      const dot = document.createElement('span');
-      dot.className = 'track-dots__dot' + (i === 0 ? ' is-active' : '');
-      dots.appendChild(dot);
-    });
-    const marks = $$('.track-dots__dot', dots);
+    let current = items.find((i) => i.classList.contains('is-active')) || items[0];
 
-    let ticking = false;
+    const show = (item) => {
+      if (item === current) return;
+      current = item;
 
-    const update = () => {
-      ticking = false;
-      const scrollable = track.scrollWidth - track.clientWidth;
-      if (scrollable <= 0) return; // en desktop no hay scroll horizontal
+      items.forEach((i) => i.classList.toggle('is-active', i === item));
 
-      const ratio = track.scrollLeft / scrollable;
-      const index = Math.round(ratio * (cards.length - 1));
+      preview.setAttribute('href', item.getAttribute('href'));
+      desc.textContent = item.dataset.desc || '';
 
-      marks.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+      const src = item.dataset.img;
+      if (!src || img.getAttribute('src') === src) return;
+
+      // Cambio con un fundido corto en vez de un salto seco.
+      preview.classList.add('is-swapping');
+      const listo = () => {
+        img.removeEventListener('load', listo);
+        img.removeEventListener('error', listo);
+        preview.classList.remove('is-swapping');
+      };
+      img.addEventListener('load', listo);
+      img.addEventListener('error', listo);
+      img.setAttribute('src', src);
+      img.setAttribute('alt', item.dataset.alt || '');
+      // Si viene de caché no dispara load, así que se destraba igual.
+      if (img.complete) listo();
     };
 
-    track.addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(update);
-    }, { passive: true });
+    // Delegado: mouseover y focusin burbujean, así que alcanza con dos
+    // listeners en la lista y funciona igual con mouse que con teclado.
+    const alEntrar = (e) => {
+      const item = e.target.closest('.index__item');
+      if (item && list.contains(item)) show(item);
+    };
+    list.addEventListener('mouseover', alEntrar);
+    list.addEventListener('focusin', alEntrar);
 
-    window.addEventListener('resize', update);
-    update();
+    // Precarga silenciosa: al pasar el cursor la imagen ya está lista.
+    const precargar = () => items.forEach((i) => {
+      if (i.dataset.img) { const p = new Image(); p.src = i.dataset.img; }
+    });
+    if ('requestIdleCallback' in window) window.requestIdleCallback(precargar);
+    else window.setTimeout(precargar, 1200);
   }
 
 
@@ -478,7 +495,7 @@
     initScrollOffset();
     initActiveNav();
     initReveal();
-    initTrackDots();
+    initProjectIndex();
     initCopyEmail();
     initContactForm();
     initYear();
