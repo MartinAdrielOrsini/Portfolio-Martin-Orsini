@@ -32,11 +32,11 @@
   --ink-faint:     rgba(222, 219, 210, 0.84);
   --line:          rgba(222, 219, 210, 0.34);
   --line-soft:     rgba(222, 219, 210, 0.18);
-  /* RUST puro para rellenos (botones, barras). Sobre el verde tiene
-     2,3:1 de contraste, así que como TEXTO se usa la versión aclarada
-     —que además es lo que parece una tiza naranja—: 4,6:1. */
-  --accent:        #C87330;
-  --accent-ink:    #EFB985;
+  /* Acento puro para rellenos (fondo de botón, barras). Sobre el verde
+     tiene 2,27:1 y no se lee, así que como TEXTO se usa la versión
+     aclarada —que además es lo que parece una tiza naranja—: 4,7:1. */
+  --accent:        #C6732F;
+  --accent-ink:    #F1BB85;
 
   /* Pizarrón negro (secciones destacadas) */
   --dark-bg:       #191B10;
@@ -111,54 +111,55 @@ body {
 
 /* ============================================================
    2b — TEXTURA DE PIZARRÓN
-   Tres capas, todas en CSS (sin imágenes):
-     · grano fino  → el poro de la pizarra
-     · manchones   → restos de tiza mal borrada
-     · viñeta      → los bordes siempre quedan más sucios
+
+   La foto de la pizarra se usa UNA sola vez, a pantalla completa y
+   anclada al viewport (cover + position:fixed). Nunca se repite ni se
+   corta: al scrollear el contenido se mueve y la pizarra queda quieta,
+   que es justo la sensación de estar frente a un pizarrón.
+
+   El color lo pone el CSS, no la foto: `mix-blend-mode: luminosity`
+   toma el relieve de la imagen y el tono del fondo que tenga debajo.
+   Por eso alcanza con un solo archivo para el pizarrón verde y para el
+   negro de las secciones destacadas.
    ============================================================ */
 :root {
-  --grano: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E");
+  --pizarra: url("../assets/textures/pizarra.jpg");
 
-  --manchones:
-    radial-gradient(58% 34% at 18% 12%, rgba(222,219,210,0.055), transparent 70%),
-    radial-gradient(46% 26% at 82% 34%, rgba(222,219,210,0.04), transparent 72%),
-    radial-gradient(70% 30% at 45% 68%, rgba(222,219,210,0.035), transparent 74%),
-    radial-gradient(38% 44% at 88% 88%, rgba(222,219,210,0.03), transparent 70%);
+  /* Grano fino encima de la foto: le devuelve nitidez al 100% de zoom */
+  --grano: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
-/* El grano va fijo sobre todo: así el pizarrón se lee como una sola
-   superficie continua y no como secciones apiladas. */
+/* Capa 1 — la pizarra */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background-image: var(--grano);
-  background-size: 260px 260px;
-  opacity: 0.16;
-  mix-blend-mode: overlay;
+  background-image: var(--grano), var(--pizarra);
+  background-size: 260px 260px, cover;
+  background-position: center, center;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: overlay;
+  mix-blend-mode: luminosity;
+  opacity: 0.92;
 }
 
-/* Viñeta: los bordes de un pizarrón nunca están tan limpios como el centro */
+/* Capa 2 — viñeta: los bordes de un pizarrón nunca quedan tan limpios */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(120% 90% at 50% 45%,
-              transparent 42%, rgba(0, 0, 0, 0.28) 100%);
+  background: radial-gradient(125% 95% at 50% 42%,
+              transparent 38%, rgba(0, 0, 0, 0.34) 100%);
 }
 
-/* El contenido va por encima de las dos capas de textura */
+/* El contenido va por encima de las dos capas */
 .site-header, main, .nav, .nav-backdrop, .skip-link { position: relative; z-index: 2; }
 .site-header { z-index: 100; }
 .skip-link { z-index: 200; }
-
-/* Los manchones de tiza sí van por sección, para que el negro de los
-   destacados tenga su propio desgaste. */
-.section { background-image: var(--manchones); }
 
 h1, h2, h3, h4, p, dl, dd, figure, blockquote { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
@@ -229,6 +230,26 @@ em { font-style: italic; }
     0 0 1px rgba(222, 219, 210, 0.55),
     0 0 6px rgba(222, 219, 210, 0.20),
     0 1px 0 rgba(0, 0, 0, 0.22);
+}
+
+/* PORTFOLIO va un paso más lejos: el mismo grano de la pizarra recorta
+   la letra, así el trazo queda poroso como la tiza de verdad. Va dentro
+   de @supports y con el relleno sólido declarado antes, para que si el
+   navegador no lo soporta la palabra igual se vea. */
+.hero__word { -webkit-text-fill-color: var(--ink); }
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .hero__word {
+    background-image: var(--grano), linear-gradient(var(--ink), var(--ink));
+    background-size: 170px 170px, 100% 100%;
+    background-blend-mode: overlay;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      0 0 2px rgba(222, 219, 210, 0.30),
+      0 0 14px rgba(222, 219, 210, 0.14);
+  }
 }
 
 .section-title,
@@ -325,14 +346,17 @@ em { font-style: italic; }
 }
 .section--rule { border-top: 1px solid var(--line); }
 
-/* Pizarrón negro. Como pinta su propio fondo, tapa la capa de grano
-   fija: se le vuelve a aplicar acá como capa de background mezclada. */
+/* Pizarrón negro. Pinta su propio fondo, así que tapa la capa fija: se
+   le vuelve a poner la misma pizarra, también anclada al viewport, para
+   que empalme sin costura con el resto. Sólo cambia el color base. */
 .section--dark {
   background-color: var(--dark-bg);
-  background-image: var(--grano), var(--manchones);
-  background-size: 260px 260px, auto;
-  background-attachment: fixed, scroll;
-  background-blend-mode: overlay, normal;
+  background-image: var(--grano), var(--pizarra);
+  background-size: 260px 260px, cover;
+  background-position: center, center;
+  background-repeat: repeat, no-repeat;
+  background-attachment: fixed, fixed;
+  background-blend-mode: overlay, luminosity;
   color: var(--dark-ink);
 }
 .section--dark .fig__cap,
@@ -560,10 +584,12 @@ em { font-style: italic; }
   top: 0;
   z-index: 100;
   background-color: var(--bg);
-  background-image: var(--grano);
-  background-size: 260px 260px;
-  background-attachment: fixed;
-  background-blend-mode: overlay;
+  background-image: var(--grano), var(--pizarra);
+  background-size: 260px 260px, cover;
+  background-position: center, center;
+  background-repeat: repeat, no-repeat;
+  background-attachment: fixed, fixed;
+  background-blend-mode: overlay, luminosity;
   border-bottom: 1px solid transparent;
   transition: border-color var(--t-mid) var(--ease);
 }
@@ -595,9 +621,12 @@ em { font-style: italic; }
   position: fixed;
   inset: var(--header-h) 0 auto 0;
   background-color: var(--bg);
-  background-image: var(--grano);
-  background-size: 260px 260px;
-  background-blend-mode: overlay;
+  background-image: var(--grano), var(--pizarra);
+  background-size: 260px 260px, cover;
+  background-position: center, center;
+  background-repeat: repeat, no-repeat;
+  background-attachment: fixed, fixed;
+  background-blend-mode: overlay, luminosity;
   border-bottom: 1px solid var(--line);
   padding: 1rem var(--gutter) 2rem;
   transform: translateY(-102%);
@@ -676,7 +705,9 @@ em { font-style: italic; }
 .hero__inner {
   display: flex;
   flex-direction: column;
-  gap: clamp(1.25rem, 0.8rem + 1.6vw, 2.25rem);
+  align-items: center;
+  text-align: center;
+  gap: clamp(1rem, 0.7rem + 1.2vw, 1.75rem);
   width: 100%;
   /* Centrado vertical con margin auto en vez de align-items: center.
      Si el contenido es más alto que la pantalla, el margen se resuelve
@@ -685,65 +716,89 @@ em { font-style: italic; }
 }
 
 .hero__title {
+  display: grid;
+  justify-items: center;
+  gap: 0.15em;
+  margin: 0;
+}
+
+/* PORTFOLIO: el trazo grueso de tiza, ocupando todo el ancho útil.
+   El tamaño lo fija el ancho del viewport dividido por la cantidad de
+   letras, así la palabra siempre llega justa de margen a margen. */
+.hero__word {
+  display: block;
   font-family: var(--font-display);
   font-variation-settings: var(--wdth-expanded);
   font-weight: 800;
-  font-size: var(--fs-h1);
+  /* Nueve letras en Archivo expandida ocupan ~7,3 em, así que para que
+     la palabra llegue justa de margen a margen el cuerpo tiene que ser
+     ~13,6% del ancho del contenedor. Se mide contra el contenedor y no
+     contra el viewport, porque el vw incluye la barra de scroll y en
+     pantallas chicas eso alcanzaba para cortar la palabra. */
+  font-size: min(10.6vw, 175px);   /* respaldo sin container queries */
   line-height: 0.82;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  margin: 0;
 }
-.hero__line { display: block; }
-.hero__line--em {
-  font-weight: 400;
+
+@supports (font-size: 1cqw) {
+  .hero__inner { container-type: inline-size; }
+  .hero__word { font-size: min(13.2cqw, 185px); }
+}
+
+/* El nombre, un escalón abajo en jerarquía y escrito a mano */
+.hero__name {
+  display: block;
+  font-family: var(--font-chalk);
+  font-weight: 600;
+  font-size: min(6.5vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
   color: var(--accent-ink);
 }
 
-.hero__foot { display: grid; gap: 2rem; }
 .hero__lead {
   font-size: var(--fs-lead);
   line-height: 1.4;
-  max-width: 30ch;
+  max-width: 46ch;
   letter-spacing: -0.01em;
+  color: var(--ink-soft);
 }
-.hero__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
 
 /* Fuera del flujo: si ocupa altura, empuja el call to action abajo del
    pliegue en pantallas de portátil. */
 .hero__scroll {
   position: absolute;
-  left: var(--gutter);
-  bottom: clamp(1rem, 2vw, 1.75rem);
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: clamp(0.75rem, 1.6vw, 1.5rem);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.3rem;
   color: var(--ink-faint);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 .hero__scroll-line {
   display: block;
-  width: 56px;
-  height: 1px;
+  width: 1px;
+  height: 34px;
   background: var(--line);
-  margin-bottom: 0.35rem;
   position: relative;
   overflow: hidden;
 }
 .hero__scroll-line::after {
   content: "";
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 40%;
-  background: var(--accent);
+  inset: 0 0 auto 0;
+  height: 45%;
+  background: var(--accent-ink);
   animation: scrollHint 2.6s var(--ease) infinite;
 }
 @keyframes scrollHint {
-  0%   { transform: translateX(-100%); }
-  60%  { transform: translateX(250%); }
-  100% { transform: translateX(250%); }
+  0%   { transform: translateY(-110%); }
+  60%  { transform: translateY(240%); }
+  100% { transform: translateY(240%); }
 }
 
 
@@ -927,10 +982,12 @@ em { font-style: italic; }
   gap: 0.3rem;
   padding: 1.1rem 0;
   background-color: var(--bg);
-  background-image: var(--grano);
-  background-size: 260px 260px;
-  background-attachment: fixed;
-  background-blend-mode: overlay;
+  background-image: var(--grano), var(--pizarra);
+  background-size: 260px 260px, cover;
+  background-position: center, center;
+  background-repeat: repeat, no-repeat;
+  background-attachment: fixed, fixed;
+  background-blend-mode: overlay, luminosity;
   transition: color var(--t-fast) var(--ease), padding var(--t-fast) var(--ease);
 }
 .section--dark .project-nav__link { background-color: var(--dark-bg); }

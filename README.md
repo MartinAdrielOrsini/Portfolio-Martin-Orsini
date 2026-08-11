@@ -64,26 +64,38 @@ La web es un pizarrón de aula. Todo el lenguaje gráfico sale de ahí.
 | Pizarrón verde (base) | `--bg` | `#4F5321` OLIVE |
 | Pizarrón negro (destacados) | `--dark-bg` | `#191B10` |
 | Tiza (texto) | `--ink` | `#DEDBD2` STONE |
-| Acento, rellenos | `--accent` | `#C87330` RUST |
-| Acento, texto | `--accent-ink` | `#EFB985` |
+| Acento, rellenos | `--accent` | `#C6732F` |
+| Acento, texto | `--accent-ink` | `#F1BB85` |
 | Reserva | `--sage` | `#9CA35A` SAGE |
 
-> El rust puro sobre el verde da 2,3:1 de contraste y no se lee. Por eso
-> como **texto** se usa `--accent-ink`, un rust aclarado que da 4,6:1 y
+> El acento puro sobre el verde da 2,27:1 de contraste y no se lee. Por eso
+> como **texto** se usa `--accent-ink`, un naranja aclarado que da 4,7:1 y
 > que además es exactamente el aspecto de una tiza naranja. El rust puro
-> queda para rellenos (fondo de botón, barra del hero).
+> queda para rellenos (fondo de botón, indicador de scroll).
 
-**Textura**, toda en CSS, sin imágenes:
-- `--grano` — ruido `feTurbulence` en un SVG embebido, fijo sobre toda
-  la página con `mix-blend-mode: overlay`. Es el poro de la pizarra.
-- `--manchones` — gradientes radiales muy tenues: tiza mal borrada.
-- Viñeta en `body::after`: los bordes de un pizarrón nunca están tan
-  limpios como el centro.
+**Textura** — `assets/textures/pizarra.jpg` (una foto de pizarra real,
+1920x1278, 312 KB).
+
+La clave es que **no se repite ni se corta**: se usa una sola vez, con
+`background-size: cover` y anclada al viewport (`position: fixed` en
+`body::before`, `background-attachment: fixed` en las demás
+superficies). Al scrollear, el contenido se mueve y la pizarra queda
+quieta — que es exactamente la sensación de estar parado frente a un
+pizarrón.
+
+El color **no** viene de la foto: `mix-blend-mode: luminosity` toma el
+relieve de la imagen y el tono del fondo que tenga debajo. Por eso un
+solo archivo sirve para el pizarrón verde y para el negro de las
+secciones destacadas; sólo cambia el `background-color`.
+
+Encima va `--grano`, un ruido `feTurbulence` en SVG embebido, que le
+devuelve nitidez a la foto al 100% de zoom. Y `body::after` pone una
+viñeta: los bordes de un pizarrón nunca quedan tan limpios como el
+centro.
 
 Las superficies que pintan su propio fondo (header, menú mobile,
-secciones negras, navegación entre proyectos) reaplican el grano como
-capa de `background` con `background-blend-mode`, porque tapan la capa
-fija.
+secciones negras, navegación entre proyectos) repiten las dos capas con
+`background-blend-mode`, porque taparían la capa fija.
 
 ## Tipografía
 
