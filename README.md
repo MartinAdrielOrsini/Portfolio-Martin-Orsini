@@ -66,14 +66,14 @@ tipográfica; retícula y aire. Nada decorativo.
 | Texto | `--ink` | `#111111` |
 | Texto secundario | `--ink-soft` | `#565656` |
 | Metadatos | `--ink-faint` | `#6E6E6E` |
-| Acento | `--accent` | `#C6732F` |
-| Acento como texto | `--accent-ink` | `#A85C1F` |
+| Acento | `--accent` | `#DD6B0E` |
+| Acento como texto | `--accent-ink` | `#B0550B` |
 | Bloque invertido | `--dark-bg` | `#111111` |
-| Sección 2 | `.section--accent` | fondo `#C6732F`, texto negro |
+| Sección 2 | `.section--accent` | fondo `#DD6B0E`, texto negro |
 
-> El acento tal cual sobre blanco da 3,3:1 y no se lee como texto, así que
-> para texto se usa una versión más quemada (4,98:1). Sobre los bloques
-> negros el acento puro rinde 5,3:1 y va directo — por eso
+> El acento tal cual sobre blanco da 3,4:1 y no se lee como texto, así que
+> para texto se usa una versión más quemada (5,06:1). Sobre los bloques
+> negros el acento puro rinde 5,56:1 y va directo — por eso
 > `.section--dark` redefine `--accent-ink` a `var(--accent)`.
 
 Los dos proyectos destacados (Cerveceros del Sur y Estrella de Maldonado)
@@ -101,19 +101,31 @@ Google Fonts; el stack busca la Helvetica real antes de rendirse a Arial:
 
 Es la portada, así que tiene reglas propias:
 
-- **"Portfolio"** en caja baja, tracking `-0.055em`. El cuerpo no es fijo:
-  se calcula como `min(26.5cqw, 40svh, 420px)`. La primera acota por
-  ancho de contenedor, la segunda por alto de viewport. Sin el tope en
-  `svh`, en un portátil bajo la palabra empujaba el call to action fuera
-  de pantalla. Ocupa ~68% del viewport.
-- Se mide contra el **contenedor** (`cqw`) y no contra el viewport porque
-  el `vw` incluye la barra de scroll, y eso alcanzaba para cortarla.
-- **El asterisco** es un SVG de ocho brazos cónicos, en `--accent`,
-  colgado arriba a la derecha de la palabra como una llamada al pie. Es
-  la única nota de color de la portada.
-- **"Martin Orsini"** comparte peso (700) y color con el titular; sólo
-  cambia el cuerpo. Es la segunda línea del par, no un pie.
 
+EstÃ¡ calcado de un mockup del autor (1920x1080). Los valores clave
+salieron de medir esa imagen, no de estimarlos:
+
+- **Tracking `-0.053em`.** "Portfolio" en Inter 700 mide 4,1582 em sin
+  tracking; en la referencia mide 3,683 em. La diferencia repartida entre
+  los nueve caracteres da âˆ’0,0528 em. El render da 3,681.
+- **Cuerpo:** `min(26.5cqw, 34svh, 420px)`. La primera acota por ancho de
+  contenedor, la segunda por alto de viewport. Sin el tope en `svh`, en un
+  portÃ¡til bajo la palabra empujaba el call to action fuera de pantalla.
+  Se mide contra el **contenedor** y no contra el viewport porque el `vw`
+  incluye la barra de scroll, y eso alcanzaba para cortarla. Por debajo de
+  700 px de contenedor baja a `23cqw`: el asterisco sobresale 0,255 em por
+  la derecha y en mobile no hay margen fuera del contenedor donde apoyarlo.
+- **El asterisco** es el glifo del tipo, no un dibujo. En Inter 700 su
+  mancha ocupa 0,3975 de su em y el centro cae 0,5238 em sobre la lÃ­nea de
+  base; en la referencia mide 0,516 em del titular, con el centro en el
+  borde derecho de la palabra y 0,779 em sobre la base. De ahÃ­ salen
+  `font-size: 1.297em`, `top: -0.328em` y `translateX(-0.281em)`.
+  Verificado midiendo la tinta sobre un canvas: coincide con la referencia
+  dentro de 0,0004 em.
+- **"Martin Orsini"** comparte peso (700) y color con el titular; sÃ³lo
+  cambia el cuerpo.
+- El hero descuenta `clamp(44px, 6.5svh, 74px)` de su alto para que asome
+  la franja naranja de la secciÃ³n 2.
 ### El parallax de entrada
 
 El hero es `position: sticky` con `z-index: 0` y alto fijo de una
