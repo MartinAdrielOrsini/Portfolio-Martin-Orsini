@@ -96,11 +96,16 @@ Google Fonts; el stack busca la Helvetica real antes de rendirse a Arial:
 - **Rótulos:** 11 px, caja alta, tracking `0.16em`.
 - La jerarquía viene del tamaño y del aire, nunca de cambiar de familia.
 
-El hero calcula el cuerpo de "PORTFOLIO" como fracción del contenedor
-(`cqw`), no del viewport: nueve caracteres en Inter bold miden 5,31 em,
-así que el cuerpo es ~17,9% del ancho y la palabra llega siempre al 95%
+El hero calcula el cuerpo de "Portfolio" como fracción del contenedor
+(`cqw`), no del viewport: en caja baja los nueve caracteres miden 0,407 em
+cada uno, así que el cuerpo es 24% del ancho y la palabra ocupa el 88%
 del margen útil. Se mide contra el contenedor porque el `vw` incluye la
 barra de scroll y eso alcanzaba para cortar la palabra.
+
+El interletrado va en `-0.055em`. A ese cuerpo el tracking por defecto
+abre demasiado las letras y la palabra se desarma; cerrado, las formas se
+tocan como en la cartelería suiza. Si cambiás el cuerpo, revisá que la
+palabra siga entrando: la fracción está atada al ancho de la letra.
 
 ## Contraste
 

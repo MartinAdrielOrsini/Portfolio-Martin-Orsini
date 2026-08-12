@@ -168,7 +168,6 @@ em { font-style: italic; }
 .copy-status,
 .form__status { font-size: var(--fs-small); line-height: 1.5; }
 
-.hero__scroll-label,
 .index__preview-cue,
 .project-nav__dir {
   font-size: var(--fs-micro);
@@ -573,14 +572,14 @@ em { font-style: italic; }
      arranca debajo y hay que descontarlo. */
   min-height: calc(100svh - var(--header-h));
   display: flex;
-  padding-block: clamp(1.75rem, 1.2rem + 2vw, 3.25rem);
+  padding-block: clamp(1.25rem, 0.9rem + 1.2vw, 2rem);
 }
 .hero__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: clamp(1.25rem, 0.9rem + 1.4vw, 2.25rem);
+  gap: clamp(0.9rem, 0.7rem + 0.8vw, 1.4rem);
   width: 100%;
   /* Centrado vertical con margin auto en vez de align-items: center.
      Si el contenido es más alto que la pantalla, el margen se resuelve
@@ -591,40 +590,40 @@ em { font-style: italic; }
 .hero__title {
   display: grid;
   justify-items: center;
-  gap: 0.5rem;
+  gap: clamp(0.4rem, 0.2rem + 0.6vw, 0.9rem);
   margin: 0;
 }
 
-/* PORTFOLIO ocupa todo el ancho útil. El cuerpo no es un tamaño fijo:
-   se calcula como una fracción del contenedor, para que la palabra
-   llegue siempre justa de margen a margen. Nueve caracteres en Inter
-   bold ocupan ~6,05 em, así que el cuerpo es 100/6,05 ≈ 16,5% del ancho.
-   Se mide contra el contenedor y no contra el viewport, porque el vw
-   incluye la barra de scroll y eso alcanzaba para cortar la palabra. */
+/* "Portfolio" en caja baja, con el interletrado muy cerrado: a este
+   cuerpo el tracking por defecto abre demasiado las letras y la palabra
+   se desarma. El cuerpo no es un tamaño fijo, es una fracción del
+   contenedor, para que llegue siempre justa de margen a margen. Se mide
+   contra el contenedor y no contra el viewport porque el vw incluye la
+   barra de scroll, y eso alcanzaba para cortar la palabra. */
 .hero__word {
   display: block;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: min(15.4vw, 250px);   /* respaldo sin container queries */
-  line-height: 0.9;
-  letter-spacing: -0.045em;
-  text-transform: uppercase;
+  font-size: min(20.5vw, 330px);   /* respaldo sin container queries */
+  line-height: 0.86;
+  letter-spacing: -0.055em;
 }
 
 @supports (font-size: 1cqw) {
   .hero__inner { container-type: inline-size; }
-  .hero__word { font-size: min(17.9cqw, 265px); }
+  .hero__word { font-size: min(24cqw, 350px); }
 }
 
-/* El nombre: un escalón claro abajo, en regular y sin caja alta */
+/* El nombre: sube de jerarquía. Mismo negro que el titular y peso medio,
+   así deja de leerse como un pie y pasa a ser la segunda línea del par. */
 .hero__name {
   display: block;
   font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1rem, 0.72rem + 1.15vw, 1.75rem);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--ink-soft);
+  font-weight: 500;
+  font-size: clamp(1.375rem, 0.9rem + 2.1vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--ink);
 }
 
 .hero__lead {
@@ -635,41 +634,6 @@ em { font-style: italic; }
   color: var(--ink-soft);
 }
 .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
-
-/* Fuera del flujo: si ocupa altura, empuja el call to action abajo del
-   pliegue en pantallas de portátil. */
-.hero__scroll {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: clamp(0.75rem, 1.6vw, 1.5rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--ink-faint);
-}
-.hero__scroll-line {
-  display: block;
-  width: 1px;
-  height: 34px;
-  background: var(--line);
-  position: relative;
-  overflow: hidden;
-}
-.hero__scroll-line::after {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 45%;
-  background: var(--ink);
-  animation: scrollHint 2.6s var(--ease) infinite;
-}
-@keyframes scrollHint {
-  0%   { transform: translateY(-110%); }
-  60%  { transform: translateY(240%); }
-  100% { transform: translateY(240%); }
-}
 
 
 /* ============================================================
@@ -1177,7 +1141,6 @@ em { font-style: italic; }
   }
 
   .js .reveal { opacity: 1; transform: none; }
-  .hero__scroll-line::after { animation: none; transform: none; width: 100%; }
   .pg-item:hover .fig__frame,
   .pg-item:hover .fig__frame img { transform: none; }
 }
@@ -1187,7 +1150,7 @@ em { font-style: italic; }
    IMPRESIÓN
    ============================================================ */
 @media print {
-  .site-header, .menu-toggle, .hero__scroll,
+  .site-header, .menu-toggle,
   .form, .footer__top, .skip-link { display: none !important; }
   body { background: #fff !important; color: #000 !important; }
   body::before, body::after { display: none !important; }
