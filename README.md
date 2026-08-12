@@ -53,70 +53,59 @@ proporciones del material.
 5. **Los textos** — están redactados mirando las piezas, no los briefs.
    Revisá cliente, año y rol de cada caso.
 
-## Sistema visual — pizarrón
+## Sistema visual — escuela suiza
 
-La web es un pizarrón de aula. Todo el lenguaje gráfico sale de ahí.
+Función por sobre forma. Blanco, negro y un solo acento; una sola familia
+tipográfica; retícula y aire. Nada decorativo.
 
 **Paleta** (en `:root` de `css/styles.css`):
 
 | Rol | Token | Hex |
 |---|---|---|
-| Pizarrón verde (base) | `--bg` | `#4F5321` OLIVE |
-| Pizarrón negro (destacados) | `--dark-bg` | `#191B10` |
-| Tiza (texto) | `--ink` | `#DEDBD2` STONE |
-| Acento, rellenos | `--accent` | `#C6732F` |
-| Acento, texto | `--accent-ink` | `#F1BB85` |
-| Reserva | `--sage` | `#9CA35A` SAGE |
+| Fondo | `--bg` | `#FFFFFF` |
+| Texto | `--ink` | `#111111` |
+| Texto secundario | `--ink-soft` | `#565656` |
+| Metadatos | `--ink-faint` | `#6E6E6E` |
+| Acento | `--accent` | `#C6732F` |
+| Acento como texto | `--accent-ink` | `#A85C1F` |
+| Bloque invertido | `--dark-bg` | `#111111` |
 
-> El acento puro sobre el verde da 2,27:1 de contraste y no se lee. Por eso
-> como **texto** se usa `--accent-ink`, un naranja aclarado que da 4,7:1 y
-> que además es exactamente el aspecto de una tiza naranja. El rust puro
-> queda para rellenos (fondo de botón, indicador de scroll).
+> El acento tal cual sobre blanco da 3,3:1 y no se lee como texto, así que
+> para texto se usa una versión más quemada (4,98:1). Sobre los bloques
+> negros el acento puro rinde 5,3:1 y va directo — por eso
+> `.section--dark` redefine `--accent-ink` a `var(--accent)`.
 
-**Textura** — `assets/textures/pizarra.jpg` (una foto de pizarra real,
-1920x1278, 312 KB).
+Los dos proyectos destacados (Cerveceros del Sur y Estrella de Maldonado)
+son bloques invertidos: negro pleno. Es el único recurso de énfasis.
 
-La clave es que **no se repite ni se corta**: se usa una sola vez, con
-`background-size: cover` y anclada al viewport (`position: fixed` en
-`body::before`, `background-attachment: fixed` en las demás
-superficies). Al scrollear, el contenido se mueve y la pizarra queda
-quieta — que es exactamente la sensación de estar parado frente a un
-pizarrón.
-
-El color **no** viene de la foto: `mix-blend-mode: luminosity` toma el
-relieve de la imagen y el tono del fondo que tenga debajo. Por eso un
-solo archivo sirve para el pizarrón verde y para el negro de las
-secciones destacadas; sólo cambia el `background-color`.
-
-Encima va `--grano`, un ruido `feTurbulence` en SVG embebido, que le
-devuelve nitidez a la foto al 100% de zoom. Y `body::after` pone una
-viñeta: los bordes de un pizarrón nunca quedan tan limpios como el
-centro.
-
-Las superficies que pintan su propio fondo (header, menú mobile,
-secciones negras, navegación entre proyectos) repiten las dos capas con
-`background-blend-mode`, porque taparían la capa fija.
+Todas las esquinas son rectas: `border-radius: 0` en botones, marcos y
+etiquetas.
 
 ## Tipografía
 
-- **Títulos:** Archivo (variable), eje de ancho `wdth 125` —24% más
-  expandida que la normal—, peso 800, en caja alta, con un halo de tiza
-  hecho con dos `text-shadow` muy abiertos.
-- **Texto e interfaz:** Space Grotesk.
-- **Anotaciones a mano:** Caveat, en epígrafes, el aviso de scroll, el
-  "Ver caso" y la navegación entre proyectos. Es lo que en un pizarrón
-  se escribiría al margen.
-- Sin serif en ninguna parte.
+Una sola familia. **Inter** es lo más cercano a Helvetica que hay en
+Google Fonts; el stack busca la Helvetica real antes de rendirse a Arial:
 
-Para cambiar el grado de expansión, tocá `--wdth-expanded` en el bloque
-`:root` (rango válido: 62 a 125).
+```
+'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif
+```
+
+- **Titulares:** peso 700, tracking cerrado (`-0.032em`). El peso hace el
+  trabajo que antes hacía el ancho expandido.
+- **Texto:** peso 400.
+- **Rótulos:** 11 px, caja alta, tracking `0.16em`.
+- La jerarquía viene del tamaño y del aire, nunca de cambiar de familia.
+
+El hero calcula el cuerpo de "PORTFOLIO" como fracción del contenedor
+(`cqw`), no del viewport: nueve caracteres en Inter bold miden 5,31 em,
+así que el cuerpo es ~17,9% del ancho y la palabra llega siempre al 95%
+del margen útil. Se mide contra el contenedor porque el `vw` incluye la
+barra de scroll y eso alcanzaba para cortar la palabra.
 
 ## Contraste
 
-Verificado recorriendo el DOM: **cero textos por debajo de AA**. Si
-tocás la paleta, revisá que la tiza translúcida (`--ink-soft`,
-`--ink-faint`) no baje de 0.84 de alfa: sobre el verde pierde contraste
-mucho más rápido que sobre el negro.
+Verificado recorriendo el DOM con composición de alfa: **cero textos por
+debajo de AA**, tanto en las secciones blancas como en los bloques negros.
 
 ## Cómo cambiar o agregar imágenes
 
@@ -151,8 +140,8 @@ Para recibir los mensajes:
 
 - Mobile-first, verificado sin scroll horizontal de 320 px a 2560 px.
 - Menú hamburguesa en mobile, navegación horizontal desde 1024 px.
-- Índice: carrusel con swipe en mobile, 2 columnas desde 1024 px y 3
-  desde 1440 px. Los puntos del carrusel se generan solos, uno por card.
+- Índice: lista simple en mobile; desde 1024 px, lista a la izquierda y
+  vista previa del proyecto seleccionado a la derecha.
 - Respeta `prefers-reduced-motion`.
 - `loading="lazy"` y `alt` en las 88 imágenes.
 - Sin frameworks ni dependencias.

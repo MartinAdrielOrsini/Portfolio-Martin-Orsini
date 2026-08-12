@@ -13,67 +13,52 @@
    Tocá acá para cambiar colores, tipografías y ritmo.
    ============================================================ */
 :root {
-  /* --- Paleta --------------------------------------------------
-     OLIVE #4F5321 · SAGE #9CA35A · RUST #C87330 · STONE #DEDBD2
-     La web es un pizarrón: fondo verde, texto de tiza, naranja de
-     acento. Las secciones destacadas usan pizarrón negro.          */
-  --olive:         #4F5321;
-  --sage:          #9CA35A;
-  --rust:          #C87330;
-  --stone:         #DEDBD2;
-
-  /* Pizarrón verde (base) */
-  --bg:            #4F5321;
-  --bg-warm:       #454A1D;   /* marcos y cajas, un tono más hondo */
-  --ink:           #DEDBD2;   /* tiza */
-  /* Sobre el verde la tiza translúcida pierde contraste rápido: 0.85 es
-     el mínimo que todavía pasa AA (4,74:1) para texto chico. */
-  --ink-soft:      rgba(222, 219, 210, 0.92);
-  --ink-faint:     rgba(222, 219, 210, 0.84);
-  --line:          rgba(222, 219, 210, 0.34);
-  --line-soft:     rgba(222, 219, 210, 0.18);
-  /* Acento puro para rellenos (fondo de botón, barras). Sobre el verde
-     tiene 2,27:1 y no se lee, así que como TEXTO se usa la versión
-     aclarada —que además es lo que parece una tiza naranja—: 4,7:1. */
+  /* --- Color ---------------------------------------------------
+     Escuela suiza: blanco, negro y un solo acento. Nada más.       */
+  --bg:            #FFFFFF;
+  --bg-warm:       #F2F2F0;   /* gris de encuadre, para los marcos  */
+  --ink:           #111111;
+  --ink-soft:      #565656;
+  --ink-faint:     #6E6E6E;   /* 5,1:1 sobre blanco; #8A8A8A no llegaba */
+  --line:          #D8D8D6;
+  --line-soft:     #E9E9E7;
+  /* El acento tal cual sobre blanco da 3,3:1 y no se lee como texto, así
+     que para texto se usa una versión más quemada (4,98:1). Sobre los
+     bloques negros, en cambio, el acento puro rinde 5,3:1 y va directo. */
   --accent:        #C6732F;
-  --accent-ink:    #F1BB85;
+  --accent-ink:    #A85C1F;
 
-  /* Pizarrón negro (secciones destacadas) */
-  --dark-bg:       #191B10;
-  --dark-ink:      #DEDBD2;
-  --dark-soft:     rgba(222, 219, 210, 0.62);
-  --dark-line:     rgba(222, 219, 210, 0.20);
+  /* Bloques invertidos: los dos proyectos destacados */
+  --dark-bg:       #111111;
+  --dark-ink:      #FFFFFF;
+  --dark-soft:     #A8A8A8;
+  --dark-line:     rgba(255, 255, 255, 0.22);
 
-  /* Tipografía — todo sans. Archivo es variable y tiene eje de ancho
-     (wdth 62–125): los títulos usan la versión expandida y pesada. */
-  --font-sans:    'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-  --font-chalk:   'Caveat', 'Segoe Print', cursive;  /* anotaciones a mano */
-  --wdth-expanded: 'wdth' 125;
+  /* --- Tipografía ----------------------------------------------
+     Una sola familia, como manda la escuela: una grotesca neutra.
+     Inter es lo más cercano a Helvetica que hay en Google Fonts; el
+     fallback busca la Helvetica real antes de rendirse a Arial.     */
+  --font-sans:    'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);
 
-  /* Tamaños calibrados para un portátil de 1366x768 (≈640 px útiles de
-     alto). Los clamp crecen con el ancho PERO el tope se limita después
-     con la altura de viewport, más abajo. */
-  --fs-micro:  0.6875rem;                          /* 11px  — eyebrows */
-  --fs-small:  0.8125rem;                          /* 13px  — metadatos */
+  /* Escala. Calibrada para un portátil de 1366x768 (≈630 px útiles). */
+  --fs-micro:  0.6875rem;                          /* 11px — rótulos */
+  --fs-small:  0.8125rem;                          /* 13px — metadatos */
   --fs-body:   clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
   --fs-lead:   clamp(1.0625rem, 0.95rem + 0.5vw, 1.3125rem);
   --fs-h3:     clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
-  /* El piso es bajo a propósito: en mayúsculas y expandida, una palabra
-     como "SELECCIONADO." no entra en 320 px con un cuerpo más grande. */
-  --fs-h2:     clamp(1.375rem, 1rem + 1.5vw, 2.5rem);
+  --fs-h2:     clamp(1.5rem, 1.05rem + 1.9vw, 3rem);
   --fs-h1:     clamp(2.25rem, 1.2rem + 3.6vw, 4.75rem);
 
   /* Ritmo y medidas */
-  --gutter:        20px;
+  --gutter:        24px;
   --max-w:         1560px;
   --measure:       62ch;
-  --section-y:     clamp(1.75rem, 1.4rem + 1.4vw, 3rem);
-  --gap:           clamp(0.875rem, 0.6rem + 1.1vw, 1.75rem);
+  --section-y:     clamp(2.25rem, 1.7rem + 2.2vw, 4.25rem);
+  --gap:           clamp(1rem, 0.7rem + 1.3vw, 2rem);
   --header-h:      64px;
 
-  /* Ninguna imagen debe superar esto: así una figura siempre entra en
-     pantalla sin scrollear, incluso en portátiles bajos. */
+  /* Ninguna imagen supera esto: una figura siempre entra en pantalla */
   --media-max-h:   72svh;
 
   /* Movimiento */
@@ -102,64 +87,11 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
-  line-height: 1.65;
+  line-height: 1.6;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-
-/* ============================================================
-   2b — TEXTURA DE PIZARRÓN
-
-   La foto de la pizarra se usa UNA sola vez, a pantalla completa y
-   anclada al viewport (cover + position:fixed). Nunca se repite ni se
-   corta: al scrollear el contenido se mueve y la pizarra queda quieta,
-   que es justo la sensación de estar frente a un pizarrón.
-
-   El color lo pone el CSS, no la foto: `mix-blend-mode: luminosity`
-   toma el relieve de la imagen y el tono del fondo que tenga debajo.
-   Por eso alcanza con un solo archivo para el pizarrón verde y para el
-   negro de las secciones destacadas.
-   ============================================================ */
-:root {
-  --pizarra: url("../assets/textures/pizarra.jpg");
-
-  /* Grano fino encima de la foto: le devuelve nitidez al 100% de zoom */
-  --grano: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E");
-}
-
-/* Capa 1 — la pizarra */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background-image: var(--grano), var(--pizarra);
-  background-size: 260px 260px, cover;
-  background-position: center, center;
-  background-repeat: repeat, no-repeat;
-  background-blend-mode: overlay;
-  mix-blend-mode: luminosity;
-  opacity: 0.92;
-}
-
-/* Capa 2 — viñeta: los bordes de un pizarrón nunca quedan tan limpios */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(125% 95% at 50% 42%,
-              transparent 38%, rgba(0, 0, 0, 0.34) 100%);
-}
-
-/* El contenido va por encima de las dos capas */
-.site-header, main, .nav, .nav-backdrop, .skip-link { position: relative; z-index: 2; }
-.site-header { z-index: 100; }
-.skip-link { z-index: 200; }
 
 h1, h2, h3, h4, p, dl, dd, figure, blockquote { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
@@ -170,13 +102,12 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 a { color: inherit; text-decoration: none; }
 
 :focus-visible {
-  outline: 2px solid var(--accent-ink);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 .section--dark :focus-visible { outline-color: var(--dark-ink); }
 
-::selection { background: var(--accent); color: var(--stone); }
+::selection { background: var(--ink); color: var(--bg); }
 
 .skip-link {
   position: fixed;
@@ -216,76 +147,35 @@ em { font-style: italic; }
 }
 .section--dark .eyebrow { color: var(--dark-soft); }
 
-/* --- Trazo de tiza ------------------------------------------------
-   La tiza no imprime parejo: el borde se deshilacha y suelta polvo.
-   Se resuelve con dos sombras muy abiertas y una opacidad apenas
-   menor al blanco puro. */
-.chalk,
-.hero__title,
-.section-title,
-.project__title,
-.contact__claim {
-  color: var(--ink);
-  text-shadow:
-    0 0 1px rgba(222, 219, 210, 0.55),
-    0 0 6px rgba(222, 219, 210, 0.20),
-    0 1px 0 rgba(0, 0, 0, 0.22);
-}
-
-/* PORTFOLIO va un paso más lejos: el mismo grano de la pizarra recorta
-   la letra, así el trazo queda poroso como la tiza de verdad. Va dentro
-   de @supports y con el relleno sólido declarado antes, para que si el
-   navegador no lo soporta la palabra igual se vea. */
-.hero__word { -webkit-text-fill-color: var(--ink); }
-
-@supports (-webkit-background-clip: text) or (background-clip: text) {
-  .hero__word {
-    background-image: var(--grano), linear-gradient(var(--ink), var(--ink));
-    background-size: 170px 170px, 100% 100%;
-    background-blend-mode: overlay;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow:
-      0 0 2px rgba(222, 219, 210, 0.30),
-      0 0 14px rgba(222, 219, 210, 0.14);
-  }
-}
-
+/* Titulares: la misma grotesca, en negrita y con el tracking cerrado.
+   El peso hace el trabajo que antes hacía el ancho expandido. */
 .section-title,
 .project__title {
   font-family: var(--font-display);
-  font-variation-settings: var(--wdth-expanded);
-  font-weight: 800;
+  font-weight: 700;
   font-size: var(--fs-h2);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
   text-wrap: balance;
 }
 .section-title em,
 .project__title em { font-style: normal; font-weight: 400; color: var(--accent-ink); }
 
-/* --- Anotaciones a mano -------------------------------------------
-   Lo que en un pizarrón se escribiría al margen: epígrafes, avisos y
-   pistas. Caveat necesita más cuerpo que una sans para leerse igual. */
+/* Epígrafes y pistas: mismo cuerpo chico que el resto de los metadatos.
+   La jerarquía la da el tamaño y el aire, no un cambio de familia. */
 .fig__cap,
-.hero__scroll-label,
-.index__preview-cue,
-.project-nav__dir,
 .section-head__note,
 .copy-status,
-.form__status {
-  font-family: var(--font-chalk);
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  text-transform: none;
-}
-.fig__cap,
-.section-head__note { font-size: 1.15rem; line-height: 1.3; }
+.form__status { font-size: var(--fs-small); line-height: 1.5; }
+
 .hero__scroll-label,
 .index__preview-cue,
-.project-nav__dir { font-size: 1.05rem; letter-spacing: 0.02em; }
+.project-nav__dir {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
 
 .block-title {
   font-family: var(--font-sans);
@@ -300,10 +190,10 @@ em { font-style: italic; }
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-soft);
-  padding-bottom: 0.9rem;
-  margin-bottom: var(--gap);
-  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  padding-bottom: 0.8rem;
+  margin-bottom: clamp(1.25rem, 0.9rem + 1.2vw, 2rem);
+  border-bottom: 1px solid var(--ink);
 }
 .section--dark .block-title--section {
   color: var(--dark-soft);
@@ -346,29 +236,26 @@ em { font-style: italic; }
 }
 .section--rule { border-top: 1px solid var(--line); }
 
-/* Pizarrón negro. Pinta su propio fondo, así que tapa la capa fija: se
-   le vuelve a poner la misma pizarra, también anclada al viewport, para
-   que empalme sin costura con el resto. Sólo cambia el color base. */
+/* Bloque invertido: negro pleno. Marca los dos proyectos destacados
+   sin agregar ningun recurso decorativo. */
 .section--dark {
-  background-color: var(--dark-bg);
-  background-image: var(--grano), var(--pizarra);
-  background-size: 260px 260px, cover;
-  background-position: center, center;
-  background-repeat: repeat, no-repeat;
-  background-attachment: fixed, fixed;
-  background-blend-mode: overlay, luminosity;
+  background: var(--dark-bg);
   color: var(--dark-ink);
+  /* Sobre negro el acento puro ya es legible: no hace falta quemarlo */
+  --accent-ink: var(--accent);
+  --line: var(--dark-line);
+  --line-soft: rgba(255, 255, 255, 0.12);
 }
 .section--dark .fig__cap,
 .section--dark .project__meta dt { color: var(--dark-soft); }
 .section--dark .fig__frame {
-  background: #232616;
+  background: #1C1C1C;
   border-color: var(--dark-line);
 }
-.section--dark .fig__frame::after { color: rgba(222, 219, 210, 0.45); }
+.section--dark .fig__frame::after { color: rgba(255, 255, 255, 0.45); }
 
-.section-head { margin-bottom: clamp(1.25rem, 0.9rem + 1vw, 2rem); }
-.section-head .eyebrow { margin-bottom: 0.75rem; }
+.section-head { margin-bottom: clamp(1.5rem, 1.1rem + 1.5vw, 2.75rem); }
+.section-head .eyebrow { margin-bottom: clamp(0.9rem, 0.7rem + 0.8vw, 1.5rem); }
 .section-head--split { display: grid; gap: 1.75rem; }
 /* Sin esto, un título largo en caja alta fija el min-content del grid y
    lo desborda en pantallas chicas. */
@@ -393,7 +280,7 @@ em { font-style: italic; }
 .grid-asym  { display: grid; gap: var(--gap); }
 
 .plain-list li {
-  padding-block: 0.35rem;
+  padding-block: 0.4rem;
   border-bottom: 1px solid var(--line-soft);
   font-size: var(--fs-small);
   line-height: 1.5;
@@ -405,7 +292,7 @@ em { font-style: italic; }
   font-size: var(--fs-small);
   padding: 0.28rem 0.7rem;
   border: 1px solid var(--line);
-  border-radius: 100px;
+  border-radius: 0;
   line-height: 1.4;
 }
 
@@ -418,7 +305,7 @@ em { font-style: italic; }
   gap: 0.5rem;
   min-height: 48px;                  /* área táctil cómoda */
   padding: 0.7rem 1.4rem;
-  border-radius: 100px;
+  border-radius: 0;
   font-size: var(--fs-small);
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -430,8 +317,8 @@ em { font-style: italic; }
 }
 .btn__icon { width: 16px; height: 16px; flex: none; }
 
-.btn--primary { background: var(--ink); color: var(--olive); }
-.btn--primary:hover { background: var(--accent); color: var(--stone); }
+.btn--primary { background: var(--ink); color: var(--bg); }
+.btn--primary:hover { background: var(--accent); color: #FFFFFF; }
 
 .btn--ghost { border-color: var(--line); color: var(--ink); }
 .btn--ghost:hover { border-color: var(--ink); }
@@ -441,11 +328,12 @@ em { font-style: italic; }
   color: var(--dark-bg);
   align-self: start;
 }
-.btn--solid:hover { background: var(--accent); color: var(--stone); }
+.btn--solid:hover { background: var(--accent); color: #FFFFFF; }
 
 .btn--copy {
   min-height: 44px;
   padding: 0.55rem 1rem;
+  border-radius: 0;
   border-color: var(--dark-line);
   color: var(--dark-ink);
 }
@@ -472,10 +360,9 @@ em { font-style: italic; }
   max-height: var(--media-max-h);
   background: var(--bg-warm);
   border: 1px solid var(--line-soft);
-  border-radius: 2px;
+  border-radius: 0;
 }
 
-/* Trama diagonal del placeholder: rayado de tiza sobre el pizarrón */
 .fig__frame::before {
   content: "";
   position: absolute;
@@ -483,7 +370,7 @@ em { font-style: italic; }
   background-image: repeating-linear-gradient(
     -45deg,
     transparent 0 9px,
-    rgba(222, 219, 210, 0.09) 9px 10px
+    rgba(17, 17, 17, 0.055) 9px 10px
   );
 }
 
@@ -583,13 +470,7 @@ em { font-style: italic; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: var(--bg);
-  background-image: var(--grano), var(--pizarra);
-  background-size: 260px 260px, cover;
-  background-position: center, center;
-  background-repeat: repeat, no-repeat;
-  background-attachment: fixed, fixed;
-  background-blend-mode: overlay, luminosity;
+  background: var(--bg);
   border-bottom: 1px solid transparent;
   transition: border-color var(--t-mid) var(--ease);
 }
@@ -620,13 +501,7 @@ em { font-style: italic; }
 .nav {
   position: fixed;
   inset: var(--header-h) 0 auto 0;
-  background-color: var(--bg);
-  background-image: var(--grano), var(--pizarra);
-  background-size: 260px 260px, cover;
-  background-position: center, center;
-  background-repeat: repeat, no-repeat;
-  background-attachment: fixed, fixed;
-  background-blend-mode: overlay, luminosity;
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
   padding: 1rem var(--gutter) 2rem;
   transform: translateY(-102%);
@@ -642,10 +517,8 @@ em { font-style: italic; }
   display: block;
   padding: 0.9rem 0;
   font-family: var(--font-display);
-  font-variation-settings: var(--wdth-expanded);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   font-size: 1.5rem;
   line-height: 1.2;
   border-bottom: 1px solid var(--line-soft);
@@ -707,7 +580,7 @@ em { font-style: italic; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: clamp(1rem, 0.7rem + 1.2vw, 1.75rem);
+  gap: clamp(1.25rem, 0.9rem + 1.4vw, 2.25rem);
   width: 100%;
   /* Centrado vertical con margin auto en vez de align-items: center.
      Si el contenido es más alto que la pantalla, el margen se resuelve
@@ -718,50 +591,47 @@ em { font-style: italic; }
 .hero__title {
   display: grid;
   justify-items: center;
-  gap: 0.15em;
+  gap: 0.5rem;
   margin: 0;
 }
 
-/* PORTFOLIO: el trazo grueso de tiza, ocupando todo el ancho útil.
-   El tamaño lo fija el ancho del viewport dividido por la cantidad de
-   letras, así la palabra siempre llega justa de margen a margen. */
+/* PORTFOLIO ocupa todo el ancho útil. El cuerpo no es un tamaño fijo:
+   se calcula como una fracción del contenedor, para que la palabra
+   llegue siempre justa de margen a margen. Nueve caracteres en Inter
+   bold ocupan ~6,05 em, así que el cuerpo es 100/6,05 ≈ 16,5% del ancho.
+   Se mide contra el contenedor y no contra el viewport, porque el vw
+   incluye la barra de scroll y eso alcanzaba para cortar la palabra. */
 .hero__word {
   display: block;
   font-family: var(--font-display);
-  font-variation-settings: var(--wdth-expanded);
-  font-weight: 800;
-  /* Nueve letras en Archivo expandida ocupan ~7,3 em, así que para que
-     la palabra llegue justa de margen a margen el cuerpo tiene que ser
-     ~13,6% del ancho del contenedor. Se mide contra el contenedor y no
-     contra el viewport, porque el vw incluye la barra de scroll y en
-     pantallas chicas eso alcanzaba para cortar la palabra. */
-  font-size: min(10.6vw, 175px);   /* respaldo sin container queries */
-  line-height: 0.82;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  font-size: min(15.4vw, 250px);   /* respaldo sin container queries */
+  line-height: 0.9;
+  letter-spacing: -0.045em;
   text-transform: uppercase;
 }
 
 @supports (font-size: 1cqw) {
   .hero__inner { container-type: inline-size; }
-  .hero__word { font-size: min(13.2cqw, 185px); }
+  .hero__word { font-size: min(17.9cqw, 265px); }
 }
 
-/* El nombre, un escalón abajo en jerarquía y escrito a mano */
+/* El nombre: un escalón claro abajo, en regular y sin caja alta */
 .hero__name {
   display: block;
-  font-family: var(--font-chalk);
-  font-weight: 600;
-  font-size: min(6.5vw, 2.75rem);
-  line-height: 1;
-  letter-spacing: 0.01em;
-  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1rem, 0.72rem + 1.15vw, 1.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink-soft);
 }
 
 .hero__lead {
   font-size: var(--fs-lead);
-  line-height: 1.4;
-  max-width: 46ch;
-  letter-spacing: -0.01em;
+  line-height: 1.45;
+  max-width: 44ch;
+  letter-spacing: -0.012em;
   color: var(--ink-soft);
 }
 .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
@@ -776,7 +646,7 @@ em { font-style: italic; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
   color: var(--ink-faint);
 }
 .hero__scroll-line {
@@ -792,7 +662,7 @@ em { font-style: italic; }
   position: absolute;
   inset: 0 0 auto 0;
   height: 45%;
-  background: var(--accent-ink);
+  background: var(--ink);
   animation: scrollHint 2.6s var(--ease) infinite;
 }
 @keyframes scrollHint {
@@ -805,13 +675,13 @@ em { font-style: italic; }
 /* ============================================================
    8 — SOBRE MÍ
    ============================================================ */
-.about { display: grid; gap: clamp(1.25rem, 0.8rem + 2vw, 2.5rem); }
-.about__body { display: grid; gap: 0.9rem; align-content: start; }
-.about__body > p { max-width: var(--measure); }
-.about__grid { display: grid; gap: 1.25rem; align-content: start; }
+.about { display: grid; gap: clamp(2rem, 1.2rem + 3.5vw, 4.5rem); }
+.about__body { display: grid; gap: 1.25rem; align-content: start; }
+.about__body > p { max-width: 46ch; }
+.about__grid { display: grid; gap: clamp(1.1rem, 0.8rem + 1vw, 1.75rem); align-content: start; }
 
 /* El retrato no debe mandar la altura de la sección. */
-.about__portrait { max-width: 300px; }
+.about__portrait { max-width: 260px; }
 
 .about__label {
   font-size: var(--fs-micro);
@@ -819,9 +689,9 @@ em { font-style: italic; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.25rem;
-  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.7rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--ink);
 }
 .section--dark .about__label {
   color: var(--dark-soft);
@@ -860,9 +730,7 @@ em { font-style: italic; }
 
 .index__name {
   font-family: var(--font-display);
-  font-variation-settings: 'wdth' 112;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.1;
   font-size: clamp(1rem, 0.85rem + 0.7vw, 1.5rem);
@@ -942,7 +810,7 @@ em { font-style: italic; }
    ============================================================ */
 .project__head { margin-bottom: clamp(1.25rem, 0.9rem + 1.2vw, 2rem); }
 .project__head .eyebrow { margin-bottom: 0.75rem; }
-.project__title { margin-bottom: 1.1rem; }
+.project__title { margin-bottom: clamp(1.25rem, 0.9rem + 1.2vw, 2rem); }
 
 .project__meta {
   display: grid;
@@ -961,7 +829,7 @@ em { font-style: italic; }
 .project__meta dd { margin: 0; font-size: var(--fs-small); line-height: 1.45; }
 
 .project__lead { margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
-.project .container + .container { margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
+.project .container + .container { margin-top: clamp(2.25rem, 1.5rem + 2.4vw, 4rem); }
 
 
 /* --- Navegación entre proyectos --- */
@@ -981,13 +849,7 @@ em { font-style: italic; }
   display: grid;
   gap: 0.3rem;
   padding: 1.1rem 0;
-  background-color: var(--bg);
-  background-image: var(--grano), var(--pizarra);
-  background-size: 260px 260px, cover;
-  background-position: center, center;
-  background-repeat: repeat, no-repeat;
-  background-attachment: fixed, fixed;
-  background-blend-mode: overlay, luminosity;
+  background: var(--bg);
   transition: color var(--t-fast) var(--ease), padding var(--t-fast) var(--ease);
 }
 .section--dark .project-nav__link { background-color: var(--dark-bg); }
@@ -1002,9 +864,7 @@ em { font-style: italic; }
 .section--dark .project-nav__dir { color: var(--dark-soft); }
 .project-nav__name {
   font-family: var(--font-display);
-  font-variation-settings: 'wdth' 112;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 600;
   font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
   line-height: 1.1;
 }
@@ -1042,8 +902,7 @@ em { font-style: italic; }
 .contact { padding-bottom: 0; }
 .contact__claim {
   font-family: var(--font-display);
-  font-variation-settings: var(--wdth-expanded);
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   font-size: var(--fs-h2);
   line-height: 0.98;
@@ -1064,7 +923,6 @@ em { font-style: italic; }
 }
 .email-link {
   font-family: var(--font-display);
-  font-variation-settings: 'wdth' 105;
   font-weight: 600;
   font-size: clamp(1.375rem, 1rem + 2vw, 2.25rem);
   line-height: 1.1;
@@ -1331,7 +1189,6 @@ em { font-style: italic; }
 @media print {
   .site-header, .menu-toggle, .hero__scroll,
   .form, .footer__top, .skip-link { display: none !important; }
-  /* En papel el pizarrón no va: se imprime en blanco y negro */
   body { background: #fff !important; color: #000 !important; }
   body::before, body::after { display: none !important; }
   .section, .section--dark {
