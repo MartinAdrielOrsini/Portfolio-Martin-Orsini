@@ -122,7 +122,12 @@ salieron de medir esa imagen, no de estimarlos:
   `font-size: 1.297em`, `top: -0.328em` y `translateX(-0.281em)`.
   Verificado midiendo la tinta sobre un canvas: coincide con la referencia
   dentro de 0,0004 em.
-- **"Martin Orsini"** comparte peso (700) y color con el titular; sÃ³lo
+- **CorrecciÃ³n de par en la erre.** Con ese tracking su brazo se monta
+  sobre la te: escaneando la tinta del render, las cuatro letras del
+  centro salÃ­an como una sola mancha. Va envuelta en un span con
+  `margin-left: -0.036em` y `margin-right: 0.036em`, asÃ­ se corre a la
+  izquierda sin mover el resto de la palabra ni cambiar el ancho total.
+  Huecos medidos despuÃ©s de la correcciÃ³n: 0,015 Â· 0,0125 Â· 0,010 em.- **"Martin Orsini"** comparte peso (700) y color con el titular; sÃ³lo
   cambia el cuerpo.
 - El hero descuenta `clamp(44px, 6.5svh, 74px)` de su alto para que asome
   la franja naranja de la secciÃ³n 2.

@@ -641,6 +641,15 @@ em { font-style: italic; }
   letter-spacing: -0.053em;
 }
 
+/* Corrección de par. Con este tracking el brazo de la r se monta sobre
+   la t: el hueco entre ambas manchas es de −0,0233 em. Se corre la r a
+   la izquierda y se devuelve el mismo valor por derecha, así el par se
+   abre sin mover el resto de la palabra ni cambiar su ancho total. */
+.hero__r {
+  margin-left: -0.036em;
+  margin-right: 0.036em;
+}
+
 @supports (font-size: 1cqw) {
   .hero__inner { container-type: inline-size; }
 
