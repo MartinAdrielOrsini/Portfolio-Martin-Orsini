@@ -40,7 +40,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=7">
+<link rel="stylesheet" href="css/styles.css?v=8">
 </head>
 <body>
 
@@ -83,14 +83,25 @@
 <section class="section hero" id="hero">
   <div class="container hero__inner">
     <h1 class="hero__title reveal">
-      <span class="hero__word">Portfolio</span>
+      <span class="hero__word">Portfolio<!--
+        --><svg class="hero__mark" viewBox="-50 -50 100 100" aria-hidden="true" focusable="false">
+             <g fill="currentColor">
+               <polygon points="-4,-2 4,-2 11.5,-46 -11.5,-46"/>
+               <polygon points="-4,-2 4,-2 11.5,-46 -11.5,-46" transform="rotate(45)"/>
+               <polygon points="-4,-2 4,-2 11.5,-46 -11.5,-46" transform="rotate(90)"/>
+               <polygon points="-4,-2 4,-2 11.5,-46 -11.5,-46" transform="rotate(135)"/>
+               <polygon points="-4,-2 4,-2 11.5,-46 -11.5,-46" transform="rotate(180)"/>
+               <polygon points="-4,-2 4,-2 11.5,-46 -11.5,-46" transform="rotate(225)"/>
+               <polygon points="-4,-2 4,-2 11.5,-46 -11.5,-46" transform="rotate(270)"/>
+               <polygon points="-4,-2 4,-2 11.5,-46 -11.5,-46" transform="rotate(315)"/>
+             </g>
+           </svg></span>
       <span class="hero__name">Martin Orsini</span>
     </h1>
 
     <p class="hero__lead reveal">
-      Diseñador gráfico. Identidad, packaging, editorial y sistemas de
-      marca: proyectos donde la forma tiene que explicar algo, no solo
-      decorarlo.
+      Diseñador gráfico. Identidad, packaging, editorial,
+      sistemas de marca y mucho más.
     </p>
 
     <div class="hero__actions reveal">
@@ -108,7 +119,7 @@
 <!-- ============================================================
      2 — PRESENTACIÓN PERSONAL
      ============================================================ -->
-<section class="section section--rule" id="about">
+<section class="section section--accent" id="about">
   <div class="container">
     <header class="section-head reveal">
       <p class="eyebrow"><span class="eyebrow__num">01</span> Sobre mí</p>
@@ -1399,6 +1410,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=7"></script>
+<script src="javascript/main.js?v=8"></script>
 </body>
 </html>

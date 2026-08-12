@@ -229,11 +229,36 @@ em { font-style: italic; }
   padding-inline: var(--gutter);
 }
 
+/* Todas las secciones son opacas y van por encima del hero, que queda
+   sticky. Al scrollear suben y lo tapan. */
 .section {
   position: relative;
+  z-index: 1;
+  background: var(--bg);
   padding-block: var(--section-y);
 }
 .section--rule { border-top: 1px solid var(--line); }
+
+/* Sección 2 en naranja pleno: es la que arranca el recorrido tapando la
+   portada, así que el cambio de color marca el corte. */
+/* Texto en negro, no en blanco: sobre este naranja el blanco da 3,56:1 y
+   no llega a AA, mientras que el negro rinde 5,3:1. Además es la
+   combinación de la cartelería suiza. */
+.section--accent {
+  background: var(--accent);
+  color: var(--ink);
+  /* Sobre el naranja el negro translúcido pierde contraste rápido: por
+     debajo de 0.88 de alfa el texto chico ya no llega a AA. */
+  --ink-soft: rgba(17, 17, 17, 0.94);
+  --ink-faint: rgba(17, 17, 17, 0.88);
+  --line: rgba(17, 17, 17, 0.30);
+  --line-soft: rgba(17, 17, 17, 0.16);
+  --accent-ink: #111111;
+  --bg-warm: rgba(17, 17, 17, 0.10);
+}
+.section--accent .eyebrow { color: rgba(17, 17, 17, 0.94); }
+.section--accent .btn--primary { background: var(--ink); color: var(--accent); }
+.section--accent .btn--primary:hover { background: #FFFFFF; color: var(--ink); }
 
 /* Bloque invertido: negro pleno. Marca los dos proyectos destacados
    sin agregar ningun recurso decorativo. */
@@ -567,19 +592,23 @@ em { font-style: italic; }
 /* ============================================================
    7 — HERO
    ============================================================ */
+/* El hero queda fijo mientras se scrollea: la seccion siguiente, que es
+   opaca, sube y lo tapa. De ahi el efecto de que el naranja pasa por
+   encima de la portada. */
 .hero {
-  /* Exactamente una pantalla: el header es sticky, así que el hero
-     arranca debajo y hay que descontarlo. */
-  min-height: calc(100svh - var(--header-h));
+  position: sticky;
+  top: var(--header-h);
+  z-index: 0;
+  height: calc(100svh - var(--header-h));
   display: flex;
-  padding-block: clamp(1.25rem, 0.9rem + 1.2vw, 2rem);
+  padding-block: clamp(1rem, 0.7rem + 1vw, 1.75rem);
 }
 .hero__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: clamp(0.9rem, 0.7rem + 0.8vw, 1.4rem);
+  gap: clamp(0.9rem, 0.6rem + 1vw, 1.75rem);
   width: 100%;
   /* Centrado vertical con margin auto en vez de align-items: center.
      Si el contenido es más alto que la pantalla, el margen se resuelve
@@ -590,50 +619,62 @@ em { font-style: italic; }
 .hero__title {
   display: grid;
   justify-items: center;
-  gap: clamp(0.4rem, 0.2rem + 0.6vw, 0.9rem);
+  gap: clamp(0.2rem, 0.1rem + 0.4vw, 0.6rem);
   margin: 0;
 }
 
 /* "Portfolio" en caja baja, con el interletrado muy cerrado: a este
    cuerpo el tracking por defecto abre demasiado las letras y la palabra
-   se desarma. El cuerpo no es un tamaño fijo, es una fracción del
-   contenedor, para que llegue siempre justa de margen a margen. Se mide
-   contra el contenedor y no contra el viewport porque el vw incluye la
-   barra de scroll, y eso alcanzaba para cortar la palabra. */
+   se desarma. El cuerpo es una fracción del contenedor, no un tamaño
+   fijo, para que la palabra ocupe siempre la misma proporción del ancho.
+   Se mide contra el contenedor y no contra el viewport porque el vw
+   incluye la barra de scroll, y eso alcanzaba para cortar la palabra. */
 .hero__word {
-  display: block;
+  position: relative;
+  display: inline-block;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: min(20.5vw, 330px);   /* respaldo sin container queries */
+  font-size: min(22.5vw, 40svh, 420px);   /* respaldo sin container queries */
   line-height: 0.86;
   letter-spacing: -0.055em;
 }
 
 @supports (font-size: 1cqw) {
   .hero__inner { container-type: inline-size; }
-  .hero__word { font-size: min(24cqw, 350px); }
+  .hero__word { font-size: min(26.5cqw, 40svh, 420px); }
 }
 
-/* El nombre: sube de jerarquía. Mismo negro que el titular y peso medio,
-   así deja de leerse como un pie y pasa a ser la segunda línea del par. */
+/* El asterisco: la única nota de color de la portada. Va colgado arriba
+   a la derecha de la palabra, como una llamada al pie. */
+.hero__mark {
+  position: absolute;
+  top: -0.30em;
+  right: -0.26em;
+  width: 0.60em;
+  height: 0.60em;
+  color: var(--accent);
+}
+
+/* El nombre: segunda línea del par, no un pie. Mismo negro y mismo peso
+   que el titular, sólo cambia el cuerpo. */
 .hero__name {
   display: block;
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.375rem, 0.9rem + 2.1vw, 3rem);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 0.9rem + 3.1vw, 4.25rem);
   line-height: 1;
   letter-spacing: -0.035em;
   color: var(--ink);
 }
 
 .hero__lead {
-  font-size: var(--fs-lead);
-  line-height: 1.45;
-  max-width: 44ch;
-  letter-spacing: -0.012em;
-  color: var(--ink-soft);
+  font-size: clamp(1.0625rem, 0.8rem + 1.15vw, 1.75rem);
+  line-height: 1.35;
+  max-width: 34ch;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
-.hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+.hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; }
 
 
 /* ============================================================
@@ -1000,6 +1041,20 @@ em { font-style: italic; }
               transform var(--t-slow) var(--ease);
 }
 .js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* La sección 2 entra tapando al hero, así que su contenido aparece con
+   un recorrido más largo y escalonado: se lee como que la pieza naranja
+   trae el contenido con ella. */
+.js .section--accent .reveal {
+  transform: translateY(40px);
+  transition-duration: 800ms;
+}
+.js .section--accent .reveal.is-visible { transform: none; }
+.js .section--accent .about__portrait { transition-delay: 80ms; }
+.js .section--accent .about__body > *:nth-child(2) { transition-delay: 140ms; }
+.js .section--accent .about__block:nth-child(1) { transition-delay: 180ms; }
+.js .section--accent .about__block:nth-child(2) { transition-delay: 240ms; }
+.js .section--accent .about__block:nth-child(3) { transition-delay: 300ms; }
 
 
 /* ============================================================

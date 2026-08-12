@@ -69,6 +69,7 @@ tipográfica; retícula y aire. Nada decorativo.
 | Acento | `--accent` | `#C6732F` |
 | Acento como texto | `--accent-ink` | `#A85C1F` |
 | Bloque invertido | `--dark-bg` | `#111111` |
+| Sección 2 | `.section--accent` | fondo `#C6732F`, texto negro |
 
 > El acento tal cual sobre blanco da 3,3:1 y no se lee como texto, así que
 > para texto se usa una versión más quemada (4,98:1). Sobre los bloques
@@ -96,21 +97,39 @@ Google Fonts; el stack busca la Helvetica real antes de rendirse a Arial:
 - **Rótulos:** 11 px, caja alta, tracking `0.16em`.
 - La jerarquía viene del tamaño y del aire, nunca de cambiar de familia.
 
-El hero calcula el cuerpo de "Portfolio" como fracción del contenedor
-(`cqw`), no del viewport: en caja baja los nueve caracteres miden 0,407 em
-cada uno, así que el cuerpo es 24% del ancho y la palabra ocupa el 88%
-del margen útil. Se mide contra el contenedor porque el `vw` incluye la
-barra de scroll y eso alcanzaba para cortar la palabra.
+### El hero
 
-El interletrado va en `-0.055em`. A ese cuerpo el tracking por defecto
-abre demasiado las letras y la palabra se desarma; cerrado, las formas se
-tocan como en la cartelería suiza. Si cambiás el cuerpo, revisá que la
-palabra siga entrando: la fracción está atada al ancho de la letra.
+Es la portada, así que tiene reglas propias:
+
+- **"Portfolio"** en caja baja, tracking `-0.055em`. El cuerpo no es fijo:
+  se calcula como `min(26.5cqw, 40svh, 420px)`. La primera acota por
+  ancho de contenedor, la segunda por alto de viewport. Sin el tope en
+  `svh`, en un portátil bajo la palabra empujaba el call to action fuera
+  de pantalla. Ocupa ~68% del viewport.
+- Se mide contra el **contenedor** (`cqw`) y no contra el viewport porque
+  el `vw` incluye la barra de scroll, y eso alcanzaba para cortarla.
+- **El asterisco** es un SVG de ocho brazos cónicos, en `--accent`,
+  colgado arriba a la derecha de la palabra como una llamada al pie. Es
+  la única nota de color de la portada.
+- **"Martin Orsini"** comparte peso (700) y color con el titular; sólo
+  cambia el cuerpo. Es la segunda línea del par, no un pie.
+
+### El parallax de entrada
+
+El hero es `position: sticky` con `z-index: 0` y alto fijo de una
+pantalla. Todas las demás secciones son opacas y van en `z-index: 1`, así
+que al scrollear **suben y lo tapan**. La sección 2 (naranja) es la que
+ejecuta el corte; su contenido entra con un recorrido más largo y
+escalonado (`transition-delay` por bloque) para que se lea como que la
+pieza naranja lo trae con ella.
+
+No hace falta JavaScript: es sólo `sticky` + orden de apilado.
 
 ## Contraste
 
 Verificado recorriendo el DOM con composición de alfa: **cero textos por
-debajo de AA**, tanto en las secciones blancas como en los bloques negros.
+debajo de AA**, en las secciones blancas, en los bloques negros y en la
+sección naranja.
 
 ## Cómo cambiar o agregar imágenes
 
