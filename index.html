@@ -40,7 +40,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=12">
+<link rel="stylesheet" href="css/styles.css?v=13">
 </head>
 <body>
 
@@ -106,72 +106,114 @@
 
 <!-- ============================================================
      2 — PRESENTACIÓN PERSONAL
+     Calcada del mockup del autor: "seccion -sobre mi-.jpg" (1920x730).
+     Cuatro columnas —titular + retrato · texto y software · formación
+     y servicios · experiencia— con la primera línea de las cuatro
+     compartiendo la línea de base. Las proporciones salieron de
+     escanear ese archivo y están anotadas en el bloque 8 del CSS.
      ============================================================ -->
 <section class="section section--accent" id="about">
   <div class="container">
     <header class="section-head reveal">
       <p class="eyebrow"><span class="eyebrow__num">01</span> Sobre mí</p>
-      <h2 class="section-title">Diseño sistemas, no piezas sueltas.</h2>
     </header>
 
     <div class="about">
-      <div class="about__portrait reveal">
-        <figure class="fig">
-          <div class="fig__frame ar-3x4" data-slot="Retrato">
-            <img src="assets/images/retrato.jpg"
-                 alt="Retrato de Martin Orsini"
+
+      <!-- Columna 1 — titular y retrato -->
+      <div class="about__col about__col--lead">
+        <h2 class="about__claim reveal">Trabajemos juntos!</h2>
+        <figure class="fig about__portrait reveal">
+          <div class="fig__frame about__frame" data-slot="Retrato">
+            <img src="assets/images/sobre-mi.jpg"
+                 alt="Retrato de Martin Orsini en una terraza, al anochecer"
                  loading="lazy" decoding="async">
           </div>
         </figure>
       </div>
 
-      <div class="about__body">
-        <p class="lead reveal">
-          Me llamo <strong>Martin Orsini</strong> y soy diseñador gráfico.
-          Me interesa el punto donde la tipografía, el sistema y la
-          impresión se cruzan: marcas que tienen que resistir en la
-          góndola, en la cancha y en la pantalla.
-        </p>
+      <!-- Columna 2 — presentación y software -->
+      <div class="about__col">
+        <div class="about__block reveal">
+          <h3 class="about__heading"><span class="about__heading-num">01</span> Sobre mí</h3>
+          <p>
+            Me llamo Martin Orsini y soy diseñador gráfico y me dedico a
+            trabajar en la búsqueda de soluciones gráficas para problemas
+            de diseño. Me interesa el punto donde la tipografía, el
+            sistema gráfico y la producción se encuentran: proyectos que
+            necesitan funcionar tanto en el papel, la góndola, un afiche
+            o la pantalla.
+          </p>
+          <p>
+            También doy clases: soy ayudante de cátedra en Diseño
+            Gráfico 3, cátedra Belluccia (FADU). Enseñar me obliga a
+            explicar por qué una decisión funciona o por qué no, y eso
+            también ordena mi forma de trabajar.
+          </p>
+        </div>
 
-        <p class="reveal">
-          También doy clases: soy <strong>ayudante de cátedra en Diseño
-          Gráfico 3, cátedra Belluccia</strong> (UBA / FADU). Enseñar me
-          obliga a explicar por qué una decisión funciona, y eso ordena
-          la forma de trabajar. De ahí sale este pizarrón.
-        </p>
+        <div class="about__block reveal">
+          <h3 class="about__heading"><span class="about__heading-num">02</span> Software</h3>
+          <!-- Los iconos son recreaciones en CSS: un cuadro redondeado con
+               los colores de cada programa. No hay imágenes de por medio. -->
+          <ul class="software">
+            <li><span class="software__tile software__tile--ps" role="img" aria-label="Adobe Photoshop">Ps</span></li>
+            <li><span class="software__tile software__tile--ai" role="img" aria-label="Adobe Illustrator">Ai</span></li>
+            <li><span class="software__tile software__tile--id" role="img" aria-label="Adobe InDesign">Id</span></li>
+            <li><span class="software__tile software__tile--pr" role="img" aria-label="Adobe Premiere Pro">Pr</span></li>
+            <li><span class="software__tile software__tile--ae" role="img" aria-label="Adobe After Effects">Ae</span></li>
+            <li>
+              <span class="software__tile software__tile--figma" role="img" aria-label="Figma">
+                <svg class="software__logo" viewBox="0 0 38 57" aria-hidden="true">
+                  <path fill="#1ABCFE" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/>
+                  <path fill="#0ACF83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/>
+                  <path fill="#FF7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/>
+                  <path fill="#F24E1E" d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5z"/>
+                  <path fill="#A259FF" d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v19H9.5A9.5 9.5 0 0 1 0 28.5z"/>
+                </svg>
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <!-- Tercera columna en desktop: así la sección entra en una pantalla -->
-      <div class="about__grid">
+      <!-- Columna 3 — formación y servicios -->
+      <div class="about__col">
         <div class="about__block reveal">
-          <h3 class="about__label">Docencia</h3>
-          <ul class="plain-list">
-            <li>Ayudante de cátedra — Diseño Gráfico 3<span class="muted"> · cátedra Belluccia, UBA FADU</span></li>
+          <h3 class="about__heading"><span class="about__heading-num">03</span> Formación</h3>
+          <ul class="about__entries">
+            <li>Licenciatura en diseño gráfico, Universidad de Buenos Aires, FADU.</li>
+            <li>Técnico en diseño y promoción publicitaria Escuela Técnica N.º 6 Fernando Fader</li>
           </ul>
         </div>
 
         <div class="about__block reveal">
-          <h3 class="about__label">Hago</h3>
-          <ul class="plain-list">
-            <li>Identidad visual y sistemas de marca</li>
-            <li>Packaging y piezas gráficas</li>
-            <li>Editorial y publicaciones</li>
-            <li>Contenido para redes</li>
-          </ul>
-        </div>
-
-        <div class="about__block reveal">
-          <h3 class="about__label">Áreas de interés</h3>
-          <ul class="tag-list">
-            <li>Tipografía</li>
+          <h3 class="about__heading"><span class="about__heading-num">04</span> Servicios</h3>
+          <ul class="about__services">
+            <li>Identidad de marca</li>
+            <li>Diseño web</li>
             <li>Packaging</li>
-            <li>Editorial</li>
-            <li>Dirección de arte</li>
-            <li>Motion</li>
-            <li>Diseño digital</li>
+            <li>Motion Graphics</li>
+            <li>Social Media</li>
+            <li>Diseño editorial</li>
+            <li>Diseño UX/UI</li>
           </ul>
         </div>
       </div>
+
+      <!-- Columna 4 — experiencia -->
+      <div class="about__col">
+        <div class="about__block reveal">
+          <h3 class="about__heading"><span class="about__heading-num">05</span> Experiencia</h3>
+          <ul class="about__entries">
+            <li>Trabajos freelance de diseño gráfico<span class="about__when">(2017 - Actualidad)</span></li>
+            <li>Moderador Web de Grupo FYLABS<span class="about__when">(2022)</span></li>
+            <li>Diseño de estampas textiles para DTG y DTF en @Delira.Store<span class="about__when">(2022)</span></li>
+            <li>Ayudante de cátedra en UBA, FADU, Cátedra Belluccia, “Diseño Gráfico 3”<span class="about__when">(2026 - Actualidad)</span></li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1398,6 +1440,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=12"></script>
+<script src="javascript/main.js?v=13"></script>
 </body>
 </html>

@@ -304,24 +304,6 @@ em { font-style: italic; }
 .grid-2, .grid-3, .grid-4 { display: grid; gap: var(--gap); }
 .grid-asym  { display: grid; gap: var(--gap); }
 
-.plain-list li {
-  padding-block: 0.4rem;
-  border-bottom: 1px solid var(--line-soft);
-  font-size: var(--fs-small);
-  line-height: 1.5;
-}
-.plain-list li:last-child { border-bottom: 0; }
-
-.tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.tag-list li {
-  font-size: var(--fs-small);
-  padding: 0.28rem 0.7rem;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  line-height: 1.4;
-}
-
-
 /* ------------ Botones ------------ */
 .btn {
   display: inline-flex;
@@ -750,14 +732,115 @@ em { font-style: italic; }
 
 /* ============================================================
    8 — SOBRE MÍ
-   ============================================================ */
-.about { display: grid; gap: clamp(2rem, 1.2rem + 3.5vw, 4.5rem); }
-.about__body { display: grid; gap: 1.25rem; align-content: start; }
-.about__body > p { max-width: 46ch; }
-.about__grid { display: grid; gap: clamp(1.1rem, 0.8rem + 1vw, 1.75rem); align-content: start; }
+   Calcada del mockup del autor, "seccion -sobre mi-.jpg" (1920x730).
+   Las medidas no se estimaron: salieron de escanear ese archivo
+   —caja de la foto, columnas de texto y bandas de línea—.
 
-/* El retrato no debe mandar la altura de la sección. */
-.about__portrait { max-width: 260px; }
+   La escala va en cqw (porcentaje del ancho del contenedor) y no en
+   vw, así la sección conserva las proporciones del original a
+   cualquier ancho. El contenido del mockup medía 1572 px:
+
+     titular ......  51 px   →  3,244 cqw
+     rótulos ......  33 px   →  2,099 cqw
+     texto ........  22 px   →  1,399 cqw
+     interlínea ...  26,5 px →  1,21 (relativa al cuerpo)
+     iconos .......  51 px   →  3,244 cqw
+     columnas .....  509 : 493 : 235 : 235
+     medianil .....  33 px   →  2,10 cqw
+
+   Los max() son el piso: por debajo de unos 1150 px de contenedor la
+   proporción daría cuerpos ilegibles, y ahí manda el valor fijo.
+   ============================================================ */
+
+/* El contenedor de la sección es el elemento consultado: todo lo que
+   está en cqw se mide contra su ancho. Va acá y no en .about porque
+   las unidades cq se resuelven contra un ANCESTRO, nunca contra el
+   propio elemento que declara el container-type. */
+.section--accent > .container { container-type: inline-size; }
+
+.about { display: grid; gap: clamp(2rem, 1.4rem + 2.4vw, 3.25rem); }
+.about__col {
+  display: grid;
+  align-content: start;
+  gap: max(1.25rem, 2.2cqw);
+  min-width: 0;              /* si no, una palabra larga desborda la columna */
+}
+
+/* Titular. Comparte línea de base con los rótulos de las otras tres
+   columnas: eso lo resuelve el align-items: baseline de la grilla. */
+/* Interletrado: el tipo del mockup es más angosto que Inter, así que a
+   igual cuerpo Inter sale un 5 % más ancha. Se cierra el tracking hasta
+   dejar la diferencia en ~3 %, que ya no se ve. Cerrarlo hasta calzar
+   exacto pedía −0,06 em y a estos cuerpos la palabra se apelmaza. */
+.about__claim {
+  font-size: max(1.75rem, 3.244cqw);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.about__heading {
+  font-size: max(1.25rem, 2.099cqw);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+/* El número va en un peso más liviano que la palabra, como en el mockup */
+.about__heading-num { font-weight: 500; margin-right: 0.12em; }
+
+/* El aire bajo el rótulo lo pone el contenido, no el rótulo: cada tipo
+   de bloque lo necesita distinto (el texto respira más que los iconos). */
+.about__heading + p,
+.about__heading + .about__entries,
+.about__heading + .about__services { margin-top: max(0.85rem, 1.879cqw); }
+.about__heading + .software        { margin-top: max(0.35rem, 0.881cqw); }
+
+.about__block p,
+.about__entries,
+.about__services {
+  font-size: max(1rem, 1.399cqw);
+  line-height: 1.21;
+}
+/* Entre párrafos y entre entradas va exactamente una línea en blanco */
+.about__block p + p { margin-top: 1.21em; }
+.about__entries { display: grid; gap: 1.21em; }
+/* El año, siempre en renglón propio */
+.about__when { display: block; }
+
+/* El retrato ocupa el ancho completo de su columna, sin marco: en el
+   mockup la foto apoya directo sobre el naranja. */
+.about__portrait { width: 100%; }
+.about__frame {
+  aspect-ratio: 509 / 471;   /* la caja medida en el mockup */
+  border: 0;
+  max-height: none;
+}
+
+/* ------------ Software ------------
+   Los iconos son recreaciones: cuadro redondeado con los colores de
+   cada programa y la abreviatura del propio tipo del sitio. No hay
+   archivos de imagen ni dependencias. */
+.software { display: flex; flex-wrap: wrap; gap: max(0.5rem, 1.59cqw); }
+.software__tile {
+  display: grid;
+  place-items: center;
+  width: max(2rem, 3.244cqw);
+  aspect-ratio: 1;
+  border-radius: max(0.35rem, 0.7cqw);
+  font-size: max(0.8125rem, 1.36cqw);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.software__logo { width: 42%; height: auto; }
+
+.software__tile--ps    { background: #001E36; color: #31A8FF; }
+.software__tile--ai    { background: #330000; color: #FF9A00; }
+.software__tile--id    { background: #49021F; color: #FF3366; }
+.software__tile--pr    { background: #00005B; color: #9999FF; }
+.software__tile--ae    { background: #00005B; color: #9999FF; }
+.software__tile--figma { background: #111111; }
 
 .about__label {
   font-size: var(--fs-micro);
@@ -1121,11 +1204,12 @@ em { font-style: italic; }
   transition-duration: 800ms;
 }
 .js .section--accent .reveal.is-visible { transform: none; }
-.js .section--accent .about__portrait { transition-delay: 80ms; }
-.js .section--accent .about__body > *:nth-child(2) { transition-delay: 140ms; }
-.js .section--accent .about__block:nth-child(1) { transition-delay: 180ms; }
-.js .section--accent .about__block:nth-child(2) { transition-delay: 240ms; }
-.js .section--accent .about__block:nth-child(3) { transition-delay: 300ms; }
+/* Escalonado por columna, de izquierda a derecha */
+.js .section--accent .about__col:nth-child(1) .reveal { transition-delay: 60ms; }
+.js .section--accent .about__col:nth-child(2) .reveal { transition-delay: 140ms; }
+.js .section--accent .about__col:nth-child(3) .reveal { transition-delay: 220ms; }
+.js .section--accent .about__col:nth-child(4) .reveal { transition-delay: 300ms; }
+.js .section--accent .about__portrait { transition-delay: 120ms; }
 
 
 /* ============================================================
@@ -1136,7 +1220,6 @@ em { font-style: italic; }
 @media (min-width: 480px) {
   :root { --gutter: 28px; }
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .about__grid { grid-template-columns: repeat(2, 1fr); }
   .project__meta { grid-template-columns: repeat(2, 1fr); gap: 1.25rem 1.5rem; }
   .playground { columns: 2; }
   .project-nav { grid-template-columns: 1fr 1fr; }
@@ -1156,8 +1239,14 @@ em { font-style: italic; }
     gap: 2.5rem;
   }
 
-  .about { grid-template-columns: 260px minmax(0, 1fr); align-items: start; }
-  .about__grid { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
+  /* Paso intermedio: las cuatro columnas del mockup no entran, así que
+     van de a dos. La primera línea todavía no comparte base porque las
+     filas son dos y alinearlas dejaría un hueco raro en el medio. */
+  .about {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: max(1.5rem, 2.1cqw);
+    align-items: start;
+  }
 
   .two-col { grid-template-columns: repeat(2, 1fr); gap: clamp(2rem, 4vw, 4rem); }
   .split { grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
@@ -1233,18 +1322,21 @@ em { font-style: italic; }
 
 }
 
-/* --- ≥ 1200px : "Sobre mí" pasa a tres columnas ---
-   Con los bloques abajo a lo ancho la sección medía 760 px y no entraba
-   en un portátil. Como tercera columna, la fila la manda el retrato. */
+/* --- ≥ 1200px : "Sobre mí" arma las cuatro columnas del mockup ---
+   Las proporciones son las medidas sobre el archivo original
+   (509 : 493 : 235 : 235) y el align-items: baseline es el que pone el
+   titular y los tres rótulos sobre una misma línea, como ahí. */
 @media (min-width: 1200px) {
-  .about { grid-template-columns: 240px minmax(0, 1fr) minmax(0, 0.85fr); }
-  .about__grid { grid-column: auto; grid-template-columns: 1fr; gap: 1rem; }
+  .about {
+    grid-template-columns: 2.166fr 2.098fr 1fr 1fr;
+    column-gap: max(1.25rem, 2.1cqw);
+    align-items: baseline;
+  }
 }
 
 /* --- ≥ 1440px : pantallas grandes --- */
 @media (min-width: 1440px) {
   :root { --gutter: 80px; }
-  .about { grid-template-columns: 280px minmax(0, 1fr) minmax(0, 0.85fr); }
 }
 
 /* --- ≥ 1920px : evita que la línea de texto se estire --- */
