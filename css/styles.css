@@ -1323,15 +1323,51 @@ em { font-style: italic; }
 }
 
 /* --- ≥ 1200px : "Sobre mí" arma las cuatro columnas del mockup ---
-   Las proporciones son las medidas sobre el archivo original
-   (509 : 493 : 235 : 235) y el align-items: baseline es el que pone el
-   titular y los tres rótulos sobre una misma línea, como ahí. */
+   Proporciones medidas sobre el archivo original (509 : 493 : 235 : 235).
+
+   Las cuatro columnas arrancan sobre una misma línea de base y terminan
+   sobre una misma línea al pie, como en el mockup. Lo segundo NO puede
+   salir del flujo natural: la altura de cada columna la decide dónde
+   corta el texto, y eso cambia con el ancho (a 1366 el desvío entre la
+   más corta y la más larga era de 38 px, a 1200 de 73). Así que el pie
+   parejo se resuelve por layout:
+
+     · las columnas estiran a la altura de la más alta (align-items
+       stretch), y el arranque compartido —que antes daba
+       align-items: baseline— pasa a un padding-top calculado;
+     · cada columna reparte su sobrante donde menos se nota: la 1 en la
+       foto, la 2 y la 3 en el aire entre sus dos bloques, la 4 entre
+       las entradas de su lista.
+
+   El padding-top sale de las métricas de Inter: la base de la primera
+   línea cae a 0,8639 em del tope de la caja en el titular (interlínea 1)
+   y a 0,9139 em en los rótulos (interlínea 1,1). Con los cuerpos en cqw
+   la diferencia es constante: 0,8639x3,244 − 0,9139x2,099 = 0,884 cqw.
+   Vale sólo acá porque en cuatro columnas los max() nunca llegan a su
+   piso: harían falta menos de 953 px de contenedor y el mínimo es 1073. */
 @media (min-width: 1200px) {
   .about {
     grid-template-columns: 2.166fr 2.098fr 1fr 1fr;
     column-gap: max(1.25rem, 2.1cqw);
-    align-items: baseline;
+    align-items: stretch;
   }
+  .about__col + .about__col { padding-top: 0.884cqw; }
+
+  /* Columnas 2 y 3: el sobrante se va al aire entre bloques */
+  .about__col { align-content: space-between; }
+
+  /* Columna 1: el sobrante se lo come la foto, que baja hasta la línea.
+     La proporción medida (509:471) queda como piso, no como regla. */
+  .about__col--lead { align-content: stretch; grid-template-rows: auto 1fr; }
+  .about__col--lead .about__portrait { height: 100%; min-height: 0; }
+  .about__col--lead .about__frame { height: 100%; aspect-ratio: auto; }
+
+  /* Columna 4: tiene un solo bloque, así que no hay nada entre bloques
+     donde repartir. Se estira el bloque a toda la columna y el que
+     reparte pasa a ser el aire entre las entradas de la lista. */
+  .about__col:last-child { align-content: stretch; }
+  .about__col:last-child > .about__block { display: grid; grid-template-rows: auto 1fr; }
+  .about__col:last-child .about__entries { align-content: space-between; }
 }
 
 /* --- ≥ 1440px : pantallas grandes --- */
