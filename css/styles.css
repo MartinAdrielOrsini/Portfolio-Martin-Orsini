@@ -645,10 +645,35 @@ em { font-style: italic; }
 /* Corrección de par. Con este tracking el brazo de la r se monta sobre
    la t: el hueco entre ambas manchas es de −0,0233 em. Se corre la r a
    la izquierda y se devuelve el mismo valor por derecha, así el par se
-   abre sin mover el resto de la palabra ni cambiar su ancho total. */
+   abre sin mover el resto de la palabra ni cambiar su ancho total.
+   El mismo truco lo usa la o: cada letra se corre sola, la que sigue
+   vuelve a su lugar. Por eso la P no se mueve.
+
+   Los valores salen de escanear la tinta del render, no de estimar.
+   Huecos entre manchas, en em del titular:
+
+       antes   P-o 0,016 · o-r 0,012 · r-t 0,010
+       ahora   P-o 0,008 · o-r 0,011 · r-t 0,019
+
+   La r se corrió 0,009 em más a la izquierda y la o la acompañó
+   0,0075 em, así el hueco que gana la r no se lo saca a la o: o-r queda
+   como estaba y el que se abre es el de la r, que era donde el brazo se
+   montaba sobre la t. La suma de los tres no cambia (0,038 em), que es
+   otra forma de decir que la palabra mide lo mismo que antes.
+
+   OJO con los márgenes de la o: NO son simétricos, y tienen que seguir
+   sin serlo. Meter la o en un span desactiva el par de kerning "Po" de
+   Inter, que valía −0,0086 em (1,85 px a este cuerpo). La diferencia
+   entre los dos márgenes es exactamente ese kern devuelto a mano: sin
+   él la o se iría a la derecha y la palabra quedaría más ancha. */
+.hero__o {
+  margin-left: -0.0161em;   /* 0,0075 de corrimiento + 0,0086 de kern */
+  margin-right: 0.0075em;
+}
+
 .hero__r {
-  margin-left: -0.036em;
-  margin-right: 0.036em;
+  margin-left: -0.045em;
+  margin-right: 0.045em;
 }
 
 @supports (font-size: 1cqw) {
@@ -672,12 +697,18 @@ em { font-style: italic; }
    línea de base. En la referencia esa mancha mide 0,516 em del titular
    y su centro queda en el borde derecho de la palabra, 0,779 em por
    encima de la base. De ahí salen los tres valores de abajo. */
+/* Ajuste posterior, a pedido del autor: un punto más chico y despegado
+   de la palabra. El cuerpo baja de 1,297 a 1,25 em (la mancha pasa de
+   0,527 a 0,508 em del titular) y el translateX de −0,281 a −0,25 em,
+   que lo corre unos 10 px a la derecha. El `top` no se toca: como está
+   en em del propio asterisco, al achicarse el cuerpo el centro de la
+   mancha se queda donde estaba. */
 .hero__mark {
   position: absolute;
   left: 100%;
   top: -0.328em;
-  transform: translateX(-0.281em);
-  font-size: 1.297em;
+  transform: translateX(-0.25em);
+  font-size: 1.25em;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
