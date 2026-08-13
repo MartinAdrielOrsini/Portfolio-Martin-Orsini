@@ -169,7 +169,6 @@ em { font-style: italic; }
 .copy-status,
 .form__status { font-size: var(--fs-small); line-height: 1.5; }
 
-.index__preview-cue,
 .project-nav__dir {
   font-size: var(--fs-micro);
   letter-spacing: 0.14em;
@@ -871,6 +870,29 @@ em { font-style: italic; }
    aparecería por debajo de la línea en vez de dentro del ítem. */
 .index__row { border-bottom: 1px solid var(--line); }
 
+/* El ítem abierto se marca con el bloque naranja pleno, no con color de
+   texto. El margen negativo hace que el color sobresalga a los costados
+   sin correr ni un píxel el texto: la retícula queda igual y lo único
+   que cambia es la mancha.
+
+   Adentro se redefinen los mismos tokens que usa .section--accent, así
+   todo lo que estaba en naranja —número, categoría, signo, "Ver más"—
+   pasa a negro solo, sin repetir una regla por elemento. Sobre este
+   naranja el negro rinde 5,56:1 y el naranja apenas 1,6:1: si no se
+   invirtieran, el ítem seleccionado sería el único ilegible. */
+.index__row.is-open {
+  background: var(--accent);
+  color: var(--ink);
+  padding-inline: 0.9rem;
+  margin-inline: -0.9rem;
+  /* El color ya separa del ítem siguiente; la línea, además, quedaría
+     0,9rem más ancha que las otras y rompería la alineación. */
+  border-bottom-color: transparent;
+  --ink-soft:   rgba(17, 17, 17, 0.94);
+  --ink-faint:  rgba(17, 17, 17, 0.88);
+  --accent-ink: #111111;
+}
+
 .index__item {
   display: grid;
   grid-template-columns: 2.5ch 1fr auto;
@@ -984,7 +1006,9 @@ em { font-style: italic; }
   .index {
     grid-template-columns: 1fr 0.62fr;
     gap: clamp(1.5rem, 3vw, 3rem);
-    align-items: start;
+    /* stretch, no start: la altura la fija la lista y la vista previa
+       la copia, así las dos columnas cierran en la misma línea. */
+    align-items: stretch;
   }
 
   .index__item {
@@ -997,37 +1021,30 @@ em { font-style: italic; }
   }
   .index__cat { grid-column: 3; text-align: right; }
   .index__sign { grid-column: 4; grid-row: 1; }
-  .index__item:hover,
-  .index__row.is-open .index__item { padding-left: 0.6rem; }
+  /* La sangría al pasar el cursor queda sólo para los cerrados: al
+     abierto ya lo marca el bloque naranja, y las dos cosas juntas
+     desalinearían el texto respecto del resto de la lista. */
+  .index__row:not(.is-open) .index__item:hover { padding-left: 0.6rem; }
 
   /* En desktop la imagen del panel sobra: está la vista previa al costado */
   .index__shot { display: none; }
   .index__panel-in > * { margin-left: calc(2.5ch + 1.25rem); }
 
-  .index__preview {
-    display: block;
-    position: sticky;
-    top: calc(var(--header-h) + 1.5rem);
+  /* La imagen ocupa la columna entera: arranca arriba con la lista y
+     termina en su misma línea al pie. Por eso deja de ser sticky —no
+     tiene contra qué desplazarse si ya mide lo mismo que la lista— y
+     el marco pierde su aspect-ratio y su techo: la altura la manda la
+     columna de la izquierda. */
+  .index__preview { display: block; height: 100%; }
+  .index__preview .fig__frame {
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
   }
-  /* Es un adelanto, no la obra: se le pone un techo propio para que la
-     sección entera entre en pantalla en un portátil. */
-  .index__preview .fig__frame { max-height: 42svh; }
   .index__preview .fig__frame img {
     transition: opacity var(--t-fast) var(--ease);
   }
   .index__preview.is-swapping .fig__frame img { opacity: 0; }
-
-  .index__preview-cue {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.8rem;
-    font-size: var(--fs-micro);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent-ink);
-  }
-  .index__preview-cue svg { width: 14px; height: 14px; }
 }
 
 /* ============================================================

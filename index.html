@@ -40,7 +40,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=15">
+<link rel="stylesheet" href="css/styles.css?v=16">
 </head>
 <body>
 
@@ -479,14 +479,10 @@
                alt="Marquesina del supermercado SUMA con la marca rediseñada"
                loading="lazy" decoding="async">
         </div>
-        <!-- La descripción ya no va acá: vive en el panel desplegable de
-             la lista, que es el que se lee tanto en desktop como en mobile.
-             Este costado quedó sólo con la imagen. -->
-        <span class="index__preview-cue">Ver caso
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
+        <!-- Ni descripción ni llamada: las dos viven en el panel
+             desplegable de la lista, que se lee igual en desktop y en
+             mobile. Este costado es sólo la imagen, y va de punta a punta
+             de la columna. -->
       </a>
     </div>
   </div>
@@ -1572,6 +1568,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=15"></script>
+<script src="javascript/main.js?v=16"></script>
 </body>
 </html>

@@ -343,18 +343,12 @@
       if (btn && list.contains(btn)) abrir(btn.parentElement);
     });
 
-    // --- Vistazo al pasar el cursor (desktop) ----------------------
-    // Sólo con puntero fino: en touch el hover se dispara con el tap y
-    // haría parpadear la imagen antes del click.
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      list.addEventListener('mouseover', (e) => {
-        const btn = e.target.closest('.index__item');
-        if (btn && list.contains(btn)) pintar(btn);
-      });
-      list.addEventListener('mouseleave', () => pintar(btnDe(abierta)));
-    }
+    // La imagen cambia SÓLO al hacer click. Antes también se adelantaba
+    // al pasar el cursor, pero eso dejaba la vista previa mostrando algo
+    // distinto del ítem abierto: el costado dejaba de ser el reflejo de
+    // la selección y pasaba a seguir al mouse.
 
-    // Precarga silenciosa: al pasar el cursor la imagen ya está lista.
+    // Precarga silenciosa: al abrir un ítem la imagen ya está lista.
     const precargar = () => rows.forEach((r) => {
       const src = btnDe(r).dataset.img;
       if (src) { const p = new Image(); p.src = src; }
