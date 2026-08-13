@@ -867,14 +867,19 @@ em { font-style: italic; }
 
 .index__list { border-top: 1px solid var(--line); }
 
+/* La regla pasó del botón a la fila: si no, el panel desplegable
+   aparecería por debajo de la línea en vez de dentro del ítem. */
+.index__row { border-bottom: 1px solid var(--line); }
+
 .index__item {
   display: grid;
-  grid-template-columns: 2.5ch 1fr;
+  grid-template-columns: 2.5ch 1fr auto;
   align-items: baseline;
   column-gap: 0.9rem;
+  width: 100%;
+  text-align: left;
   padding: 0.7rem 0;
   min-height: 48px;
-  border-bottom: 1px solid var(--line);
   transition: color var(--t-fast) var(--ease),
               padding-left var(--t-fast) var(--ease);
 }
@@ -904,11 +909,75 @@ em { font-style: italic; }
 
 .index__item:hover,
 .index__item:focus-visible,
-.index__item.is-active { color: var(--accent-ink); }
+.index__row.is-open .index__item { color: var(--accent-ink); }
 .index__item:hover .index__num,
-.index__item.is-active .index__num { color: var(--accent-ink); }
+.index__row.is-open .index__num { color: var(--accent-ink); }
 
-/* La vista previa no aporta nada en mobile: ahí manda la lista. */
+/* El signo + que se vuelve − al abrir. Dos reglas, sin icono ni fuente. */
+.index__sign {
+  position: relative;
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 12px;
+  height: 12px;
+  color: var(--ink-faint);
+}
+.index__sign::before,
+.index__sign::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+.index__sign::before { inset: 5px 0; height: 2px; }
+.index__sign::after  { inset: 0 5px; width: 2px; transition: transform var(--t-mid) var(--ease); }
+.index__row.is-open .index__sign { color: var(--accent-ink); }
+.index__row.is-open .index__sign::after { transform: scaleY(0); }
+
+/* ------------ El panel desplegable ------------
+   Abierto por defecto: si no hay JavaScript, la lista se lee entera y no
+   se pierde ninguna descripción. La clase .js —que agrega main.js— es la
+   que los cierra. La animación va sobre grid-template-rows, que permite
+   pasar de 0 a "lo que mida el contenido" sin fijar una altura a mano. */
+.index__panel { display: grid; grid-template-rows: 1fr; }
+.js .index__panel {
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--t-mid) var(--ease);
+}
+.js .index__row.is-open .index__panel { grid-template-rows: 1fr; }
+.index__panel-in { overflow: hidden; min-height: 0; }
+
+/* El contenido del panel alinea con el nombre, no con el número: la
+   sangría la da la misma grilla del ítem (2,5ch + medianil). */
+.index__panel-in > * { margin-left: calc(2.5ch + 0.9rem); }
+.index__shot { margin-bottom: 0.9rem; max-width: 420px; }
+.index__desc {
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+.index__more {
+  display: inline-block;
+  margin-top: 0.7rem;
+  margin-bottom: 1.1rem;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+.index__more::after {
+  content: "→";
+  margin-left: 0.5em;
+  display: inline-block;
+  transition: transform var(--t-fast) var(--ease);
+}
+.index__more:hover::after { transform: translateX(3px); }
+
+/* La vista previa no aporta nada en mobile: ahí manda la lista, y la
+   imagen del proyecto la muestra el propio panel. */
 .index__preview { display: none; }
 
 @media (min-width: 1024px) {
@@ -919,7 +988,7 @@ em { font-style: italic; }
   }
 
   .index__item {
-    grid-template-columns: 2.5ch 1fr auto;
+    grid-template-columns: 2.5ch 1fr auto auto;
     column-gap: 1.25rem;
     padding: 0.35rem 0;
     /* El mínimo táctil no hace falta con mouse, y con diez ítems son
@@ -927,8 +996,13 @@ em { font-style: italic; }
     min-height: 0;
   }
   .index__cat { grid-column: 3; text-align: right; }
+  .index__sign { grid-column: 4; grid-row: 1; }
   .index__item:hover,
-  .index__item.is-active { padding-left: 0.6rem; }
+  .index__row.is-open .index__item { padding-left: 0.6rem; }
+
+  /* En desktop la imagen del panel sobra: está la vista previa al costado */
+  .index__shot { display: none; }
+  .index__panel-in > * { margin-left: calc(2.5ch + 1.25rem); }
 
   .index__preview {
     display: block;
@@ -942,14 +1016,6 @@ em { font-style: italic; }
     transition: opacity var(--t-fast) var(--ease);
   }
   .index__preview.is-swapping .fig__frame img { opacity: 0; }
-
-  .index__preview-desc {
-    margin-top: 0.9rem;
-    font-size: var(--fs-small);
-    line-height: 1.55;
-    color: var(--ink-soft);
-    max-width: 42ch;
-  }
 
   .index__preview-cue {
     display: inline-flex;

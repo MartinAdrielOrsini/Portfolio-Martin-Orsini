@@ -261,32 +261,39 @@
 
   /* ==========================================================
      8 — ÍNDICE DE PROYECTOS
-     La lista manda. Al pasar el cursor (o tabular) por un ítem,
-     la vista previa de la derecha cambia de imagen, descripción
-     y destino. En mobile la vista previa no se muestra.
+     Acordeón: cada ítem abre un panel con una descripción breve y
+     un "Ver más" que sí lleva al caso. Siempre hay exactamente uno
+     abierto —nunca ninguno—, así la vista previa de la derecha no
+     se queda sin nada que mostrar y la sección nunca se ve vacía.
+
+     En desktop, además, la imagen de la derecha se adelanta al pasar
+     el cursor: es un vistazo, no una selección. Al sacar el mouse
+     vuelve la del ítem abierto. En mobile no hay vista previa al
+     costado y la imagen la muestra el propio panel.
      ========================================================== */
   function initProjectIndex() {
-    const list    = $('#indexList');
+    const list = $('#indexList');
+    if (!list) return;
+
+    const rows = $$('.index__row', list);
+    if (!rows.length) return;
+
     const preview = $('#indexPreview');
-    if (!list || !preview) return;
+    const img     = $('#indexPreviewImg');
 
-    const items = $$('.index__item', list);
-    const img   = $('#indexPreviewImg');
-    const desc  = $('#indexPreviewDesc');
-    if (!items.length || !img || !desc) return;
+    const btnDe = (row) => $('.index__item', row);
+    let abierta = rows.find((r) => r.classList.contains('is-open')) || rows[0];
+    let pintada = btnDe(abierta);          // qué imagen está puesta ahora
 
-    let current = items.find((i) => i.classList.contains('is-active')) || items[0];
+    // --- Vista previa de la derecha (sólo desktop) -----------------
+    const pintar = (btn) => {
+      if (!preview || !img || !btn || btn === pintada) return;
+      pintada = btn;
 
-    const show = (item) => {
-      if (item === current) return;
-      current = item;
+      const destino = btn.dataset.href;
+      if (destino) preview.setAttribute('href', destino);
 
-      items.forEach((i) => i.classList.toggle('is-active', i === item));
-
-      preview.setAttribute('href', item.getAttribute('href'));
-      desc.textContent = item.dataset.desc || '';
-
-      const src = item.dataset.img;
+      const src = btn.dataset.img;
       if (!src || img.getAttribute('src') === src) return;
 
       // Cambio con un fundido corto en vez de un salto seco.
@@ -299,23 +306,58 @@
       img.addEventListener('load', listo);
       img.addEventListener('error', listo);
       img.setAttribute('src', src);
-      img.setAttribute('alt', item.dataset.alt || '');
+      img.setAttribute('alt', btn.dataset.alt || '');
       // Si viene de caché no dispara load, así que se destraba igual.
       if (img.complete) listo();
     };
 
-    // Delegado: mouseover y focusin burbujean, así que alcanza con dos
-    // listeners en la lista y funciona igual con mouse que con teclado.
-    const alEntrar = (e) => {
-      const item = e.target.closest('.index__item');
-      if (item && list.contains(item)) show(item);
+    // --- Abrir / cerrar --------------------------------------------
+    const cerrar = (row) => {
+      row.classList.remove('is-open');
+      btnDe(row).setAttribute('aria-expanded', 'false');
+      // Un panel cerrado no debe ser tabulable: su "Ver más" quedaría
+      // en el orden de foco sin verse.
+      const panel = $('.index__panel', row);
+      if (panel) panel.inert = true;
     };
-    list.addEventListener('mouseover', alEntrar);
-    list.addEventListener('focusin', alEntrar);
+
+    const abrir = (row) => {
+      if (row === abierta) return;
+      cerrar(abierta);
+      row.classList.add('is-open');
+      btnDe(row).setAttribute('aria-expanded', 'true');
+      const panel = $('.index__panel', row);
+      if (panel) panel.inert = false;
+      abierta = row;
+      pintar(btnDe(row));
+    };
+
+    // Estado inicial: el primero abierto, el resto cerrados e inertes.
+    rows.forEach((r) => { if (r !== abierta) cerrar(r); });
+    const panelAbierto = $('.index__panel', abierta);
+    if (panelAbierto) panelAbierto.inert = false;
+    btnDe(abierta).setAttribute('aria-expanded', 'true');
+
+    list.addEventListener('click', (e) => {
+      const btn = e.target.closest('.index__item');
+      if (btn && list.contains(btn)) abrir(btn.parentElement);
+    });
+
+    // --- Vistazo al pasar el cursor (desktop) ----------------------
+    // Sólo con puntero fino: en touch el hover se dispara con el tap y
+    // haría parpadear la imagen antes del click.
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      list.addEventListener('mouseover', (e) => {
+        const btn = e.target.closest('.index__item');
+        if (btn && list.contains(btn)) pintar(btn);
+      });
+      list.addEventListener('mouseleave', () => pintar(btnDe(abierta)));
+    }
 
     // Precarga silenciosa: al pasar el cursor la imagen ya está lista.
-    const precargar = () => items.forEach((i) => {
-      if (i.dataset.img) { const p = new Image(); p.src = i.dataset.img; }
+    const precargar = () => rows.forEach((r) => {
+      const src = btnDe(r).dataset.img;
+      if (src) { const p = new Image(); p.src = src; }
     });
     if ('requestIdleCallback' in window) window.requestIdleCallback(precargar);
     else window.setTimeout(precargar, 1200);
