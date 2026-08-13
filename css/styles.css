@@ -1035,9 +1035,15 @@ em { font-style: italic; }
      tiene contra qué desplazarse si ya mide lo mismo que la lista— y
      el marco pierde su aspect-ratio y su techo: la altura la manda la
      columna de la izquierda. */
-  .index__preview { display: block; height: 100%; }
+  .index__preview { display: block; position: relative; height: 100%; }
+  /* Absoluto a propósito: si el marco quedara en el flujo, su alto
+     intrínseco —el de la imagen— entraría en el cálculo de la fila y la
+     imagen terminaría estirando la lista en vez de al revés. Con la
+     captura de Almacenit (1200x5545) eso llevaba la sección de 726 a
+     2348 px. Fuera del flujo, la altura la fija sólo la lista. */
   .index__preview .fig__frame {
-    height: 100%;
+    position: absolute;
+    inset: 0;
     max-height: none;
     aspect-ratio: auto;
   }
