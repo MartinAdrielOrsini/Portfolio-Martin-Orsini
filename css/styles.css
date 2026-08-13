@@ -697,18 +697,29 @@ em { font-style: italic; }
    línea de base. En la referencia esa mancha mide 0,516 em del titular
    y su centro queda en el borde derecho de la palabra, 0,779 em por
    encima de la base. De ahí salen los tres valores de abajo. */
-/* Ajuste posterior, a pedido del autor: un punto más chico y despegado
-   de la palabra. El cuerpo baja de 1,297 a 1,25 em (la mancha pasa de
-   0,527 a 0,508 em del titular) y el translateX de −0,281 a −0,25 em,
-   que lo corre unos 10 px a la derecha. El `top` no se toca: como está
-   en em del propio asterisco, al achicarse el cuerpo el centro de la
-   mancha se queda donde estaba. */
+/* Ajustes posteriores, a pedido del autor: más chico y despegado de la
+   palabra. El cuerpo bajó en dos pasos, 1,297 → 1,25 → 1,125 em; la
+   mancha pasó de 0,527 a 0,452 em del titular.
+
+   Los dos valores están atados. El asterisco se ancla por el borde
+   izquierdo de su caja, pero lo que se ve empezar es su tinta, que entra
+   0,078 em (de su propio cuerpo) más adentro. Al achicarlo, ese bearing
+   se achica también y la mancha se corre sola hacia la derecha. Por eso
+   cada vez que se cambia el cuerpo hay que rehacer el translateX:
+
+     tx_nuevo = (tx_viejo + 0,078) × cuerpo_viejo / cuerpo_nuevo − 0,078
+
+   Así la separación con la palabra queda donde se la dejó y el cuerpo es
+   lo único que cambia. El `top` no se toca: está en em del propio
+   asterisco, así que al achicarse, el centro de la mancha se queda en su
+   lugar — 0,780 em sobre la base del titular, contra los 0,779 de la
+   referencia. */
 .hero__mark {
   position: absolute;
   left: 100%;
   top: -0.328em;
-  transform: translateX(-0.25em);
-  font-size: 1.25em;
+  transform: translateX(-0.269em);
+  font-size: 1.125em;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
