@@ -12,6 +12,8 @@
      9. Copiar email
     10. Validación del formulario
     11. Año del copyright
+    12. Pantalla de carga
+    13. El asterisco del hero (baja y gira con el scroll)
    Vanilla ES6+. Sin dependencias.
    ============================================================ */
 
@@ -522,9 +524,112 @@
 
 
   /* ==========================================================
+     12 — PANTALLA DE CARGA
+     Se va cuando termina de cargar la página. Al final se saca
+     del árbol: aunque quede invisible, su fondo opaco seguiría
+     puesto por encima de todo.
+     ========================================================== */
+  function initLoader() {
+    const loader = $('#loader');
+    if (!loader) return;
+
+    let cerrado = false;
+    const cerrar = () => {
+      if (cerrado) return;
+      cerrado = true;
+      loader.classList.add('is-done');
+      window.setTimeout(() => loader.remove(), 600);
+    };
+
+    if (document.readyState === 'complete') cerrar();
+    else window.addEventListener('load', cerrar);
+
+    // Red de seguridad: si una imagen o la tipografía nunca terminan,
+    // el evento load no llega y la pantalla taparía el sitio para
+    // siempre. Seis segundos es el techo.
+    window.setTimeout(cerrar, 6000);
+  }
+
+
+  /* ==========================================================
+     13 — EL ASTERISCO DEL HERO
+     Al scrollear se descuelga: baja en vertical mientras gira en
+     sentido horario, hasta esconderse debajo de la sección 2.
+
+     Sólo se mueve en Y. El tope de arriba es su posición de
+     reposo y el de abajo, el borde inferior del hero: como el
+     hero es sticky con z-index 0 y la sección 2 es opaca y va en
+     z-index 1, al pasar ese borde el asterisco queda tapado. No
+     hace falta ocultarlo a mano.
+
+     El recorrido se mide, no se estima, y se recalcula al cambiar
+     el tamaño de la ventana. La escritura va dentro de un
+     requestAnimationFrame para no tocar estilos en cada evento de
+     scroll.
+     ========================================================== */
+  function initHeroMark() {
+    const mark   = $('.hero__mark');
+    const hero   = $('#hero');
+    const sec2   = $('#about');
+    const header = $('#siteHeader');
+    if (!mark || !hero || !sec2) return;
+
+    const GIRO = 540;          // grados en todo el recorrido
+    let recorrido = 0;         // px que baja el asterisco
+    let tramo = 1;             // px de scroll en los que sucede
+    let yActual = 0;
+    let pedido = false;
+
+    const pintar = () => {
+      pedido = false;
+      if (prefersReducedMotion.matches) {
+        yActual = 0;
+        mark.style.setProperty('--ast-y', '0px');
+        mark.style.setProperty('--ast-r', '0deg');
+        return;
+      }
+      const p = Math.min(1, Math.max(0, window.scrollY / tramo));
+      yActual = p * recorrido;
+      mark.style.setProperty('--ast-y', yActual.toFixed(2) + 'px');
+      mark.style.setProperty('--ast-r', (p * GIRO).toFixed(2) + 'deg');
+    };
+
+    const medir = () => {
+      // El asterisco puede estar corrido en este momento: se le resta
+      // lo que ya bajó para recuperar su posición de reposo, en vez de
+      // ponerlo en cero y provocar un salto visible.
+      const m = mark.getBoundingClientRect();
+      const h = hero.getBoundingClientRect();
+      recorrido = Math.max(0, h.bottom - (m.top - yActual));
+      const sec2Top = sec2.getBoundingClientRect().top + window.scrollY;
+      tramo = Math.max(1, sec2Top - (header ? header.offsetHeight : 0));
+      pintar();
+    };
+
+    const alScrollear = () => {
+      if (pedido) return;
+      pedido = true;
+      window.requestAnimationFrame(pintar);
+    };
+
+    window.addEventListener('scroll', alScrollear, { passive: true });
+    window.addEventListener('resize', medir);
+    // Las medidas cambian cuando entra la tipografía: el cuerpo del
+    // titular manda el tamaño y la posición del asterisco.
+    window.addEventListener('load', medir);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(medir);
+    if (prefersReducedMotion.addEventListener) {
+      prefersReducedMotion.addEventListener('change', pintar);
+    }
+    medir();
+  }
+
+
+  /* ==========================================================
      ARRANQUE
      ========================================================== */
   function init() {
+    initLoader();
     initImageFallbacks();
     initHeader();
     initMobileMenu();
@@ -535,6 +640,7 @@
     initCopyEmail();
     initContactForm();
     initYear();
+    initHeroMark();
   }
 
   if (document.readyState === 'loading') {
