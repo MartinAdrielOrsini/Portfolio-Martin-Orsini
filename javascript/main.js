@@ -1,7 +1,7 @@
 /* ============================================================
    PORTFOLIO — JAVASCRIPT
    Módulos:
-     1. Marca de JS activo
+     1. Marca de JS activo · dónde abre la página
      2. Placeholders de imágenes
      3. Header (sombra al hacer scroll)
      4. Menú mobile
@@ -32,6 +32,36 @@
      que sin JavaScript la página se ve completa igual.
      ========================================================== */
   document.documentElement.classList.add('js');
+
+
+  /* ==========================================================
+     1b — DÓNDE ABRE LA PÁGINA
+     Por defecto el navegador devuelve el scroll a donde estabas la
+     última vez (history.scrollRestoration = 'auto'). En un sitio de
+     una sola página eso hace que "entrar" te deje en medio de los
+     proyectos en vez de en la portada: pasaba en el celular, sin
+     ancla en la URL. Con 'manual' abre siempre arriba.
+
+     Las anclas siguen funcionando igual: si la URL trae #algo, no se
+     toca nada y el navegador salta a esa sección como siempre.
+     ========================================================== */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  if (!window.location.hash) {
+    // Si el usuario ya empezó a scrollear mientras cargaba, no se le
+    // arrebata la página de las manos.
+    let tocado = false;
+    const marcar = () => { tocado = true; };
+    window.addEventListener('wheel', marcar, { passive: true, once: true });
+    window.addEventListener('touchstart', marcar, { passive: true, once: true });
+    window.addEventListener('keydown', marcar, { once: true });
+
+    if (window.scrollY) window.scrollTo(0, 0);
+    // Safari en iOS a veces restaura después del load, así que se repite.
+    window.addEventListener('load', () => {
+      if (!tocado && !window.location.hash && window.scrollY) window.scrollTo(0, 0);
+    });
+  }
 
 
   /* ==========================================================
