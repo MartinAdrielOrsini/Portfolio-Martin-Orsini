@@ -161,6 +161,29 @@
     apply();
     window.addEventListener('resize', apply);
     window.addEventListener('load', apply);
+
+    /* El hero es la excepción y necesita ir a mano.
+       Al ser sticky, mientras está pegado su borde superior queda
+       siempre a la altura del header, así que el navegador lo da por
+       visible y al pulsar un enlace a #hero no scrollea: cambia el
+       hash y te deja donde estabas. Le pasaba a los cuatro enlaces que
+       apuntan ahí —la marca, "Inicio", "Volver arriba" y el salto de
+       accesibilidad—. El destino real es el principio del documento. */
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href="#hero"]');
+      if (!link || e.defaultPrevented) return;
+      // Se respetan los clics con modificador (abrir en otra pestaña).
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion.matches ? 'auto' : 'smooth'
+      });
+      // El hash se actualiza igual que lo haría el navegador, pero
+      // después de decidir nosotros el destino.
+      if (window.history && history.pushState) history.pushState(null, '', '#hero');
+    });
   }
 
 
