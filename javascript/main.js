@@ -47,21 +47,37 @@
      ========================================================== */
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-  if (!window.location.hash) {
+  (function abrirEnLaPortada() {
     // Si el usuario ya empezó a scrollear mientras cargaba, no se le
     // arrebata la página de las manos.
     let tocado = false;
     const marcar = () => { tocado = true; };
-    window.addEventListener('wheel', marcar, { passive: true, once: true });
-    window.addEventListener('touchstart', marcar, { passive: true, once: true });
-    window.addEventListener('keydown', marcar, { once: true });
-
-    if (window.scrollY) window.scrollTo(0, 0);
-    // Safari en iOS a veces restaura después del load, así que se repite.
-    window.addEventListener('load', () => {
-      if (!tocado && !window.location.hash && window.scrollY) window.scrollTo(0, 0);
+    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) => {
+      window.addEventListener(ev, marcar, { passive: true, once: true });
     });
-  }
+
+    const alTope = () => {
+      if (tocado || window.location.hash || !window.scrollY) return;
+      window.scrollTo(0, 0);
+    };
+
+    alTope();
+    // El navegador puede restaurar después de este script: se reintenta
+    // al terminar de cargar y un instante más tarde, porque Safari en
+    // iOS lo hace incluso después del load.
+    window.addEventListener('load', () => {
+      alTope();
+      window.setTimeout(alTope, 250);
+    });
+
+    // Caso aparte: volver con "atrás" o recuperar la pestaña al reabrir
+    // el navegador. Ahí la página sale de la caché de sesión ya armada y
+    // con su scroll puesto, así que scrollRestoration ni se consulta;
+    // el único aviso es pageshow con persisted en true.
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted && !window.location.hash) window.scrollTo(0, 0);
+    });
+  })();
 
 
   /* ==========================================================

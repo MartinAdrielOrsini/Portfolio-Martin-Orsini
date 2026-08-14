@@ -1042,10 +1042,12 @@ em { font-style: italic; }
   margin-top: 0.7rem;
   margin-bottom: 1.1rem;
   font-size: var(--fs-micro);
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-ink);
-  border-bottom: 1px solid currentColor;
+  /* Con el texto en negrita una regla de 1px se veía endeble */
+  border-bottom: 2px solid currentColor;
   padding-bottom: 2px;
 }
 .index__more::after {
@@ -1087,6 +1089,13 @@ em { font-style: italic; }
   /* En desktop la imagen del panel sobra: está la vista previa al costado */
   .index__shot { display: none; }
   .index__panel-in > * { margin-left: calc(2.5ch + 1.25rem); }
+
+  /* Piso de cuatro renglones para la descripción. Las de los diez
+     proyectos no miden lo mismo —unas entran en tres renglones y otras
+     en cuatro— y sin esto la lista cambiaba 20 px de alto según cuál
+     estuviera abierto. Como la imagen de la derecha copia la altura de
+     la lista, saltaba de tamaño al cambiar de proyecto. */
+  .index__desc { min-height: 6.2em; }   /* 4 × 1,55 de interlínea */
 
   /* La imagen ocupa la columna entera: arranca arriba con la lista y
      termina en su misma línea al pie. Por eso deja de ser sticky —no
