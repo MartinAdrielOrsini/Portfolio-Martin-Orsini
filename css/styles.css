@@ -210,7 +210,6 @@ em { font-style: italic; }
 /* Epígrafes y pistas: mismo cuerpo chico que el resto de los metadatos.
    La jerarquía la da el tamaño y el aire, no un cambio de familia. */
 .fig__cap,
-.section-head__note,
 .copy-status,
 .form__status { font-size: var(--fs-small); line-height: 1.5; }
 
@@ -325,16 +324,6 @@ em { font-style: italic; }
 
 .section-head { margin-bottom: clamp(1.5rem, 1.1rem + 1.5vw, 2.75rem); }
 .section-head .eyebrow { margin-bottom: clamp(0.9rem, 0.7rem + 0.8vw, 1.5rem); }
-.section-head--split { display: grid; gap: 1.75rem; }
-/* Sin esto, un título largo en caja alta fija el min-content del grid y
-   lo desborda en pantallas chicas. */
-.section-head--split > * { min-width: 0; }
-.section-head__note {
-  color: var(--ink-soft);
-  max-width: 34ch;
-  font-size: var(--fs-body);
-}
-.section--dark .section-head__note { color: var(--dark-soft); }
 
 .two-col { display: grid; gap: var(--gap); margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 .two-col__item p { max-width: var(--measure); }
@@ -1393,12 +1382,6 @@ em { font-style: italic; }
   :root { --gutter: 40px; --header-h: 76px; }
 
   .ar-21x9 { aspect-ratio: 21 / 9; }
-
-  .section-head--split {
-    grid-template-columns: 1.2fr 0.8fr;
-    align-items: end;
-    gap: 2.5rem;
-  }
 
   /* Paso intermedio: las cuatro columnas del mockup no entran, así que
      van de a dos. La primera línea todavía no comparte base porque las
