@@ -1030,6 +1030,11 @@ em { font-style: italic; }
 /* El contenido del panel alinea con el nombre, no con el número: la
    sangría la da la misma grilla del ítem (2,5ch + medianil). */
 .index__panel-in > * { margin-left: calc(2.5ch + 0.9rem); }
+/* La imagen del panel va cuadrada, igual que la vista previa de
+   desktop (el marco lleva ar-1x1 en el HTML). Antes era 4:3 apaisada y,
+   como la de desktop terminó siendo vertical, el mismo archivo se
+   recortaba distinto en cada vista y no había forma de componerlo bien
+   para las dos. Con las dos cuadradas, un solo export sirve para todo. */
 .index__shot { margin-bottom: 0.9rem; max-width: 420px; }
 .index__desc {
   font-size: var(--fs-small);
