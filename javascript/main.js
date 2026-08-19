@@ -551,7 +551,12 @@
       });
     });
 
-    form.addEventListener('submit', (e) => {
+    /* Envío real. El destino sale del action del <form>: si algún día se
+       cambia de servicio, se toca ahí y nada más. Se manda por fetch en
+       vez de dejar que el navegador haga el POST para no perder la página
+       ni el mensaje de estado; sin JavaScript el form postea solo y el
+       servicio responde con su propia pantalla de gracias. */
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       let firstInvalid = null;
@@ -569,16 +574,53 @@
         return;
       }
 
-      if (status) {
-        status.textContent = '¡Gracias! Tu mensaje quedó listo para enviarse. Te respondo dentro de las próximas 48 horas.';
-        status.classList.add('is-ok');
+      const limpiar = () => {
+        form.reset();
+        fields.forEach((field) => {
+          field.error.textContent = '';
+          field.input.setAttribute('aria-invalid', 'false');
+        });
+      };
+
+      const destino = form.getAttribute('action');
+      if (!destino) {
+        // Sin servicio configurado: se comporta como antes, sólo validando.
+        if (status) {
+          status.textContent = '¡Gracias! Tu mensaje quedó listo para enviarse.';
+          status.classList.add('is-ok');
+        }
+        limpiar();
+        return;
       }
 
-      form.reset();
-      fields.forEach((field) => {
-        field.error.textContent = '';
-        field.input.setAttribute('aria-invalid', 'false');
-      });
+      const boton = form.querySelector('button[type="submit"]');
+      if (boton) boton.disabled = true;
+      if (status) {
+        status.textContent = 'Enviando…';
+        status.classList.remove('is-ok');
+      }
+
+      try {
+        const r = await fetch(destino.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form)
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        if (status) {
+          status.textContent = '¡Gracias! Tu mensaje llegó. Te respondo dentro de las próximas 48 horas.';
+          status.classList.add('is-ok');
+        }
+        limpiar();
+      } catch (err) {
+        // Que nunca quede en la nada: si el envío falla, se ofrece el mail.
+        if (status) {
+          status.textContent = 'No se pudo enviar. Escribime directo a martinorsain@hotmail.com';
+          status.classList.remove('is-ok');
+        }
+      } finally {
+        if (boton) boton.disabled = false;
+      }
     });
   }
 
@@ -651,13 +693,21 @@
 
     const pintar = () => {
       pedido = false;
+      const p = Math.min(1, Math.max(0, window.scrollY / tramo));
+
+      /* Apagar el hero cuando ya está tapado. Es sticky durante toda la
+         página, así que sin esto se sigue repintando detrás de cada
+         sección y en mobile a veces se cuela por encima. En p >= 1 la
+         sección 2 lo cubrió por completo: a partir de ahí no hay nada
+         que mostrar. */
+      hero.classList.toggle('is-covered', p >= 1);
+
       if (prefersReducedMotion.matches) {
         yActual = 0;
         mark.style.setProperty('--ast-y', '0px');
         mark.style.setProperty('--ast-r', '0deg');
         return;
       }
-      const p = Math.min(1, Math.max(0, window.scrollY / tramo));
       yActual = p * recorrido;
       mark.style.setProperty('--ast-y', yActual.toFixed(2) + 'px');
       mark.style.setProperty('--ast-r', (p * GIRO).toFixed(2) + 'deg');

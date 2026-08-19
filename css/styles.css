@@ -620,6 +620,17 @@ em { font-style: italic; }
   display: flex;
   padding-block: clamp(0.75rem, 0.5rem + 0.8vw, 1.4rem);
 }
+
+/* El hero es sticky, y su bloque contenedor es <main>: queda clavado
+   durante TODA la pagina —37.000 px en mobile—, repintandose detras de
+   cada seccion aunque no se vea. Eso es lo que a veces se colaba por
+   encima al scrollear en el telefono: un parpadeo del compositor
+   mostrando esa capa que nunca se apago.
+
+   main.js le pone .is-covered en cuanto la seccion 2 termina de taparlo.
+   A partir de ahi deja de pintarse del todo y el parpadeo no tiene con
+   que aparecer. Se lo saca al volver arriba. */
+.hero.is-covered { visibility: hidden; }
 .hero__inner {
   display: flex;
   flex-direction: column;
@@ -745,7 +756,6 @@ em { font-style: italic; }
   transform: translateX(-0.269em)
              translateY(var(--ast-y, 0px))
              rotate(var(--ast-r, 0deg));
-  will-change: transform;
   font-size: 1.125em;
   font-weight: 700;
   line-height: 1;
@@ -1195,7 +1205,6 @@ em { font-style: italic; }
 .contact__claim {
   font-family: var(--font-display);
   font-weight: 700;
-  text-transform: uppercase;
   font-size: var(--fs-h2);
   line-height: 0.98;
   letter-spacing: -0.02em;

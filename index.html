@@ -10,8 +10,8 @@
 <!-- ============================================================
      CONFIGURACIÓN RÁPIDA — qué editar primero
      ------------------------------------------------------------
-     1. Email     → buscá "hola@tudominio.com".
-     2. Redes     → los href="#" de la sección de contacto.
+     1. Contacto  → mail, redes y CV ya están cargados en #contact.
+     2. Formulario→ el action del <form> define a dónde llega el mensaje.
      3. Imágenes  → cada <img> apunta a assets/images/<proyecto>/.
                     Soltá tu archivo con ESE nombre exacto y aparece
                     solo. Si no existe, se ve un placeholder con la
@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=26">
+<link rel="stylesheet" href="css/styles.css?v=29">
 </head>
 <body>
 
@@ -1442,7 +1442,7 @@
       <p class="eyebrow"><span class="eyebrow__num">13</span> Contacto</p>
       <h2 class="contact__claim">
         ¿Tenés un proyecto<br>dando vueltas?<br>
-        <em>Trabajemos juntos.</em>
+        <em>¡Trabajemos juntos!</em>
       </h2>
     </header>
 
@@ -1451,8 +1451,8 @@
         <div class="reveal">
           <h3 class="about__label">Escribime</h3>
           <div class="email-row">
-            <a class="email-link" href="mailto:hola@tudominio.com">hola@tudominio.com</a>
-            <button class="btn btn--copy" type="button" id="copyEmail" data-email="hola@tudominio.com">
+            <a class="email-link" href="mailto:martinorsain@hotmail.com">martinorsain@hotmail.com</a>
+            <button class="btn btn--copy" type="button" id="copyEmail" data-email="martinorsain@hotmail.com">
               <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.6"/>
                 <path d="M5 15V6a2 2 0 0 1 2-2h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -1466,16 +1466,27 @@
         <div class="reveal">
           <h3 class="about__label">En otros lados</h3>
           <ul class="social-list">
-            <li><a href="#" rel="noopener">Instagram <span class="social-list__at">@tuusuario</span></a></li>
-            <li><a href="#" rel="noopener">Behance <span class="social-list__at">/tuusuario</span></a></li>
-            <li><a href="#" rel="noopener">LinkedIn <span class="social-list__at">/in/tuusuario</span></a></li>
-            <li><a href="#" rel="noopener">Descargar CV <span class="social-list__at">PDF</span></a></li>
+            <li><a href="https://www.instagram.com/tincho_orsini/" target="_blank" rel="noopener noreferrer">Instagram <span class="social-list__at">@tincho_orsini</span></a></li>
+            <li><a href="https://www.behance.net/martinorsini1" target="_blank" rel="noopener noreferrer">Behance <span class="social-list__at">/martinorsini1</span></a></li>
+            <li><a href="https://www.linkedin.com/in/martin-orsini-614823308/" target="_blank" rel="noopener noreferrer">LinkedIn <span class="social-list__at">/in/martin-orsini-614823308</span></a></li>
+            <li><a href="assets/cv-martin-orsini.pdf" download>Descargar CV <span class="social-list__at">PDF</span></a></li>
           </ul>
         </div>
       </div>
 
-      <!-- Formulario de contacto (validación en javascript/main.js) -->
-      <form class="form reveal" id="contactForm" novalidate>
+      <!-- Formulario de contacto. El destino sale del action: FormSubmit
+           reenvía el mensaje al mail de abajo. Para cambiar de servicio
+           se toca sólo esta línea; el JS deriva de acá su endpoint.
+           Validación y envío en javascript/main.js -->
+      <form class="form reveal" id="contactForm" novalidate
+            action="https://formsubmit.co/martinorsain@hotmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Mensaje desde el portfolio">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <!-- Trampa antispam: invisible para una persona. Si viene llena,
+             el envío lo manda un bot y el servicio lo descarta. -->
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off"
+               aria-hidden="true" style="position:absolute;left:-9999px">
         <div class="form__field">
           <label class="form__label" for="fName">Nombre</label>
           <input class="form__input" type="text" id="fName" name="name" autocomplete="name"
@@ -1525,6 +1536,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=26"></script>
+<script src="javascript/main.js?v=29"></script>
 </body>
 </html>
