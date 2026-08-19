@@ -331,6 +331,27 @@ em { font-style: italic; }
 .split { display: grid; gap: var(--gap); margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 /* Columna de figuras apiladas, con el mismo aire que las grillas */
 .fig-stack { display: grid; gap: var(--gap); align-content: start; }
+/* Pieza centrada, mas angosta que la caja: la usan los bloques de
+   Fasciculos y Mush, donde el wireframe deja aire a los dos costados. */
+.fig--narrow { max-width: 62%; margin-inline: auto; }
+/* Fila de tres: pieza grande, columna de miniaturas y texto. */
+.trio { display: grid; gap: var(--gap); }
+
+/* Tira de pantallas que se sale del contenedor por los dos costados,
+   como en el wireframe. Se arrastra en horizontal; los recortes de los
+   bordes son la señal de que hay mas para ver. */
+.screens {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(150px, 22%);
+  gap: var(--gap);
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.screens::-webkit-scrollbar { display: none; }
 .split__text p { max-width: 38ch; color: var(--ink-soft); }
 .section--dark .split__text p { color: var(--dark-soft); }
 
@@ -476,6 +497,8 @@ em { font-style: italic; }
 .ar-2x1  { aspect-ratio: 2 / 1; }
 .ar-strip{ aspect-ratio: 13 / 2; }    /* tira horizontal muy apaisada */
 .ar-3x1  { aspect-ratio: 3 / 1; }     /* aperturas apaisadas de los wireframes */
+.ar-3x7  { aspect-ratio: 3 / 7; }     /* capturas de sitio completo */
+.ar-3x5  { aspect-ratio: 3 / 5; }
 
 /* En mobile una tira 13:2 quedaría de 40 px de alto: se le da más
    altura y se deja arrastrar en horizontal dentro del propio marco. */
@@ -1388,6 +1411,7 @@ em { font-style: italic; }
 
   .two-col { grid-template-columns: repeat(2, 1fr); gap: clamp(2rem, 4vw, 4rem); }
   .split { grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
+  .trio { grid-template-columns: 1.1fr 0.45fr 1.4fr; align-items: start; }
   .split--reverse .split__text { order: 2; }
   .split--reverse .split__aside { order: 1; }
 

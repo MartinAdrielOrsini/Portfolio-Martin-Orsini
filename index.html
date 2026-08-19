@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=31">
+<link rel="stylesheet" href="css/styles.css?v=32">
 </head>
 <body>
 
@@ -647,77 +647,68 @@
     </header>
   </div>
 
-  <div class="container">
-    <p class="project__lead reveal">
-      El programa de fidelidad de la app necesitaba un mundo propio: una
-      zanahoria que se va llenando a medida que sumás puntos, y un set de
-      iconos dibujados a mano alzada que sostiene todo el sistema.
-    </p>
-
-    <h3 class="block-title block-title--section reveal">Onboarding</h3>
-    <div class="grid-3">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Onboarding — QR y niveles">
-          <img src="assets/images/green-eat/02-onboarding-a.jpg" alt="Pantalla de onboarding con el QR y la zanahoria por niveles" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Escaneá y sumá.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Onboarding — beneficios">
-          <img src="assets/images/green-eat/03-onboarding-b.jpg" alt="Pantalla de onboarding con cupones y descuentos alrededor de la zanahoria" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Canjeá beneficios.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Onboarding — cierre">
-          <img src="assets/images/green-eat/04-onboarding-c.jpg" alt="Tercera pantalla de onboarding del programa de puntos" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Subí de nivel.</figcaption>
-      </figure>
-    </div>
-  </div>
-
+  <!-- Texto a la izquierda, pieza a la derecha -->
   <div class="container">
     <div class="split">
       <div class="split__text reveal">
-        <h3 class="block-title">El sistema de iconos</h3>
-        <p>
-          Todo dibujado con el mismo trazo: línea negra irregular, relleno
-          plano y un desfase de color que asoma por detrás. Verde oscuro y
-          naranja mandan; el amarillo y el rojo aparecen sólo en cupones y
-          ubicaciones.
+        <p class="project__lead">
+          Rediseño de la aplicación móvil de Green Eat, basado en investigación
+          y análisis de usuarios para mejorar la navegación, optimizar la
+          interacción y desarrollar una interfaz clara.
         </p>
       </div>
-      <div class="split__aside reveal">
-        <figure class="fig">
-          <div class="fig__frame fig__frame--contain ar-16x10" data-slot="Set de iconos">
-            <img src="assets/images/green-eat/05-sistema.jpg" alt="Set completo de iconos e ilustraciones del programa de puntos" loading="lazy" decoding="async">
+      <div class="split__aside">
+        <figure class="fig reveal">
+          <div class="fig__frame ar-3x2" data-slot="Sistema">
+            <img src="assets/images/green-eat/05-sistema.jpg" alt="Sistema visual de la aplicación Green Eat" loading="lazy" decoding="async">
           </div>
         </figure>
       </div>
     </div>
   </div>
 
+  <!-- Pantallas: tira que se sale por los dos costados -->
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Producto</h3>
-    <div class="grid-3">
-      <figure class="fig reveal">
-        <div class="fig__frame fig__frame--contain ar-2x1" data-slot="Café">
-          <img src="assets/images/green-eat/06-cafe.png" alt="Ilustración de un café de la carta" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame fig__frame--contain ar-2x1" data-slot="Hamburguesa">
-          <img src="assets/images/green-eat/07-hamburguesa.png" alt="Ilustración de una hamburguesa de la carta" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame fig__frame--contain ar-2x1" data-slot="Wraps">
-          <img src="assets/images/green-eat/08-wraps.png" alt="Ilustración de wraps de la carta" loading="lazy" decoding="async">
-        </div>
-      </figure>
+    <h3 class="block-title block-title--section reveal">Pantallas</h3>
+    <div class="screens reveal">
+      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Onboarding"><img src="assets/images/green-eat/02-onboarding-a.jpg" alt="Pantalla de onboarding de Green Eat" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Onboarding"><img src="assets/images/green-eat/03-onboarding-b.jpg" alt="Pantalla de onboarding de Green Eat" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Onboarding"><img src="assets/images/green-eat/04-onboarding-c.jpg" alt="Pantalla de onboarding de Green Eat" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Programa de puntos"><img src="assets/images/green-eat/01-card.jpg" alt="Pantalla del programa de puntos" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Sistema"><img src="assets/images/green-eat/05-sistema.jpg" alt="Pantalla del sistema visual" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
+
+  <!-- Iconos e ilustraciones -->
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Iconos e ilustraciones</h3>
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame fig__frame--contain ar-1x1" data-slot="Café"><img src="assets/images/green-eat/06-cafe.png" alt="Ilustración de un café" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame fig__frame--contain ar-1x1" data-slot="Hamburguesa"><img src="assets/images/green-eat/07-hamburguesa.png" alt="Ilustración de una hamburguesa" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame fig__frame--contain ar-1x1" data-slot="Wraps"><img src="assets/images/green-eat/08-wraps.png" alt="Ilustración de unos wraps" loading="lazy" decoding="async"></div></figure>
+    </div>
+  </div>
+
+  <!-- Cierre: pieza a la izquierda, texto a la derecha -->
+  <div class="container">
+    <div class="split">
+      <div class="split__aside">
+        <figure class="fig reveal">
+          <div class="fig__frame ar-3x2" data-slot="Programa de puntos">
+            <img src="assets/images/green-eat/01-card.jpg" alt="Set de iconos del programa de puntos de Green Eat" loading="lazy" decoding="async">
+          </div>
+        </figure>
+      </div>
+      <div class="split__text reveal">
+        <p>
+          El programa de fidelidad necesitaba un mundo propio: una zanahoria que
+          se llena a medida que sumás puntos y un set de iconos dibujados a mano
+          alzada, pensados para sostener el sistema en todas las pantallas.
+        </p>
+      </div>
+    </div>
+  </div>
+
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -746,118 +737,66 @@
 
   <div class="container reveal">
     <figure class="fig">
-      <div class="fig__frame ar-21x9" data-slot="Fachada — cartel">
-        <img src="assets/images/cerveceros-del-sur/02-fachada.jpg" alt="Cartel colgante y letras corpóreas iluminadas en la fachada del local" loading="lazy" decoding="async">
+      <div class="fig__frame ar-2x1" data-slot="Fachada">
+        <img src="assets/images/cerveceros-del-sur/02-fachada.jpg" alt="Fachada del bar Cerveceros del Sur" loading="lazy" decoding="async">
       </div>
-      <figcaption class="fig__cap">Cartel colgante y letras corpóreas en la fachada.</figcaption>
     </figure>
   </div>
 
   <div class="container">
-    <p class="project__lead reveal">
-      Una cervecería artesanal con local en La Boca. La identidad se
-      construyó desde una ilustración —un pingüino con una jarra— y una
-      tipografía de cartel antiguo, capaz de sostener la lata en la
-      góndola y la pared del salón.
-    </p>
-
-    <div class="two-col">
-      <div class="two-col__item reveal">
-        <h3 class="block-title">El sistema</h3>
-        <p>
-          El isologotipo funciona como escudo completo en las piezas
-          grandes y se reduce a la tipografía sola cuando el espacio no
-          alcanza. Detrás de todo hay un mismo grabado de montaña y
-          bosque, que aparece como trama, fondo o textura de lata.
+    <div class="split">
+      <div class="split__text reveal">
+        <p class="project__lead">
+          Desarrollo integral de la identidad de Cerveceros del Sur, desde la
+          construcción de la marca gráfica hasta sus aplicaciones, adaptándola
+          a diferentes espacios y soportes.
         </p>
       </div>
-      <div class="two-col__item reveal">
-        <h3 class="block-title">La campaña</h3>
-        <p>
-          <em>«La mejor, es del Sur».</em> Polaroids apiladas sobre el
-          grabado, con la bajada manuscrita <em>«Volver a disfrutar»</em>.
-          El recurso baja a Instagram, vía pública y table tents sin
-          rediseñar nada.
-        </p>
+      <div class="split__aside">
+        <figure class="fig reveal">
+          <div class="fig__frame fig__frame--contain ar-1x1" data-slot="Marca">
+            <img src="assets/images/cerveceros-del-sur/12-marca.png" alt="Marca gráfica de Cerveceros del Sur" loading="lazy" decoding="async">
+          </div>
+        </figure>
       </div>
     </div>
   </div>
 
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Marca y packaging</h3>
-    <div class="grid-asym">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Isologotipo">
-          <img src="assets/images/cerveceros-del-sur/12-marca.png" alt="Isologotipo: un pingüino con una jarra de cerveza dentro de un escudo" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Isologotipo.</figcaption>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-16x10" data-slot="Latas en el salón">
-          <img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg" alt="Las latas Stout, IPA y Honey sobre una mesa del salón" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Stout, IPA y Honey: misma estructura, distinto valor de fondo.</figcaption>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-4x3" data-slot="Línea de latas">
-          <img src="assets/images/cerveceros-del-sur/01-packaging.jpg" alt="Las tres latas de la línea vistas de frente" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Etiquetas de 473 ml.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Carta">
-          <img src="assets/images/cerveceros-del-sur/04-menu.jpg" alt="Carta de cervezas, cocktails y whiskeys" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Carta.</figcaption>
-      </figure>
+    <h3 class="block-title block-title--section reveal">Variables del logo</h3>
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/01-packaging.jpg" alt="Variable de la marca aplicada al packaging" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg" alt="Las latas Stout, IPA y Honey" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/10-posavasos.jpg" alt="Posavasos con una variable de la marca" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/11-tarjeta.jpg" alt="Tarjeta con una variable de la marca" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame fig__frame--contain ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/13-table-tent.png" alt="Table tent con una variable de la marca" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/09-papeleria.jpg" alt="Papelería con una variable de la marca" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Campaña y aplicaciones</h3>
+    <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
+
     <div class="grid-asym">
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-2x1" data-slot="Afiche de campaña">
-          <img src="assets/images/cerveceros-del-sur/07-afiche.jpg" alt="Afiche de campaña con polaroids apiladas y el claim La mejor, es del Sur" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Instagram">
-          <img src="assets/images/cerveceros-del-sur/06-redes.jpg" alt="Pieza de Instagram con polaroids" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-4x3" data-slot="Vía pública">
-          <img src="assets/images/cerveceros-del-sur/08-viapublica.jpg" alt="Cartel de vía pública sobre una pared de ladrillo" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-3x4" data-slot="Señalética">
-          <img src="assets/images/cerveceros-del-sur/05-senaletica.jpg" alt="Letras corpóreas retroiluminadas en el patio del local" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-3x2" data-slot="Papelería">
-          <img src="assets/images/cerveceros-del-sur/09-papeleria.jpg" alt="Papelería institucional: tarjeta, flyer y hoja membretada" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x3" data-slot="Table tent">
-          <img src="assets/images/cerveceros-del-sur/13-table-tent.png" alt="Table tent de mesa con la promo y el QR de la carta" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-16x10" data-slot="Posavasos">
-          <img src="assets/images/cerveceros-del-sur/10-posavasos.jpg" alt="Posavasos troquelados con el isologotipo" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x3" data-slot="Tarjeta personal">
-          <img src="assets/images/cerveceros-del-sur/11-tarjeta.jpg" alt="Tarjeta personal impresa" loading="lazy" decoding="async">
-        </div>
-      </figure>
+      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-1x1" data-slot="Packaging"><img src="assets/images/cerveceros-del-sur/01-packaging.jpg" alt="Packaging de la línea de latas" loading="lazy" decoding="async"></div></figure>
+      <div class="fig-stack">
+        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Señalética"><img src="assets/images/cerveceros-del-sur/05-senaletica.jpg" alt="Señalética del local" loading="lazy" decoding="async"></div></figure>
+        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Menú"><img src="assets/images/cerveceros-del-sur/04-menu.jpg" alt="Menú del bar" loading="lazy" decoding="async"></div></figure>
+      </div>
+    </div>
+
+    <div class="grid-asym">
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Afiche"><img src="assets/images/cerveceros-del-sur/07-afiche.jpg" alt="Afiche de la campaña" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-2x1" data-slot="Vía pública"><img src="assets/images/cerveceros-del-sur/08-viapublica.jpg" alt="Pieza de vía pública" loading="lazy" decoding="async"></div></figure>
+    </div>
+
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Redes"><img src="assets/images/cerveceros-del-sur/06-redes.jpg" alt="Piezas para redes sociales" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Papelería"><img src="assets/images/cerveceros-del-sur/09-papeleria.jpg" alt="Papelería del bar" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Latas"><img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg" alt="Las latas sobre la mesa" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
+
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -884,72 +823,44 @@
     </header>
   </div>
 
-  <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-2x1" data-slot="Fauna">
-        <img src="assets/images/dosel/10-fauna-wide.jpg" alt="Ilustración de fauna autóctona del juego Dosel" loading="lazy" decoding="async">
+  <div class="container">
+    <div class="grid-2">
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Caja"><img src="assets/images/dosel/01-caja.jpg" alt="Caja del juego de mesa Dosel" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Caja abierta"><img src="assets/images/dosel/02-caja-alt.jpg" alt="Caja del juego abierta" loading="lazy" decoding="async"></div></figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="split">
+      <div class="split__aside">
+        <figure class="fig reveal">
+          <div class="fig__frame ar-3x2" data-slot="Fauna">
+            <img src="assets/images/dosel/10-fauna-wide.jpg" alt="Cartas de fauna del juego" loading="lazy" decoding="async">
+          </div>
+        </figure>
       </div>
-    </figure>
+      <div class="split__text reveal">
+        <p class="project__lead">
+          Desarrollo integral de un juego de mesa, trabajando sus mecánicas y
+          universo gráfico para abordar una problemática socioambiental desde
+          una perspectiva lúdica, estratégica e interactiva.
+        </p>
+      </div>
+    </div>
   </div>
 
   <div class="container">
-    <p class="project__lead reveal">
-      Un juego de mesa sobre fauna autóctona argentina. Cada carta cruza
-      un animal con el ambiente donde vive; el sistema tenía que
-      distinguir esos ambientes de un vistazo, sin texto.
-    </p>
-
+    <h3 class="block-title block-title--section reveal">Elementos del juego</h3>
     <div class="grid-3">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Caja">
-          <img src="assets/images/dosel/01-caja.jpg" alt="Caja del juego de mesa Dosel" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Caja.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Caja — alternativa">
-          <img src="assets/images/dosel/02-caja-alt.jpg" alt="Versión alternativa de la caja del juego" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Alternativa de tapa.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Dorso de carta">
-          <img src="assets/images/dosel/08-dorso.jpg" alt="Dorso de las cartas del juego" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Dorso.</figcaption>
-      </figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pastizal"><img src="assets/images/dosel/03-pastizal.jpg" alt="Cartas del ambiente pastizal" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Río"><img src="assets/images/dosel/04-rio.jpg" alt="Cartas del ambiente río" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Selva"><img src="assets/images/dosel/05-selva.jpg" alt="Cartas del ambiente selva" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Tierra"><img src="assets/images/dosel/06-tierra.jpg" alt="Cartas del ambiente tierra" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Piedra"><img src="assets/images/dosel/07-piedra.jpg" alt="Cartas del ambiente piedra" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Dorso"><img src="assets/images/dosel/08-dorso.jpg" alt="Dorso de las cartas" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Ambientes</h3>
-    <div class="grid-4">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Pastizal">
-          <img src="assets/images/dosel/03-pastizal.jpg" alt="Carta de ambiente: pastizal" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Pastizal</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Río">
-          <img src="assets/images/dosel/04-rio.jpg" alt="Carta de ambiente: río" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Río</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Selva">
-          <img src="assets/images/dosel/05-selva.jpg" alt="Carta de ambiente: selva" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Selva</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Tierra roja">
-          <img src="assets/images/dosel/06-tierra.jpg" alt="Carta de ambiente: tierra roja" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Tierra roja</figcaption>
-      </figure>
-    </div>
-  </div>
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -976,72 +887,54 @@
     </header>
   </div>
 
-  <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-7x5" data-slot="Doble página de apertura">
-        <img src="assets/images/fasciculos-editorial/02-apertura.jpg" alt="Doble página de apertura con una fotografía en blanco y negro" loading="lazy" decoding="async">
+  <div class="container">
+    <div class="split">
+      <div class="split__text reveal">
+        <p class="project__lead">
+          Diseño de una colección editorial compuesta por tres fascículos con
+          relatos de escritores argentinos, desarrollando un sistema gráfico que
+          articula las piezas y les otorga identidad.
+        </p>
       </div>
-      <figcaption class="fig__cap">Apertura. La página par se deja en blanco.</figcaption>
+      <div class="split__aside">
+        <figure class="fig reveal">
+          <div class="fig__frame ar-3x2" data-slot="Apertura">
+            <img src="assets/images/fasciculos-editorial/02-apertura.jpg" alt="Doble página de apertura de la colección" loading="lazy" decoding="async">
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Página"><img src="assets/images/fasciculos-editorial/03-pagina-a.jpg" alt="Página interior de un fascículo" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Página"><img src="assets/images/fasciculos-editorial/04-pagina-b.jpg" alt="Página interior de un fascículo" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Página"><img src="assets/images/fasciculos-editorial/05-pagina-c.jpg" alt="Página interior de un fascículo" loading="lazy" decoding="async"></div></figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Fascículo 01</h3>
+    <figure class="fig fig--narrow reveal">
+      <div class="fig__frame ar-16x10" data-slot="Doble página"><img src="assets/images/fasciculos-editorial/07-spread-a.jpg" alt="Doble página del primer fascículo" loading="lazy" decoding="async"></div>
     </figure>
   </div>
 
   <div class="container">
-    <p class="project__lead reveal">
-      Una publicación fotográfica en blanco y negro sobre un solo objeto
-      repetido. La maqueta deja que cada imagen elija su escala: el
-      blanco de la página funciona como silencio entre foto y foto.
-    </p>
-
-    <h3 class="block-title block-title--section reveal">Páginas</h3>
-    <div class="grid-4">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Página interior">
-          <img src="assets/images/fasciculos-editorial/03-pagina-a.jpg" alt="Página interior con fotografía en blanco y negro" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Página interior">
-          <img src="assets/images/fasciculos-editorial/04-pagina-b.jpg" alt="Página interior con un detalle fotográfico" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Página interior">
-          <img src="assets/images/fasciculos-editorial/05-pagina-c.jpg" alt="Página interior con composición vertical" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Página interior">
-          <img src="assets/images/fasciculos-editorial/06-pagina-d.jpg" alt="Página interior con fotografía a sangre" loading="lazy" decoding="async">
-        </div>
-      </figure>
-    </div>
+    <h3 class="block-title block-title--section reveal">Fascículo 02</h3>
+    <figure class="fig fig--narrow reveal">
+      <div class="fig__frame ar-16x10" data-slot="Doble página"><img src="assets/images/fasciculos-editorial/09-spread-c.jpg" alt="Doble página del segundo fascículo" loading="lazy" decoding="async"></div>
+    </figure>
   </div>
 
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Dobles páginas</h3>
-    <div class="grid-2">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/07-spread-a.jpg" alt="Doble página con la imagen desplazada al margen derecho" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/09-spread-c.jpg" alt="Doble página con una fotografía cruzando el lomo" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/12-spread-f.jpg" alt="Doble página con composición asimétrica" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Doble página">
-          <img src="assets/images/fasciculos-editorial/10-spread-d.jpg" alt="Doble página con un plano detalle a gran escala" loading="lazy" decoding="async">
-        </div>
-      </figure>
-    </div>
+    <h3 class="block-title block-title--section reveal">Fascículo 03</h3>
+    <figure class="fig fig--narrow reveal">
+      <div class="fig__frame ar-16x10" data-slot="Doble página"><img src="assets/images/fasciculos-editorial/11-spread-e.jpg" alt="Doble página del tercer fascículo" loading="lazy" decoding="async"></div>
+    </figure>
   </div>
+
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -1070,32 +963,29 @@
 
   <div class="container">
     <p class="project__lead reveal">
-      Un sitio de compra para un almacén de barrio. La grilla de
-      productos manda: fotos grandes, precio legible y un camino corto
-      entre la home y el carrito.
+      Diseño y desarrollo de un sitio web responsive para Almacenit, un centro
+      de bienestar, compuesto por una página principal y una sección de detalle
+      para sus cursos.
     </p>
+  </div>
 
-    <div class="two-col">
-      <div class="two-col__item reveal">
-        <h3 class="block-title">Home</h3>
-        <figure class="fig">
-          <div class="fig__frame fig__frame--scroll ar-3x4" data-slot="Home — captura completa">
-            <img src="assets/images/almacenit/01-home.jpg" alt="Captura completa de la home del sitio Almacenit" loading="lazy" decoding="async">
-          </div>
-          <figcaption class="fig__cap">Arrastrá dentro del marco para recorrer la página.</figcaption>
-        </figure>
-      </div>
-      <div class="two-col__item reveal">
-        <h3 class="block-title">Detalle de producto</h3>
-        <figure class="fig">
-          <div class="fig__frame fig__frame--scroll ar-3x4" data-slot="Detalle — captura completa">
-            <img src="assets/images/almacenit/02-detalle.jpg" alt="Captura completa de la ficha de producto del sitio Almacenit" loading="lazy" decoding="async">
-          </div>
-          <figcaption class="fig__cap">Ficha de producto completa.</figcaption>
-        </figure>
-      </div>
+  <div class="container">
+    <div class="grid-2">
+      <figure class="fig reveal">
+        <div class="fig__frame fig__frame--scroll ar-3x7" data-slot="Home">
+          <img src="assets/images/almacenit/01-home.jpg" alt="Página principal del sitio Almacenit" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Página principal.</figcaption>
+      </figure>
+      <figure class="fig reveal">
+        <div class="fig__frame fig__frame--scroll ar-3x7" data-slot="Detalle de curso">
+          <img src="assets/images/almacenit/02-detalle.jpg" alt="Página de detalle de un curso" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="fig__cap">Detalle de curso.</figcaption>
+      </figure>
     </div>
   </div>
+
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -1124,115 +1014,69 @@
 
   <div class="container reveal">
     <figure class="fig">
-      <div class="fig__frame ar-21x9" data-slot="Camisetas 2025">
-        <img src="assets/images/estrella-de-maldonado/02-apertura.jpg" alt="Presentación de las camisetas 2025 con jugadoras del club" loading="lazy" decoding="async">
+      <div class="fig__frame ar-2x1" data-slot="Apertura">
+        <img src="assets/images/estrella-de-maldonado/02-apertura.jpg" alt="Apertura de la identidad de Estrella de Maldonado" loading="lazy" decoding="async">
       </div>
-      <figcaption class="fig__cap">Lanzamiento de la indumentaria 2025.</figcaption>
     </figure>
   </div>
 
   <div class="container">
     <p class="project__lead reveal">
-      Un club de barrio con equipos de futsal y vóley en todas las
-      categorías. El encargo fue la identidad de una temporada completa:
-      tres camisetas, el anuario y las piezas que las presentan.
+      Desarrollo de un sistema de identidad gráfica para Estrella de Maldonado,
+      integrando redes sociales, espacios físicos y diferentes piezas de
+      comunicación para fortalecer su identidad institucional.
     </p>
-
-    <div class="two-col">
-      <div class="two-col__item reveal">
-        <h3 class="block-title">El desafío</h3>
-        <p>
-          El escudo no estaba en discusión: una estrella blanca sobre
-          franja celeste, sencilla y muy querida. Faltaba todo lo que va
-          alrededor, y que cambiaba de año en año según quién lo hiciera.
-        </p>
-      </div>
-      <div class="two-col__item reveal">
-        <h3 class="block-title">El sistema</h3>
-        <p>
-          <em>Una grilla que se ve.</em> Las tres camisetas comparten una
-          retícula de líneas finas y marcas rojas impresa sobre la tela.
-          Esa misma grilla ordena el anuario, donde funciona como hoja
-          cuadriculada.
-        </p>
-      </div>
-    </div>
   </div>
 
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Indumentaria 2025</h3>
+    <h3 class="block-title block-title--section reveal">Afiches</h3>
     <div class="grid-3">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-16x9" data-slot="Camiseta titular">
-          <img src="assets/images/estrella-de-maldonado/03-titular.jpg" alt="Camiseta titular blanca con franja celeste, frente y espalda" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Titular.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-16x9" data-slot="Camiseta suplente">
-          <img src="assets/images/estrella-de-maldonado/04-suplente.jpg" alt="Camiseta suplente azul con la trama de grilla impresa" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Suplente. La misma grilla, ahora sobre azul.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-16x9" data-slot="Camiseta auxiliar">
-          <img src="assets/images/estrella-de-maldonado/05-auxiliar.jpg" alt="Tercera camiseta del club, frente y espalda" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Auxiliar.</figcaption>
-      </figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x5" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/03-titular.jpg" alt="Afiche de la camiseta titular" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x5" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/04-suplente.jpg" alt="Afiche de la camiseta suplente" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x5" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/05-auxiliar.jpg" alt="Afiche de la camiseta auxiliar" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
-  <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-strip" data-slot="Las tres camisetas en línea">
-        <img src="assets/images/estrella-de-maldonado/06-linea.jpg" alt="Las tres camisetas de la temporada alineadas horizontalmente" loading="lazy" decoding="async">
-      </div>
-      <figcaption class="fig__cap">El juego completo: una sola trama, tres lecturas.</figcaption>
-    </figure>
-  </div>
-
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Anuario</h3>
+    <h3 class="block-title block-title--section reveal">Digital</h3>
     <div class="grid-2">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Anuario — doble página">
-          <img src="assets/images/estrella-de-maldonado/07-anuario-a.jpg" alt="Doble página del anuario con el perfil de un jugador" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Perfil de jugador: collage sobre hoja cuadriculada.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Anuario — doble página">
-          <img src="assets/images/estrella-de-maldonado/08-anuario-b.jpg" alt="Segunda doble página del anuario" loading="lazy" decoding="async">
-        </div>
-      </figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Pieza de redes"><img src="assets/images/estrella-de-maldonado/07-anuario-a.jpg" alt="Pieza del anuario en redes" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Pieza de redes"><img src="assets/images/estrella-de-maldonado/08-anuario-b.jpg" alt="Pieza del anuario en redes" loading="lazy" decoding="async"></div></figure>
+    </div>
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/06-linea.jpg" alt="Pieza de la línea gráfica" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/10-cancha.jpg" alt="Pieza con foto de la cancha" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/11-entrenamiento.jpg" alt="Pieza con foto de entrenamiento" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/09-anuario-mockup.jpg" alt="Mockup del anuario" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/07-anuario-a.jpg" alt="Pieza del anuario" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/08-anuario-b.jpg" alt="Pieza del anuario" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
   <div class="container">
+    <h3 class="block-title block-title--section reveal">Indumentaria, banderas y más</h3>
+
     <div class="grid-asym">
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-3x2" data-slot="Anuario impreso">
-          <img src="assets/images/estrella-de-maldonado/09-anuario-mockup.jpg" alt="El anuario impreso abierto" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-3x4" data-slot="En cancha">
-          <img src="assets/images/estrella-de-maldonado/10-cancha.jpg" alt="Jugadores con la camiseta nueva en la cancha" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-4x3" data-slot="Entrenamiento">
-          <img src="assets/images/estrella-de-maldonado/11-entrenamiento.jpg" alt="Equipo entrenando con la indumentaria nueva" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x3" data-slot="Mockup de la línea">
-          <img src="assets/images/estrella-de-maldonado/01-mockup.jpg" alt="Mockup de presentación de la indumentaria" loading="lazy" decoding="async">
-        </div>
-      </figure>
+      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-1x1" data-slot="Camisetas"><img src="assets/images/estrella-de-maldonado/01-mockup.jpg" alt="Camisetas de la temporada" loading="lazy" decoding="async"></div></figure>
+      <div class="fig-stack">
+        <figure class="fig reveal"><div class="fig__frame ar-2x1" data-slot="Titular"><img src="assets/images/estrella-de-maldonado/03-titular.jpg" alt="Camiseta titular" loading="lazy" decoding="async"></div></figure>
+        <figure class="fig reveal"><div class="fig__frame ar-2x1" data-slot="Suplente"><img src="assets/images/estrella-de-maldonado/04-suplente.jpg" alt="Camiseta suplente" loading="lazy" decoding="async"></div></figure>
+      </div>
+    </div>
+
+    <figure class="fig reveal">
+      <div class="fig__frame ar-3x1" data-slot="Cancha"><img src="assets/images/estrella-de-maldonado/10-cancha.jpg" alt="Bandera desplegada en la cancha" loading="lazy" decoding="async"></div>
+    </figure>
+
+    <div class="grid-asym">
+      <div class="fig-stack">
+        <figure class="fig reveal"><div class="fig__frame ar-2x1" data-slot="Auxiliar"><img src="assets/images/estrella-de-maldonado/05-auxiliar.jpg" alt="Camiseta auxiliar" loading="lazy" decoding="async"></div></figure>
+        <figure class="fig reveal"><div class="fig__frame ar-2x1" data-slot="Entrenamiento"><img src="assets/images/estrella-de-maldonado/11-entrenamiento.jpg" alt="Indumentaria de entrenamiento" loading="lazy" decoding="async"></div></figure>
+      </div>
+      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-1x1" data-slot="Anuario"><img src="assets/images/estrella-de-maldonado/09-anuario-mockup.jpg" alt="Mockup del anuario del club" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
+
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -1260,39 +1104,50 @@
   </div>
 
   <div class="container">
-    <p class="project__lead reveal">
-      Estampas de encargo sobre músicos. Cada una arma un collage con el
-      mundo visual del artista: color, tipografía y textura salen de sus
-      propias tapas.
-    </p>
-
-    <div class="grid-4">
+    <div class="trio">
       <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Remera — Billie Eilish">
-          <img src="assets/images/remeras/01-billie.jpg" alt="Remera estampada con ilustración de Billie Eilish" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Billie Eilish</figcaption>
+        <div class="fig__frame ar-3x5" data-slot="Remera"><img src="assets/images/remeras/01-billie.jpg" alt="Remera custom estampada" loading="lazy" decoding="async"></div>
       </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Remera — Kendrick Lamar">
-          <img src="assets/images/remeras/02-kendrick.jpg" alt="Remera estampada con ilustración de Kendrick Lamar" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Kendrick Lamar</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Remera — Rauw Alejandro">
-          <img src="assets/images/remeras/03-rauw.jpg" alt="Remera estampada con ilustración de Rauw Alejandro" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Rauw Alejandro</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Remera — variante">
-          <img src="assets/images/remeras/04-billie-2.jpg" alt="Segunda variante de la remera de Billie Eilish" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Variante</figcaption>
-      </figure>
+      <div class="fig-stack">
+        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/02-kendrick.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/03-rauw.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/04-billie-2.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/05-hasbulla.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/02-kendrick.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+      </div>
+      <div class="split__text reveal">
+        <p class="project__lead">
+          Desarrollo de estampas textiles personalizadas para remeras y buzos,
+          realizadas a partir de diferentes temáticas, artistas y referentes,
+          buscando otorgar una identidad visual propia a cada prenda.
+        </p>
+      </div>
     </div>
   </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Diferentes diseños</h3>
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/01-billie.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/02-kendrick.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/03-rauw.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/04-billie-2.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/05-hasbulla.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/01-billie.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Diseños en uso</h3>
+    <div class="screens reveal">
+      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/01-billie.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/02-kendrick.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/03-rauw.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/04-billie-2.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/05-hasbulla.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
+    </div>
+  </div>
+
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -1321,63 +1176,58 @@
 
   <div class="container reveal">
     <figure class="fig">
-      <div class="fig__frame ar-16x9" data-slot="Frame de la pieza">
-        <img src="assets/images/mush-type/02-apertura.jpg" alt="Frame de la pieza animada de Mush type" loading="lazy" decoding="async">
+      <div class="fig__frame ar-3x1" data-slot="Apertura">
+        <img src="assets/images/mush-type/02-apertura.jpg" alt="Apertura de Mush Type" loading="lazy" decoding="async">
       </div>
     </figure>
   </div>
 
   <div class="container">
-    <p class="project__lead reveal">
-      Una tipografía display blanda, hecha de bultos que se tocan, y una
-      pieza en movimiento donde las letras no entran ni salen: se
-      deforman.
-    </p>
-
-    <div class="grid-3">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-16x9" data-slot="Frame — letras">
-          <img src="assets/images/mush-type/03-letras.jpg" alt="Frame con múltiples letras de Mush type" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-16x9" data-slot="Frame — amarillo">
-          <img src="assets/images/mush-type/04-amarillo.jpg" alt="Frame amarillo de la animación tipográfica" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-16x9" data-slot="Frame — composición">
-          <img src="assets/images/mush-type/05-frame.jpg" alt="Frame de composición tipográfica" loading="lazy" decoding="async">
-        </div>
-      </figure>
+    <div class="split">
+      <div class="split__aside">
+        <figure class="fig reveal">
+          <div class="fig__frame ar-4x3" data-slot="Letras"><img src="assets/images/mush-type/03-letras.jpg" alt="Letras de la tipografía Mush Type" loading="lazy" decoding="async"></div>
+        </figure>
+      </div>
+      <div class="split__text reveal">
+        <p class="project__lead">
+          Desarrollo de una fuente tipográfica a partir de un objeto o trazo
+          disparador, construyendo un universo gráfico propio y una pieza
+          audiovisual para presentar Mush Type.
+        </p>
+      </div>
     </div>
+  </div>
+
+  <div class="container reveal">
+    <figure class="fig">
+      <div class="fig__frame ar-2x1" data-slot="Amarillo"><img src="assets/images/mush-type/04-amarillo.jpg" alt="Pieza gráfica de Mush Type" loading="lazy" decoding="async"></div>
+    </figure>
   </div>
 
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Universo gráfico</h3>
-    <div class="grid-4">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Pieza">
-          <img src="assets/images/mush-type/06-pieza-a.jpg" alt="Pieza gráfica del universo visual de Mush type" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Pieza">
-          <img src="assets/images/mush-type/07-pieza-b.jpg" alt="Segunda pieza del universo visual" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Pieza">
-          <img src="assets/images/mush-type/08-pieza-c.jpg" alt="Tercera pieza del universo visual" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Pieza">
-          <img src="assets/images/mush-type/09-pieza-d.jpg" alt="Cuarta pieza del universo visual" loading="lazy" decoding="async">
-        </div>
-      </figure>
+    <h3 class="block-title block-title--section reveal">Espécimen</h3>
+    <div class="grid-2">
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Espécimen"><img src="assets/images/mush-type/05-frame.jpg" alt="Espécimen tipográfico" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Espécimen"><img src="assets/images/mush-type/01-card.jpg" alt="Espécimen tipográfico" loading="lazy" decoding="async"></div></figure>
+    </div>
+    <figure class="fig reveal">
+      <div class="fig__frame ar-2x1" data-slot="Cierre"><img src="assets/images/mush-type/10-cierre.jpg" alt="Pieza de cierre de Mush Type" loading="lazy" decoding="async"></div>
+    </figure>
+  </div>
+
+  <div class="container">
+    <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/06-pieza-a.jpg" alt="Aplicación de Mush Type" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/07-pieza-b.jpg" alt="Aplicación de Mush Type" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/08-pieza-c.jpg" alt="Aplicación de Mush Type" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/09-pieza-d.jpg" alt="Aplicación de Mush Type" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Instagram"><img src="assets/images/mush-type/11-ig.jpg" alt="Pieza para Instagram" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Letras"><img src="assets/images/mush-type/03-letras.jpg" alt="Letras de la tipografía" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
+
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -1496,6 +1346,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=31"></script>
+<script src="javascript/main.js?v=32"></script>
 </body>
 </html>
