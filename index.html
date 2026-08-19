@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=30">
+<link rel="stylesheet" href="css/styles.css?v=31">
 </head>
 <body>
 
@@ -509,75 +509,53 @@
     </header>
   </div>
 
+  <!-- Apertura a todo el ancho -->
   <div class="container reveal">
     <figure class="fig">
-      <div class="fig__frame ar-16x9" data-slot="Marquesina">
+      <div class="fig__frame ar-3x1" data-slot="Marquesina">
         <img src="assets/images/suma/01-marquesina.jpg" alt="Marquesina de la sucursal con la marca SUMA rediseñada" loading="lazy" decoding="async">
       </div>
-      <figcaption class="fig__cap">Marquesina de sucursal.</figcaption>
     </figure>
   </div>
 
+  <!-- Texto a la izquierda, dos piezas apiladas a la derecha -->
   <div class="container">
-    <p class="project__lead reveal">
-      Un supermercado de cercanía con una marca que había crecido a los
-      parches. El rediseño buscó un signo simple, imprimible en cualquier
-      soporte y reconocible desde la vereda de enfrente.
-    </p>
-
-    <div class="grid-asym">
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-7x5" data-slot="Antes y después">
-          <img src="assets/images/suma/02-marcas.jpg" alt="Comparación entre la marca anterior y la nueva" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Antes y después.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-5x7" data-slot="Panel de presentación">
-          <img src="assets/images/suma/03-panel.jpg" alt="Panel de presentación del sistema de marca" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Panel de sistema.</figcaption>
-      </figure>
+    <div class="split">
+      <div class="split__text reveal">
+        <p class="project__lead">
+          Rediseño de la identidad gráfica de la cadena de supermercados
+          centroamericana SUMA, explorando diferentes variables y aplicaciones
+          para construir un sistema visual versátil, reconocible y adaptable.
+        </p>
+      </div>
+      <div class="split__aside fig-stack">
+        <figure class="fig reveal">
+          <div class="fig__frame ar-3x1" data-slot="Antes y después">
+            <img src="assets/images/suma/02-marcas.jpg" alt="Comparación entre la marca anterior y la nueva" loading="lazy" decoding="async">
+          </div>
+        </figure>
+        <figure class="fig reveal">
+          <div class="fig__frame ar-3x1" data-slot="Vía pública">
+            <img src="assets/images/suma/04-viapublica.jpg" alt="Cartel de vía pública con la campaña de la marca" loading="lazy" decoding="async">
+          </div>
+        </figure>
+      </div>
     </div>
   </div>
 
+  <!-- Aplicaciones: dos filas de tres -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
     <div class="grid-3">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Bolsa">
-          <img src="assets/images/suma/05-bolsa.jpg" alt="Bolsa de compras con la nueva marca" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-7x5" data-slot="Canasta">
-          <img src="assets/images/suma/06-canasta.jpg" alt="Canasta de supermercado marcada" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x3" data-slot="Gorra">
-          <img src="assets/images/suma/07-gorra.jpg" alt="Gorra del uniforme del personal" loading="lazy" decoding="async">
-        </div>
-      </figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Bolsa"><img src="assets/images/suma/05-bolsa.jpg" alt="Bolsa de compras con la nueva marca" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Canasta"><img src="assets/images/suma/06-canasta.jpg" alt="Canasta de supermercado marcada" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Gorra"><img src="assets/images/suma/07-gorra.jpg" alt="Gorra del uniforme del personal" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Uniforme"><img src="assets/images/suma/08-polo.jpg" alt="Chomba del uniforme del personal" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Panel de sistema"><img src="assets/images/suma/03-panel.jpg" alt="Panel de presentación del sistema de marca" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Camión"><img src="assets/images/suma/10-camion.jpg" alt="Camión de reparto con la marca aplicada" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
-  <div class="container">
-    <div class="grid-asym">
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-4x3" data-slot="Vía pública">
-          <img src="assets/images/suma/04-viapublica.jpg" alt="Cartel de vía pública con la campaña de la marca" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Vía pública.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Uniforme">
-          <img src="assets/images/suma/08-polo.jpg" alt="Chomba del uniforme del personal" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Uniforme.</figcaption>
-      </figure>
-    </div>
-  </div>
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -604,62 +582,44 @@
     </header>
   </div>
 
-  <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-16x10" data-slot="Pieza de convocados">
-        <img src="assets/images/centenera-fc/01-portada.jpg" alt="Pieza de convocados de Centenera FC en formato apaisado" loading="lazy" decoding="async">
-      </div>
-    </figure>
+  <!-- Tres piezas verticales, como en el wireframe -->
+  <div class="container">
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame ar-2x3" data-slot="Convocados"><img src="assets/images/centenera-fc/02-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-2x3" data-slot="Convocados"><img src="assets/images/centenera-fc/03-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-2x3" data-slot="Convocados"><img src="assets/images/centenera-fc/04-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
+    </div>
   </div>
 
   <div class="container">
     <p class="project__lead reveal">
-      Un sistema de piezas para bancar el torneo entero: la misma
-      plantilla se rellena fecha a fecha con las fotos de la semana, sin
-      rediseñar nada.
+      Desarrollo de un sistema de piezas gráficas para Centenera FC, pensado
+      para acompañar al equipo durante todo el torneo y mantener una identidad
+      visual consistente en redes.
     </p>
-
-    <h3 class="block-title block-title--section reveal">Fecha a fecha</h3>
-    <div class="grid-4">
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Convocados">
-          <img src="assets/images/centenera-fc/02-convocados.jpg" alt="Placa de convocados, fecha 1" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Convocados">
-          <img src="assets/images/centenera-fc/03-convocados.jpg" alt="Placa de convocados, fecha 2" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Convocados">
-          <img src="assets/images/centenera-fc/04-convocados.jpg" alt="Placa de convocados, fecha 3" loading="lazy" decoding="async">
-        </div>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-4x5" data-slot="Convocados">
-          <img src="assets/images/centenera-fc/05-convocados.jpg" alt="Placa de convocados, fecha 4" loading="lazy" decoding="async">
-        </div>
-      </figure>
-    </div>
   </div>
 
+  <!-- Publicaciones: dos filas asimétricas y una pareja -->
   <div class="container">
+    <h3 class="block-title block-title--section reveal">Publicaciones</h3>
+
     <div class="grid-asym">
-      <figure class="fig fig--span2 reveal">
-        <div class="fig__frame ar-3x2" data-slot="Equipo">
-          <img src="assets/images/centenera-fc/07-equipo.jpg" alt="Fotografía del plantel de Centenera FC" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">La materia prima: fotos del torneo.</figcaption>
-      </figure>
-      <figure class="fig reveal">
-        <div class="fig__frame ar-1x1" data-slot="Camiseta">
-          <img src="assets/images/centenera-fc/08-camiseta.jpg" alt="Presentación de la camiseta suplente" loading="lazy" decoding="async">
-        </div>
-        <figcaption class="fig__cap">Presentación de camiseta.</figcaption>
-      </figure>
+      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-2x1" data-slot="Portada"><img src="assets/images/centenera-fc/01-portada.jpg" alt="Pieza de portada de Centenera FC" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Convocados"><img src="assets/images/centenera-fc/05-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
+    </div>
+
+    <div class="grid-asym">
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Convocados"><img src="assets/images/centenera-fc/06-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-2x1" data-slot="Equipo"><img src="assets/images/centenera-fc/07-equipo.jpg" alt="Foto de equipo publicada en redes" loading="lazy" decoding="async"></div></figure>
+    </div>
+
+    <div class="grid-3">
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Camiseta"><img src="assets/images/centenera-fc/08-camiseta.jpg" alt="Camiseta del club en una pieza de redes" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Convocados"><img src="assets/images/centenera-fc/02-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Convocados"><img src="assets/images/centenera-fc/04-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
+
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -1536,6 +1496,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=30"></script>
+<script src="javascript/main.js?v=31"></script>
 </body>
 </html>

@@ -329,6 +329,8 @@ em { font-style: italic; }
 .two-col__item p + p { margin-top: 0.9rem; }
 
 .split { display: grid; gap: var(--gap); margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
+/* Columna de figuras apiladas, con el mismo aire que las grillas */
+.fig-stack { display: grid; gap: var(--gap); align-content: start; }
 .split__text p { max-width: 38ch; color: var(--ink-soft); }
 .section--dark .split__text p { color: var(--dark-soft); }
 
@@ -473,6 +475,7 @@ em { font-style: italic; }
 .ar-16x10{ aspect-ratio: 16 / 10; }
 .ar-2x1  { aspect-ratio: 2 / 1; }
 .ar-strip{ aspect-ratio: 13 / 2; }    /* tira horizontal muy apaisada */
+.ar-3x1  { aspect-ratio: 3 / 1; }     /* aperturas apaisadas de los wireframes */
 
 /* En mobile una tira 13:2 quedaría de 40 px de alto: se le da más
    altura y se deja arrastrar en horizontal dentro del propio marco. */
