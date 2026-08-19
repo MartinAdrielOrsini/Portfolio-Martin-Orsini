@@ -314,8 +314,7 @@ em { font-style: italic; }
   --line: var(--dark-line);
   --line-soft: rgba(255, 255, 255, 0.12);
 }
-.section--dark .fig__cap,
-.section--dark .project__meta dt { color: var(--dark-soft); }
+.section--dark .fig__cap { color: var(--dark-soft); }
 .section--dark .fig__frame {
   background: #1C1C1C;
   border-color: var(--dark-line);
@@ -1121,22 +1120,6 @@ em { font-style: italic; }
 .project__head .eyebrow { margin-bottom: 0.75rem; }
 .project__title { margin-bottom: clamp(1.25rem, 0.9rem + 1.2vw, 2rem); }
 
-.project__meta {
-  display: grid;
-  gap: 1.1rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--line);
-}
-.section--dark .project__meta { border-top-color: var(--dark-line); }
-.project__meta dt {
-  font-size: var(--fs-micro);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  margin-bottom: 0.25rem;
-}
-.project__meta dd { margin: 0; font-size: var(--fs-small); line-height: 1.45; }
-
 .project__lead { margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 .project .container + .container { margin-top: clamp(2.25rem, 1.5rem + 2.4vw, 4rem); }
 
@@ -1370,7 +1353,6 @@ em { font-style: italic; }
 @media (min-width: 480px) {
   :root { --gutter: 28px; }
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .project__meta { grid-template-columns: repeat(2, 1fr); gap: 1.25rem 1.5rem; }
   .playground { columns: 2; }
   .project-nav { grid-template-columns: 1fr 1fr; }
   .project-nav__link { padding-inline: 0; }
@@ -1403,8 +1385,6 @@ em { font-style: italic; }
 
   .grid-asym { grid-template-columns: repeat(3, 1fr); }
   .fig--span2 { grid-column: span 2; }
-
-  .project__meta { grid-template-columns: repeat(4, 1fr); }
 
   .contact__grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
 
