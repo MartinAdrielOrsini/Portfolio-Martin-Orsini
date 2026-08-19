@@ -608,7 +608,7 @@
         });
         if (!r.ok) throw new Error('HTTP ' + r.status);
         if (status) {
-          status.textContent = '¡Gracias! Tu mensaje llegó. Te respondo dentro de las próximas 48 horas.';
+          status.textContent = '¡Gracias! Tu mensaje llegó. Te respondo a la brevedad.';
           status.classList.add('is-ok');
         }
         limpiar();
