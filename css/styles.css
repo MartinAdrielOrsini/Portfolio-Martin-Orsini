@@ -339,6 +339,9 @@ em { font-style: italic; }
 /* Epigrafe arriba de la figura y centrado: lo usan el "Antes" y el
    "Despues" de Suma, donde el rotulo encabeza la pieza. */
 .fig__cap--top { margin: 0 0 0.6rem; text-align: center; }
+/* Los logos entran completos siempre, tambien en mobile: son piezas con
+   transparencia y cualquier recorte les come el borde. */
+.marcas .fig__frame img { object-fit: contain; }
 
 /* Tira de pantallas que se sale del contenedor por los dos costados,
    como en el wireframe. Se arrastra en horizontal; los recortes de los
@@ -472,6 +475,14 @@ em { font-style: italic; }
    transparencia, donde si no se vería la trama por detrás del recorte. */
 .fig__frame.is-loaded::before,
 .fig__frame.is-loaded::after { display: none; }
+/* Con la imagen puesta, el marco desaparece: el filete se veia como un
+   contorno alrededor de cada foto y no aporta nada. Se mantiene mientras
+   la imagen falta, que es cuando el marco si tiene que leerse. */
+.fig__frame.is-loaded { border-color: transparent; }
+
+/* Marco sin fondo ni filete. Para piezas que ya vienen sobre blanco o
+   con transparencia, donde el gris de encuadre se veria como una caja. */
+.fig__frame--plain { background: none; border: 0; }
 
 /* Recortes con transparencia (productos, iconos): entran completos y con
    aire, sin que el encuadre les coma los bordes. */
@@ -1167,6 +1178,9 @@ em { font-style: italic; }
 .project__title { margin-bottom: clamp(1.25rem, 0.9rem + 1.2vw, 2rem); }
 
 .project__lead { margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
+/* El ultimo parrafo de una columna no deja aire por debajo: asi la caja
+   del texto termina justo en su ultima linea. */
+.split__text > p:last-child { margin-bottom: 0; }
 .project .container + .container { margin-top: clamp(2.25rem, 1.5rem + 2.4vw, 4rem); }
 
 
@@ -1422,8 +1436,34 @@ em { font-style: italic; }
   .two-col { grid-template-columns: repeat(2, 1fr); gap: clamp(2rem, 4vw, 4rem); }
   .split { grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
   .trio { grid-template-columns: 1.1fr 0.45fr 1.4fr; align-items: start; }
-  /* Variante con el texto mas ancho que la columna de figuras */
-  .split--wide { grid-template-columns: 1.3fr 0.7fr; }
+  /* Variante con el texto mas ancho que la columna de figuras. El
+     stretch es el que hace que la columna de la derecha mida lo mismo
+     que el texto, no lo que midan sus imagenes. */
+  .split--wide { grid-template-columns: 1.3fr 0.7fr; align-items: stretch; }
+
+  /* Antes y despues: los dos logos se reparten, en partes iguales, el
+     alto que ocupa el texto de al lado.
+
+     El contenido va en absoluto a proposito. Si quedara en el flujo, su
+     alto intrinseco —el de las dos imagenes— entraria en el calculo de
+     la fila y terminaria estirando al texto en vez de al reves. Fuera
+     del flujo, la altura la fija solo la columna de texto. */
+  .marcas { position: relative; min-height: 0; }
+  .marcas__in {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: var(--gap);
+  }
+  .marcas .fig { display: grid; grid-template-rows: auto 1fr; min-height: 0; }
+  .marcas .fig__frame {
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+    max-height: none;
+  }
+  .marcas .fig__frame img { object-fit: contain; }
   .split--reverse .split__text { order: 2; }
   .split--reverse .split__aside { order: 1; }
 
