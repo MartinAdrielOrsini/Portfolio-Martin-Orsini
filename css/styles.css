@@ -343,6 +343,16 @@ em { font-style: italic; }
    transparencia y cualquier recorte les come el borde. */
 .marcas .fig__frame img { object-fit: contain; }
 
+/* El video del antes y despues: ocupa la columna entera y entra completo,
+   sin recorte, igual que los logos que reemplazo. */
+.marcas__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: none;
+}
+
 /* Tira de pantallas que se sale del contenedor por los dos costados,
    como en el wireframe. Se arrastra en horizontal; los recortes de los
    bordes son la señal de que hay mas para ver. */
@@ -1453,7 +1463,7 @@ em { font-style: italic; }
     position: absolute;
     inset: 0;
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-auto-rows: 1fr;
     gap: var(--gap);
   }
   .marcas .fig { display: grid; grid-template-rows: auto 1fr; min-height: 0; }

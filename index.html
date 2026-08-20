@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=38">
+<link rel="stylesheet" href="css/styles.css?v=39">
 </head>
 <body>
 
@@ -538,18 +538,17 @@
 
       <div class="split__aside marcas">
         <div class="marcas__in">
-        <figure class="fig reveal">
-          <figcaption class="fig__cap fig__cap--top">Antes</figcaption>
-          <div class="fig__frame fig__frame--plain ar-16x10" data-slot="Marca anterior">
-            <img src="assets/images/suma/antes.png" alt="Marca anterior de Suma, con el changuito dentro de la letra S" loading="lazy" decoding="async">
-          </div>
-        </figure>
-        <figure class="fig reveal">
-          <figcaption class="fig__cap fig__cap--top">Después</figcaption>
-          <div class="fig__frame fig__frame--plain ar-16x10" data-slot="Marca nueva">
-            <img src="assets/images/suma/despues.png" alt="Marca nueva de Suma, sin el changuito y con el trazo simplificado" loading="lazy" decoding="async">
-          </div>
-        </figure>
+          <!-- Loop constante y sin interfaz: sin el atributo controls no hay
+               barra de reproduccion, y muted + playsinline es lo que exigen
+               los navegadores para dejar que arranque solo.
+               El src va en data-src y lo pone main.js recien cuando la pieza
+               se acerca al viewport: son casi 6 MB y no tiene sentido
+               bajarlos para quien nunca llega hasta aca. -->
+          <video class="marcas__video reveal"
+                 data-src="assets/video/suma-antes-despues.mp4"
+                 poster="assets/images/suma/antes.png"
+                 loop muted playsinline preload="none"
+                 aria-label="Animación del antes y el después de la marca Suma"></video>
         </div>
       </div>
     </div>
@@ -1355,6 +1354,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=38"></script>
+<script src="javascript/main.js?v=39"></script>
 </body>
 </html>

@@ -14,6 +14,7 @@
     11. Año del copyright
     12. Pantalla de carga
     13. El asterisco del hero (baja y gira con el scroll)
+    14. Videos en loop
    Vanilla ES6+. Sin dependencias.
    ============================================================ */
 
@@ -745,6 +746,60 @@
 
 
   /* ==========================================================
+     14 — VIDEOS EN LOOP
+     Piezas que se reproducen solas, sin controles. El archivo no
+     se baja al abrir la página: el src vive en data-src y se pone
+     recién cuando la pieza está por entrar en pantalla. Cuando
+     sale, se pausa —no tiene sentido decodificar video que nadie
+     está mirando—.
+
+     Con prefers-reduced-motion no arranca nunca: queda el poster,
+     que es el primer cuadro.
+     ========================================================== */
+  function initLoopVideos() {
+    const videos = $$('video[data-src]');
+    if (!videos.length) return;
+
+    const cargar = (v) => {
+      if (v.dataset.cargado) return;
+      v.dataset.cargado = '1';
+      v.src = v.dataset.src;
+    };
+
+    const arrancar = (v) => {
+      if (prefersReducedMotion.matches) return;
+      cargar(v);
+      const p = v.play();
+      // Si el navegador rechaza el autoplay, no hay nada que romper:
+      // queda el poster puesto.
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      videos.forEach(arrancar);
+      return;
+    }
+
+    const obs = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => {
+        if (e.isIntersecting) arrancar(e.target);
+        else if (e.target.dataset.cargado) e.target.pause();
+      });
+    }, { rootMargin: '200px 0px' });
+
+    videos.forEach((v) => obs.observe(v));
+
+    // Si el usuario cambia la preferencia de movimiento en caliente
+    const onMQ = () => {
+      videos.forEach((v) => { if (prefersReducedMotion.matches) v.pause(); });
+    };
+    if (prefersReducedMotion.addEventListener) {
+      prefersReducedMotion.addEventListener('change', onMQ);
+    }
+  }
+
+
+  /* ==========================================================
      ARRANQUE
      ========================================================== */
   function init() {
@@ -760,6 +815,7 @@
     initContactForm();
     initYear();
     initHeroMark();
+    initLoopVideos();
   }
 
   if (document.readyState === 'loading') {
