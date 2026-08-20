@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=32">
+<link rel="stylesheet" href="css/styles.css?v=35">
 </head>
 <body>
 
@@ -509,51 +509,58 @@
     </header>
   </div>
 
-  <!-- Apertura a todo el ancho -->
+  <!-- Apertura: la fachada, a todo el ancho -->
   <div class="container reveal">
     <figure class="fig">
-      <div class="fig__frame ar-3x1" data-slot="Marquesina">
-        <img src="assets/images/suma/01-marquesina.jpg" alt="Marquesina de la sucursal con la marca SUMA rediseñada" loading="lazy" decoding="async">
+      <div class="fig__frame fig__frame--tall ar-27x10" data-slot="Fachada">
+        <img src="assets/images/suma/fachada.jpg" alt="Fachada de una sucursal con la marca Suma rediseñada" loading="lazy" decoding="async">
       </div>
     </figure>
   </div>
 
-  <!-- Texto a la izquierda, dos piezas apiladas a la derecha -->
+  <!-- Texto del caso y, al costado, el antes y el después de la marca -->
   <div class="container">
-    <div class="split">
+    <div class="split split--wide">
       <div class="split__text reveal">
         <p class="project__lead">
-          Rediseño de la identidad gráfica de la cadena de supermercados
-          centroamericana SUMA, explorando diferentes variables y aplicaciones
-          para construir un sistema visual versátil, reconocible y adaptable.
+          Este proyecto fue desarrollado como trabajo práctico para la facultad,
+          con el objetivo de rediseñar la marca gráfica de la cadena de
+          supermercados Suma, cuya identidad presentaba problemas de legibilidad
+          y calidad gráfica.
+        </p>
+        <p>
+          El rediseño mantuvo el color y la inclinación originales para conservar
+          su identidad, pero eliminó el “changuito” incorporado en la letra S. El
+          resultado fue una marca más simple, sólida y de mayor impacto visual,
+          acompañada por distintas aplicaciones para explorar su funcionamiento.
         </p>
       </div>
+
       <div class="split__aside fig-stack">
         <figure class="fig reveal">
-          <div class="fig__frame ar-3x1" data-slot="Antes y después">
-            <img src="assets/images/suma/02-marcas.jpg" alt="Comparación entre la marca anterior y la nueva" loading="lazy" decoding="async">
+          <figcaption class="fig__cap fig__cap--top">Antes</figcaption>
+          <div class="fig__frame fig__frame--contain ar-16x10" data-slot="Marca anterior">
+            <img src="assets/images/suma/antes.jpg" alt="Marca anterior de Suma, con el changuito dentro de la letra S" loading="lazy" decoding="async">
           </div>
         </figure>
         <figure class="fig reveal">
-          <div class="fig__frame ar-3x1" data-slot="Vía pública">
-            <img src="assets/images/suma/04-viapublica.jpg" alt="Cartel de vía pública con la campaña de la marca" loading="lazy" decoding="async">
+          <figcaption class="fig__cap fig__cap--top">Después</figcaption>
+          <div class="fig__frame fig__frame--contain ar-16x10" data-slot="Marca nueva">
+            <img src="assets/images/suma/despues.jpg" alt="Marca nueva de Suma, sin el changuito y con el trazo simplificado" loading="lazy" decoding="async">
           </div>
         </figure>
       </div>
     </div>
   </div>
 
-  <!-- Aplicaciones: dos filas de tres -->
+  <!-- Aplicaciones: el collage entero, en una sola pieza -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
-    <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Bolsa"><img src="assets/images/suma/05-bolsa.jpg" alt="Bolsa de compras con la nueva marca" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Canasta"><img src="assets/images/suma/06-canasta.jpg" alt="Canasta de supermercado marcada" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Gorra"><img src="assets/images/suma/07-gorra.jpg" alt="Gorra del uniforme del personal" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Uniforme"><img src="assets/images/suma/08-polo.jpg" alt="Chomba del uniforme del personal" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Panel de sistema"><img src="assets/images/suma/03-panel.jpg" alt="Panel de presentación del sistema de marca" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Camión"><img src="assets/images/suma/10-camion.jpg" alt="Camión de reparto con la marca aplicada" loading="lazy" decoding="async"></div></figure>
-    </div>
+    <figure class="fig reveal">
+      <div class="fig__frame fig__frame--tall ar-9x11" data-slot="Aplicaciones">
+        <img src="assets/images/suma/aplicaciones.jpg" alt="Aplicaciones de la marca Suma: góndola, vía pública, camión, uniforme, packaging, bolsas y fachada" loading="lazy" decoding="async">
+      </div>
+    </figure>
   </div>
 
 
@@ -1346,6 +1353,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=32"></script>
+<script src="javascript/main.js?v=35"></script>
 </body>
 </html>

@@ -336,6 +336,9 @@ em { font-style: italic; }
 .fig--narrow { max-width: 62%; margin-inline: auto; }
 /* Fila de tres: pieza grande, columna de miniaturas y texto. */
 .trio { display: grid; gap: var(--gap); }
+/* Epigrafe arriba de la figura y centrado: lo usan el "Antes" y el
+   "Despues" de Suma, donde el rotulo encabeza la pieza. */
+.fig__cap--top { margin: 0 0 0.6rem; text-align: center; }
 
 /* Tira de pantallas que se sale del contenedor por los dos costados,
    como en el wireframe. Se arrastra en horizontal; los recortes de los
@@ -457,6 +460,11 @@ em { font-style: italic; }
   object-fit: cover;
   transition: transform var(--t-slow) var(--ease);
 }
+/* Pieza alta que debe ocupar todo el ancho de la caja: sin esto, el
+   tope de --media-max-h le recorta la altura y, al mantener la
+   proporcion, termina angostandose. La usa el collage de Suma. */
+.fig__frame--tall { max-height: none; }
+
 /* Imagen que todavía no existe: se oculta y queda el placeholder */
 .fig__frame img.is-missing { display: none; }
 
@@ -499,6 +507,8 @@ em { font-style: italic; }
 .ar-3x1  { aspect-ratio: 3 / 1; }     /* aperturas apaisadas de los wireframes */
 .ar-3x7  { aspect-ratio: 3 / 7; }     /* capturas de sitio completo */
 .ar-3x5  { aspect-ratio: 3 / 5; }
+.ar-27x10{ aspect-ratio: 27 / 10; }   /* fachada de Suma, 1800x667 */
+.ar-9x11 { aspect-ratio: 9 / 11; }    /* collage de aplicaciones, 1800x2188 */
 
 /* En mobile una tira 13:2 quedaría de 40 px de alto: se le da más
    altura y se deja arrastrar en horizontal dentro del propio marco. */
@@ -1412,6 +1422,8 @@ em { font-style: italic; }
   .two-col { grid-template-columns: repeat(2, 1fr); gap: clamp(2rem, 4vw, 4rem); }
   .split { grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
   .trio { grid-template-columns: 1.1fr 0.45fr 1.4fr; align-items: start; }
+  /* Variante con el texto mas ancho que la columna de figuras */
+  .split--wide { grid-template-columns: 1.3fr 0.7fr; }
   .split--reverse .split__text { order: 2; }
   .split--reverse .split__aside { order: 1; }
 
