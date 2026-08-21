@@ -337,6 +337,22 @@ em { font-style: italic; }
    las alturas dan iguales solas. En mobile se apilan. */
 .row-fit { display: grid; gap: var(--gap); }
 .row-fit > .fig { min-width: 0; }
+
+/* Aire entre filas. Sin esto quedaban pegadas —0 px— mientras que dentro
+   de cada fila si habia medianil: las calles horizontales y las verticales
+   no se correspondian. Va algo mas ancho que el medianil, como en la
+   referencia del autor. */
+.row-fit + .row-fit { margin-top: calc(var(--gap) * 1.5); }
+
+/* Secciones diagramadas para llegar a los dos margenes.
+
+   El tope de --media-max-h (72svh) existe para que ninguna figura sea mas
+   alta que la pantalla. Pero al recortarle el alto, la pieza se angosta
+   para mantener su proporcion, y entonces la fila deja de llegar al margen
+   derecho: a 1366x630 las filas quedaban en 1118 de 1239 px y las tres
+   verticales en 965. En una diagramacion justificada eso lo rompe todo,
+   asi que aca el tope se levanta y manda el ancho del contenedor. */
+.project--fit .fig__frame { max-height: none; }
 /* Pieza centrada, mas angosta que la caja: la usan los bloques de
    Fasciculos y Mush, donde el wireframe deja aire a los dos costados. */
 .fig--narrow { max-width: 62%; margin-inline: auto; }
