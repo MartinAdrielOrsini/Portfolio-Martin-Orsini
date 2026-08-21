@@ -331,6 +331,12 @@ em { font-style: italic; }
 .split { display: grid; gap: var(--gap); margin-bottom: clamp(1.5rem, 1rem + 1.6vw, 2.5rem); }
 /* Columna de figuras apiladas, con el mismo aire que las grillas */
 .fig-stack { display: grid; gap: var(--gap); align-content: start; }
+/* Fila justificada: todas las piezas comparten el alto y el ancho sale de
+   su proporcion, como en la referencia de Centenera. El flex-grow de cada
+   una es su relacion de aspecto: repartiendo el ancho en esa proporcion,
+   las alturas dan iguales solas. En mobile se apilan. */
+.row-fit { display: grid; gap: var(--gap); }
+.row-fit > .fig { min-width: 0; }
 /* Pieza centrada, mas angosta que la caja: la usan los bloques de
    Fasciculos y Mush, donde el wireframe deja aire a los dos costados. */
 .fig--narrow { max-width: 62%; margin-inline: auto; }
@@ -1446,7 +1452,14 @@ em { font-style: italic; }
   .two-col { grid-template-columns: repeat(2, 1fr); gap: clamp(2rem, 4vw, 4rem); }
   .split { grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 4vw, 4rem); align-items: start; }
   .trio { grid-template-columns: 1.1fr 0.45fr 1.4fr; align-items: start; }
-  /* Variante con el texto mas ancho que la columna de figuras. El
+
+  /* Desde tablet, la fila justificada pasa a flex: cada pieza crece en
+     proporcion a su relacion de aspecto y todas terminan con el mismo alto. */
+  .row-fit { display: flex; }
+  .row-fit > .fig { flex-basis: 0; }
+  .fit-16 { flex-grow: 1.6; }
+  .fit-10 { flex-grow: 1; }
+  .fit-08 { flex-grow: 0.8; }  /* Variante con el texto mas ancho que la columna de figuras. El
      stretch es el que hace que la columna de la derecha mida lo mismo
      que el texto, no lo que midan sus imagenes. */
   .split--wide { grid-template-columns: 1.3fr 0.7fr; align-items: stretch; }

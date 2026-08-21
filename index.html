@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=40">
+<link rel="stylesheet" href="css/styles.css?v=41">
 </head>
 <body>
 
@@ -611,23 +611,24 @@
   <div class="container">
     <h3 class="block-title block-title--section reveal">Publicaciones</h3>
 
-    <div class="grid-asym">
-      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-2x1" data-slot="Portada"><img src="assets/images/centenera-fc/01-portada.jpg" alt="Pieza de portada de Centenera FC" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Convocados"><img src="assets/images/centenera-fc/05-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
+    <!-- Tres filas justificadas: en cada una las piezas comparten el alto y
+         el ancho sale de su proporcion. Ver .row-fit en el CSS. -->
+    <div class="row-fit">
+      <figure class="fig fit-16 reveal"><div class="fig__frame ar-16x10" data-slot="Convocados"><img src="assets/images/centenera-fc/a.jpg" alt="Pieza de convocados de Centenera FC, fecha 6" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fit-08 reveal"><div class="fig__frame ar-4x5" data-slot="Proximo partido"><img src="assets/images/centenera-fc/b.jpg" alt="Pieza de proximo partido de Centenera FC, fecha 7" loading="lazy" decoding="async"></div></figure>
     </div>
 
-    <div class="grid-asym">
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Convocados"><img src="assets/images/centenera-fc/06-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-2x1" data-slot="Equipo"><img src="assets/images/centenera-fc/07-equipo.jpg" alt="Foto de equipo publicada en redes" loading="lazy" decoding="async"></div></figure>
+    <div class="row-fit">
+      <figure class="fig fit-08 reveal"><div class="fig__frame ar-4x5" data-slot="Hoy juega"><img src="assets/images/centenera-fc/c.jpg" alt="Pieza de partido del dia, fecha 7" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fit-16 reveal"><div class="fig__frame ar-16x10" data-slot="Convocados"><img src="assets/images/centenera-fc/d.jpg" alt="Pieza de convocados de Centenera FC, fecha 9" loading="lazy" decoding="async"></div></figure>
     </div>
 
-    <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Camiseta"><img src="assets/images/centenera-fc/08-camiseta.jpg" alt="Camiseta del club en una pieza de redes" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Convocados"><img src="assets/images/centenera-fc/02-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Convocados"><img src="assets/images/centenera-fc/04-convocados.jpg" alt="Pieza de convocados de Centenera FC" loading="lazy" decoding="async"></div></figure>
+    <div class="row-fit">
+      <figure class="fig fit-10 reveal"><div class="fig__frame ar-1x1" data-slot="Resultado final"><img src="assets/images/centenera-fc/e.jpg" alt="Pieza de resultado final, Centenera 1 - La Lepra Portena 0" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fit-08 reveal"><div class="fig__frame ar-4x5" data-slot="Proximo partido"><img src="assets/images/centenera-fc/f.jpg" alt="Pieza de proximo partido, fecha 1" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fit-08 reveal"><div class="fig__frame ar-4x5" data-slot="Hoy juega"><img src="assets/images/centenera-fc/g.jpg" alt="Pieza de partido del dia, fecha 8" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
-
 
   <div class="container">
     <nav class="project-nav" aria-label="Navegación entre proyectos">
@@ -1354,6 +1355,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=40"></script>
+<script src="javascript/main.js?v=41"></script>
 </body>
 </html>
