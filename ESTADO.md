@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=52**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=53**.
 
 ---
 
@@ -154,8 +154,29 @@ de locales, cupones y canje.
   el salto de la vuelta se ve y además pelea con el gesto.
 - Se puede arrastrar; al soltar, el impulso se apaga solo hasta volver a
   la velocidad de crucero (45 px/s, vuelta completa ~85 s).
-- Quedaron sin uso `02-onboarding-a.jpg`, `03-onboarding-b.jpg`,
-  `04-onboarding-c.jpg` y `05-sistema.jpg` (472 KB).
+
+### Iconos e ilustraciones (Green Eat)
+Las cuatro piezas nuevas salen de `D:\Martin\PORTFOLIO WEB\3APP GREEN
+EAT\ilustraciones` (1135x1135, 4,7 MB). Convertidas a 1000 px, **388 KB
+en total**, en `assets/images/green-eat/ilustraciones/`. El orden lo
+manda el nombre: 01, 02 y 03 en la fila de arriba; 04 abajo, al lado del
+texto.
+
+- **Calidad 88, no 82.** Son ilustraciones de línea sobre plano y a 82 el
+  contorno negro anillaba. Igual pesan poco.
+- Van a **marco pleno**, sin `fig__frame--contain`: ya vienen compuestas
+  sobre su propio fondo crema y son cuadradas, así que el `--contain`
+  sólo agregaba aire sobre el que la pieza ya trae. Esa clase sigue en
+  uso en Cerveceros, donde sí hay recortes con transparencia.
+- El párrafo de cierre lleva **`.project__lead`** para entrar en el mismo
+  cuerpo que la bajada con la que abre la sección. Verificado: las siete
+  propiedades tipográficas coinciden.
+
+### Sin uso en `assets/images/green-eat/` (1,5 MB)
+`01-card.jpg`, `02-onboarding-a.jpg`, `03-onboarding-b.jpg`,
+`04-onboarding-c.jpg`, `05-sistema.jpg`, `06-cafe.png`,
+`07-hamburguesa.png` y `08-wraps.png`. Los reemplazaron el carrusel y
+las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 
 ### Secciones de proyecto
 - Títulos y volantas alineados con el índice; la ficha

@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=52">
+<link rel="stylesheet" href="css/styles.css?v=53">
 </head>
 <body>
 
@@ -734,31 +734,37 @@
     </ul>
   </div>
 
-  <!-- Iconos e ilustraciones -->
+  <!-- Iconos e ilustraciones. Las piezas ya vienen compuestas sobre su
+       propio fondo crema y son cuadradas, asi que van a marco pleno: el
+       --contain de antes era para los recortes con transparencia y aca
+       solo agregaria aire sobre el que la pieza ya trae. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Iconos e ilustraciones</h3>
     <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame fig__frame--contain ar-1x1" data-slot="Café"><img src="assets/images/green-eat/06-cafe.png" alt="Ilustración de un café" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame fig__frame--contain ar-1x1" data-slot="Hamburguesa"><img src="assets/images/green-eat/07-hamburguesa.png" alt="Ilustración de una hamburguesa" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame fig__frame--contain ar-1x1" data-slot="Wraps"><img src="assets/images/green-eat/08-wraps.png" alt="Ilustración de unos wraps" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Programa de puntos"><img src="assets/images/green-eat/ilustraciones/01.jpg" alt="Las ilustraciones del programa de puntos: la zanahoria rodeada de cupones, el código QR del Green Pass y el mapa de locales" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Set de iconos"><img src="assets/images/green-eat/ilustraciones/02.jpg" alt="Set de iconos de la aplicación: comunidad, destacados, horarios, tendencia, comentarios, descuentos, cupones, regalos y ubicación" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Personajes"><img src="assets/images/green-eat/ilustraciones/03.jpg" alt="Los personajes del sistema: las manos formando un corazón, la zanahoria de puntos, el cupón y el usuario" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
-  <!-- Cierre: pieza a la izquierda, texto a la derecha -->
+  <!-- Cierre: pieza a la izquierda, texto a la derecha. El parrafo lleva
+       .project__lead para entrar en el mismo cuerpo que la bajada con la
+       que abre la seccion. -->
   <div class="container">
     <div class="split">
       <div class="split__aside">
         <figure class="fig reveal">
-          <div class="fig__frame ar-3x2" data-slot="Programa de puntos">
-            <img src="assets/images/green-eat/01-card.jpg" alt="Set de iconos del programa de puntos de Green Eat" loading="lazy" decoding="async">
+          <div class="fig__frame ar-1x1" data-slot="Personajes">
+            <img src="assets/images/green-eat/ilustraciones/04.jpg" alt="El cupón y la zanahoria como personajes, con las compras en la mano" loading="lazy" decoding="async">
           </div>
         </figure>
       </div>
       <div class="split__text reveal">
-        <p>
+        <p class="project__lead">
           El programa de fidelidad necesitaba un mundo propio: una zanahoria que
-          se llena a medida que sumás puntos y un set de iconos dibujados a mano
-          alzada, pensados para sostener el sistema en todas las pantallas.
+          se llena a medida que sumás puntos y un set de iconos e ilustraciones
+          dibujadas a mano alzada, pensados para sostener el sistema en todas
+          las pantallas.
         </p>
       </div>
     </div>
@@ -1401,6 +1407,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=52"></script>
+<script src="javascript/main.js?v=53"></script>
 </body>
 </html>
