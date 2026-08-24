@@ -1018,6 +1018,43 @@ em { font-style: italic; }
   height: max(100%, 44px);
 }
 
+/* Desde tablet, los telefonos dejan de medirse por el ancho de su columna
+   y pasan a medirse por el ALTO del texto de al lado: su borde inferior
+   cierra donde cierra el parrafo.
+
+   El bloque va en absoluto por el mismo motivo que en Suma: si quedara en
+   el flujo, su alto intrinseco entraria en el calculo de la fila y
+   terminaria estirando al texto en vez de al reves.
+
+   Al achicarse por altura, los dos telefonos juntos ocupan menos que la
+   columna. Ese sobrante se va a la calle del medio —space-between— asi el
+   del video queda siempre apoyado sobre el margen derecho. */
+@media (min-width: 768px) {
+  /* .split alinea sus items al tope; este necesita ocupar todo el alto de
+     la fila para que el bloque absoluto tenga contra que medirse. */
+  .phones-wrap { position: relative; min-height: 0; align-self: stretch; }
+
+  .phones {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: var(--gap);
+  }
+
+  .phones .phone {
+    height: 100%;
+    flex: 0 0 auto;
+    padding: 0.55rem;
+  }
+  .phones .phone__screen {
+    height: 100%;
+    width: auto;
+    aspect-ratio: 1170 / 2532;
+  }
+}
+
 /* ------------ Software ------------
    Los iconos son recreaciones: cuadro redondeado con los colores de
    cada programa y la abreviatura del propio tipo del sitio. No hay
