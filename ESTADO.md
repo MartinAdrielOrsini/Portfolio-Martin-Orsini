@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=53**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=54**.
 
 ---
 
@@ -156,11 +156,12 @@ de locales, cupones y canje.
   la velocidad de crucero (45 px/s, vuelta completa ~85 s).
 
 ### Iconos e ilustraciones (Green Eat)
-Las cuatro piezas nuevas salen de `D:\Martin\PORTFOLIO WEB\3APP GREEN
-EAT\ilustraciones` (1135x1135, 4,7 MB). Convertidas a 1000 px, **388 KB
-en total**, en `assets/images/green-eat/ilustraciones/`. El orden lo
-manda el nombre: 01, 02 y 03 en la fila de arriba; 04 abajo, al lado del
-texto.
+Las cinco piezas salen de `D:\Martin\PORTFOLIO WEB\3APP GREEN
+EAT\ilustraciones` (1135x1135, ~1,2 MB cada una). Convertidas a 1000 px,
+**488 KB en total**, en `assets/images/green-eat/ilustraciones/`. El
+orden lo manda el nombre: 01, 02 y 03 en la fila de arriba; **04 y 05
+abajo, lado a lado, con el texto a la derecha**. Ojo que en la carpeta
+del autor la quinta se llama `5-100.jpg`, no `5.jpg`.
 
 - **Calidad 88, no 82.** Son ilustraciones de línea sobre plano y a 82 el
   contorno negro anillaba. Igual pesan poco.
@@ -171,6 +172,13 @@ texto.
 - El párrafo de cierre lleva **`.project__lead`** para entrar en el mismo
   cuerpo que la bajada con la que abre la sección. Verificado: las siete
   propiedades tipográficas coinciden.
+- El cierre usa **`.split--figs`** (1.3fr / 0.7fr), la variante nueva:
+  misma proporción que `--wide` pero con la columna ancha del lado de las
+  figuras y **sin `stretch`**, así la primera línea del texto queda a la
+  altura del borde superior de las ilustraciones. La proporción salió de
+  medir el montaje de referencia del autor: 1,864 contra 1,857 que da la
+  regla. Al entrar de a dos, cada pieza se achica sola —a 1366 pasan de
+  452 a 368 px— sin ningún tamaño puesto a mano.
 
 ### Sin uso en `assets/images/green-eat/` (1,5 MB)
 `01-card.jpg`, `02-onboarding-a.jpg`, `03-onboarding-b.jpg`,

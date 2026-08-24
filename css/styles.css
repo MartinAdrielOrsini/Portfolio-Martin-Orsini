@@ -1636,6 +1636,17 @@ em { font-style: italic; }
      que el texto, no lo que midan sus imagenes. */
   .split--wide { grid-template-columns: 1.3fr 0.7fr; align-items: stretch; }
 
+  /* La misma proporcion, pero para el caso inverso: la columna ancha es
+     la de figuras y el texto va angosto al costado. La usa el cierre de
+     Green Eat, con dos ilustraciones al lado de la bajada. Medido sobre
+     la referencia del autor: las piezas ocupan 1,86 veces lo que el
+     texto, y 1.3/0.7 da 1,857.
+
+     A diferencia de --wide no lleva stretch: aca las dos columnas
+     arrancan arriba, con la primera linea del texto a la altura del
+     borde superior de las ilustraciones. */
+  .split--figs { grid-template-columns: 1.3fr 0.7fr; }
+
   /* Antes y despues: los dos logos se reparten, en partes iguales, el
      alto que ocupa el texto de al lado.
 

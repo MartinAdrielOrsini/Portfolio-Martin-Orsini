@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=53">
+<link rel="stylesheet" href="css/styles.css?v=54">
 </head>
 <body>
 
@@ -747,17 +747,27 @@
     </div>
   </div>
 
-  <!-- Cierre: pieza a la izquierda, texto a la derecha. El parrafo lleva
-       .project__lead para entrar en el mismo cuerpo que la bajada con la
-       que abre la seccion. -->
+  <!-- Cierre: dos ilustraciones a la izquierda y el texto angosto a la
+       derecha, como en la referencia del autor. La columna de figuras es
+       la ancha (.split--figs), y al entrar de a dos cada pieza se achica
+       sola: no hay ningun tamaño puesto a mano.
+       El parrafo lleva .project__lead para entrar en el mismo cuerpo que
+       la bajada con la que abre la seccion. -->
   <div class="container">
-    <div class="split">
+    <div class="split split--figs">
       <div class="split__aside">
-        <figure class="fig reveal">
-          <div class="fig__frame ar-1x1" data-slot="Personajes">
-            <img src="assets/images/green-eat/ilustraciones/04.jpg" alt="El cupón y la zanahoria como personajes, con las compras en la mano" loading="lazy" decoding="async">
-          </div>
-        </figure>
+        <div class="grid-2">
+          <figure class="fig reveal">
+            <div class="fig__frame ar-1x1" data-slot="Personajes">
+              <img src="assets/images/green-eat/ilustraciones/04.jpg" alt="El cupón y la zanahoria como personajes, con las compras en la mano" loading="lazy" decoding="async">
+            </div>
+          </figure>
+          <figure class="fig reveal">
+            <div class="fig__frame ar-1x1" data-slot="Beneficios">
+              <img src="assets/images/green-eat/ilustraciones/05.jpg" alt="Las ilustraciones de los beneficios: los regalos, la flecha de progreso, los cupones, el descuento, la ubicación y el horario" loading="lazy" decoding="async">
+            </div>
+          </figure>
+        </div>
       </div>
       <div class="split__text reveal">
         <p class="project__lead">
@@ -1407,6 +1417,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=53"></script>
+<script src="javascript/main.js?v=54"></script>
 </body>
 </html>
