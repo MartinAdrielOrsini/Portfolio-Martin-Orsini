@@ -390,6 +390,63 @@ em { font-style: italic; }
   -webkit-overflow-scrolling: touch;
 }
 .screens::-webkit-scrollbar { display: none; }
+
+/* Carrusel de pantallas: cinta continua, sin principio ni fin. A
+   diferencia de .screens, que es una tira con extremos que se arrastra,
+   esta se mueve sola y da la vuelta: el modulo 15 de main.js clona el
+   juego de imagenes las veces que hagan falta para cubrir el ancho y
+   mueve el track por transform, envolviendo la posicion con un modulo.
+   Por eso aca no hay overflow-x: auto ni scroll nativo.
+
+   Va fuera de .container para llegar a los dos bordes de la ventana.
+   No se usa 100vw: el vw incluye la barra de scroll y eso solo alcanza
+   para disparar scroll horizontal, que en este sitio no puede pasar. */
+.carousel {
+  /* Alto de la pieza; el ancho sale de la proporcion del archivo.
+     El tope en px evita que en pantallas muy altas la cinta se coma
+     la seccion entera. */
+  --screen-h:   clamp(320px, 56svh, 500px);
+  --screen-gap: clamp(12px, 1.4vw, 22px);
+
+  position: relative;
+  overflow: hidden;             /* los clones que sobran no deben verse */
+  cursor: grab;
+  /* El gesto horizontal es del carrusel; el vertical sigue siendo de la
+     pagina, asi que en mobile se puede scrollear por encima de la cinta. */
+  touch-action: pan-y;
+}
+.carousel.is-dragging { cursor: grabbing; }
+
+.carousel__track {
+  display: flex;
+  gap: var(--screen-gap);
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.carousel__item {
+  flex: 0 0 auto;
+  height: var(--screen-h);
+  aspect-ratio: 480 / 1039;     /* la proporcion real de los archivos */
+}
+
+/* Unica excepcion al border-radius: 0 del sistema. Son capturas de
+   pantalla completas, sin marco de telefono alrededor: el redondeo es
+   lo que las hace leer como pantallas y no como recortes rectangulares.
+   No extender el redondeo al resto del sitio. */
+.carousel__item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: clamp(10px, 0.9vw, 14px);
+  background: var(--bg-warm);   /* mientras carga, el hueco no parpadea */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
 .split__text p { max-width: 38ch; color: var(--ink-soft); }
 .section--dark .split__text p { color: var(--dark-soft); }
 
@@ -1308,7 +1365,11 @@ em { font-style: italic; }
 /* El ultimo parrafo de una columna no deja aire por debajo: asi la caja
    del texto termina justo en su ultima linea. */
 .split__text > p:last-child { margin-bottom: 0; }
-.project .container + .container { margin-top: clamp(2.25rem, 1.5rem + 2.4vw, 4rem); }
+/* El carrusel no es un .container —va a los bordes—, asi que corta la
+   cadena de hermanos y hay que nombrarlo para que el bloque siguiente
+   conserve el mismo aire. */
+.project .container + .container,
+.project .carousel + .container { margin-top: clamp(2.25rem, 1.5rem + 2.4vw, 4rem); }
 
 
 /* --- Navegación entre proyectos --- */

@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=48**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=52**.
 
 ---
 
@@ -136,6 +136,27 @@ viven en assets/images/indice/ y son **cuadradas**.
 Mail, redes y CV cargados. El formulario envía por **FormSubmit** vía
 fetch, sin salir de la página.
 
+### Carrusel de pantallas (Green Eat)
+El bloque "Pantallas" pasó de una tira de cinco imágenes a una **cinta
+continua sin extremos** con las 21 capturas del prototipo, en el orden
+del recorrido: onboarding, registro, home, perfil, puntos, promos, mapa
+de locales, cupones y canje.
+
+- Fuente: `D:\Martin\PORTFOLIO WEB\3APP GREEN EAT\carrusel` (21 PNG de
+  1170x2532, 14 MB). Convertidas a JPG de 480 px de ancho, calidad 82:
+  **1,3 MB en total**, en `assets/images/green-eat/carrusel/`.
+- **Único lugar del sitio con esquinas redondeadas.** Son capturas
+  full-bleed, sin marco de teléfono: el redondeo es lo que las hace leer
+  como pantallas. No extenderlo al resto.
+- El módulo 15 de `main.js` clona el juego de imágenes hasta cubrir la
+  ventana más una vuelta y mueve el track por `transform`, envolviendo
+  la posición con un módulo. **No usa scroll nativo**: con `overflow-x`
+  el salto de la vuelta se ve y además pelea con el gesto.
+- Se puede arrastrar; al soltar, el impulso se apaga solo hasta volver a
+  la velocidad de crucero (45 px/s, vuelta completa ~85 s).
+- Quedaron sin uso `02-onboarding-a.jpg`, `03-onboarding-b.jpg`,
+  `04-onboarding-c.jpg` y `05-sistema.jpg` (472 KB).
+
 ### Secciones de proyecto
 - Títulos y volantas alineados con el índice; la ficha
   "Cliente / Categoría / Rol" se eliminó de las diez.
@@ -153,6 +174,7 @@ fetch, sin salir de la página.
 | .project--fit | Levanta el tope --media-max-h de una sección entera, para que las filas lleguen a los dos márgenes. |
 | .project--phones + .phones + .phone | Maquetas de teléfono dibujadas en CSS: marco #C3AE8F, anillo negro, muesca y pantalla. Se miden al **17 % del ancho del contenedor**. |
 | .phone__cta | Área clicable que cubre **sólo** el botón dentro de una captura, con área táctil ampliada a 44 px. |
+| .carousel + .carousel__track / .carousel__item | Cinta continua sin extremos. Va **fuera de `.container`** para llegar a los dos bordes sin usar `vw`, que incluye la barra de scroll. Como corta la cadena de hermanos, hay una regla `.project .carousel + .container` que le devuelve el aire al bloque siguiente. |
 | .fig__frame--tall | Marco sin tope de altura. |
 | .marcas / .marcas__in | Columna cuyo alto lo fija el texto de al lado. |
 | .fig-stack, .trio, .screens, .fig--narrow | Ayudantes que pedían los wireframes. |

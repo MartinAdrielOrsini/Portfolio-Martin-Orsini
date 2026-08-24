@@ -15,6 +15,7 @@
     12. Pantalla de carga
     13. El asterisco del hero (baja y gira con el scroll)
     14. Videos en loop
+    15. Carrusel de pantallas (cinta continua, sin extremos)
    Vanilla ES6+. Sin dependencias.
    ============================================================ */
 
@@ -800,6 +801,255 @@
 
 
   /* ==========================================================
+     15 — CARRUSEL DE PANTALLAS
+     Una cinta que no tiene extremos: al llegar al final vuelve a
+     empezar, y hacia atras lo mismo. No hay "primera" ni "ultima"
+     imagen, asi que tampoco hay rebote ni tope.
+
+     Como funciona. El juego de imagenes del HTML se clona las veces
+     que hagan falta para que el track sea mas ancho que la ventana
+     mas una vuelta entera. Despues se mueve por transform y la
+     posicion se envuelve con un modulo sobre el ancho de una vuelta:
+     cuando x llega a ese ancho vuelve a 0, y como en ese punto lo que
+     se ve es identico, el salto no se nota. Es la razon por la que no
+     se usa scroll nativo: con overflow-x el salto se ve y ademas
+     pelea con el gesto.
+
+     La velocidad es una sola variable (px por milisegundo) que ademas
+     absorbe el arrastre: al soltar, el impulso del gesto se va
+     apagando hasta volver solo a la velocidad de crucero. Por eso la
+     cinta nunca se detiene.
+
+     Con prefers-reduced-motion la velocidad de crucero es cero: no se
+     mueve sola, pero se puede arrastrar y sigue sin extremos.
+     ========================================================== */
+  function initCarousels() {
+    const carruseles = $$('[data-carousel]');
+    if (!carruseles.length) return;
+
+    carruseles.forEach(armar);
+
+    function armar(carousel) {
+      const track = $('.carousel__track', carousel);
+      if (!track) return;
+
+      const originales = Array.from(track.children);
+      if (!originales.length) return;
+
+      /* Velocidad de crucero, en px por milisegundo. 0.045 son unos
+         45 px/s: a esta escala una pantalla entra cada cuatro segundos
+         y la vuelta completa dura cerca de minuto y medio. */
+      const VEL_CRUCERO = 0.045;
+
+      let ancho = 0;          /* lo que mide una vuelta, con su gap */
+      let x = 0;              /* posicion dentro de la vuelta */
+      let v = 0;              /* velocidad actual */
+      let raf = 0;
+      let corriendo = false;
+      let arrastrando = false;
+      let cargadas = false;
+      let ultimo = 0;
+      let xInicio = 0, pInicio = 0, pUltimo = 0, tUltimo = 0, vArrastre = 0;
+
+      const objetivo = () => (prefersReducedMotion.matches ? 0 : VEL_CRUCERO);
+      const envolver = (n) => (ancho > 0 ? ((n % ancho) + ancho) % ancho : 0);
+
+      /* --- Construccion y medida ---------------------------------
+         Se rehace entera en cada resize: el ancho de las piezas sale
+         de su alto, y el alto esta en svh. */
+      function juego() {
+        const frag = document.createDocumentFragment();
+        originales.forEach((n) => {
+          const c = n.cloneNode(true);
+          /* Los clones son la misma imagen repetida: para un lector de
+             pantalla serian veintiun repeticiones de la lista. */
+          c.setAttribute('aria-hidden', 'true');
+          frag.appendChild(c);
+        });
+        track.appendChild(frag);
+      }
+
+      function medir() {
+        track.replaceChildren.apply(track, originales);
+
+        /* Un juego clonado alcanza para saber cuanto mide la vuelta:
+           es la distancia entre una pieza y su copia. Medido asi entra
+           el gap sin tener que leerlo del computed style. */
+        juego();
+        ancho = track.children[originales.length].offsetLeft -
+                track.children[0].offsetLeft;
+        if (!(ancho > 0)) return false;
+
+        /* Hay que cubrir la ventana mas una vuelta entera, porque la
+           posicion se mueve dentro de esa vuelta: en el peor caso se
+           ve desde el final de la vuelta hasta una ventana mas alla.
+
+           El ancho de referencia no puede salir solo del contenedor:
+           si se mide antes de que el layout este resuelto viene en
+           cero y la cinta queda corta. El de la ventana nunca lo es. */
+        const visible = Math.max(carousel.clientWidth,
+                                 document.documentElement.clientWidth || 0);
+        const falta = ancho + visible;
+
+        /* El tope es una red de seguridad: con ancho > 0 cada vuelta
+           suma, asi que el bucle siempre termina solo. */
+        let vueltas = 0;
+        while (track.scrollWidth < falta && vueltas < 12) {
+          juego();
+          vueltas++;
+        }
+
+        return true;
+      }
+
+      function pintar() {
+        track.style.transform = 'translate3d(' + (-x) + 'px, 0, 0)';
+      }
+
+      /* --- El bucle ---------------------------------------------- */
+      function frame(t) {
+        if (!ultimo) ultimo = t;
+        let dt = t - ultimo;
+        ultimo = t;
+        /* Volver de una pestaña en segundo plano no puede dar un salto
+           de varios segundos de recorrido. */
+        if (dt > 100) dt = 100;
+
+        if (!arrastrando) {
+          /* Convergencia hacia la velocidad de crucero, independiente
+             de los fps: a mas dt, mas parte del camino se recorre. */
+          v += (objetivo() - v) * (1 - Math.exp(-dt / 260));
+          x = envolver(x + v * dt);
+        }
+
+        pintar();
+        raf = requestAnimationFrame(frame);
+      }
+
+      function arrancar() {
+        if (corriendo) return;
+        corriendo = true;
+        ultimo = 0;
+        raf = requestAnimationFrame(frame);
+      }
+
+      function parar() {
+        if (!corriendo) return;
+        corriendo = false;
+        cancelAnimationFrame(raf);
+      }
+
+      /* --- Arrastre ----------------------------------------------
+         El impulso no se frena de golpe: se guarda como velocidad y el
+         bucle lo lleva de vuelta al crucero. */
+      carousel.addEventListener('pointerdown', (e) => {
+        if (e.button > 0) return;
+        arrastrando = true;
+        carousel.classList.add('is-dragging');
+        xInicio = x;
+        pInicio = pUltimo = e.clientX;
+        tUltimo = e.timeStamp;
+        vArrastre = 0;
+        v = 0;
+        /* La captura es una mejora —permite seguir el gesto fuera del
+           elemento—, no un requisito: si el puntero ya no existe tira
+           excepcion y no puede llevarse el arrastre puesto con ella. */
+        try { carousel.setPointerCapture(e.pointerId); } catch (err) {}
+      });
+
+      carousel.addEventListener('pointermove', (e) => {
+        if (!arrastrando) return;
+        const dt = Math.max(1, e.timeStamp - tUltimo);
+        vArrastre = -(e.clientX - pUltimo) / dt;
+        pUltimo = e.clientX;
+        tUltimo = e.timeStamp;
+        x = envolver(xInicio - (e.clientX - pInicio));
+      });
+
+      const soltar = () => {
+        if (!arrastrando) return;
+        arrastrando = false;
+        carousel.classList.remove('is-dragging');
+        /* Con movimiento reducido la cinta se queda exactamente donde la
+           soltaron: la inercia tambien es movimiento que nadie pidio. */
+        if (prefersReducedMotion.matches) { v = 0; return; }
+        /* Un flick muy rapido no puede mandar la cinta a otra galaxia */
+        v = Math.max(-2.5, Math.min(2.5, vArrastre));
+      };
+
+      carousel.addEventListener('pointerup', soltar);
+      carousel.addEventListener('pointercancel', soltar);
+      carousel.addEventListener('lostpointercapture', soltar);
+
+      /* Rueda horizontal, para trackpads. El gesto vertical no se
+         toca: ese es el de la pagina. */
+      carousel.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+        e.preventDefault();
+        x = envolver(x + e.deltaX);
+        v = 0;
+      }, { passive: false });
+
+      /* --- Carga de las imagenes ---------------------------------
+         Vienen en lazy para no bajar 1,2 MB al abrir la pagina. Pero
+         dentro de un overflow hidden el navegador no siempre las ve
+         venir y apareceria un hueco a mitad del recorrido, asi que
+         cuando la cinta esta por entrar en pantalla se fuerzan. */
+      function cargar() {
+        if (cargadas) return;
+        cargadas = true;
+        $$('img', track).forEach((img) => { img.loading = 'eager'; });
+      }
+
+      /* --- Puesta en marcha -------------------------------------- */
+      if (!medir()) return;
+      pintar();
+
+      let pendiente = 0;
+      const remedir = () => {
+        clearTimeout(pendiente);
+        pendiente = setTimeout(() => {
+          const anterior = ancho;
+          const frac = anterior > 0 ? x / anterior : 0;
+          if (medir()) {
+            x = envolver(frac * ancho);   /* se conserva el punto de la vuelta */
+            pintar();
+          }
+        }, 150);
+      };
+
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(remedir).observe(carousel);
+      } else {
+        window.addEventListener('resize', remedir);
+      }
+
+      /* El armado corre en DOMContentLoaded, cuando la tipografia y las
+         imagenes todavia pueden mover las medidas. Una pasada mas al
+         terminar la carga sale barata y deja la cinta bien provista. */
+      if (document.readyState !== 'complete') {
+        window.addEventListener('load', remedir, { once: true });
+      }
+
+      /* Fuera de pantalla no hay nada que mirar: el bucle se corta para
+         no gastar bateria. Al volver retoma donde estaba. */
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entradas) => {
+          entradas.forEach((en) => {
+            if (en.isIntersecting) { cargar(); arrancar(); }
+            else parar();
+          });
+        }, { rootMargin: '300px 0px' });
+        obs.observe(carousel);
+      } else {
+        cargar();
+        arrancar();
+      }
+    }
+  }
+
+
+  /* ==========================================================
      ARRANQUE
      ========================================================== */
   function init() {
@@ -816,6 +1066,7 @@
     initYear();
     initHeroMark();
     initLoopVideos();
+    initCarousels();
   }
 
   if (document.readyState === 'loading') {

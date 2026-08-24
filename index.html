@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=48">
+<link rel="stylesheet" href="css/styles.css?v=52">
 </head>
 <body>
 
@@ -699,16 +699,39 @@
     </div>
   </div>
 
-  <!-- Pantallas: tira que se sale por los dos costados -->
+  <!-- Pantallas: cinta continua y sin extremos. Va fuera de .container
+       para llegar a los dos bordes sin recurrir a vw, que incluye la
+       barra de scroll y alcanza para disparar scroll horizontal.
+       El movimiento y los clones los arma el modulo 15 de main.js; sin
+       JavaScript queda una tira que se arrastra a mano. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Pantallas</h3>
-    <div class="screens reveal">
-      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Onboarding"><img src="assets/images/green-eat/02-onboarding-a.jpg" alt="Pantalla de onboarding de Green Eat" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Onboarding"><img src="assets/images/green-eat/03-onboarding-b.jpg" alt="Pantalla de onboarding de Green Eat" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Onboarding"><img src="assets/images/green-eat/04-onboarding-c.jpg" alt="Pantalla de onboarding de Green Eat" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Programa de puntos"><img src="assets/images/green-eat/01-card.jpg" alt="Pantalla del programa de puntos" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig"><div class="fig__frame ar-3x4" data-slot="Sistema"><img src="assets/images/green-eat/05-sistema.jpg" alt="Pantalla del sistema visual" loading="lazy" decoding="async"></div></figure>
-    </div>
+  </div>
+  <div class="carousel reveal" data-carousel role="group"
+       aria-label="Recorrido por las pantallas de la aplicacion Green Eat">
+    <ul class="carousel__track">
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-01.jpg" alt="Pantalla de bienvenida al onboarding de Green Eat" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-02.jpg" alt="Onboarding: canjeá el QR y sumá puntos en cada compra" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-03.jpg" alt="Onboarding: encontrá tu local más cercano" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-04.jpg" alt="Pantalla de ingreso, con acceso a cuenta existente o registro" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-05.jpg" alt="Formulario de registro de una cuenta nueva" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-06.jpg" alt="Home con el cupón de bienvenida y las promos relámpago" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-07.jpg" alt="Home: sugerencias de productos y acceso a los puntos Green" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-08.jpg" alt="Mi perfil, con el QR del Green Pass para mostrar en caja" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-09.jpg" alt="Mis Puntos Green: el progreso de zanahorias hacia el beneficio" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-10.jpg" alt="Promociones, con los filtros y el ordenamiento desplegados" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-11.jpg" alt="Promociones: el bloque de promos más buscadas" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-12.jpg" alt="Mapa de locales cercanos con la ubicación del usuario" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-13.jpg" alt="Ficha del local Green Eat Cabildo sobre el mapa" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-14.jpg" alt="Mis cupones, sin ningún cupón activo todavía" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-15.jpg" alt="Mis cupones: listado de favoritos y cupones expirados" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-16.jpg" alt="Detalle de la promoción Tostado más jugo frutal" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-17.jpg" alt="Código QR del cupón, listo para mostrar en caja" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-18.jpg" alt="Confirmación del canje del cupón" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-19.jpg" alt="Mis Puntos Green después de sumar zanahorias" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-20.jpg" alt="Confirmación de que el cupón quedó activo" loading="lazy" decoding="async" draggable="false"></li>
+      <li class="carousel__item"><img src="assets/images/green-eat/carrusel/pantalla-21.jpg" alt="Cupón activo con su QR y la cuenta regresiva" loading="lazy" decoding="async" draggable="false"></li>
+    </ul>
   </div>
 
   <!-- Iconos e ilustraciones -->
@@ -1378,6 +1401,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=48"></script>
+<script src="javascript/main.js?v=52"></script>
 </body>
 </html>

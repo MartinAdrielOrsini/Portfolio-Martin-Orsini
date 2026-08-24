@@ -80,7 +80,9 @@ Los dos proyectos destacados (Cerveceros del Sur y Estrella de Maldonado)
 son bloques invertidos: negro pleno. Es el único recurso de énfasis.
 
 Todas las esquinas son rectas: `border-radius: 0` en botones, marcos y
-etiquetas.
+etiquetas. La única excepción es el carrusel de pantallas de Green Eat:
+son capturas de teléfono full-bleed, sin marco alrededor, y el redondeo
+es lo que las hace leer como pantallas y no como recortes.
 
 ## Tipografía
 
@@ -158,6 +160,12 @@ qué va ahí. Al cambiar una imagen, actualizá también su `alt`.
 **Proporciones disponibles:** `ar-1x1` · `ar-4x3` · `ar-3x2` · `ar-7x5` ·
 `ar-16x10` · `ar-2x1` · `ar-16x9` · `ar-21x9` · `ar-strip` (13:2) ·
 `ar-3x4` · `ar-4x5` · `ar-5x7` · `ar-2x3` · `ar-9x16`
+
+**El carrusel de Green Eat** no entra en este esquema: sus imágenes van
+en `assets/images/green-eat/carrusel/`, numeradas `pantalla-01.jpg` a
+`pantalla-21.jpg`. Para agregar o sacar una, se toca la lista del HTML y
+listo — el ancho de la vuelta lo mide el JavaScript solo, así que no hay
+ningún número que actualizar a mano.
 
 **Casos especiales:**
 - `fig__frame--scroll` — capturas de sitio completas (Almacenit): la
