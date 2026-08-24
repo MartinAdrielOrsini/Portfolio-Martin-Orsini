@@ -512,10 +512,6 @@ em { font-style: italic; }
    la imagen falta, que es cuando el marco si tiene que leerse. */
 .fig__frame.is-loaded { border-color: transparent; }
 
-/* Marco sin fondo ni filete. Para piezas que ya vienen sobre blanco o
-   con transparencia, donde el gris de encuadre se veria como una caja. */
-.fig__frame--plain { background: none; border: 0; }
-
 /* Recortes con transparencia (productos, iconos): entran completos y con
    aire, sin que el encuadre les coma los bordes. */
 .fig__frame--contain img { object-fit: contain; }

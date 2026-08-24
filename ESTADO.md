@@ -1,9 +1,9 @@
 # Estado del proyecto — traspaso
 
 Documento para retomar el trabajo en una conversación nueva.
-Última actualización: 12 de agosto de 2026.
+Última actualización: 24 de agosto de 2026.
 
-El `README.md` documenta **cómo funciona** el sitio. Este archivo cuenta
+El README.md documenta **cómo funciona** el sitio. Este archivo cuenta
 **dónde estamos, qué se decidió y por qué, y qué falta**.
 
 ---
@@ -14,251 +14,252 @@ Portfolio web de **Martin Orsini**, diseñador gráfico y ayudante de
 cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 
 - Sitio estático: HTML + CSS + JS vanilla. **Sin frameworks, sin build,
-  sin dependencias.** Se abre con doble clic en `index.html`.
-- Repo: `C:\Users\damia\OneDrive\Documents\GitHub\Portfolio-Martin-Orsini`
-- Publicado en GitHub Pages: `martinadrielorsini.github.io/Portfolio-Martin-Orsini/`
-- Rama `main`. Al momento de escribir esto, local y `origin` están
-  sincronizados.
+  sin dependencias.**
+- Repo local: Documents/GitHub/Portfolio-Martin-Orsini
+- Publicado en martinadrielorsini.github.io/Portfolio-Martin-Orsini/
+- Rama main, sincronizada con origin.
 
 ```
-index.html          1403 líneas — estructura y contenido (14 secciones)
-css/styles.css      1249 líneas — todo el estilo; config en :root
-javascript/main.js   509 líneas — menú, scroll, índice, formulario
-assets/images/       91 archivos, 18,7 MB
-README.md                        — manual de uso y sistema visual
+index.html          1383 líneas — estructura y contenido (14 secciones)
+css/styles.css      1769 líneas — todo el estilo; config en :root
+javascript/main.js   826 líneas — 14 módulos
+assets/             102 MB (!) — ver "Problemas conocidos"
 ```
+
+**Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=48**.
 
 ---
 
 ## 2. Cómo se trabaja acá
 
-- **No hay servidor de desarrollo en el repo.** Para previsualizar usé un
-  servidor estático de PowerShell en el puerto 8099 y `preview_start`.
-  Abrir el archivo con `file://` también sirve.
-- **Cache-busting manual:** el `<link>` del CSS y el `<script>` llevan
-  `?v=N`. **Hay que subir ese número cada vez que se tocan estilos o JS**,
-  o GitHub Pages sirve la versión cacheada. Va en `v=10`. Esto ya causó
-  una confusión real: se creyó que el CSS no había subido cuando en
-  realidad era caché del navegador.
-- **El usuario revisa en un portátil de 1366×768** → unos **630 px
-  útiles** de alto. Toda la escala está calibrada para eso. Verificar
-  siempre a ese tamaño, no solo en pantallas grandes.
-- El panel del navegador de la herramienta **no siempre saca capturas**
-  ("not compositing frames"). Cuando pasa, se verifica midiendo el DOM
-  por JavaScript. Ese método demostró ser más confiable que mirar.
+- **Servidor de pruebas:** no hay uno en el repo. Se levanta un
+  HttpListener de PowerShell. El script que funciona está en el
+  scratchpad como serve2.ps1, en el **puerto 8100**, y soporta
+  *range requests* (imprescindible para servir video) y tolera que el
+  navegador aborte descargas. Sin eso, se cae al servir el mp4 grande.
+- **El autor revisa en un portátil de 1366x768** → unos **630 px
+  útiles**. Verificar siempre ahí, además de 375 y 1920.
+- **El panel del navegador no saca capturas** ("not compositing frames").
+  Se verifica **midiendo el DOM por JavaScript**. Además congela
+  requestAnimationFrame y los IntersectionObserver, así que el scroll
+  suave y las animaciones parecen rotos cuando no lo están: para probar
+  anclas, desactivar scroll-behavior y usar saltos instantáneos.
+- **Leer PDFs:** no hay poppler ni ImageMagick ni Python real. Se
+  rasterizan con la **API nativa de Windows** (Windows.Data.Pdf) desde
+  PowerShell. Hay un script hecho en el scratchpad (pdf2png.ps1).
+- **PowerShell 5.1 lee los .ps1 como ANSI:** una ruta con eñe rompe el
+  script. Resolver con comodín, por ejemplo 1REDISE*O DE SUMA.
+- **Las variables de PowerShell no distinguen mayúsculas**: $h pisa a $H.
+  Ya causó un bug real.
+- **El guardián del sandbox bloquea los asteriscos sueltos** en comandos
+  de PowerShell (los lee como rutas). Para escribir CSS con comentarios,
+  usar Bash con heredoc.
+- **Bash a veces arranca sin PATH.** Se arregla exportando
+  /usr/bin y /bin al principio.
+- **Procesamiento de imágenes:** System.Drawing desde PowerShell,
+  calidad 82. **No hay ffmpeg**, así que el video no se puede comprimir.
 
 ---
 
-## 3. Historia de las decisiones de diseño
+## 3. Sistema visual
 
-El proyecto cambió de dirección visual **tres veces**. Importa saberlo
-para no reproponer algo ya descartado.
+**Escuela suiza.** Blanco, negro y un solo acento naranja. Una sola
+familia (Inter). Todo con esquinas rectas. Es la tercera dirección que se
+probó: antes hubo una editorial con serif y una de "pizarrón", las dos
+descartadas. No reproponerlas.
 
-| Etapa | Qué se probó | Resultado |
-|---|---|---|
-| 1 | Editorial claro, serif display (Instrument Serif) + Space Grotesk | Descartado: "demasiado genérico" |
-| 2 | **Pizarrón**: fondo verde con textura de tiza, Archivo expandida, letra manuscrita (Caveat) | **Descartado.** Se llegó a implementar con foto de pizarra real y todo |
-| 3 | **Escuela suiza** ← actual | Vigente |
-
-**La dirección actual es suiza / bauhausiana**, definida por el usuario:
-función sobre forma, blanco, retícula, mucho aire, menos es más, sans
-serif tipo Helvetica, sin serifas.
-
-Todo el rastro del pizarrón fue eliminado del código (textura, Caveat,
-variables `--olive`/`--stone`/`--sage`, `background-blend-mode`). Las
-imágenes de referencia originales siguen en
-`D:\Martin\PORTFOLIO WEB\fondo textura*.jpg` por si alguna vez se
-retoma, pero **no están en el repo**.
-
----
-
-## 4. Sistema visual vigente
-
-### Color
 | Rol | Token | Valor |
 |---|---|---|
-| Fondo | `--bg` | `#FFFFFF` |
-| Texto | `--ink` | `#111111` |
-| Acento (rellenos) | `--accent` | `#DD6B0E` |
-| Acento (texto sobre blanco) | `--accent-ink` | `#B0550B` |
-| Bloque invertido | `--dark-bg` | `#111111` |
-| Sección 2 | `.section--accent` | fondo `#DD6B0E`, **texto negro** |
+| Fondo | --bg | #FFFFFF |
+| Texto | --ink | #111111 |
+| Acento | --accent | #DD6B0E |
+| Acento como texto | --accent-ink | #B0550B |
+| Bloque invertido | --dark-bg | #111111 |
 
-Dos decisiones de contraste que conviene no revertir sin medir:
-
-- El acento puro sobre blanco da **3,4:1** → no sirve como texto. Por eso
-  existe `--accent-ink`. Sobre los bloques negros el puro rinde 5,56:1 y
-  va directo: `.section--dark` redefine `--accent-ink: var(--accent)`.
-- En la sección naranja el **blanco da 3,4:1 y el negro 5,56:1**. Por eso
-  el texto es negro. Si se quiere blanco, hay que oscurecer bastante el
-  naranja y deja de ser el color elegido.
-
-### Tipografía
-Una sola familia: **Inter** (lo más cercano a Helvetica en Google Fonts).
-Stack: `'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif`.
-Titulares en 700 con tracking cerrado; texto en 400. La jerarquía sale
-del tamaño y del aire, nunca de cambiar de familia.
-
-Si se quiere más fidelidad a Helvetica: licenciar Neue Haas Grotesk o
-Helvetica Now, o autohospedar Nimbus Sans.
+Dos decisiones de contraste que **no conviene revertir sin medir**: el
+acento puro sobre blanco da 3,4:1 y no sirve como texto (de ahí
+--accent-ink); y sobre el naranja el texto va en **negro** (5,56:1), no
+en blanco (3,4:1).
 
 ---
 
-## 5. El hero (la parte más trabajada)
+## 4. Estructura — 14 secciones
 
-El usuario dio un mockup propio en 1920×1080 y pidió replicarlo. Los
-valores **se midieron sobre esa imagen**, no se estimaron:
-
-- **Tracking `-0.053em`.** "Portfolio" en Inter 700 mide 4,1582 em sin
-  tracking; en la referencia mide 3,683 em. La diferencia repartida en
-  nueve caracteres da −0,0528. El render da 3,662–3,681.
-- **Cuerpo:** `min(26.5cqw, 34svh, 420px)`; `23cqw` por debajo de 700 px
-  de contenedor. Se mide contra el **contenedor** (`cqw`) y no contra el
-  viewport porque el `vw` incluye la barra de scroll y llegaba a cortar
-  la palabra. El tope en `svh` existe porque sin él, en un portátil bajo,
-  la palabra empujaba el call to action abajo del pliegue.
-- **El asterisco** es el glifo `*` de Inter 700, no un dibujo. Posición
-  derivada de medir la tinta en un canvas: la mancha ocupa 0,3975 de su
-  em y su centro cae 0,5238 em sobre la base. De ahí
-  `font-size: 1.297em`, `top: -0.328em`, `translateX(-0.281em)`.
-  Coincide con la referencia dentro de **0,0004 em**.
-- **Corrección de par en la erre** (`.hero__r`): con ese tracking su brazo
-  se montaba sobre la te —las cuatro letras del centro salían como una
-  sola mancha en el escaneo—. Lleva `margin-left: -0.036em` y
-  `margin-right: 0.036em`, que se cancelan: la letra se corre sin mover
-  el resto ni cambiar el ancho.
-- El hero descuenta `clamp(44px, 6.5svh, 74px)` de su alto para que
-  **asome la franja naranja** de la sección 2 (65 px a 1920×1010).
-
-### El parallax
-El hero es `position: sticky`, `z-index: 0`, alto fijo. Todas las demás
-secciones son opacas con `z-index: 1`, así que al scrollear **suben y lo
-tapan**. La sección 2 entra con un recorrido más largo y escalonado.
-**No usa JavaScript**: es sticky + orden de apilado.
+| # | Sección | id | Estado |
+|---:|---|---|---|
+| 1 | Hero | #hero | terminada |
+| 2 | Sobre mí (naranja) | #about | terminada |
+| 3 | Índice de proyectos | #projects | terminada |
+| 4 | Suma | #p-suma | **contenido real del autor** |
+| 5 | Centenera FC | #p-centenera | **contenido real del autor** |
+| 6 | Green Eat | #p-green-eat | **apertura con contenido real** |
+| 7 | Cerveceros del Sur (destacado) | #p-cerveceros | maqueta de wireframe |
+| 8 | Dosel | #p-dosel | maqueta de wireframe |
+| 9 | Fascículos | #p-fasciculos | maqueta de wireframe |
+| 10 | Almacenit | #p-almacenit | maqueta de wireframe |
+| 11 | Estrella de Maldonado (destacado) | #p-estrella | maqueta de wireframe |
+| 12 | Remeras Delira | #p-remeras | maqueta de wireframe |
+| 13 | Mush Type | #p-mush | maqueta de wireframe |
+| 14 | Contacto / footer | #contact | terminada |
 
 ---
 
-## 6. Estructura — 14 secciones
+## 5. Qué se hizo en esta sesión (13 al 24 de agosto)
 
-| # | Sección | id | Imgs |
-|---:|---|---|---:|
-| 1 | Hero | `#hero` | — |
-| 2 | Presentación personal (naranja) | `#about` | 1 |
-| 3 | Índice de proyectos | `#projects` | — |
-| 4 | Rediseño de SUMA | `#p-suma` | 9 |
-| 5 | Redes Centenera FC | `#p-centenera` | 8 |
-| 6 | App Green Eat | `#p-green-eat` | 8 |
-| 7 | **Cerveceros del Sur** ★ | `#p-cerveceros` | 14 |
-| 8 | Dosel | `#p-dosel` | 9 |
-| 9 | Fascículos editorial | `#p-fasciculos` | 9 |
-| 10 | Web Almacenit | `#p-almacenit` | 3 |
-| 11 | **Estrella de Maldonado** ★ | `#p-estrella` | 12 |
-| 12 | Remeras custom | `#p-remeras` | 5 |
-| 13 | Mush Type | `#p-mush` | 9 |
-| 14 | Footer / contacto | `#contact` | — |
+### Hero
+- Asterisco: cuerpo 1.125em, translateX -0.269em. Tracking de la palabra
+  ajustado: la r a -0,045 em y la o con márgenes **asimétricos**, porque
+  meterla en un span mata el par de kerning "Po" y hay que devolverlo.
+- **Animación de scroll:** el asterisco baja y gira 540 grados hasta
+  esconderse bajo la sección 2. Gira sobre el **centro de la mancha**
+  (transform-origin 49.9% 34.04%), no sobre el de su caja.
 
-★ destacados: bloque negro invertido, más largos, con texto a dos
-columnas.
+### Pantalla de carga
+El mismo asterisco girando, centrado, hasta el load. Se retira del DOM al
+terminar. El noscript la desactiva. Red de seguridad a los 6 s.
 
-**La sección 3 es una lista, no cards.** En desktop: lista numerada a la
-izquierda, vista previa a la derecha que cambia al pasar el cursor o
-tabular. En mobile la vista previa se oculta y queda solo la lista.
+### Sección 2 — Sobre mí
+Calcada de un mockup del autor (1920x730) medido por escaneo de píxeles.
+Cuatro columnas, todas las primeras líneas sobre una misma línea de base
+y **todas las columnas cerrando sobre una misma línea al pie**. La escala
+va en cqw para conservar las proporciones a cualquier ancho.
+
+### Sección 3 — Índice
+Acordeón: cada ítem despliega una descripción breve y un "Ver más".
+**Siempre hay exactamente uno abierto**, así nunca hay estado vacío. La
+imagen de la derecha cambia **sólo al hacer click**. El ítem abierto se
+marca con bloque naranja pleno y su texto pasa a negro. Las imágenes
+viven en assets/images/indice/ y son **cuadradas**.
+
+### Contacto
+Mail, redes y CV cargados. El formulario envía por **FormSubmit** vía
+fetch, sin salir de la página.
+
+### Secciones de proyecto
+- Títulos y volantas alineados con el índice; la ficha
+  "Cliente / Categoría / Rol" se eliminó de las diez.
+- Las diez maquetadas a partir del PDF de wireframes del autor.
+- **Suma, Centenera y la apertura de Green Eat** ya tienen el contenido
+  definitivo.
 
 ---
 
-## 7. De dónde salió cada imagen
+## 6. Piezas de CSS creadas (todas comentadas en el archivo)
 
-Todas las imágenes son **trabajos reales** del usuario, rastreados en
-`D:\Martin`. Las carpetas de `D:\Martin\PORTFOLIO WEB` estaban vacías;
-el material estaba disperso en las carpetas de la carrera.
-
-| Proyecto | Origen |
+| Clase | Para qué |
 |---|---|
-| SUMA | `Quinto año / DG4 / TP2 MARCA` |
-| Centenera FC | `D:\Martin\centenera` + `segundo torneo` |
-| Green Eat | `Cuarto año / Disenio 3 / tp3 disenio ux ui / UI` |
-| Cerveceros del Sur | `Quinto año / DG4 / TP5 BEHANCE` |
-| Dosel | `Sexto año / DJPDM` |
-| Fascículos | `Quinto año / Disenio Grafico Editorial / tp3` |
-| Almacenit | `Cuarto año / Disenio 3 / tp2 disenio web` |
-| Estrella de Maldonado | `Quinto año / Disenio de identidad institucional` |
-| Remeras | `OTROS / portfolio / Diseño Remera` |
-| Mush Type | `Sexto año / tipomov` |
-| Retrato | `D:\Martin\CV\foto cv.jpg` |
+| .row-fit + .fit-16 / .fit-10 / .fit-08 | Fila justificada: las piezas comparten alto y el ancho sale de su proporción. El flex-grow **es** la relación de aspecto. |
+| .project--fit | Levanta el tope --media-max-h de una sección entera, para que las filas lleguen a los dos márgenes. |
+| .project--phones + .phones + .phone | Maquetas de teléfono dibujadas en CSS: marco #C3AE8F, anillo negro, muesca y pantalla. Se miden al **17 % del ancho del contenedor**. |
+| .phone__cta | Área clicable que cubre **sólo** el botón dentro de una captura, con área táctil ampliada a 44 px. |
+| .fig__frame--tall | Marco sin tope de altura. |
+| .marcas / .marcas__in | Columna cuyo alto lo fija el texto de al lado. |
+| .fig-stack, .trio, .screens, .fig--narrow | Ayudantes que pedían los wireframes. |
+| ar-3x1, ar-3x5, ar-3x7, ar-27x10, ar-9x11 | Proporciones nuevas. |
 
-Todas fueron redimensionadas y recomprimidas (calidad 82, lado mayor
-según el hueco).
+---
+
+## 7. Decisiones que conviene no repensar
+
+1. **El tope --media-max-h (72svh)** existe para que ninguna figura sea
+   más alta que la pantalla. Pero al recortarle el alto, la pieza **se
+   angosta** para mantener su proporción, y la fila deja de llegar al
+   margen derecho. Por eso Centenera lleva .project--fit. **Es la causa
+   más frecuente del síntoma "no llega al margen", y se dispara al
+   cambiar el zoom**, porque el zoom cambia la relación ancho/alto.
+2. **Columnas que deben terminar donde termina el texto** (los logos de
+   Suma): el contenido va en **absoluto**. Si queda en el flujo, su alto
+   intrínseco entra en el cálculo de la fila y termina estirando el texto
+   en vez de al revés. Pasó igual con la vista previa del índice.
+3. **Los teléfonos de Green Eat se miden contra el contenedor (17 %)**,
+   no contra el alto del texto ni contra el ancho de su columna. Atarlos
+   al texto los dejaba diminutos; dejarlos llenar la columna, enormes.
+   El 17 % salió de medir la referencia del autor usando el header
+   (76 px) como escala.
+4. **Inter es un 5 % más ancha** que los tipos de los mockups del autor.
+   Se compensa cerrando el tracking, pero sólo hasta dejar ~3 % de
+   diferencia: más allá la palabra se apelmaza.
+5. **La página abre siempre arriba** (scrollRestoration en manual, más
+   un manejo de pageshow para la caché de sesión). Volver con "atrás"
+   también lleva al hero: fue pedido explícito del autor.
+6. **El hero se apaga** (visibility hidden) cuando la sección 2 lo tapa.
+   Es sticky durante toda la página y se colaba por encima en mobile.
+   También se le quitó un will-change que mantenía una capa viva.
+7. **Los textos de los casos los escribe el autor.** Cuando el wireframe
+   deja lugar para más texto del que hay, se deja el hueco: no inventar
+   contenido sobre sus proyectos.
 
 ---
 
 ## 8. Qué falta
 
-### Bloqueantes para publicar en serio
-1. **Email** — buscar `hola@tudominio.com` en `index.html`. Aparece en el
-   `mailto:`, en el botón de copiar y en el footer.
-2. **Redes** — los cuatro `href="#"` de la sección de contacto
-   (Instagram, Behance, LinkedIn, CV).
+### Contenido definitivo
+Siete secciones siguen con imágenes de relleno y textos cortos:
+**Cerveceros, Dosel, Fascículos, Almacenit, Estrella, Remeras y Mush**.
 
-### Contenido a revisar
-3. **Los textos de los casos están redactados mirando las piezas, no los
-   briefs reales.** Cliente, año y rol son la mejor lectura posible de
-   las imágenes, no datos confirmados. **Hay que revisarlos uno por uno.**
-4. **Green Eat** — en la carpeta de origen no hay capturas de pantallas de
-   la app, solo el sistema de ilustración, tres boards de onboarding y
-   recortes de producto. La sección se armó con eso. Si aparecen las
-   pantallas exportadas, van a `assets/images/green-eat/`.
-5. **Fascículos editorial** — las imágenes son del libro fotográfico de
-   `Editorial / tp3`, el único editorial con JPG finales. Si "Fascículos"
-   es otro TP, sus entregas están solo en PDF y hacen falta exportaciones.
-6. **Nombre del libro editorial** — quedó titulado por su contenido porque
-   no se encontró un título en las dobles páginas.
+El flujo que viene funcionando: el autor deja en la carpeta del proyecto,
+dentro de PORTFOLIO WEB, una imagen de referencia con el diseño ya
+compuesto más las piezas sueltas nombradas (a.jpg, b.jpg...). Se mide la
+referencia por escaneo de píxeles y se maqueta a partir de eso.
 
-### Deuda técnica menor
-7. El formulario de contacto **valida pero no envía**. El README explica
-   cómo conectarlo a Formspree en tres pasos.
-8. La sección 2 y el índice quedaron en ~1,0 pantallas cada una. Si se
-   quiere más aire, subir `--section-y`; si se quiere que entren más
-   ajustadas, bajarlo.
+### Pendientes concretos
+1. **El video de Green Eat pesa 60,4 MB.** Es el problema más grave del
+   sitio. Reexportar a 720 px de ancho, 2 Mbps, 20-30 s → 5-8 MB.
+2. **assets/ pesa 102 MB.** Además del video hay originales sin usar.
+3. **Confirmar el mail:** figura martinorsain@hotmail.com, con "orsain"
+   y no "orsini". Está en cuatro lugares. Si es un tipeo, se pierden
+   los mensajes sin que nadie se entere.
+4. **Activar FormSubmit:** la primera vez que alguien envíe el
+   formulario llega un mail de confirmación. Hasta hacer click ahí, los
+   mensajes no llegan.
+5. **Los enlaces Siguiente/Anterior** entre proyectos todavía dicen
+   "SUMA" y "Remeras custom"; los demás ya coinciden con el índice.
+6. **La sección 2** dice "Trabajemos juntos!" sin signo de apertura,
+   mientras el footer dice "¡Trabajemos juntos!".
+7. **El CV pesa 4,15 MB** y no se pudo abrir para verificar que sea el
+   archivo correcto.
+8. **En mobile los dos teléfonos de Green Eat** quedan de 155 px de
+   ancho cada uno y el prototipo se ve muy chico. Se ofreció apilarlos.
+9. **retrato.jpg** quedó sin uso desde que se rehízo la sección 2.
 
 ---
 
 ## 9. Problemas conocidos
 
-- **Caché de GitHub Pages.** Ya explicado: subir el `?v=N`. Si el usuario
-  reporta que "no se ve el cambio", **verificar primero contra
-  `origin/main` con `git show origin/main:css/styles.css` antes de asumir
-  que hay un bug.**
-- **El botón de copiar email nunca se probó con un clic real.** El
-  entorno de automatización deniega el permiso de portapapeles y no se
-  logró emitir un clic confiable. El handler está cableado y la rama de
-  respaldo (`execCommand` + mensaje de error visible) sí se verificó.
-  **Probarlo a mano en un navegador real.**
-- **Falsos negativos al medir.** El panel del navegador congela
-  `requestAnimationFrame` y los `IntersectionObserver` cuando no está
-  pintando. Eso hace que el resaltado de navegación y los fade-in
-  parezcan rotos cuando no lo están. Forzar un frame antes de medir.
-- **Partir texto en spans desactiva el kerning** en esos límites. La
-  corrección de la erre achicó la palabra 0,5% por eso. Es esperable.
-- **PowerShell 5.1 lee los `.ps1` como ANSI.** Rutas con eñe o acentos en
-  un script fallan; conviene resolverlas con comodín
-  (`Carrera - Quinto a*o`) o pasarlas como parámetro.
+- **Caché de GitHub Pages.** Sirve el HTML cacheado unos minutos. Si el
+  autor dice "no se ve el cambio", verificar primero contra origin/main
+  antes de asumir que hay un bug. Ya pasó una vez.
+- **Las imágenes se cachean por nombre.** Al reemplazar una manteniendo
+  el nombre hay que abrir con Ctrl+F5 o en incógnito. Ya pasó.
+- **El botón de copiar email nunca se probó con un clic real:** el
+  entorno deniega el permiso de portapapeles.
+- **La pausa del video al salir de pantalla no se pudo verificar:**
+  depende de un IntersectionObserver y el panel los congela.
+- **Partir texto en spans desactiva el kerning** en esos límites.
+- **El asterisco del hero:** el parpadeo en mobile se arregló, pero no se
+  pudo reproducir acá. Si volviera a aparecer, el siguiente paso sería
+  envolver el hero y la sección 2 en un contenedor propio para que el
+  sticky termine ahí.
 
 ---
 
 ## 10. Cómo verificar un cambio
 
-Lo que se usó en toda la sesión, por si sirve de guía:
+1. Levantar serve2.ps1 (puerto 8100) y abrir con preview_start.
+2. **Medir por JavaScript, no mirar.** Alto de secciones, scrollWidth
+   contra innerWidth para overflow, naturalWidth igual a cero para
+   imágenes rotas, anclas rotas, contraste por composición de alfa.
+3. Verificar a **1366x630**, 375 y 1920. Para problemas de "no llega al
+   margen", probar además **varios zooms**: 125, 100, 90, 80 y 67 por
+   ciento, simulados cambiando el tamaño de ventana.
+4. Chequear balance de llaves en CSS y JS después de editar con scripts.
+5. Subir el ?v=.
 
-1. Levantar el servidor estático y abrir con `preview_start`.
-2. Medir por JavaScript en vez de mirar: alto de secciones contra
-   `innerHeight - header`, `scrollWidth > innerWidth` para overflow,
-   imágenes con `naturalWidth === 0` para 404, anclas rotas.
-3. **Contraste con composición de alfa**, recorriendo el DOM y comparando
-   cada texto contra el fondo real que tiene detrás. Esto encontró
-   varios fallos que no se veían.
-4. Verificar a **1366×630** (el portátil del usuario), 375 y 1920.
-5. Chequear balance de llaves en CSS y JS después de editar con scripts.
+---
 
-Estado en la última verificación: 14 secciones · 91 imágenes, cero
-fallidas · cero 404 · cero enlaces rotos · **cero textos por debajo de
-AA** · sin overflow horizontal.
+## 11. Estado de verificación
+
+Última pasada completa: cero imágenes rotas, cero anclas rotas, sin
+scroll horizontal de 375 a 2039 px, sin errores de consola, contraste
+por encima de AA en todas las secciones revisadas.
