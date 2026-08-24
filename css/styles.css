@@ -1018,39 +1018,34 @@ em { font-style: italic; }
   height: max(100%, 44px);
 }
 
-/* Desde tablet, los telefonos dejan de medirse por el ancho de su columna
-   y pasan a medirse por el ALTO del texto de al lado: su borde inferior
-   cierra donde cierra el parrafo.
 
-   El bloque va en absoluto por el mismo motivo que en Suma: si quedara en
-   el flujo, su alto intrinseco entraria en el calculo de la fila y
-   terminaria estirando al texto en vez de al reves.
+/* Desde tablet los telefonos se miden contra el ancho del contenedor de la
+   seccion, no contra su columna ni contra el alto del texto.
 
-   Al achicarse por altura, los dos telefonos juntos ocupan menos que la
-   columna. Ese sobrante se va a la calle del medio —space-between— asi el
-   del video queda siempre apoyado sobre el margen derecho. */
+   Medido sobre la referencia del autor (usando el header, de 76 px, como
+   escala): cada telefono ocupa el 17 % del ancho del contenido y sobresale
+   por debajo del texto. Atarlo al alto del parrafo los dejaba diminutos;
+   dejarlos llenar la columna, enormes. El 17 % es el punto medio.
+
+   Van pegados al margen derecho: el sobrante se reparte a la izquierda y en
+   la calle del medio, que va mas ancha que un medianil normal. */
 @media (min-width: 768px) {
-  /* .split alinea sus items al tope; este necesita ocupar todo el alto de
-     la fila para que el bloque absoluto tenga contra que medirse. */
-  .phones-wrap { position: relative; min-height: 0; align-self: stretch; }
+  .project--phones > .container { container-type: inline-size; }
 
   .phones {
-    position: absolute;
-    inset: 0;
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: var(--gap);
+    justify-content: flex-end;
+    align-items: start;
+    gap: 6cqw;
   }
-
   .phones .phone {
-    height: 100%;
     flex: 0 0 auto;
-    padding: 0.55rem;
+    width: 17cqw;
+    padding: 0.6%;
   }
   .phones .phone__screen {
-    height: 100%;
-    width: auto;
+    width: 100%;
+    height: auto;
     aspect-ratio: 1170 / 2532;
   }
 }
