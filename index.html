@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=42">
+<link rel="stylesheet" href="css/styles.css?v=44">
 </head>
 <body>
 
@@ -656,22 +656,42 @@
     </header>
   </div>
 
-  <!-- Texto a la izquierda, pieza a la derecha -->
+  <!-- Texto y, al costado, las dos maquetas: el prototipo y el video -->
   <div class="container">
     <div class="split">
       <div class="split__text reveal">
         <p class="project__lead">
-          Rediseño de la aplicación móvil de Green Eat, basado en investigación
-          y análisis de usuarios para mejorar la navegación, optimizar la
-          interacción y desarrollar una interfaz clara.
+          Rediseño de la aplicación móvil de Green Eat, desarrollado como
+          trabajo grupal para la facultad. El proyecto comenzó con una etapa de
+          investigación UX orientada a conocer las necesidades, hábitos y
+          dificultades de los usuarios. A partir de los resultados obtenidos, se
+          plantearon mejoras en la navegación y la interacción, desarrollando
+          una interfaz más clara, intuitiva y funcional.
         </p>
       </div>
+
       <div class="split__aside">
-        <figure class="fig reveal">
-          <div class="fig__frame ar-3x2" data-slot="Sistema">
-            <img src="assets/images/green-eat/05-sistema.jpg" alt="Sistema visual de la aplicación Green Eat" loading="lazy" decoding="async">
-          </div>
-        </figure>
+        <div class="phones reveal">
+          <figure class="phone">
+            <div class="phone__screen">
+              <img src="assets/images/green-eat/prototipo.jpg" alt="Pantalla de acceso al prototipo de Green Eat" loading="lazy" decoding="async">
+              <!-- Unicamente el boton blanco es clicable. Sus medidas salieron
+                   de ubicar el boton dentro de la propia captura. -->
+              <a class="phone__cta"
+                 href="https://www.figma.com/proto/umSgHdbndqkzZ7OMKabMA5/tp3-dise%C3%B1o-3?node-id=371-954"
+                 target="_blank" rel="noopener noreferrer"
+                 aria-label="Abrir el prototipo de Green Eat en Figma"></a>
+            </div>
+          </figure>
+
+          <figure class="phone">
+            <div class="phone__screen">
+              <video data-src="assets/video/green-eat-prototipo.mp4"
+                     loop muted playsinline preload="none"
+                     aria-label="Recorrido por el prototipo de la aplicación Green Eat"></video>
+            </div>
+          </figure>
+        </div>
       </div>
     </div>
   </div>
@@ -1355,6 +1375,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=42"></script>
+<script src="javascript/main.js?v=44"></script>
 </body>
 </html>
