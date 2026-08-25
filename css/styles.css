@@ -102,6 +102,22 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 
 a { color: inherit; text-decoration: none; }
 
+/* Enlace dentro de un parrafo. El reset de arriba le saca el subrayado a
+   todos los enlaces del sitio —el menu, las cards, el indice, el pie—
+   porque ahi la forma ya dice que son clicables. En medio de un bloque
+   de texto no: el subrayado es lo unico que separa la palabra del resto,
+   asi que aca se devuelve. En los bloques oscuros el hover pasa al
+   naranja puro, que sobre negro rinde 5,56:1. */
+.link-inline {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.18em;
+  transition: color var(--t-fast) var(--ease);
+}
+.link-inline:hover,
+.link-inline:focus-visible { color: var(--accent-ink); }
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -343,6 +359,40 @@ em { font-style: italic; }
    no se correspondian. Va algo mas ancho que el medianil, como en la
    referencia del autor. */
 .row-fit + .row-fit { margin-top: calc(var(--gap) * 1.5); }
+
+/* Calle vertical igual a la horizontal. La referencia de Centenera tenia
+   el medianil vertical mas ancho; la de Cerveceros los tiene iguales
+   —45 px contra 45 sobre un ancho util de 1628—, asi que ahi la retícula
+   cierra con una sola medida de calle. Va despues de la regla de arriba
+   porque comparten especificidad y gana la ultima. */
+.row-fit--even + .row-fit--even { margin-top: var(--gap); }
+
+/* Proporcion arbitraria, para el material que no cae en ninguna de las
+   clases ar-* ni fit-*.
+
+   --ar es la relacion ancho/alto de la pieza y hace las dos cosas a la
+   vez: le da la proporcion al marco y, dentro de una fila justificada,
+   reparte el ancho. Las dos cosas son la misma: en una fila donde todas
+   las piezas comparten el alto, el ancho de cada una es proporcional a
+   su ratio, asi que el flex-grow puede *ser* el ratio.
+
+   El valor va en el HTML, en un style, porque es un dato de cada imagen
+   —su proporcion— y no una decision de diseño: ponerlo en una clase por
+   cada foto llenaria la hoja de nombres sin significado. */
+.fig--ar > .fig__frame { aspect-ratio: var(--ar); }
+
+/* Columna de dos piezas apiladas que ocupa el lugar de una en la fila.
+   Su --ar reparte el ancho: es el de la columna entera, 1/(1/r1 + 1/r2).
+   El alto no lo pone ella —ver la regla de la fila mas abajo—, y --r1 y
+   --r2 son las fracciones con que las dos piezas se reparten el que les
+   toque, proporcionales a 1/ratio de cada una. */
+.fig-stack--ar { display: grid; }
+.fig-stack__in {
+  display: grid;
+  gap: var(--gap);
+  align-content: start;
+  grid-template-rows: var(--r1) var(--r2);
+}
 
 /* Secciones diagramadas para llegar a los dos margenes.
 
@@ -1629,6 +1679,31 @@ em { font-style: italic; }
      proporcion a su relacion de aspecto y todas terminan con el mismo alto. */
   .row-fit { display: flex; }
   .row-fit > .fig { flex-basis: 0; }
+  /* Las piezas con proporcion propia reparten el ancho con su --ar, en
+     vez de con una clase fit-*. Las columnas apiladas entran en la fila
+     como una pieza mas. */
+  .row-fit > .fig-stack--ar { flex-basis: 0; min-width: 0; }
+  .row-fit > .fig--ar,
+  .row-fit > .fig-stack--ar { flex-grow: var(--ar); }
+
+  /* El alto de la columna apilada se lo da la fila —o sea, la pieza
+     grande de al lado— y sus dos piezas se lo reparten.
+
+     El contenido va en absoluto a proposito, por la misma razon que en
+     .marcas: si quedara en el flujo, su alto intrinseco —los dos altos
+     mas la calle de en medio— entraria en el calculo de la fila y la
+     estiraria, dejando a la pieza de al lado corta por abajo. Medido:
+     33 px de desfasaje a 1920. Fuera del flujo, la calle sale del alto
+     disponible en vez de sumarse por fuera, y los pies coinciden. */
+  .row-fit > .fig-stack--ar { position: relative; }
+  .row-fit > .fig-stack--ar > .fig-stack__in { position: absolute; inset: 0; }
+  .row-fit > .fig-stack--ar .fig { min-height: 0; }
+  .row-fit > .fig-stack--ar .fig__frame {
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+    max-height: none;
+  }
   .fit-16 { flex-grow: 1.6; }
   .fit-10 { flex-grow: 1; }
   .fit-08 { flex-grow: 0.8; }  /* Variante con el texto mas ancho que la columna de figuras. El

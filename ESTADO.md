@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=54**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=57**.
 
 ---
 
@@ -93,8 +93,8 @@ en blanco (3,4:1).
 | 3 | Índice de proyectos | #projects | terminada |
 | 4 | Suma | #p-suma | **contenido real del autor** |
 | 5 | Centenera FC | #p-centenera | **contenido real del autor** |
-| 6 | Green Eat | #p-green-eat | **apertura con contenido real** |
-| 7 | Cerveceros del Sur (destacado) | #p-cerveceros | maqueta de wireframe |
+| 6 | Green Eat | #p-green-eat | **contenido real del autor** |
+| 7 | Cerveceros del Sur (destacado) | #p-cerveceros | **contenido real del autor** |
 | 8 | Dosel | #p-dosel | maqueta de wireframe |
 | 9 | Fascículos | #p-fasciculos | maqueta de wireframe |
 | 10 | Almacenit | #p-almacenit | maqueta de wireframe |
@@ -179,6 +179,40 @@ del autor la quinta se llama `5-100.jpg`, no `5.jpg`.
   medir el montaje de referencia del autor: 1,864 contra 1,857 que da la
   regla. Al entrar de a dos, cada pieza se achica sola —a 1366 pasan de
   452 a 368 px— sin ningún tamaño puesto a mano.
+
+### Cerveceros del Sur — contenido real
+Maquetada sobre `REFERENCIA.jpg` (1920x6538) de `D:\Martin\PORTFOLIO
+WEB\4CERVECEROS DEL SUR`, medida por escaneo de píxeles. La caja útil de
+la referencia va de x 146 a 1773 —1628 de ancho— y **todas las calles
+miden 45 px**, horizontales y verticales por igual.
+
+Orden: apertura a todo el ancho · texto + logosímbolo · "Variables del
+logo" con el GIF a todo el ancho · "Aplicaciones" con las 11 fotos en
+cuatro filas justificadas.
+
+- **Las 11 fotos van en orden de lectura**, 1 a 11. Se confirmó cruzando
+  la proporción de cada hueco de la referencia con la de cada archivo:
+  las once coinciden al tercer decimal.
+- **El GIF se copia sin tocar** (2,5 MB): System.Drawing lo aplanaría y
+  perdería la animación. El logo `.png` también, por la transparencia.
+- El logosímbolo usa el patrón **`.marcas`** de Suma: su alto lo fija el
+  texto de al lado, no sus propias medidas. Verificado: los dos miden lo
+  mismo al píxel.
+- La sección lleva **`project--fit`**. Sin eso las filas se angostan al
+  recortarles el alto y dejan de llegar al margen derecho. La
+  contrapartida es que a 1366x630 las filas 1 y 4 miden 805 y 834 px de
+  alto: **más que la pantalla**. Es la proporción de la referencia.
+
+### Piezas de CSS nuevas para esta sección
+| Clase | Para qué |
+|---|---|
+| `.fig--ar` + `style="--ar"` | Proporción arbitraria. `--ar` es la relación ancho/alto del archivo y hace dos cosas con un solo número: le da la proporción al marco y reparte el ancho de la fila. Son la misma cosa: en una fila de alto común, el ancho de cada pieza es proporcional a su ratio, así que el `flex-grow` puede **ser** el ratio. Va en un `style` porque es un dato de la imagen, no una decisión de diseño. |
+| `.fig-stack--ar` + `.fig-stack__in` | Columna de dos piezas apiladas que ocupa el lugar de una en la fila. **El contenido va en absoluto**, igual que `.marcas`: si queda en el flujo, su alto intrínseco —los dos altos más la calle— estira la fila y deja la pieza de al lado corta por abajo (medido: 33 px a 1920). Fuera del flujo, la calle sale del alto disponible y los pies coinciden. |
+| `.row-fit--even` | Calle vertical igual a la horizontal. Centenera usa el medianil vertical más ancho porque su referencia lo tenía así; la de Cerveceros los tiene iguales. |
+
+### Sin uso en `assets/images/cerveceros-del-sur/` (4,5 MB)
+Los 13 archivos viejos, de `01-packaging.jpg` a `13-table-tent.png`. Eran
+las imágenes de relleno de la maqueta. **No se borraron.**
 
 ### Sin uso en `assets/images/green-eat/` (1,5 MB)
 `01-card.jpg`, `02-onboarding-a.jpg`, `03-onboarding-b.jpg`,

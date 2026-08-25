@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=54">
+<link rel="stylesheet" href="css/styles.css?v=57">
 </head>
 <body>
 
@@ -797,8 +797,21 @@
 
 <!-- ============================================================
      7 — PROYECTO 04 · CERVECEROS DEL SUR  (destacado)
+
+     Maquetado sobre la referencia del autor (1920x6538), medida por
+     escaneo de pixeles. De ahi salen la caja util —x 146 a 1773, o sea
+     1628 de ancho— y la proporcion de cada fila.
+
+     El style="--ar" que llevan las piezas es la relacion ancho/alto del
+     archivo. No es una decision de diseño sino un dato de la imagen: con
+     el, el marco toma su proporcion y la fila reparte el ancho sola. Ver
+     .fig--ar en el CSS.
+
+     La seccion lleva project--fit para levantar el tope de --media-max-h.
+     Sin eso las filas se angostan al recortarles el alto y dejan de
+     llegar al margen derecho.
      ============================================================ -->
-<section class="section section--dark project" id="p-cerveceros">
+<section class="section section--dark project project--fit" id="p-cerveceros">
   <div class="container">
     <header class="project__head reveal">
       <p class="eyebrow"><span class="eyebrow__num">06</span> Identidad de marca</p>
@@ -806,65 +819,122 @@
     </header>
   </div>
 
+  <!-- Apertura: ocupa el ancho util entero -->
   <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-2x1" data-slot="Fachada">
-        <img src="assets/images/cerveceros-del-sur/02-fachada.jpg" alt="Fachada del bar Cerveceros del Sur" loading="lazy" decoding="async">
+    <figure class="fig fig--ar" style="--ar: 2.1429">
+      <div class="fig__frame" data-slot="Fachada">
+        <img src="assets/images/cerveceros-del-sur/apertura.jpg" alt="Cartel colgante de Cerveceros del Sur en la fachada del bar, con el letrero luminoso encendido detrás" loading="lazy" decoding="async">
       </div>
     </figure>
   </div>
 
+  <!-- El texto y, al costado, la marca. El alto de la marca lo fija el
+       texto: por eso va con el patron .marcas, que saca la figura del
+       flujo. Si quedara dentro, su alto intrinseco entraria en el calculo
+       de la fila y terminaria estirando el texto en vez de al reves. -->
   <div class="container">
-    <div class="split">
+    <div class="split split--wide">
       <div class="split__text reveal">
         <p class="project__lead">
-          Desarrollo integral de la identidad de Cerveceros del Sur, desde la
-          construcción de la marca gráfica hasta sus aplicaciones, adaptándola
-          a diferentes espacios y soportes.
+          Proyecto académico desarrollado para la facultad, enfocado en la
+          creación de la identidad marcaria de Cerveceros del Sur, una
+          cervecería artesanal. El proyecto comenzó con una investigación para
+          comprender las necesidades de la marca y las características del
+          rubro, definiendo los recursos necesarios para que su marca gráfica
+          pudiera desenvolverse correctamente dentro de este contexto.
+        </p>
+        <p class="project__lead">
+          A partir de allí, se desarrolló un logosímbolo como marca gráfica
+          principal, acompañado por diferentes versiones para adaptarse a
+          distintos soportes y necesidades. Finalmente, se construyó el
+          universo gráfico de la marca y sus aplicaciones, estableciendo un
+          sistema visual coherente. El desarrollo completo puede verse en
+          <a class="link-inline"
+             href="https://www.behance.net/gallery/239027965/Cerveceros-del-Sur"
+             target="_blank" rel="noopener noreferrer">Behance</a>.
         </p>
       </div>
-      <div class="split__aside">
-        <figure class="fig reveal">
-          <div class="fig__frame fig__frame--contain ar-1x1" data-slot="Marca">
-            <img src="assets/images/cerveceros-del-sur/12-marca.png" alt="Marca gráfica de Cerveceros del Sur" loading="lazy" decoding="async">
-          </div>
-        </figure>
+
+      <div class="split__aside marcas">
+        <div class="marcas__in">
+          <figure class="fig fig--ar reveal" style="--ar: 0.75">
+            <div class="fig__frame fig__frame--contain" data-slot="Marca">
+              <img src="assets/images/cerveceros-del-sur/marca.png" alt="Logosímbolo de Cerveceros del Sur: un pingüino con una jarra de cerveza, enmarcado por montañas y el nombre de la marca" loading="lazy" decoding="async">
+            </div>
+          </figure>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Variables del logo: el gif, tambien al ancho util entero -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Variables del logo</h3>
-    <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/01-packaging.jpg" alt="Variable de la marca aplicada al packaging" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg" alt="Las latas Stout, IPA y Honey" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/10-posavasos.jpg" alt="Posavasos con una variable de la marca" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/11-tarjeta.jpg" alt="Tarjeta con una variable de la marca" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame fig__frame--contain ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/13-table-tent.png" alt="Table tent con una variable de la marca" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Variable"><img src="assets/images/cerveceros-del-sur/09-papeleria.jpg" alt="Papelería con una variable de la marca" loading="lazy" decoding="async"></div></figure>
-    </div>
+    <figure class="fig fig--ar reveal" style="--ar: 3.4314">
+      <div class="fig__frame" data-slot="Variables del logo">
+        <img src="assets/images/cerveceros-del-sur/variables.gif" alt="Animación con las distintas versiones del logosímbolo de Cerveceros del Sur" loading="lazy" decoding="async">
+      </div>
+    </figure>
   </div>
 
+  <!-- Aplicaciones: cuatro filas justificadas. En cada una las piezas
+       comparten el alto y el ancho sale de su proporcion, asi que la fila
+       llega siempre a los dos margenes. Las calles, horizontales y
+       verticales, son todas var(--gap). -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
 
-    <div class="grid-asym">
-      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-1x1" data-slot="Packaging"><img src="assets/images/cerveceros-del-sur/01-packaging.jpg" alt="Packaging de la línea de latas" loading="lazy" decoding="async"></div></figure>
-      <div class="fig-stack">
-        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Señalética"><img src="assets/images/cerveceros-del-sur/05-senaletica.jpg" alt="Señalética del local" loading="lazy" decoding="async"></div></figure>
-        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Menú"><img src="assets/images/cerveceros-del-sur/04-menu.jpg" alt="Menú del bar" loading="lazy" decoding="async"></div></figure>
+    <div class="row-fit row-fit--even">
+      <figure class="fig fig--ar reveal" style="--ar: 0.9828">
+        <div class="fig__frame" data-slot="Botella"><img src="assets/images/cerveceros-del-sur/aplicacion-01.jpg" alt="Botella con la etiqueta de Cerveceros del Sur sostenida en la mano" loading="lazy" decoding="async"></div>
+      </figure>
+      <div class="fig-stack--ar reveal" style="--ar: 0.5199; --r1: 0.9579fr; --r2: 0.9655fr">
+        <div class="fig-stack__in">
+          <figure class="fig fig--ar" style="--ar: 1.0439">
+            <div class="fig__frame" data-slot="Chopp"><img src="assets/images/cerveceros-del-sur/aplicacion-02.jpg" alt="Vaso de cerveza recién tirado del barril, con la marca impresa" loading="lazy" decoding="async"></div>
+          </figure>
+          <figure class="fig fig--ar" style="--ar: 1.0357">
+            <div class="fig__frame" data-slot="Stickers"><img src="assets/images/cerveceros-del-sur/aplicacion-03.jpg" alt="Stickers de la marca desparramados sobre una mesa" loading="lazy" decoding="async"></div>
+          </figure>
+        </div>
       </div>
     </div>
 
-    <div class="grid-asym">
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Afiche"><img src="assets/images/cerveceros-del-sur/07-afiche.jpg" alt="Afiche de la campaña" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-2x1" data-slot="Vía pública"><img src="assets/images/cerveceros-del-sur/08-viapublica.jpg" alt="Pieza de vía pública" loading="lazy" decoding="async"></div></figure>
+    <div class="row-fit row-fit--even">
+      <figure class="fig fig--ar reveal" style="--ar: 1.0078">
+        <div class="fig__frame" data-slot="Lata"><img src="assets/images/cerveceros-del-sur/aplicacion-04.jpg" alt="Lata de la variedad IPA sostenida en la mano, de noche" loading="lazy" decoding="async"></div>
+      </figure>
+      <figure class="fig fig--ar reveal" style="--ar: 2.0586">
+        <div class="fig__frame" data-slot="Mesa"><img src="assets/images/cerveceros-del-sur/aplicacion-05.jpg" alt="Mesa con un vaso de cerveza, una botella de la marca y un bol de aceitunas" loading="lazy" decoding="async"></div>
+      </figure>
     </div>
 
-    <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Redes"><img src="assets/images/cerveceros-del-sur/06-redes.jpg" alt="Piezas para redes sociales" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Papelería"><img src="assets/images/cerveceros-del-sur/09-papeleria.jpg" alt="Papelería del bar" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Latas"><img src="assets/images/cerveceros-del-sur/03-latas-mesa.jpg" alt="Las latas sobre la mesa" loading="lazy" decoding="async"></div></figure>
+    <div class="row-fit row-fit--even">
+      <figure class="fig fig--ar reveal" style="--ar: 0.7210">
+        <div class="fig__frame" data-slot="Frapera"><img src="assets/images/cerveceros-del-sur/aplicacion-06.jpg" alt="Dos botellas en una frapera de metal con la marca grabada" loading="lazy" decoding="async"></div>
+      </figure>
+      <figure class="fig fig--ar reveal" style="--ar: 0.6629">
+        <div class="fig__frame" data-slot="Uniforme"><img src="assets/images/cerveceros-del-sur/aplicacion-07.jpg" alt="Remera del personal con la marca estampada en la espalda" loading="lazy" decoding="async"></div>
+      </figure>
+      <figure class="fig fig--ar reveal" style="--ar: 0.7322">
+        <div class="fig__frame" data-slot="Local"><img src="assets/images/cerveceros-del-sur/aplicacion-08.jpg" alt="Interior del local con el cartel luminoso de la marca sobre la pared" loading="lazy" decoding="async"></div>
+      </figure>
+    </div>
+
+    <div class="row-fit row-fit--even">
+      <div class="fig-stack--ar reveal" style="--ar: 0.4889; --r1: 1.0324fr; --r2: 1.0130fr">
+        <div class="fig-stack__in">
+          <figure class="fig fig--ar" style="--ar: 0.9686">
+            <div class="fig__frame" data-slot="Carta"><img src="assets/images/cerveceros-del-sur/aplicacion-09.jpg" alt="Carta de bebidas con la marca en la cabecera" loading="lazy" decoding="async"></div>
+          </figure>
+          <figure class="fig fig--ar" style="--ar: 0.9872">
+            <div class="fig__frame" data-slot="Latas"><img src="assets/images/cerveceros-del-sur/aplicacion-10.jpg" alt="Dos latas de la marca brindando, la negra y la IPA" loading="lazy" decoding="async"></div>
+          </figure>
+        </div>
+      </div>
+      <figure class="fig fig--ar reveal" style="--ar: 0.9617">
+        <div class="fig__frame" data-slot="Remera"><img src="assets/images/cerveceros-del-sur/aplicacion-11.jpg" alt="Remera con la marca estampada y una botella en la mano, al atardecer" loading="lazy" decoding="async"></div>
+      </figure>
     </div>
   </div>
 
@@ -1417,6 +1487,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=54"></script>
+<script src="javascript/main.js?v=57"></script>
 </body>
 </html>
