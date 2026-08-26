@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=57">
+<link rel="stylesheet" href="css/styles.css?v=58">
 </head>
 <body>
 
@@ -1093,6 +1093,11 @@
 
 <!-- ============================================================
      10 — PROYECTO 07 · WEB ALMACENIT
+
+     Maquetada sobre referencia.jpg (6151x8710) del autor, medida por
+     escaneo de pixeles. Caja util de la referencia: x 478 a 5675, o sea
+     5198 de ancho. El texto ocupa 2244 de esos —43 %— y el mockup 2911
+     —56 %—, que es justo lo que da el .split de siempre.
      ============================================================ -->
 <section class="section section--rule project" id="p-almacenit">
   <div class="container">
@@ -1103,24 +1108,54 @@
   </div>
 
   <div class="container">
-    <p class="project__lead reveal">
-      Diseño y desarrollo de un sitio web responsive para Almacenit, un centro
-      de bienestar, compuesto por una página principal y una sección de detalle
-      para sus cursos.
-    </p>
+    <div class="split">
+      <div class="split__text reveal">
+        <p class="project__lead">
+          Almacenit es un proyecto de diseño web desarrollado para un trabajo
+          práctico de la facultad. Se trata de un centro de bienestar, para el
+          cual se diseñó y desarrolló una página web orientada a comunicar la
+          propuesta del espacio y facilitar el acceso a sus servicios y
+          contenidos. Se trabajaron la estructura, la navegación y la
+          organización de la información, desarrollando una interfaz clara y
+          dinámica, adaptada a distintos dispositivos y manteniendo una
+          identidad visual coherente con la marca.
+        </p>
+        <a class="btn btn--primary" href="https://martinadrielorsini.github.io/AlmacenitEntrega/index.html"
+           target="_blank" rel="noopener noreferrer">
+          Ir al sitio
+          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class="split__aside">
+        <!-- El mockup es un png con transparencia y va sin caja detras:
+             en la referencia flota sobre el blanco de la pagina. -->
+        <figure class="fig fig--ar reveal" style="--ar: 1.7778">
+          <div class="fig__frame fig__frame--bare fig__frame--contain" data-slot="Mockup">
+            <img src="assets/images/almacenit/mockup.png" alt="El sitio de Almacenit visto en un portátil y en pantallas de escritorio" loading="lazy" decoding="async">
+          </div>
+        </figure>
+      </div>
+    </div>
   </div>
 
+  <!-- Las dos sabanas, para recorrerlas dentro de su ventana. El alto de
+       la ventana lo fija el CSS en medida de pantalla, no una proporcion:
+       asi el ancho lo manda la columna y llegan anchas. Ver
+       .fig__frame--scroll. -->
   <div class="container">
     <div class="grid-2">
       <figure class="fig reveal">
-        <div class="fig__frame fig__frame--scroll ar-3x7" data-slot="Home">
-          <img src="assets/images/almacenit/01-home.jpg" alt="Página principal del sitio Almacenit" loading="lazy" decoding="async">
+        <div class="fig__frame fig__frame--scroll" data-slot="Home">
+          <img src="assets/images/almacenit/home.jpg" alt="Página principal del sitio Almacenit, de arriba abajo" loading="lazy" decoding="async">
         </div>
         <figcaption class="fig__cap">Página principal.</figcaption>
       </figure>
       <figure class="fig reveal">
-        <div class="fig__frame fig__frame--scroll ar-3x7" data-slot="Detalle de curso">
-          <img src="assets/images/almacenit/02-detalle.jpg" alt="Página de detalle de un curso" loading="lazy" decoding="async">
+        <div class="fig__frame fig__frame--scroll" data-slot="Detalle de curso">
+          <img src="assets/images/almacenit/detalle.jpg" alt="Página de detalle de un curso, de arriba abajo" loading="lazy" decoding="async">
         </div>
         <figcaption class="fig__cap">Detalle de curso.</figcaption>
       </figure>
@@ -1487,6 +1522,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=57"></script>
+<script src="javascript/main.js?v=58"></script>
 </body>
 </html>

@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=57**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=58**.
 
 ---
 
@@ -97,7 +97,7 @@ en blanco (3,4:1).
 | 7 | Cerveceros del Sur (destacado) | #p-cerveceros | **contenido real del autor** |
 | 8 | Dosel | #p-dosel | maqueta de wireframe |
 | 9 | Fascículos | #p-fasciculos | maqueta de wireframe |
-| 10 | Almacenit | #p-almacenit | maqueta de wireframe |
+| 10 | Almacenit | #p-almacenit | **contenido real del autor** |
 | 11 | Estrella de Maldonado (destacado) | #p-estrella | maqueta de wireframe |
 | 12 | Remeras Delira | #p-remeras | maqueta de wireframe |
 | 13 | Mush Type | #p-mush | maqueta de wireframe |
@@ -209,6 +209,31 @@ cuatro filas justificadas.
 | `.fig--ar` + `style="--ar"` | Proporción arbitraria. `--ar` es la relación ancho/alto del archivo y hace dos cosas con un solo número: le da la proporción al marco y reparte el ancho de la fila. Son la misma cosa: en una fila de alto común, el ancho de cada pieza es proporcional a su ratio, así que el `flex-grow` puede **ser** el ratio. Va en un `style` porque es un dato de la imagen, no una decisión de diseño. |
 | `.fig-stack--ar` + `.fig-stack__in` | Columna de dos piezas apiladas que ocupa el lugar de una en la fila. **El contenido va en absoluto**, igual que `.marcas`: si queda en el flujo, su alto intrínseco —los dos altos más la calle— estira la fila y deja la pieza de al lado corta por abajo (medido: 33 px a 1920). Fuera del flujo, la calle sale del alto disponible y los pies coinciden. |
 | `.row-fit--even` | Calle vertical igual a la horizontal. Centenera usa el medianil vertical más ancho porque su referencia lo tenía así; la de Cerveceros los tiene iguales. |
+
+### Almacenit — contenido real
+Maquetada sobre `referencia.jpg` (6151x8710) de `D:\Martin\PORTFOLIO
+WEB\7WEB ALMACENIT`, medida por escaneo de píxeles. Caja útil de la
+referencia: x 478 a 5675 (5198 de ancho); el texto ocupa el 43 % y el
+mockup el 56 %, que es **justo lo que da el `.split` de siempre** —no
+hizo falta retícula nueva—.
+
+- Texto con **CTA** debajo (`.btn .btn--primary`, el mismo del hero) que
+  abre el sitio publicado en pestaña nueva.
+- El mockup es un **PNG con transparencia** (58 % de sus píxeles), así
+  que va sin caja detrás: clase nueva `.fig__frame--bare`, que apaga el
+  fondo del marco una vez cargada la imagen. En la referencia flota sobre
+  el blanco.
+- **Por qué las sábanas se veían flacas.** El alto de
+  `.fig__frame--scroll` salía de un `aspect-ratio`, y el tope de
+  `--media-max-h` se lo recortaba; para conservar la proporción la
+  ventana se angostaba sola. A 1366 quedaba en **195 px de los 605** que
+  tenía la columna. Ahora el alto es una medida de pantalla
+  (`clamp(320px, 64svh, 640px)`) y el ancho lo manda la columna: **605 px
+  a 1366, 649 a 1920.** Se recorren 6,8 y 5,6 veces su ventana.
+- `ar-3x7` quedó sin uso, pero se dejó: es parte del juego de
+  proporciones genéricas, no una clase de esta sección.
+- Sin uso: `01-home.jpg` y `02-detalle.jpg` (980 KB), reemplazados por
+  `home.jpg` y `detalle.jpg`.
 
 ### Sin uso en `assets/images/cerveceros-del-sur/` (4,5 MB)
 Los 13 archivos viejos, de `01-packaging.jpg` a `13-table-tent.png`. Eran

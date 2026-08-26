@@ -624,8 +624,25 @@ em { font-style: italic; }
 .fig__frame--contain img { object-fit: contain; }
 .fig__frame--contain { padding: clamp(0.75rem, 2vw, 1.75rem); }
 
+/* Pieza con transparencia que va sobre el fondo de la pagina, sin caja
+   detras: el mockup de Almacenit flota, como en la referencia. Solo
+   cuando la imagen ya cargo —hasta entonces el placeholder tiene que
+   verse, si no el hueco queda invisible—. */
+.fig__frame--bare.is-loaded { background: none; }
+
 /* Captura de sitio web completa: la imagen es mucho más alta que el marco
    y se recorre dentro de él, como si fuera la ventana del navegador. */
+/* El alto de la ventana es una medida de pantalla, no una proporcion.
+   Antes salia de un aspect-ratio y pasaba esto: el tope de --media-max-h
+   le recortaba el alto y, para conservar la proporcion, la ventana se
+   angostaba sola. A 1366 terminaba midiendo 195 px de los 605 que tenia
+   la columna, y por eso las sabanas se veian flacas. Fijando el alto, el
+   ancho lo manda la columna y la ventana se llena. */
+.fig__frame--scroll {
+  aspect-ratio: auto;
+  height: clamp(320px, 64svh, 640px);
+  max-height: none;
+}
 .fig__frame--scroll { overflow-y: auto; scrollbar-width: thin; }
 .fig__frame--scroll img { height: auto; object-fit: contain; }
 .fig__frame--scroll::-webkit-scrollbar { width: 6px; }
