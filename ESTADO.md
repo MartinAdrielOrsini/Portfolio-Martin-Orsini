@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=58**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=59**.
 
 ---
 
@@ -223,6 +223,18 @@ hizo falta retícula nueva—.
   que va sin caja detrás: clase nueva `.fig__frame--bare`, que apaga el
   fondo del marco una vez cargada la imagen. En la referencia flota sobre
   el blanco.
+- **El mockup va grande, y para eso hizo falta una calle angosta.** En la
+  referencia ocupa el 56 % del ancho útil contra el 43 % del texto, y
+  entre los dos queda apenas un 0,8 %. Con el gap normal del `.split`
+  —4,4 %— no entraban las dos medidas, así que hay una variante
+  `.split--mock` (43fr / 56fr con gap de ~10 px). Esa calle tan angosta
+  funciona porque **la pieza trae su propio aire**: el trazo naranja deja
+  blanco de sobra contra su borde izquierdo. Verificado a 1366, 1600 y
+  1920: el párrafo nunca desborda y la imagen nunca pisa al texto.
+- El archivo está **recortado a su caja de tinta** (de 1920x1080 a
+  1748x1016 del original, exportado a 1500x872). Así el ancho de la
+  columna es el de la pieza y no queda margen muerto: a 1366 el mockup
+  pasó de 541 a 692 px, un 37 % más grande.
 - **Por qué las sábanas se veían flacas.** El alto de
   `.fig__frame--scroll` salía de un `aspect-ratio`, y el tope de
   `--media-max-h` se lo recortaba; para conservar la proporción la

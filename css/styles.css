@@ -625,10 +625,14 @@ em { font-style: italic; }
 .fig__frame--contain { padding: clamp(0.75rem, 2vw, 1.75rem); }
 
 /* Pieza con transparencia que va sobre el fondo de la pagina, sin caja
-   detras: el mockup de Almacenit flota, como en la referencia. Solo
-   cuando la imagen ya cargo —hasta entonces el placeholder tiene que
-   verse, si no el hueco queda invisible—. */
+   detras: el mockup de Almacenit flota, como en la referencia. El fondo
+   se apaga solo cuando la imagen ya cargo —hasta entonces el placeholder
+   tiene que verse, si no el hueco queda invisible—. */
 .fig__frame--bare.is-loaded { background: none; }
+/* Sin aire propio: el archivo ya viene recortado a su caja de tinta, asi
+   que el ancho de la columna es el de la pieza. */
+.fig__frame--bare { padding: 0; }
+.fig__frame--bare img { object-fit: contain; }
 
 /* Captura de sitio web completa: la imagen es mucho más alta que el marco
    y se recorre dentro de él, como si fuera la ventana del navegador. */
@@ -1738,6 +1742,19 @@ em { font-style: italic; }
      arrancan arriba, con la primera linea del texto a la altura del
      borde superior de las ilustraciones. */
   .split--figs { grid-template-columns: 1.3fr 0.7fr; }
+
+  /* El mockup de Almacenit va bastante mas grande que un aside normal.
+     Medido sobre la referencia del autor: la pieza ocupa el 56 % del
+     ancho util contra el 43 % del texto, y entre las dos queda una calle
+     de apenas el 0,8 %. Con el gap normal del .split —un 4,4 %— no
+     entraban las dos medidas.
+
+     Esa calle tan angosta se banca porque la pieza trae su propio aire:
+     el trazo naranja deja blanco de sobra contra su borde izquierdo. */
+  .split--mock {
+    grid-template-columns: 43fr 56fr;
+    gap: clamp(0.75rem, 0.8vw, 1rem);
+  }
 
   /* Antes y despues: los dos logos se reparten, en partes iguales, el
      alto que ocupa el texto de al lado.
