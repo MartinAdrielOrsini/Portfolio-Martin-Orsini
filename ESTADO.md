@@ -99,7 +99,7 @@ en blanco (3,4:1).
 | 9 | Fascículos | #p-fasciculos | maqueta de wireframe |
 | 10 | Almacenit | #p-almacenit | **contenido real del autor** |
 | 11 | Estrella de Maldonado (destacado) | #p-estrella | maqueta de wireframe |
-| 12 | Remeras Delira | #p-remeras | maqueta de wireframe |
+| 12 | Remeras Delira | #p-remeras | **visor 3D + contenido real** |
 | 13 | Mush Type | #p-mush | maqueta de wireframe |
 | 14 | Contacto / footer | #contact | terminada |
 
@@ -210,7 +210,7 @@ cuatro filas justificadas.
 | `.fig-stack--ar` + `.fig-stack__in` | Columna de dos piezas apiladas que ocupa el lugar de una en la fila. **El contenido va en absoluto**, igual que `.marcas`: si queda en el flujo, su alto intrínseco —los dos altos más la calle— estira la fila y deja la pieza de al lado corta por abajo (medido: 33 px a 1920). Fuera del flujo, la calle sale del alto disponible y los pies coinciden. |
 | `.row-fit--even` | Calle vertical igual a la horizontal. Centenera usa el medianil vertical más ancho porque su referencia lo tenía así; la de Cerveceros los tiene iguales. |
 
-### Remeras — visor 3D  ⚠️ FALTA EL MODELO LIVIANO
+### Remeras — visor 3D
 La remera grande es un modelo 3D de verdad: se arrastra para girarla y la
 rueda acerca. Las miniaturas de al lado **no cambian el modelo sino su
 textura** — se comprobó que los dos `.glb` del autor tienen la geometría
@@ -228,19 +228,26 @@ textura** — se comprobó que los dos `.glb` del autor tienen la geometría
   marco más alto que ancho hay que mirar también el horizontal, si no la
   prenda se sale por los costados.
 
-**Lo que falta.** El modelo tal como salió de Blender pesa **31,2 MB**:
-617.014 vértices y 1.078.212 triángulos. Anda perfecto, pero es
-inaceptable para bajar en una página. El desglose: posiciones 7,4 MB ·
-normales 7,4 MB · UV 4,9 MB · índices 12,9 MB.
+**El peso.** El primer export pesaba 31,2 MB —617.014 vértices y
+1.078.212 triángulos—, inaceptable para bajar en una página. El autor lo
+decimó en Blender y quedó en **32.346 triángulos y 24.859 vértices**. Con
+la textura incrustada quitada, `assets/models/remera.glb` pesa **968 KB**
+y carga en 218 ms. La silueta renderizada difiere apenas un 0,2 % de la
+del modelo de un millón de triángulos.
 
-Hace falta **un solo `.glb`, decimado en Blender** a unos 30.000
-triángulos (modificador Decimate, ratio ~0,03). Debería quedar por debajo
-de 1,5 MB. Va en `assets/models/remera.glb`. No hacen falta los dos
-archivos ni las texturas: ya están extraídas.
+Al bajar de 65.536 vértices, los índices pasaron de `uint32` a `uint16`.
+El visor ya lo contempla: lee el `componentType` del accessor.
 
-Mientras tanto el archivo pesado está en su sitio para poder verlo
-funcionar, **ignorado en `.gitignore`** para que no entre en el historial
-de git por accidente. Al reemplazarlo hay que **borrar esa línea**.
+**Si hay que regenerar el archivo** (por ejemplo al sumar más remeras),
+el proceso es: tomar cualquiera de los dos `.glb` del autor y quitarle la
+imagen incrustada, porque el color lo pone el visor. Dos trampas de
+PowerShell que costaron un rato:
+- `$arr += [byte]` convierte un `byte[]` en `Object[]` y `BinaryWriter`
+  deja de escribirlo: el trozo JSON salía vacío. Hay que reservar el
+  array entero con `New-Object byte[]`.
+- El índice del `bufferView` de la imagen hay que anotarlo **antes** de
+  borrar la lista `images`, si no queda declarado apuntando fuera del
+  archivo y el `.glb` sale inválido.
 
 ### Almacenit — contenido real
 Maquetada sobre `referencia.jpg` (6151x8710) de `D:\Martin\PORTFOLIO
