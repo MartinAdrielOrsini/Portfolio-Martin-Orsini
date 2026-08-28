@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=63">
+<link rel="stylesheet" href="css/styles.css?v=64">
 </head>
 <body>
 
@@ -1280,30 +1280,51 @@
   </div>
 
   <!-- La remera es un modelo 3D de verdad: se arrastra para girarla y la
-       rueda acerca. Las miniaturas no cambian el modelo sino su textura,
-       porque las dos remeras comparten la misma malla byte por byte.
+       rueda acerca. Las miniaturas no cambian el modelo sino su textura:
+       las siete remeras comparten la misma malla byte por byte, asi que
+       se baja un solo .glb y despues solo un JPG por diseño.
        El data-shirt3d va en el .trio, que es lo que contiene a la vez el
        lienzo y los botones. Ver el modulo 16 del JS. -->
   <div class="container">
-    <div class="trio" data-shirt3d="assets/models/remera.glb">
+    <div class="trio trio--shirt" data-shirt3d="assets/models/remera.glb">
       <figure class="fig reveal">
-        <div class="fig__frame ar-3x5" data-slot="Remera">
+        <div class="fig__frame shirt3d__frame" data-slot="Remera">
           <!-- Lo que se ve si no hay WebGL2 o si el modelo no baja -->
-          <img class="shirt3d__fallback" src="assets/images/remeras/01-billie.jpg" alt="Remera custom con estampa" loading="lazy" decoding="async">
+          <img class="shirt3d__fallback" src="assets/images/remeras/mini-2pac.jpg" alt="Remera custom con estampa" loading="lazy" decoding="async">
           <canvas class="shirt3d__canvas" tabindex="0" role="img"
-                  aria-label="Modelo 3D de la remera. Arrastrá para girarla, usá la rueda para acercar, o las flechas del teclado."></canvas>
+                  aria-label="Modelo 3D de la remera. Arrastrá para girarla; con la rueda, o con las flechas del teclado, se acerca."></canvas>
         </div>
         <figcaption class="fig__cap shirt3d__status" role="status"></figcaption>
       </figure>
 
-      <div class="fig-stack reveal">
+      <div class="shirt3d__picks reveal">
         <button type="button" class="pick" aria-pressed="false"
                 data-shirt-tex="assets/images/remeras/textura-2pac.jpg">
-          <img src="assets/images/remeras/mini-2pac.jpg" alt="Ponerle a la remera la estampa de Tupac" loading="lazy" decoding="async">
+          <img src="assets/images/remeras/mini-2pac.jpg" alt="Ponerle la estampa de Tupac" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="pick" aria-pressed="false"
+                data-shirt-tex="assets/images/remeras/textura-billie.jpg">
+          <img src="assets/images/remeras/mini-billie.jpg" alt="Ponerle la estampa de Billie Eilish" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="pick" aria-pressed="false"
+                data-shirt-tex="assets/images/remeras/textura-kendrick.jpg">
+          <img src="assets/images/remeras/mini-kendrick.jpg" alt="Ponerle la estampa de Kendrick Lamar" loading="lazy" decoding="async">
         </button>
         <button type="button" class="pick" aria-pressed="false"
                 data-shirt-tex="assets/images/remeras/textura-rauw.jpg">
-          <img src="assets/images/remeras/mini-rauw.jpg" alt="Ponerle a la remera la estampa de Rauw Alejandro" loading="lazy" decoding="async">
+          <img src="assets/images/remeras/mini-rauw.jpg" alt="Ponerle la estampa de Rauw Alejandro" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="pick" aria-pressed="false"
+                data-shirt-tex="assets/images/remeras/textura-lil-supa.jpg">
+          <img src="assets/images/remeras/mini-lil-supa.jpg" alt="Ponerle la estampa de Lil Supa" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="pick" aria-pressed="false"
+                data-shirt-tex="assets/images/remeras/textura-jordan.jpg">
+          <img src="assets/images/remeras/mini-jordan.jpg" alt="Ponerle la estampa de Michael Jordan" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="pick" aria-pressed="false"
+                data-shirt-tex="assets/images/remeras/textura-miko.jpg">
+          <img src="assets/images/remeras/mini-miko.jpg" alt="Ponerle la estampa de Miko" loading="lazy" decoding="async">
         </button>
       </div>
 
@@ -1538,6 +1559,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=63"></script>
+<script src="javascript/main.js?v=64"></script>
 </body>
 </html>

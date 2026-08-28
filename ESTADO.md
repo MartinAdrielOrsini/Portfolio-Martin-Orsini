@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=63**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=64**.
 
 ---
 
@@ -213,8 +213,33 @@ cuatro filas justificadas.
 ### Remeras — visor 3D
 La remera grande es un modelo 3D de verdad: se arrastra para girarla y la
 rueda acerca. Las miniaturas de al lado **no cambian el modelo sino su
-textura** — se comprobó que los dos `.glb` del autor tienen la geometría
-**byte por byte idéntica**, así que se sirve una sola malla y dos JPG.
+textura** — se comprobó que los **siete** `.glb` del autor tienen la
+geometría byte por byte idéntica (mismo SHA), así que se baja **una sola
+malla de 968 KB y después un JPG por diseño**. Las siete texturas más las
+siete miniaturas suman 1,36 MB.
+
+Los siete diseños: 2pac, Billie, Kendrick, Rauw, Lil Supa, Jordan y Miko.
+Para sumar uno nuevo alcanza con su `.glb`: se le saca la textura y se
+tira el resto.
+
+**Las medidas de este bloque se encadenan desde un solo número.** El alto
+del visor (`--visor-h`) manda todo lo demás: las siete miniaturas tienen
+que entrar en ese mismo alto, así que el lado de cada una es lo que sobra
+después de las seis calles dividido siete (`--pick`), y ese lado es
+también el ancho de su columna en la retícula. Si algún día son más o
+menos de siete, se cambian el 6 y el 7 del `calc` y se acomoda todo solo.
+
+El marco del visor **no lleva fondo ni filete** —es el blanco de la
+página— y su alto es una medida de pantalla, no un `aspect-ratio`: es una
+ventana sobre un objeto que gira y su forma da igual, porque el encuadre
+se recalcula solo. A 1366 el marco quedó en **624x449** (antes 270x452) y
+a 1920 en 663x566, el 50 % del ancho útil.
+
+**La rueda pide el foco antes de acercar.** Si zoomeara siempre, bastaba
+con que el cursor pasara por encima al bajar por la página para que el
+scroll quedara secuestrado y la prenda se fuera de golpe a un primer
+plano; con el visor ancho eso tapa media pantalla. Agarrar la pieza le da
+el foco, y ahí sí la rueda acerca. Ctrl + rueda funciona siempre.
 
 - Va en **WebGL2 a mano, sin three.js** (módulo 16 de `main.js`, ~260
   líneas). No valía romper la regla de cero dependencias por una pieza:

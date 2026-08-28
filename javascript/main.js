@@ -1368,6 +1368,9 @@
       tocado = true;
       px = e.clientX; py = e.clientY;
       canvas.classList.add('is-dragging');
+      /* Agarrar la pieza le da el foco, que es lo que despues habilita
+         la rueda. Tambien deja el teclado listo sin tener que tabular. */
+      try { canvas.focus({ preventScroll: true }); } catch (err) { canvas.focus(); }
       try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
     });
     canvas.addEventListener('pointermove', (e) => {
@@ -1384,7 +1387,14 @@
     canvas.addEventListener('pointercancel', soltar);
     canvas.addEventListener('lostpointercapture', soltar);
 
+    /* La rueda acerca, pero solo despues de agarrar la pieza. Si zoomeara
+       siempre, bastaria con que el cursor pasara por encima al bajar por
+       la pagina para que el scroll quedara secuestrado y la remera se
+       fuera de golpe a un primer plano. Con el visor ancho eso tapa media
+       pantalla. Pidiendo el foco primero, el que solo pasa de largo
+       scrollea normal y el que quiere mirar la prenda ya hizo click. */
     canvas.addEventListener('wheel', (e) => {
+      if (document.activeElement !== canvas && !e.ctrlKey) return;
       e.preventDefault();
       tocado = true;
       distancia *= Math.exp(e.deltaY * 0.0012);
@@ -1442,7 +1452,7 @@
           subirMalla(leerGlb(buf));
           host.classList.remove('is-loading');
           host.classList.add('is-ready');
-          if (aviso) aviso.textContent = 'Arrastrá para girar. Rueda para acercar.';
+          if (aviso) aviso.textContent = 'Arrastrá para girarla. Una vez agarrada, la rueda acerca.';
           return elegir(botones[0]);
         })
         .catch(() => {
