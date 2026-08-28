@@ -16,6 +16,7 @@
     13. El asterisco del hero (baja y gira con el scroll)
     14. Videos en loop
     15. Carrusel de pantallas (cinta continua, sin extremos)
+    16. Visor 3D de remeras (WebGL a mano, sin libreria)
    Vanilla ES6+. Sin dependencias.
    ============================================================ */
 
@@ -1050,6 +1051,418 @@
 
 
   /* ==========================================================
+     16 — VISOR 3D DE REMERAS
+     La remera es un modelo de verdad: se arrastra para girarla y
+     se usa la rueda para acercar. Al elegir una miniatura no se
+     cambia el modelo, solo su textura —las dos remeras comparten
+     la misma malla, byte por byte—.
+
+     Va en WebGL a mano, sin ninguna libreria. El sitio no tiene
+     dependencias y no valia la pena romper eso por una pieza: el
+     archivo trae una sola malla con posicion, normal y UV, que es
+     justo lo que hace falta dibujar.
+
+     Sin WebGL2, o si el modelo no carga, queda la foto de la
+     remera que ya estaba en el HTML y nadie se entera.
+     ========================================================== */
+  function initShirt3D() {
+    const host = $('[data-shirt3d]');
+    if (!host) return;
+
+    const canvas  = $('.shirt3d__canvas', host);
+    const aviso   = $('.shirt3d__status', host);
+    const botones = $$('[data-shirt-tex]', host);
+    if (!canvas || !botones.length) return;
+
+    const gl = canvas.getContext('webgl2', {
+      antialias: true, alpha: true, premultipliedAlpha: false
+    });
+    if (!gl) { host.classList.add('is-unsupported'); return; }
+
+    host.classList.add('is-3d');
+
+    /* --- Matrices. Lo minimo para una camara que orbita. -------- */
+    const perspectiva = (fov, aspecto, cerca, lejos) => {
+      const f = 1 / Math.tan(fov / 2), d = cerca - lejos;
+      return [f / aspecto, 0, 0, 0,  0, f, 0, 0,
+              0, 0, (lejos + cerca) / d, -1,
+              0, 0, (2 * lejos * cerca) / d, 0];
+    };
+    const multiplicar = (a, b) => {
+      const r = new Array(16);
+      for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) {
+        let s = 0;
+        for (let k = 0; k < 4; k++) s += a[k * 4 + j] * b[i * 4 + k];
+        r[i * 4 + j] = s;
+      }
+      return r;
+    };
+    const rotarX = (a) => { const c = Math.cos(a), s = Math.sin(a);
+      return [1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1]; };
+    const rotarY = (a) => { const c = Math.cos(a), s = Math.sin(a);
+      return [c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1]; };
+    const trasladar = (x, y, z) => [1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1];
+
+    /* --- Programa ---------------------------------------------- */
+    const VERT = `#version 300 es
+      in vec3 aPos; in vec3 aNor; in vec2 aUV;
+      uniform mat4 uProj, uVista;
+      out vec3 vNor; out vec2 vUV;
+      void main() {
+        vNor = mat3(uVista) * aNor;
+        vUV = aUV;
+        gl_Position = uProj * uVista * vec4(aPos, 1.0);
+      }`;
+
+    /* La luz va fija a la camara: asi la prenda se lee igual desde
+       cualquier angulo y no hay una cara que quede a oscuras. */
+    const FRAG = `#version 300 es
+      precision highp float;
+      in vec3 vNor; in vec2 vUV;
+      uniform sampler2D uTex;
+      out vec4 color;
+      void main() {
+        vec3 n = normalize(vNor);
+        if (!gl_FrontFacing) n = -n;
+        vec3 base = texture(uTex, vUV).rgb;
+        float luz = 0.30;
+        luz += max(dot(n, normalize(vec3( 0.35,  0.55, 0.75))), 0.0) * 0.80;
+        luz += max(dot(n, normalize(vec3(-0.65,  0.25, 0.40))), 0.0) * 0.30;
+        luz += max(dot(n, normalize(vec3( 0.10, -0.60, 0.30))), 0.0) * 0.18;
+        /* Un borde apenas mas claro despega la silueta del fondo
+           blanco; sin esto la remera negra se corta como una mancha. */
+        float borde = pow(1.0 - abs(n.z), 3.0) * 0.22;
+        vec3 c = base * luz + borde;
+        color = vec4(pow(c, vec3(1.0 / 2.2)), 1.0);
+      }`;
+
+    const compilar = (tipo, fuente) => {
+      const s = gl.createShader(tipo);
+      gl.shaderSource(s, fuente.replace(/^\s+/gm, ''));
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        throw new Error(gl.getShaderInfoLog(s));
+      }
+      return s;
+    };
+
+    let prog;
+    try {
+      prog = gl.createProgram();
+      gl.attachShader(prog, compilar(gl.VERTEX_SHADER, VERT));
+      gl.attachShader(prog, compilar(gl.FRAGMENT_SHADER, FRAG));
+      gl.bindAttribLocation(prog, 0, 'aPos');
+      gl.bindAttribLocation(prog, 1, 'aNor');
+      gl.bindAttribLocation(prog, 2, 'aUV');
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        throw new Error(gl.getProgramInfoLog(prog));
+      }
+    } catch (e) { host.classList.add('is-unsupported'); return; }
+
+    const uProj  = gl.getUniformLocation(prog, 'uProj');
+    const uVista = gl.getUniformLocation(prog, 'uVista');
+    const uTex   = gl.getUniformLocation(prog, 'uTex');
+
+    /* --- Estado de la camara ----------------------------------- */
+    let giro = 0, altura = 0, distancia = 3;
+    let centro = [0, 0, 0], radio = 1;
+    let indices = 0, vao = null, textura = null;
+    let hayQuePintar = true, raf = 0, corriendo = false;
+    /* El encuadre se rehace mientras nadie haya tocado la pieza: asi
+       aguanta que el lienzo cambie de forma, pero no le pisa la camara
+       al que ya la movio. */
+    let encuadrado = false, tocado = false;
+
+    const FOV_Y = 0.7;
+    let medidas = { x: 1, y: 1, z: 1 };
+    function encuadrar(aspecto) {
+      /* El fov de la perspectiva es el vertical; el horizontal sale de la
+         forma del lienzo. En un marco mas alto que ancho el campo
+         horizontal queda mucho mas cerrado, y la prenda —mas ancha que
+         alta— se salia por los costados. Hay que satisfacer los dos.
+
+         El limite no es la esfera envolvente sino un cilindro: al girar
+         en horizontal la silueta nunca supera el mayor de los lados x y
+         z, y el alto no cambia. Con la esfera —media diagonal— la pieza
+         quedaba un 50 % mas lejos de lo necesario y sobraba aire. */
+      const medioAncho = Math.max(medidas.x, medidas.z) * 0.5;
+      const medioAlto  = medidas.y * 0.5;
+      const fovX = 2 * Math.atan(Math.tan(FOV_Y / 2) * aspecto);
+      const porAlto  = medioAlto  / Math.sin(FOV_Y / 2);
+      const porAncho = medioAncho / Math.sin(fovX / 2);
+      distancia = Math.max(porAlto, porAncho) * 1.12;
+      encuadrado = true;
+    }
+
+    const pedirCuadro = () => {
+      hayQuePintar = true;
+      if (!corriendo) { corriendo = true; raf = requestAnimationFrame(pintar); }
+    };
+
+    /* --- Lectura del .glb ---------------------------------------
+       Un glb son dos trozos pegados: el JSON que describe la escena
+       y el binario con los numeros. Aca solo interesa una malla con
+       posicion, normal, UV e indices. */
+    function leerGlb(buffer) {
+      const dv = new DataView(buffer);
+      if (dv.getUint32(0, true) !== 0x46546C67) throw new Error('no es un glb');
+      const total = dv.getUint32(8, true);
+      let off = 12, json = null, binOff = 0;
+      while (off + 8 <= total) {
+        const largo = dv.getUint32(off, true);
+        const tipo  = dv.getUint32(off + 4, true);
+        const datos = off + 8;
+        if (tipo === 0x4E4F534A) {
+          json = JSON.parse(new TextDecoder().decode(new Uint8Array(buffer, datos, largo)));
+        } else if (tipo === 0x004E4942) {
+          binOff = datos;
+        }
+        off = datos + largo;
+      }
+      if (!json) throw new Error('sin JSON');
+
+      const prim = json.meshes[0].primitives[0];
+      const leer = (i, Tipo, porVertice) => {
+        const acc = json.accessors[i];
+        const bv = json.bufferViews[acc.bufferView];
+        const inicio = binOff + (bv.byteOffset || 0) + (acc.byteOffset || 0);
+        return new Tipo(buffer, inicio, acc.count * porVertice);
+      };
+
+      const pos = leer(prim.attributes.POSITION, Float32Array, 3);
+      const nor = leer(prim.attributes.NORMAL, Float32Array, 3);
+      const uv  = leer(prim.attributes.TEXCOORD_0, Float32Array, 2);
+      const acIdx = json.accessors[prim.indices];
+      const idx = leer(prim.indices, acIdx.componentType === 5123 ? Uint16Array : Uint32Array, 1);
+
+      /* El encuadre sale del min/max que el propio archivo declara:
+         no hace falta recorrer 600.000 vertices para saberlo. */
+      const acPos = json.accessors[prim.attributes.POSITION];
+      const mn = acPos.min, mx = acPos.max;
+      centro = [(mn[0]+mx[0])/2, (mn[1]+mx[1])/2, (mn[2]+mx[2])/2];
+      /* El radio es el de la esfera que envuelve la pieza —media
+         diagonal—, no el del lado mas largo. Como la camara orbita, con
+         el lado mas largo la prenda entraba de frente pero se salia del
+         cuadro al girarla. */
+      const dx = mx[0]-mn[0], dy = mx[1]-mn[1], dz = mx[2]-mn[2];
+      medidas = { x: dx, y: dy, z: dz };
+      /* Este radio —el de la esfera envolvente— no encuadra: solo fija
+         los planos de recorte y los topes del zoom, donde conviene que
+         sobre. El encuadre lo hace encuadrar(), con el cilindro. */
+      radio = Math.sqrt(dx*dx + dy*dy + dz*dz) * 0.5;
+
+      return { pos, nor, uv, idx };
+    }
+
+    function subirMalla(m) {
+      vao = gl.createVertexArray();
+      gl.bindVertexArray(vao);
+      const buf = (datos, sitio, tam) => {
+        const b = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, b);
+        gl.bufferData(gl.ARRAY_BUFFER, datos, gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(sitio);
+        gl.vertexAttribPointer(sitio, tam, gl.FLOAT, false, 0, 0);
+      };
+      buf(m.pos, 0, 3);
+      buf(m.nor, 1, 3);
+      buf(m.uv,  2, 2);
+      const ib = gl.createBuffer();
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, m.idx, gl.STATIC_DRAW);
+      gl.bindVertexArray(null);
+      indices = m.idx.length;
+      tipoIndice = m.idx.BYTES_PER_ELEMENT === 2 ? gl.UNSIGNED_SHORT : gl.UNSIGNED_INT;
+      encuadrado = false;   /* el encuadre se calcula al primer dibujo,
+                               cuando ya se sabe la forma del lienzo */
+    }
+    let tipoIndice = gl.UNSIGNED_INT;
+
+    /* --- Texturas ------------------------------------------------ */
+    const cache = new Map();
+    function ponerTextura(url) {
+      if (cache.has(url)) { textura = cache.get(url); pedirCuadro(); return Promise.resolve(); }
+      const img = new Image();
+      return new Promise((ok) => {
+        img.onload = () => {
+          const t = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, t);
+          /* Sin voltear: las UV de glTF tienen el origen arriba, igual que
+             la primera fila de la imagen. Volteando, la estampa sale
+             cabeza abajo. */
+          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.SRGB8_ALPHA8, gl.RGBA, gl.UNSIGNED_BYTE, img);
+          gl.generateMipmap(gl.TEXTURE_2D);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+          const anis = gl.getExtension('EXT_texture_filter_anisotropic');
+          if (anis) {
+            gl.texParameterf(gl.TEXTURE_2D, anis.TEXTURE_MAX_ANISOTROPY_EXT,
+              Math.min(8, gl.getParameter(anis.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
+          }
+          cache.set(url, t);
+          textura = t;
+          pedirCuadro();
+          ok();
+        };
+        img.onerror = () => ok();
+        img.src = url;
+      });
+    }
+
+    /* --- Dibujo -------------------------------------------------- */
+    function medirLienzo() {
+      const r = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(1, Math.round(r.width * dpr));
+      const h = Math.max(1, Math.round(r.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w; canvas.height = h;
+        encuadrado = false;   /* el lienzo cambio de forma: reencuadrar */
+        pedirCuadro();
+      }
+    }
+
+    function pintar() {
+      corriendo = false;
+      if (!hayQuePintar) return;
+      hayQuePintar = false;
+      medirLienzo();
+
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      if (!vao || !textura) return;
+
+      gl.enable(gl.DEPTH_TEST);
+      gl.disable(gl.CULL_FACE);          /* el material es doubleSided */
+
+      const aspecto = canvas.width / canvas.height;
+      if (!encuadrado && !tocado) encuadrar(aspecto);
+      const proj = perspectiva(FOV_Y, aspecto, radio * 0.05, radio * 40);
+      let vista = trasladar(-centro[0], -centro[1], -centro[2]);
+      vista = multiplicar(rotarY(giro), vista);
+      vista = multiplicar(rotarX(altura), vista);
+      vista = multiplicar(trasladar(0, 0, -distancia), vista);
+
+      gl.useProgram(prog);
+      gl.uniformMatrix4fv(uProj, false, new Float32Array(proj));
+      gl.uniformMatrix4fv(uVista, false, new Float32Array(vista));
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, textura);
+      gl.uniform1i(uTex, 0);
+      gl.bindVertexArray(vao);
+      gl.drawElements(gl.TRIANGLES, indices, tipoIndice, 0);
+      gl.bindVertexArray(null);
+    }
+
+    /* --- Controles ------------------------------------------------
+       El gesto vertical de la pagina se respeta: touch-action deja
+       pasar el pan-y, asi que en mobile se gira en horizontal y la
+       pagina sigue scrolleando en vertical. */
+    let arrastrando = false, px = 0, py = 0;
+
+    canvas.addEventListener('pointerdown', (e) => {
+      if (e.button > 0) return;
+      arrastrando = true;
+      tocado = true;
+      px = e.clientX; py = e.clientY;
+      canvas.classList.add('is-dragging');
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!arrastrando) return;
+      giro   += (e.clientX - px) * 0.008;
+      altura += (e.clientY - py) * 0.008;
+      const tope = Math.PI / 2 - 0.05;
+      altura = Math.max(-tope, Math.min(tope, altura));
+      px = e.clientX; py = e.clientY;
+      pedirCuadro();
+    });
+    const soltar = () => { arrastrando = false; canvas.classList.remove('is-dragging'); };
+    canvas.addEventListener('pointerup', soltar);
+    canvas.addEventListener('pointercancel', soltar);
+    canvas.addEventListener('lostpointercapture', soltar);
+
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      tocado = true;
+      distancia *= Math.exp(e.deltaY * 0.0012);
+      distancia = Math.max(radio * 1.15, Math.min(radio * 9, distancia));
+      pedirCuadro();
+    }, { passive: false });
+
+    /* Con teclado: flechas para girar, mas y menos para acercar. */
+    canvas.addEventListener('keydown', (e) => {
+      const paso = 0.12;
+      if (e.key === 'ArrowLeft')  giro -= paso;
+      else if (e.key === 'ArrowRight') giro += paso;
+      else if (e.key === 'ArrowUp')    altura -= paso;
+      else if (e.key === 'ArrowDown')  altura += paso;
+      else if (e.key === '+' || e.key === '=') distancia *= 0.9;
+      else if (e.key === '-' || e.key === '_') distancia *= 1.1;
+      else return;
+      e.preventDefault();
+      tocado = true;
+      const tope = Math.PI / 2 - 0.05;
+      altura = Math.max(-tope, Math.min(tope, altura));
+      distancia = Math.max(radio * 1.15, Math.min(radio * 9, distancia));
+      pedirCuadro();
+    });
+
+    if ('ResizeObserver' in window) new ResizeObserver(pedirCuadro).observe(canvas);
+    else window.addEventListener('resize', pedirCuadro);
+
+    /* --- Miniaturas ---------------------------------------------- */
+    function elegir(boton) {
+      botones.forEach((b) => {
+        const activo = b === boton;
+        b.classList.toggle('is-active', activo);
+        b.setAttribute('aria-pressed', activo ? 'true' : 'false');
+      });
+      ponerTextura(boton.dataset.shirtTex);
+    }
+    botones.forEach((b) => {
+      b.addEventListener('click', () => { if (vao) elegir(b); });
+    });
+
+    /* --- Carga ---------------------------------------------------
+       El modelo pesa y no tiene sentido bajarlo para quien nunca
+       llega hasta aca: se pide recien cuando la seccion se acerca. */
+    let pedido = false;
+    function cargar() {
+      if (pedido) return;
+      pedido = true;
+      host.classList.add('is-loading');
+      if (aviso) aviso.textContent = 'Cargando el modelo…';
+
+      fetch(host.dataset.shirt3d)
+        .then((r) => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+        .then((buf) => {
+          subirMalla(leerGlb(buf));
+          host.classList.remove('is-loading');
+          host.classList.add('is-ready');
+          if (aviso) aviso.textContent = 'Arrastrá para girar. Rueda para acercar.';
+          return elegir(botones[0]);
+        })
+        .catch(() => {
+          host.classList.remove('is-loading');
+          host.classList.add('is-unsupported');
+        });
+    }
+
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entradas) => {
+        entradas.forEach((en) => { if (en.isIntersecting) { cargar(); obs.disconnect(); } });
+      }, { rootMargin: '400px 0px' });
+      obs.observe(host);
+    } else {
+      cargar();
+    }
+  }
+
+
+  /* ==========================================================
      ARRANQUE
      ========================================================== */
   function init() {
@@ -1067,6 +1480,7 @@
     initHeroMark();
     initLoopVideos();
     initCarousels();
+    initShirt3D();
   }
 
   if (document.readyState === 'loading') {

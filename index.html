@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=59">
+<link rel="stylesheet" href="css/styles.css?v=63">
 </head>
 <body>
 
@@ -1279,18 +1279,34 @@
     </header>
   </div>
 
+  <!-- La remera es un modelo 3D de verdad: se arrastra para girarla y la
+       rueda acerca. Las miniaturas no cambian el modelo sino su textura,
+       porque las dos remeras comparten la misma malla byte por byte.
+       El data-shirt3d va en el .trio, que es lo que contiene a la vez el
+       lienzo y los botones. Ver el modulo 16 del JS. -->
   <div class="container">
-    <div class="trio">
+    <div class="trio" data-shirt3d="assets/models/remera.glb">
       <figure class="fig reveal">
-        <div class="fig__frame ar-3x5" data-slot="Remera"><img src="assets/images/remeras/01-billie.jpg" alt="Remera custom estampada" loading="lazy" decoding="async"></div>
+        <div class="fig__frame ar-3x5" data-slot="Remera">
+          <!-- Lo que se ve si no hay WebGL2 o si el modelo no baja -->
+          <img class="shirt3d__fallback" src="assets/images/remeras/01-billie.jpg" alt="Remera custom con estampa" loading="lazy" decoding="async">
+          <canvas class="shirt3d__canvas" tabindex="0" role="img"
+                  aria-label="Modelo 3D de la remera. Arrastrá para girarla, usá la rueda para acercar, o las flechas del teclado."></canvas>
+        </div>
+        <figcaption class="fig__cap shirt3d__status" role="status"></figcaption>
       </figure>
-      <div class="fig-stack">
-        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/02-kendrick.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/03-rauw.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/04-billie-2.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/05-hasbulla.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-        <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Estampa"><img src="assets/images/remeras/02-kendrick.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
+
+      <div class="fig-stack reveal">
+        <button type="button" class="pick" aria-pressed="false"
+                data-shirt-tex="assets/images/remeras/textura-2pac.jpg">
+          <img src="assets/images/remeras/mini-2pac.jpg" alt="Ponerle a la remera la estampa de Tupac" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="pick" aria-pressed="false"
+                data-shirt-tex="assets/images/remeras/textura-rauw.jpg">
+          <img src="assets/images/remeras/mini-rauw.jpg" alt="Ponerle a la remera la estampa de Rauw Alejandro" loading="lazy" decoding="async">
+        </button>
       </div>
+
       <div class="split__text reveal">
         <p class="project__lead">
           Desarrollo de estampas textiles personalizadas para remeras y buzos,
@@ -1522,6 +1538,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=59"></script>
+<script src="javascript/main.js?v=63"></script>
 </body>
 </html>

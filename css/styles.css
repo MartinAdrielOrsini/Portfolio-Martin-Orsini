@@ -632,6 +632,66 @@ em { font-style: italic; }
 /* Sin aire propio: el archivo ya viene recortado a su caja de tinta, asi
    que el ancho de la columna es el de la pieza. */
 .fig__frame--bare { padding: 0; }
+
+
+/* ------------ Visor 3D de remeras ------------
+   La pieza grande es un modelo que se gira con el raton; las
+   miniaturas de al lado le cambian la textura. Mientras el modelo no
+   este —o si el navegador no tiene WebGL2— queda la foto de siempre,
+   asi que el bloque nunca aparece vacio. Ver el modulo 16 del JS. */
+.shirt3d__canvas {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  /* El giro es horizontal; el gesto vertical sigue siendo el de la
+     pagina, para no dejar el scroll atrapado sobre la pieza. */
+  touch-action: pan-y;
+}
+.shirt3d__canvas.is-dragging { cursor: grabbing; }
+.is-3d .shirt3d__canvas { display: block; }
+/* La foto se apaga recien cuando el modelo esta puesto, no cuando se
+   sabe que hay WebGL: entre una cosa y la otra hay que bajar el archivo,
+   y el marco quedaria vacio todo ese rato. El lienzo es transparente,
+   asi que mientras tanto se ve la foto por debajo. */
+.is-ready .shirt3d__fallback { visibility: hidden; }
+
+/* El rotulo de abajo cuenta que la pieza se puede manipular. Sin JS
+   no dice nada, porque no habria nada que manipular. */
+.shirt3d__status { display: none; }
+.is-3d .shirt3d__status,
+.is-loading .shirt3d__status { display: block; }
+
+/* Miniaturas: son botones, no figuras. Se marcan con el borde y no
+   con color, para no meter un tono nuevo en el sistema. */
+.pick {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: var(--bg-warm);
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease),
+              opacity var(--t-fast) var(--ease);
+  opacity: 0.72;
+}
+.pick img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+.pick:hover { opacity: 1; }
+.pick.is-active {
+  border-color: var(--ink);
+  opacity: 1;
+}
+/* Sin el visor no hay nada que elegir: las miniaturas quedan como
+   simples imagenes y dejan de anunciarse como botones. */
+.pick:not(.is-active):focus-visible { opacity: 1; }
 .fig__frame--bare img { object-fit: contain; }
 
 /* Captura de sitio web completa: la imagen es mucho más alta que el marco

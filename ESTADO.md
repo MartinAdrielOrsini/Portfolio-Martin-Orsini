@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=59**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=63**.
 
 ---
 
@@ -209,6 +209,38 @@ cuatro filas justificadas.
 | `.fig--ar` + `style="--ar"` | Proporción arbitraria. `--ar` es la relación ancho/alto del archivo y hace dos cosas con un solo número: le da la proporción al marco y reparte el ancho de la fila. Son la misma cosa: en una fila de alto común, el ancho de cada pieza es proporcional a su ratio, así que el `flex-grow` puede **ser** el ratio. Va en un `style` porque es un dato de la imagen, no una decisión de diseño. |
 | `.fig-stack--ar` + `.fig-stack__in` | Columna de dos piezas apiladas que ocupa el lugar de una en la fila. **El contenido va en absoluto**, igual que `.marcas`: si queda en el flujo, su alto intrínseco —los dos altos más la calle— estira la fila y deja la pieza de al lado corta por abajo (medido: 33 px a 1920). Fuera del flujo, la calle sale del alto disponible y los pies coinciden. |
 | `.row-fit--even` | Calle vertical igual a la horizontal. Centenera usa el medianil vertical más ancho porque su referencia lo tenía así; la de Cerveceros los tiene iguales. |
+
+### Remeras — visor 3D  ⚠️ FALTA EL MODELO LIVIANO
+La remera grande es un modelo 3D de verdad: se arrastra para girarla y la
+rueda acerca. Las miniaturas de al lado **no cambian el modelo sino su
+textura** — se comprobó que los dos `.glb` del autor tienen la geometría
+**byte por byte idéntica**, así que se sirve una sola malla y dos JPG.
+
+- Va en **WebGL2 a mano, sin three.js** (módulo 16 de `main.js`, ~260
+  líneas). No valía romper la regla de cero dependencias por una pieza:
+  el archivo trae una sola malla con posición, normal y UV, que es justo
+  lo que hace falta dibujar.
+- Del `.glb` se saca la textura incrustada; el color lo pone el visor.
+- **El encuadre usa un límite cilíndrico, no la esfera envolvente.** Al
+  girar sólo en horizontal la silueta nunca supera el mayor de los lados
+  x y z; con la esfera —media diagonal— la prenda quedaba un 50 % más
+  lejos de lo necesario. Y el fov de la perspectiva es el vertical: en un
+  marco más alto que ancho hay que mirar también el horizontal, si no la
+  prenda se sale por los costados.
+
+**Lo que falta.** El modelo tal como salió de Blender pesa **31,2 MB**:
+617.014 vértices y 1.078.212 triángulos. Anda perfecto, pero es
+inaceptable para bajar en una página. El desglose: posiciones 7,4 MB ·
+normales 7,4 MB · UV 4,9 MB · índices 12,9 MB.
+
+Hace falta **un solo `.glb`, decimado en Blender** a unos 30.000
+triángulos (modificador Decimate, ratio ~0,03). Debería quedar por debajo
+de 1,5 MB. Va en `assets/models/remera.glb`. No hacen falta los dos
+archivos ni las texturas: ya están extraídas.
+
+Mientras tanto el archivo pesado está en su sitio para poder verlo
+funcionar, **ignorado en `.gitignore`** para que no entre en el historial
+de git por accidente. Al reemplazarlo hay que **borrar esa línea**.
 
 ### Almacenit — contenido real
 Maquetada sobre `referencia.jpg` (6151x8710) de `D:\Martin\PORTFOLIO

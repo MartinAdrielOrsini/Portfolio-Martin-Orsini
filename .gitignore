@@ -1,0 +1,11 @@
+# El modelo 3D de la remera pesa 31 MB tal como salio de Blender:
+# 617.014 vertices y 1.078.212 triangulos. Anda, pero es demasiado para
+# bajarlo en una pagina, y una vez commiteado se queda para siempre en el
+# historial de git.
+#
+# Por eso esta ignorado a proposito, como red de seguridad.
+#
+# CUANDO LLEGUE LA VERSION LIVIANA (decimada en Blender, ~30.000
+# triangulos, deberia quedar por debajo de 1,5 MB): reemplazar el archivo
+# y BORRAR ESTA LINEA, si no el modelo bueno tampoco se va a subir.
+assets/models/remera.glb
