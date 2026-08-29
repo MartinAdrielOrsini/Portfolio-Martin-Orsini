@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=64**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=70**.
 
 ---
 
@@ -234,6 +234,22 @@ página— y su alto es una medida de pantalla, no un `aspect-ratio`: es una
 ventana sobre un objeto que gira y su forma da igual, porque el encuadre
 se recalcula solo. A 1366 el marco quedó en **624x449** (antes 270x452) y
 a 1920 en 663x566, el 50 % del ancho útil.
+
+**El encuadre usa el radio en planta medido sobre los vértices**, no la
+caja. Costó dos intentos: con el lado mayor la prenda entraba de frente y
+se salía unos 25° después —la silueta de una forma girada es más ancha
+que cualquiera de sus lados—; con la diagonal de la caja entraba siempre
+pero sobraba un 10 % de aire, porque supone picos en las esquinas y los
+de una remera están en las mangas. Recorrer los 25.000 vértices una vez
+cuesta nada y deja la pieza lo más grande posible sin salirse nunca.
+
+**En mobile arranca más cerca y hay manejadores.** El margen ahí es 1,0
+—tangente al cuadro— contra 1,10 en escritorio: de frente pasa del 82 %
+al 87 % del ancho, y en una vuelta completa el peor margen es de 3 px,
+sin recortar. Los cuatro botones (girar ↺ ↻, − y +) son de 44 px y sólo
+se ven en pantalla chica; con el dedo se puede arrastrar para girar, pero
+no hay rueda para acercar. El giro por botón no salta: fija un destino y
+el bucle lo recorre.
 
 **La rueda pide el foco antes de acercar.** Si zoomeara siempre, bastaba
 con que el cursor pasara por encima al bajar por la página para que el

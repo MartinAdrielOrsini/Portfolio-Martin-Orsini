@@ -709,18 +709,23 @@ em { font-style: italic; }
 }
 .shirt3d__picks::-webkit-scrollbar { display: none; }
 
-/* Miniaturas: son botones, no figuras. Se marcan con el borde y no con
-   color, para no meter un tono nuevo en el sistema. */
+/* Miniaturas: son botones, no figuras.
+
+   La elegida se marca con un filete naranja que no toca la imagen: los
+   2 px de padding son ese aire, y el outline se dibuja sobre el borde de
+   la caja, o sea justo por fuera del hueco. Va en outline y no en border
+   para que aparecer no le cambie el tamaño a la pieza. */
 .pick {
   display: block;
   width: 100%;
-  padding: 0;
-  border: 1px solid var(--line);
-  background: var(--bg-warm);
+  padding: 2px;
+  border: 0;
+  background: none;
   cursor: pointer;
-  transition: border-color var(--t-fast) var(--ease),
+  transition: outline-color var(--t-fast) var(--ease),
               opacity var(--t-fast) var(--ease);
   opacity: 0.72;
+  outline: 2px solid transparent;
 }
 .pick img {
   display: block;
@@ -731,10 +736,42 @@ em { font-style: italic; }
 }
 .pick:hover { opacity: 1; }
 .pick.is-active {
-  border-color: var(--ink);
+  outline-color: var(--accent);
   opacity: 1;
 }
 .pick:not(.is-active):focus-visible { opacity: 1; }
+
+/* Manejadores tactiles. Solo aparecen en pantalla chica y con el visor
+   andando: con el dedo se puede girar arrastrando, pero no hay rueda
+   para acercar y afinar el giro a pulso es incomodo. */
+.shirt3d__ctrls { display: none; }
+.is-3d .shirt3d__ctrls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 0.7rem;
+}
+.shirt3d__ctrl {
+  display: grid;
+  place-items: center;
+  width: 44px;                 /* area tactil comoda */
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease),
+              color var(--t-fast) var(--ease),
+              border-color var(--t-fast) var(--ease);
+}
+.shirt3d__ctrl svg { width: 20px; height: 20px; }
+.shirt3d__ctrl:hover { border-color: var(--ink); }
+.shirt3d__ctrl:active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
 
 /* Captura de sitio web completa: la imagen es mucho más alta que el marco
    y se recorre dentro de él, como si fuera la ventana del navegador. */
@@ -1808,6 +1845,8 @@ em { font-style: italic; }
     overflow: visible;
   }
   .shirt3d__picks .pick { width: var(--pick); height: var(--pick); }
+  /* En escritorio los manejadores sobran: estan el raton y el teclado. */
+  .is-3d .shirt3d__ctrls { display: none; }
 
   /* Desde tablet, la fila justificada pasa a flex: cada pieza crece en
      proporcion a su relacion de aspecto y todas terminan con el mismo alto. */

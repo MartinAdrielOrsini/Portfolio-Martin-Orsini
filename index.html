@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=64">
+<link rel="stylesheet" href="css/styles.css?v=70">
 </head>
 <body>
 
@@ -1295,6 +1295,33 @@
                   aria-label="Modelo 3D de la remera. Arrastrá para girarla; con la rueda, o con las flechas del teclado, se acerca."></canvas>
         </div>
         <figcaption class="fig__cap shirt3d__status" role="status"></figcaption>
+
+        <!-- Manejadores para el dedo. El CSS los esconde en escritorio,
+             donde ya estan la rueda y el teclado. -->
+        <div class="shirt3d__ctrls">
+          <button type="button" class="shirt3d__ctrl" data-shirt-cmd="izq" aria-label="Girar la remera hacia la izquierda">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 12a8 8 0 1 0 2.34-5.66" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+              <path d="M4 4v4.5h4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+          <button type="button" class="shirt3d__ctrl" data-shirt-cmd="menos" aria-label="Alejar">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg>
+          </button>
+          <button type="button" class="shirt3d__ctrl" data-shirt-cmd="mas" aria-label="Acercar">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg>
+          </button>
+          <button type="button" class="shirt3d__ctrl" data-shirt-cmd="der" aria-label="Girar la remera hacia la derecha">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 12a8 8 0 1 1-2.34-5.66" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+              <path d="M20 4v4.5h-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
       </figure>
 
       <div class="shirt3d__picks reveal">
@@ -1332,7 +1359,20 @@
         <p class="project__lead">
           Desarrollo de estampas textiles personalizadas para remeras y buzos,
           realizadas a partir de diferentes temáticas, artistas y referentes,
-          buscando otorgar una identidad visual propia a cada prenda.
+          con el objetivo de construir diseños visualmente atractivos y otorgar
+          una identidad propia a cada prenda. El proyecto fue desarrollado para
+          <strong>Delira.store</strong>, un emprendimiento dedicado a la
+          creación y producción de prendas personalizadas mediante técnicas de
+          impresión <strong>DTG y DTF</strong>.
+        </p>
+        <p class="project__lead">
+          El trabajo contempló la creación y adaptación de diferentes propuestas
+          gráficas pensadas específicamente para su aplicación sobre textiles,
+          teniendo en cuenta la composición, el impacto visual, la legibilidad y
+          la relación entre el diseño y la prenda. Se exploraron distintas
+          estéticas y recursos gráficos para desarrollar estampas capaces de
+          representar diferentes conceptos y públicos, manteniendo una identidad
+          visual coherente con la propuesta de la marca.
         </p>
       </div>
     </div>
@@ -1559,6 +1599,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=64"></script>
+<script src="javascript/main.js?v=70"></script>
 </body>
 </html>

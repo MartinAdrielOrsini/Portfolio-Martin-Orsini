@@ -1166,6 +1166,10 @@
 
     /* --- Estado de la camara ----------------------------------- */
     let giro = 0, altura = 0, distancia = 3;
+    /* Los botones no saltan al angulo nuevo: fijan un destino y el bucle
+       lleva el giro hasta ahi. Arrastrando, destino y giro van juntos. */
+    let giroDestino = 0;
+    const chico = window.matchMedia('(max-width: 1023px)');
     let centro = [0, 0, 0], radio = 1;
     let indices = 0, vao = null, textura = null;
     let hayQuePintar = true, raf = 0, corriendo = false;
@@ -1175,23 +1179,34 @@
     let encuadrado = false, tocado = false;
 
     const FOV_Y = 0.7;
-    let medidas = { x: 1, y: 1, z: 1 };
+    let medidas = { x: 1, y: 1, z: 1 }, radioPlanta = 1;
     function encuadrar(aspecto) {
       /* El fov de la perspectiva es el vertical; el horizontal sale de la
          forma del lienzo. En un marco mas alto que ancho el campo
          horizontal queda mucho mas cerrado, y la prenda —mas ancha que
          alta— se salia por los costados. Hay que satisfacer los dos.
 
-         El limite no es la esfera envolvente sino un cilindro: al girar
-         en horizontal la silueta nunca supera el mayor de los lados x y
-         z, y el alto no cambia. Con la esfera —media diagonal— la pieza
-         quedaba un 50 % mas lejos de lo necesario y sobraba aire. */
-      const medioAncho = Math.max(medidas.x, medidas.z) * 0.5;
+         El limite es un cilindro, no la esfera envolvente: al girar en
+         horizontal el alto no cambia, asi que solo hace falta el radio en
+         planta. Con la esfera —media diagonal en 3D— la pieza quedaba un
+         50 % mas lejos de lo necesario y sobraba aire.
+
+         Ese radio es el que se midio sobre los vertices, no el lado mayor
+         de la caja: la silueta de una forma girada un angulo t es mas
+         ancha que cualquiera de sus lados, y con el lado mayor la prenda
+         entraba de frente y se salia unos 25 grados despues. */
+      const medioAncho = radioPlanta;
       const medioAlto  = medidas.y * 0.5;
       const fovX = 2 * Math.atan(Math.tan(FOV_Y / 2) * aspecto);
       const porAlto  = medioAlto  / Math.sin(FOV_Y / 2);
       const porAncho = medioAncho / Math.sin(fovX / 2);
-      distancia = Math.max(porAlto, porAncho) * 1.12;
+      /* En pantalla chica la prenda arranca mas cerca: el marco es chico
+         y de lejos no se le ve la estampa. Con el radio medido sobre los
+         vertices, el margen 1,0 ya la deja tangente al cuadro —lo mas
+         grande posible sin salirse nunca, gire como gire—, asi que ahi
+         no hace falta dejar aire de mas. En escritorio el marco es ancho
+         y conviene un poco de respiro alrededor. */
+      distancia = Math.max(porAlto, porAncho) * (chico.matches ? 1.0 : 1.10);
       encuadrado = true;
     }
 
@@ -1247,6 +1262,20 @@
          cuadro al girarla. */
       const dx = mx[0]-mn[0], dy = mx[1]-mn[1], dz = mx[2]-mn[2];
       medidas = { x: dx, y: dy, z: dz };
+
+      /* Radio real en planta: la distancia mas grande del eje de giro a
+         un vertice. Es lo unico que hace falta para saber cuanto ocupa
+         la prenda gire como gire, y hay que medirlo de verdad: la
+         diagonal de la caja lo sobreestima un 10 % porque supone picos
+         en las esquinas, y los de una remera estan en las mangas. Ese
+         10 % se paga en aire alrededor. Son 25.000 vertices, una pasada. */
+      let mayor = 0;
+      for (let p = 0; p < pos.length; p += 3) {
+        const ex = pos[p] - centro[0], ez = pos[p + 2] - centro[2];
+        const s = ex * ex + ez * ez;
+        if (s > mayor) mayor = s;
+      }
+      radioPlanta = Math.sqrt(mayor);
       /* Este radio —el de la esfera envolvente— no encuadra: solo fija
          los planos de recorte y los topes del zoom, donde conviene que
          sobre. El encuadre lo hace encuadrar(), con el cilindro. */
@@ -1329,6 +1358,16 @@
       hayQuePintar = false;
       medirLienzo();
 
+      /* Si los botones dejaron un giro pendiente, se recorre de a poco y
+         se pide otro cuadro: es lo que hace que la prenda gire en vez de
+         saltar al angulo nuevo. */
+      if (Math.abs(giroDestino - giro) > 0.002) {
+        giro += (giroDestino - giro) * 0.18;
+        pedirCuadro();
+      } else {
+        giro = giroDestino;
+      }
+
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -1376,6 +1415,7 @@
     canvas.addEventListener('pointermove', (e) => {
       if (!arrastrando) return;
       giro   += (e.clientX - px) * 0.008;
+      giroDestino = giro;          /* el arrastre manda: no hay easing */
       altura += (e.clientY - py) * 0.008;
       const tope = Math.PI / 2 - 0.05;
       altura = Math.max(-tope, Math.min(tope, altura));
@@ -1405,8 +1445,8 @@
     /* Con teclado: flechas para girar, mas y menos para acercar. */
     canvas.addEventListener('keydown', (e) => {
       const paso = 0.12;
-      if (e.key === 'ArrowLeft')  giro -= paso;
-      else if (e.key === 'ArrowRight') giro += paso;
+      if (e.key === 'ArrowLeft')  { giro -= paso; giroDestino = giro; }
+      else if (e.key === 'ArrowRight') { giro += paso; giroDestino = giro; }
       else if (e.key === 'ArrowUp')    altura -= paso;
       else if (e.key === 'ArrowDown')  altura += paso;
       else if (e.key === '+' || e.key === '=') distancia *= 0.9;
@@ -1418,6 +1458,24 @@
       altura = Math.max(-tope, Math.min(tope, altura));
       distancia = Math.max(radio * 1.15, Math.min(radio * 9, distancia));
       pedirCuadro();
+    });
+
+    /* --- Manejadores en pantalla ---------------------------------
+       Con el dedo se puede girar arrastrando, pero no hay rueda para
+       acercar y afinar el giro es incomodo. Estos botones solo se ven en
+       pantalla chica; en escritorio ya estan el raton y el teclado. */
+    $$('[data-shirt-cmd]', host).forEach((b) => {
+      b.addEventListener('click', () => {
+        if (!vao) return;
+        tocado = true;
+        const cmd = b.dataset.shirtCmd;
+        if (cmd === 'mas')        distancia *= 0.80;
+        else if (cmd === 'menos') distancia *= 1.25;
+        else if (cmd === 'izq')   giroDestino -= 0.55;
+        else if (cmd === 'der')   giroDestino += 0.55;
+        distancia = Math.max(radio * 1.15, Math.min(radio * 9, distancia));
+        pedirCuadro();
+      });
     });
 
     if ('ResizeObserver' in window) new ResizeObserver(pedirCuadro).observe(canvas);
