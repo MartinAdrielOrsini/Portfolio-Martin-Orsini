@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=70**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=71**.
 
 ---
 
@@ -250,6 +250,22 @@ sin recortar. Los cuatro botones (girar ↺ ↻, − y +) son de 44 px y sólo
 se ven en pantalla chica; con el dedo se puede arrastrar para girar, pero
 no hay rueda para acercar. El giro por botón no salta: fija un destino y
 el bucle lo recorre.
+
+**El texto de este bloque tiene que caber en el alto del visor**, y ese
+alto se achica justo cuando el texto se alarga: al subir el zoom del
+navegador la ventana mide menos píxeles CSS, la columna se angosta —más
+renglones— y a la vez el visor, que va en `svh`, se acorta. A 125 % el
+texto se pasaba 204 px por debajo.
+
+Por eso ahí el cuerpo **no es fijo**: baja con el ancho de la ventana
+(`clamp(15px, 0.4rem + 0.92vw, 20px)`), y el texto además se acortó un
+16 %. Es el único bloque del sitio donde el texto no manda su propio
+alto, así que es el único donde vale apartarse de la escala general; por
+debajo de 1024 la retícula se apila y vuelve al cuerpo de siempre.
+
+Margen sobrante medido, de 1024 a 2039 px de ancho y con ventanas de
+360 a 940 px de alto: **entre 71 y 171 px**. Nunca se pasa. Si se agrega
+texto, hay que volver a medir el peor caso, que es 1024 de ancho.
 
 **La rueda pide el foco antes de acercar.** Si zoomeara siempre, bastaba
 con que el cursor pasara por encima al bajar por la página para que el

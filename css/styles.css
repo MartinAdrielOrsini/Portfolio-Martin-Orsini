@@ -1848,6 +1848,22 @@ em { font-style: italic; }
   /* En escritorio los manejadores sobran: estan el raton y el teclado. */
   .is-3d .shirt3d__ctrls { display: none; }
 
+  /* El texto tiene que caber en el alto del visor, y ese alto se achica
+     justo cuando el texto se alarga. Al subir el zoom del navegador la
+     ventana mide menos px CSS: la columna se angosta —mas renglones— y a
+     la vez el visor, que va en svh, se acorta. A 125 % el texto se pasaba
+     204 px por debajo.
+
+     Por eso aca el cuerpo no es fijo sino que baja con el ancho de la
+     ventana, con la misma pendiente con que se angosta la columna. Es el
+     unico bloque del sitio donde el texto no manda su propio alto, asi
+     que es el unico donde vale apartarse de la escala general. */
+  .trio--shirt .split__text p {
+    font-size: clamp(15px, 0.4rem + 0.92vw, 20px);
+    margin-bottom: 0.9em;
+  }
+  .trio--shirt .split__text p:last-child { margin-bottom: 0; }
+
   /* Desde tablet, la fila justificada pasa a flex: cada pieza crece en
      proporcion a su relacion de aspecto y todas terminan con el mismo alto. */
   .row-fit { display: flex; }
