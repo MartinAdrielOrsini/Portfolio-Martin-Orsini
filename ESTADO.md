@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=71**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=74**.
 
 ---
 
@@ -258,14 +258,14 @@ renglones— y a la vez el visor, que va en `svh`, se acorta. A 125 % el
 texto se pasaba 204 px por debajo.
 
 Por eso ahí el cuerpo **no es fijo**: baja con el ancho de la ventana
-(`clamp(15px, 0.4rem + 0.92vw, 20px)`), y el texto además se acortó un
-16 %. Es el único bloque del sitio donde el texto no manda su propio
-alto, así que es el único donde vale apartarse de la escala general; por
-debajo de 1024 la retícula se apila y vuelve al cuerpo de siempre.
+(`clamp(13px, 0.06rem + 1.23vw, 19px)`), y además se le soltó el tope de
+38ch de medida. Es el único bloque del sitio donde el texto no manda su
+propio alto, así que es el único donde vale apartarse de la escala general;
+por debajo de 1024 la retícula se apila y vuelve al cuerpo de siempre.
 
 Margen sobrante medido, de 1024 a 2039 px de ancho y con ventanas de
-360 a 940 px de alto: **entre 71 y 171 px**. Nunca se pasa. Si se agrega
-texto, hay que volver a medir el peor caso, que es 1024 de ancho.
+360 a 940 px de alto: **entre 28 y 61 px**. Nunca se pasa. Si se agrega
+texto, hay que volver a medir; el peor caso es 1242 de ancho, no 1024.
 
 **La rueda pide el foco antes de acercar.** Si zoomeara siempre, bastaba
 con que el cursor pasara por encima al bajar por la página para que el

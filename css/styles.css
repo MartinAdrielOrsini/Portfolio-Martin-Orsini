@@ -1859,8 +1859,13 @@ em { font-style: italic; }
      unico bloque del sitio donde el texto no manda su propio alto, asi
      que es el unico donde vale apartarse de la escala general. */
   .trio--shirt .split__text p {
-    font-size: clamp(15px, 0.4rem + 0.92vw, 20px);
+    font-size: clamp(13px, 0.06rem + 1.23vw, 19px);
     margin-bottom: 0.9em;
+    /* Sin el tope de 38ch. En el resto del sitio ese tope existe para
+       que la linea no se vuelva larga de leer, pero aca la columna ya es
+       angosta y el tope la achicaba todavia mas —cortaba en 38 caracteres
+       sobre 47 que entraban—, con lo que el texto se iba para abajo. */
+    max-width: none;
   }
   .trio--shirt .split__text p:last-child { margin-bottom: 0; }
 
