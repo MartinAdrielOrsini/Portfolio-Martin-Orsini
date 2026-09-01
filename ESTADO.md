@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=74**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=77**.
 
 ---
 
@@ -266,6 +266,33 @@ por debajo de 1024 la retícula se apila y vuelve al cuerpo de siempre.
 Margen sobrante medido, de 1024 a 2039 px de ancho y con ventanas de
 360 a 940 px de alto: **entre 28 y 61 px**. Nunca se pasa. Si se agrega
 texto, hay que volver a medir; el peor caso es 1242 de ancho, no 1024.
+
+### Cartas que se dan vuelta (Remeras)
+El bloque "Diseños en uso" son **12 cartas en 3 filas de 4** que giran al
+tocarlas: adelante el diseño, atrás la prenda puesta. El botón con el más
+de abajo abre la misma carta en grande, donde también gira; se sale
+tocando fuera, con Escape o con el botón de cerrar. Se eliminó la tira
+`.screens` que antes se llamaba así, y el bloque "Diferentes diseños"
+pasó a llevar ese nombre.
+
+- Fuente: `D:\Martin\PORTFOLIO WEB\9REMERAS CUSTOM\cards`, 24 PNG de
+  1400x1600 y **84 MB**. A 900 px y calidad 80 quedaron en **3,3 MB**.
+- **Las esquinas venían redondeadas dentro del PNG**, en transparencia,
+  con un radio de 160 px. Se aplastaron sobre blanco y el redondeo lo
+  rehace el CSS con `border-radius: 11.43% / 10%`: como la carta siempre
+  guarda la proporción 7:8, esas dos cifras dan exactamente la misma
+  esquina circular a cualquier tamaño, y escala sola.
+- El giro es 3D real —`preserve-3d`, `backface-visibility` y perspectiva
+  de 1400 px—, no un cambio de imagen. El JS sólo pone y saca una clase.
+- La vista grande se arma **una sola vez y se reusa**: clonar la carta
+  entera agregaría dos `<img>` por cada apertura. Abre del mismo lado que
+  estaba la carta chica.
+- El alto de la carta grande sale de un solo `min()` con tres términos:
+  lo que permite el alto de pantalla, lo que permite el ancho —de ahí el
+  `8/7`— y un tope duro. Con alto fijo más `max-width` no alcanzaba: en
+  mobile se iba a 527 px sobre una ventana de 375.
+- Sin uso desde este cambio: `01-billie.jpg` a `05-hasbulla.jpg` en
+  `assets/images/remeras/` (944 KB).
 
 **La rueda pide el foco antes de acercar.** Si zoomeara siempre, bastaba
 con que el cursor pasara por encima al bajar por la página para que el

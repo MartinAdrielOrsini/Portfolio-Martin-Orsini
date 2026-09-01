@@ -741,6 +741,153 @@ em { font-style: italic; }
 }
 .pick:not(.is-active):focus-visible { opacity: 1; }
 
+
+/* ------------ Cartas que se dan vuelta ------------
+   Adelante el diseño, atras la prenda puesta. El giro es 3D de verdad:
+   un contenedor con perspectiva, las dos caras superpuestas y la de
+   atras ya rotada media vuelta, con backface-visibility para que cada
+   una se vea solo desde su lado.
+
+   El redondeo va en porcentaje por eje —11,43 % del ancho y 10 % del
+   alto— y no en px: como la carta siempre guarda la proporcion 7:8, esas
+   dos cifras dan la misma esquina circular de 160 unidades que traian
+   los PNG originales, y escala sola con la carta. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap) clamp(1rem, 2.4vw, 2.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+}
+
+.card__flip {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  aspect-ratio: 7 / 8;
+  /* Sin perspectiva el giro se ve plano, como un rectangulo que se
+     angosta; con ella la carta se inclina y se lee como un objeto. */
+  perspective: 1400px;
+}
+
+.card__inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 620ms var(--ease);
+}
+/* Vale para la carta de la grilla y para la grande: las dos usan el
+   mismo interior y las mismas caras. */
+.card__flip.is-flipped .card__inner,
+.lightbox__flip.is-flipped .card__inner { transform: rotateY(180deg); }
+
+.card__face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 11.43% / 10%;
+  backface-visibility: hidden;
+  background: var(--bg-warm);
+}
+.card__face--dorso { transform: rotateY(180deg); }
+.card__face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* El mas de abajo. Es un circulo: la unica forma redonda del sistema
+   aparte del carrusel, pero es un icono y asi esta en la referencia. */
+.card__zoom {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: color var(--t-fast) var(--ease),
+              border-color var(--t-fast) var(--ease);
+}
+.card__zoom svg { width: 18px; height: 18px; }
+.card__zoom:hover,
+.card__zoom:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ------------ La carta en grande ------------
+   Se abre por encima de todo y el fondo se atenua. Se cierra tocando
+   fuera de la carta, con Escape o con el boton de cerrar. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(17, 17, 17, 0.72);
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease);
+}
+.lightbox[hidden] { display: none; }
+.lightbox.is-open { opacity: 1; }
+
+/* La carta tiene que entrar entera, y con la proporcion fija eso hay que
+   resolverlo en un solo numero: el alto es el menor entre lo que permite
+   la altura de la pantalla, lo que permite su ancho —de ahi el 8/7— y un
+   tope duro. Con alto fijo mas max-width no alcanzaba: el ancho salia de
+   la proporcion y en mobile se iba a 527 px sobre una ventana de 375. */
+.lightbox__flip {
+  display: block;
+  height: min(86svh, 86vw * 8 / 7, 760px);
+  aspect-ratio: 7 / 8;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  perspective: 1800px;
+}
+
+.lightbox__cerrar {
+  position: absolute;
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--dark-line);
+  background: none;
+  color: var(--dark-ink);
+  cursor: pointer;
+  transition: color var(--t-fast) var(--ease),
+              border-color var(--t-fast) var(--ease);
+}
+.lightbox__cerrar svg { width: 20px; height: 20px; }
+.lightbox__cerrar:hover,
+.lightbox__cerrar:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 /* Manejadores tactiles. Solo aparecen en pantalla chica y con el visor
    andando: con el dedo se puede girar arrastrando, pero no hay rueda
    para acercar y afinar el giro a pulso es incomodo. */
@@ -1847,6 +1994,9 @@ em { font-style: italic; }
   .shirt3d__picks .pick { width: var(--pick); height: var(--pick); }
   /* En escritorio los manejadores sobran: estan el raton y el teclado. */
   .is-3d .shirt3d__ctrls { display: none; }
+
+  /* Tres filas de cuatro, como en la referencia. En mobile van de a dos. */
+  .cards { grid-template-columns: repeat(4, 1fr); }
 
   /* El texto tiene que caber en el alto del visor, y ese alto se achica
      justo cuando el texto se alarga. Al subir el zoom del navegador la

@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=74">
+<link rel="stylesheet" href="css/styles.css?v=77">
 </head>
 <body>
 
@@ -1378,27 +1378,185 @@
     </div>
   </div>
 
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Diferentes diseños</h3>
-    <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/01-billie.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/02-kendrick.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/03-rauw.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/04-billie-2.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/05-hasbulla.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Diseño"><img src="assets/images/remeras/01-billie.jpg" alt="Estampa textil" loading="lazy" decoding="async"></div></figure>
-    </div>
-  </div>
+  <!-- Doce cartas que se dan vuelta al tocarlas: adelante el diseño, atras
+       la remera puesta. El boton con el mas de abajo abre la misma carta en
+       grande, y ahi tambien se da vuelta. Ver el modulo 17 del JS.
 
+       Las esquinas venian redondeadas dentro del PNG, en transparencia. Se
+       aplastaron sobre blanco y el redondeo lo rehace el CSS, que ademas lo
+       escala solo con la carta. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Diseños en uso</h3>
-    <div class="screens reveal">
-      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/01-billie.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/02-kendrick.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/03-rauw.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/04-billie-2.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig"><div class="fig__frame ar-4x5" data-slot="En uso"><img src="assets/images/remeras/05-hasbulla.jpg" alt="Remera estampada en uso" loading="lazy" decoding="async"></div></figure>
-    </div>
+    <ul class="cards reveal" data-cards>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Tupac">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/tupac-1.jpg" alt="Diseño de la remera de Tupac" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/tupac-2.jpg" alt="La remera de Tupac, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Tupac">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Bad Bunny">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/bad-bunny-1.jpg" alt="Diseño de la remera de Bad Bunny" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/bad-bunny-2.jpg" alt="La remera de Bad Bunny, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Bad Bunny">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Billie Eilish">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/billie-1.jpg" alt="Diseño de la remera de Billie Eilish" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/billie-2.jpg" alt="La remera de Billie Eilish, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Billie Eilish">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Dragon Ball, con Freezer y Goku">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/freezer-1.jpg" alt="Diseño de la remera de Dragon Ball, con Freezer y Goku" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/freezer-2.jpg" alt="La remera de Dragon Ball, con Freezer y Goku, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Dragon Ball, con Freezer y Goku">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Kendrick Lamar">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/kendrick-1.jpg" alt="Diseño de la remera de Kendrick Lamar" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/kendrick-2.jpg" alt="La remera de Kendrick Lamar, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Kendrick Lamar">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Dragon Ball, con la saga de Cell">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/cell-1.jpg" alt="Diseño de la remera de Dragon Ball, con la saga de Cell" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/cell-2.jpg" alt="La remera de Dragon Ball, con la saga de Cell, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Dragon Ball, con la saga de Cell">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Young Miko">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/micko-1.jpg" alt="Diseño de la remera de Young Miko" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/micko-2.jpg" alt="La remera de Young Miko, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Young Miko">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Michael Jordan">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/mj-1.jpg" alt="Diseño de la remera de Michael Jordan" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/mj-2.jpg" alt="La remera de Michael Jordan, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Michael Jordan">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Rauw Alejandro">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/rauw-1.jpg" alt="Diseño de la remera de Rauw Alejandro" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/rauw-2.jpg" alt="La remera de Rauw Alejandro, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Rauw Alejandro">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Travis Scott">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/travis-1.jpg" alt="Diseño de la remera de Travis Scott" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/travis-2.jpg" alt="La remera de Travis Scott, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Travis Scott">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Dragon Ball, con Majin Boo">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/majin-boo-1.jpg" alt="Diseño de la remera de Dragon Ball, con Majin Boo" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/majin-boo-2.jpg" alt="La remera de Dragon Ball, con Majin Boo, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Dragon Ball, con Majin Boo">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="card">
+        <button type="button" class="card__flip" aria-pressed="false"
+                aria-label="Dar vuelta la remera de Lil Supa">
+          <span class="card__inner">
+            <span class="card__face"><img src="assets/images/remeras/cards/lil-supa-1.jpg" alt="Diseño de la remera de Lil Supa" loading="lazy" decoding="async"></span>
+            <span class="card__face card__face--dorso"><img src="assets/images/remeras/cards/lil-supa-2.jpg" alt="La remera de Lil Supa, puesta" loading="lazy" decoding="async"></span>
+          </span>
+        </button>
+        <button type="button" class="card__zoom" aria-label="Ver en grande la remera de Lil Supa">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v10M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
   </div>
 
 
@@ -1599,6 +1757,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=74"></script>
+<script src="javascript/main.js?v=77"></script>
 </body>
 </html>

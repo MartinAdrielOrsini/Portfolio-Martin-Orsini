@@ -17,6 +17,7 @@
     14. Videos en loop
     15. Carrusel de pantallas (cinta continua, sin extremos)
     16. Visor 3D de remeras (WebGL a mano, sin libreria)
+    17. Cartas de remeras (giro y vista grande)
    Vanilla ES6+. Sin dependencias.
    ============================================================ */
 
@@ -1531,6 +1532,131 @@
 
 
   /* ==========================================================
+     17 — CARTAS DE REMERAS
+     Cada carta se da vuelta al tocarla —adelante el diseño, atras
+     la prenda puesta— y el boton con el mas de abajo la abre en
+     grande, donde tambien se da vuelta. Se sale tocando fuera de
+     la carta, con Escape o con el boton de cerrar.
+
+     El giro lo hace CSS; aca solo se pone y se saca una clase. La
+     vista grande se arma una sola vez y se reusa: clonar la carta
+     entera traeria dos <img> mas por cada apertura.
+     ========================================================== */
+  function initCards() {
+    const lista = $('[data-cards]');
+    if (!lista) return;
+
+    const cartas = $$('.card', lista);
+    if (!cartas.length) return;
+
+    /* --- Las cartas de la grilla -------------------------------- */
+    cartas.forEach((carta) => {
+      const flip = $('.card__flip', carta);
+      const zoom = $('.card__zoom', carta);
+      if (!flip) return;
+
+      flip.addEventListener('click', () => {
+        const dadaVuelta = flip.classList.toggle('is-flipped');
+        flip.setAttribute('aria-pressed', dadaVuelta ? 'true' : 'false');
+      });
+
+      if (zoom) zoom.addEventListener('click', () => abrir(carta, zoom));
+    });
+
+    /* --- La vista grande ----------------------------------------
+       Se construye al vuelo la primera vez que hace falta: si nadie
+       toca el mas, no se agrega nada al arbol ni se baja nada. */
+    let caja = null, marco = null, caraA = null, caraB = null;
+    let quienAbrio = null;
+
+    function construir() {
+      caja = document.createElement('div');
+      caja.className = 'lightbox';
+      caja.hidden = true;
+
+      marco = document.createElement('button');
+      marco.type = 'button';
+      marco.className = 'lightbox__flip';
+      marco.setAttribute('aria-pressed', 'false');
+
+      const dentro = document.createElement('span');
+      dentro.className = 'card__inner';
+      caraA = document.createElement('span');
+      caraA.className = 'card__face';
+      caraB = document.createElement('span');
+      caraB.className = 'card__face card__face--dorso';
+      caraA.appendChild(document.createElement('img'));
+      caraB.appendChild(document.createElement('img'));
+      dentro.appendChild(caraA);
+      dentro.appendChild(caraB);
+      marco.appendChild(dentro);
+
+      const cerrar = document.createElement('button');
+      cerrar.type = 'button';
+      cerrar.className = 'lightbox__cerrar';
+      cerrar.setAttribute('aria-label', 'Cerrar');
+      cerrar.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+        '<path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" ' +
+        'stroke-linecap="round"></path></svg>';
+
+      caja.appendChild(marco);
+      caja.appendChild(cerrar);
+      document.body.appendChild(caja);
+
+      marco.addEventListener('click', () => {
+        const dadaVuelta = marco.classList.toggle('is-flipped');
+        marco.setAttribute('aria-pressed', dadaVuelta ? 'true' : 'false');
+      });
+      cerrar.addEventListener('click', salir);
+
+      /* Tocar el fondo cierra; tocar la carta no, porque el click no
+         llega hasta aca —lo ataja el boton de arriba—. */
+      caja.addEventListener('click', (e) => { if (e.target === caja) salir(); });
+    }
+
+    function abrir(carta, boton) {
+      if (!caja) construir();
+
+      const imgs = $$('.card__face img', carta);
+      const a = $('img', caraA), b = $('img', caraB);
+      a.src = imgs[0].src; a.alt = imgs[0].alt;
+      b.src = imgs[1].src; b.alt = imgs[1].alt;
+
+      /* La carta grande abre del mismo lado que estaba la chica: si el
+         que mira ya la habia dado vuelta, no se la devolvemos. */
+      const alDorso = $('.card__flip', carta).classList.contains('is-flipped');
+      marco.classList.toggle('is-flipped', alDorso);
+      marco.setAttribute('aria-pressed', alDorso ? 'true' : 'false');
+
+      quienAbrio = boton;
+      caja.hidden = false;
+      /* Leer una medida fuerza el reflow, y con eso el navegador toma el
+         estado cerrado antes de que se agregue la clase: la transicion
+         de opacidad arranca desde ahi. Se hace asi y no con un
+         requestAnimationFrame porque en una pestaña de fondo el cuadro
+         puede no llegar nunca y la caja quedaria invisible pero puesta,
+         tapando la pagina. */
+      void caja.offsetWidth;
+      caja.classList.add('is-open');
+      document.documentElement.style.overflow = 'hidden';
+      marco.focus();
+    }
+
+    function salir() {
+      if (!caja || caja.hidden) return;
+      caja.classList.remove('is-open');
+      document.documentElement.style.overflow = '';
+      window.setTimeout(() => { caja.hidden = true; }, 320);
+      if (quienAbrio) { quienAbrio.focus(); quienAbrio = null; }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') salir();
+    });
+  }
+
+
+  /* ==========================================================
      ARRANQUE
      ========================================================== */
   function init() {
@@ -1549,6 +1675,7 @@
     initLoopVideos();
     initCarousels();
     initShirt3D();
+    initCards();
   }
 
   if (document.readyState === 'loading') {
