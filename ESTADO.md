@@ -27,7 +27,7 @@ assets/             102 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=78**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=79**.
 
 ---
 
@@ -279,12 +279,12 @@ pasó a llevar ese nombre.
   1400x1600 y **84 MB**. A 900 px y calidad 80 quedaron en **3,3 MB**.
 - **Las esquinas venían redondeadas dentro del PNG**, en transparencia,
   con un radio de 160 px. Se aplastaron sobre blanco y el redondeo lo
-  rehace el CSS con `border-radius: 12% / 10.5%`: como la carta siempre
+  rehace el CSS con `border-radius: 12.2% / 10.68%`: como la carta siempre
   guarda la proporción 7:8, esas dos cifras dan la misma esquina circular
   a cualquier tamaño. Va medio punto más grande que el horneado (11,43 %)
   a propósito: el arco original trae su antialiasing y al aplastarlo sobre
-  blanco quedaba un filo claro en las esquinas. Recortando 2,7 px por
-  dentro sobre la carta grande, desaparece.
+  blanco quedaba un filo claro en las esquinas. Recortando por
+  dentro sobre la carta grande —3,7 px—, desaparece.
 - El giro es 3D real —`preserve-3d`, `backface-visibility` y perspectiva
   de 1400 px—, no un cambio de imagen. El JS sólo pone y saca una clase.
 - La vista grande se arma **una sola vez y se reusa**: clonar la carta

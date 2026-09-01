@@ -749,15 +749,15 @@ em { font-style: italic; }
    una se vea solo desde su lado.
 
    El redondeo va en porcentaje por eje y no en px: como la carta siempre
-   guarda la proporcion 7:8, un 12 % del ancho y un 10,5 % del alto dan la
-   misma esquina circular a cualquier tamaño —12 % de W es igual a 10,5 %
-   de H cuando H = W/0,875—.
+   guarda la proporcion 7:8, un 12,2 % del ancho y un 10,68 % del alto dan
+   la misma esquina circular a cualquier tamaño —12,2 % de W es igual a
+   10,68 % de H cuando H = W/0,875—.
 
    El radio horneado en los PNG era de 160 sobre 1400, o sea 11,43 %.
    Aca va medio punto mas grande a proposito: el arco original viene con
    su antialiasing, y al aplastarlo sobre blanco esa orla queda como un
    filo claro. Recortando un poco por dentro del arco, desaparece. Sobre
-   la carta grande son unos 3 px. */
+   la carta grande son unos 3,6 px. */
 .cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -803,7 +803,7 @@ em { font-style: italic; }
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border-radius: 12% / 10.5%;
+  border-radius: 12.2% / 10.68%;
   backface-visibility: hidden;
   background: var(--bg-warm);
 }
