@@ -1659,12 +1659,18 @@
 
   <!-- El video de presentacion si lleva controles: tiene sonido. El
        archivo pesa, asi que preload="none": no se baja hasta que alguien
-       le da play. -->
+       le da play.
+
+       Con preload="none" el navegador no tiene ni un cuadro que mostrar y
+       deja el hueco gris, asi que va con poster: la portada del autor, que
+       ya viene en 16:9 y calza justo con el marco. Es lo unico que se baja
+       antes de que alguien apriete play. -->
   <div class="container reveal">
     <figure class="fig fig--ar" style="--ar: 1.7778">
       <div class="fig__frame fig__frame--tall video-pieza" data-slot="Presentación">
         <video class="marcas__video"
                src="assets/video/mush-presentacion.mp4"
+               poster="assets/images/mush-type/portada-video.jpg"
                controls playsinline preload="none"
                aria-label="Video de presentación de Mush Type"></video>
       </div>

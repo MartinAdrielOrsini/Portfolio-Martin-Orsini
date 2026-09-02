@@ -515,6 +515,18 @@ escaneo mostró que en varios momentos usa el cuadro entero (a los 60 s el
 contenido va del 76% al 100% del alto; a los 85 s ocupa todo), así que
 cualquier recorte le cortaría la pieza. A 1366 mide 1239x697.
 
+Lleva **`poster`**. Con `preload="none"` el navegador no tiene ni un
+cuadro que mostrar y dejaba el hueco gris del marco (`#F2F2F0`), que fue
+lo que marcó el autor. La portada es `MUSH FUENTE/portada video.jpg`
+(1921x1081), convertida a **1600x900, 80 KB**, en
+`assets/images/mush-type/portada-video.jpg`. Ya viene en 16:9, así que
+calza con el marco sin recortar nada y sin tocar la decisión de arriba.
+Es lo único que se baja antes de que alguien apriete play.
+
+Queda una franja de menos de 1 px de fondo a los costados: el borde de
+1 px del marco deja la caja del video en 1237x695 y esa no es exactamente
+16:9. Le pasa igual al video, no lo trae el póster.
+
 **Espécimen.** Son cuatro láminas iguales de 1400x990 → `--ar: 1.4142`,
 **dos arriba y dos abajo** (`.grid-2`), que es como las quiere el autor.
 Estuvieron un rato en una sola fila de cuatro (`.grid-4`) por un error de
