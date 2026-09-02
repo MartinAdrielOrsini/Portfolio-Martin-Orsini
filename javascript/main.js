@@ -1659,88 +1659,172 @@
 
   /* ==========================================================
      18 — PASE DE IMAGENES
-     Las piezas van pasando solas y una barra muestra cuanto falta
-     para la siguiente. Se puede arrastrar para cambiar a mano, o
-     usar las flechas del teclado.
+     Las piezas van pasando solas y, debajo, un punto por pieza
+     muestra cual esta en pantalla y cuanto le falta.
 
-     La barra la mueve este modulo cuadro a cuadro y no una
-     animacion de CSS: asi se puede frenar y reanudar en cualquier
-     punto —mientras se arrastra, o cuando el pase sale de
-     pantalla— sin que el relleno pegue un salto.
+     El cambio es un desplazamiento y no un fundido: la que entra
+     viene desde la derecha y empuja fuera del cuadro a la que
+     estaba. Los tiempos —3000 ms quieta y 1100 ms corriendose,
+     con la curva ease— salen de medir el sitio que dio de
+     referencia el autor.
 
-     Con prefers-reduced-motion no avanza solo: quedan el arrastre
-     y el teclado, y la barra no se dibuja.
+     En el marco hay dos <img>: una a la vista y la otra aparcada
+     afuera. Al terminar cada desplazamiento se intercambian los
+     papeles en vez de reescribir el src de la que se ve, asi que
+     el cuadro nunca queda en blanco.
+
+     El relleno del punto activo lo mueve este modulo cuadro a
+     cuadro y no una animacion de CSS: asi se puede frenar y
+     reanudar en cualquier punto —mientras se arrastra, o cuando
+     el pase sale de pantalla— sin que pegue un salto.
+
+     Con prefers-reduced-motion no avanza solo y el cambio es
+     instantaneo: quedan el arrastre y el teclado, y el relleno no
+     se dibuja.
      ========================================================== */
   function initPase() {
     $$('[data-pase]').forEach(armar);
 
     function armar(pase) {
-      /* Las rutas salen de la primera imagen: 01.jpg, 02.jpg... asi el
-         HTML no tiene que repetir diez veces lo mismo. */
-      const base = $('.pase__img', pase);
-      const entra = $('.pase__img--entra', pase);
-      const avance = $('.pase__avance', pase);
+      const imgs  = $$('.pase__img', pase);
       const barra = $('.pase__barra', pase);
       const marco = $('.pase__marco', pase);
-      if (!base || !entra || !marco) return;
+      if (imgs.length < 2 || !marco) return;
 
-      const CUANTAS = 10;
-      const DURACION = 4200;          /* lo que dura cada pieza, en ms */
+      /* Cuantas piezas tiene este pase. Va en el HTML porque cada uno
+         lleva las suyas: el de la izquierda las ocho de universo/a y el
+         de la derecha las ocho de universo/b. */
+      const CUANTAS = Math.max(2, parseInt(pase.dataset.cuantas, 10) || 10);
+      const ESPERA  = 3000;          /* lo que queda quieta cada pieza */
+      const DESLIZ  = 1100;          /* lo que tarda en correrse */
 
+      /* Las rutas salen de la primera imagen: 01.jpg, 02.jpg... asi el
+         HTML no repite ocho veces el nombre de la misma carpeta. */
       const rutas = [];
       for (let i = 1; i <= CUANTAS; i++) {
-        rutas.push(base.src.replace(/\d+\.jpg$/, String(i).padStart(2, '0') + '.jpg'));
+        rutas.push(imgs[0].src.replace(/\d+\.jpg$/, String(i).padStart(2, '0') + '.jpg'));
+      }
+      const ALT = imgs[0].alt;
+
+      const duracion = () => (prefersReducedMotion.matches ? 0 : DESLIZ);
+
+      /* La primera pieza viene con loading="lazy" para no bajarla hasta
+         que alguien se acerque. Pero apenas el pase empieza a andar hay
+         que sacarselo: la imagen que espera su turno esta aparcada fuera
+         del marco, y para el navegador eso es estar fuera de pantalla,
+         asi que con lazy puesto no baja nunca —no llega el onload y el
+         pase se queda clavado en la primera pieza—. */
+      let despierto = false;
+      function despertar() {
+        if (despierto) return;
+        despierto = true;
+        imgs.forEach(function (i) { i.removeAttribute('loading'); });
       }
 
-      let actual = 0, transcurrido = 0, ultimo = 0;
+      /* pct es donde queda la imagen, en porcentaje del ancho del marco:
+         0 es a la vista y 100 es aparcada afuera, a la derecha. */
+      function colocar(img, pct, conTransicion) {
+        img.style.transition = conTransicion
+          ? 'transform ' + duracion() + 'ms ease'
+          : 'none';
+        img.style.transform = 'translateX(' + pct + '%)';
+      }
+
+      let frente = imgs[0], detras = imgs[1];
+      colocar(frente, 0, false);
+      colocar(detras, 100, false);
+
+      /* --- Los puntos ---------------------------------------------
+         Uno por pieza, puestos aca y no en el HTML: el HTML no tiene
+         por que saber cuantas piezas hay. El relleno es un solo
+         elemento que se muda al punto que toca. */
+      const puntos = [];
+      let avance = null;
+      if (barra) {
+        for (let i = 0; i < CUANTAS; i++) {
+          const p = document.createElement('span');
+          p.className = 'pase__punto';
+          barra.appendChild(p);
+          puntos.push(p);
+        }
+        avance = document.createElement('span');
+        avance.className = 'pase__avance';
+        barra.setAttribute('aria-valuemin', '1');
+        barra.setAttribute('aria-valuemax', String(CUANTAS));
+      }
+
+      let actual = 0;
+      /* El desfase deja a los dos pases fuera de fase, para que no se
+         muevan los dos a la vez a los costados del texto. */
+      let transcurrido = Math.min(ESPERA, parseInt(pase.dataset.desfase, 10) || 0);
+      let ultimo = 0;
       let raf = 0, corriendo = false, quieto = false, cambiando = false;
 
       const detenido = () => quieto || prefersReducedMotion.matches;
 
-      function pintarBarra() {
+      function marcarPunto() {
+        if (!puntos.length) return;
+        puntos.forEach((p, i) => p.classList.toggle('is-activo', i === actual));
+        if (avance) puntos[actual].appendChild(avance);
+        if (barra) barra.setAttribute('aria-valuenow', String(actual + 1));
+      }
+
+      function pintarAvance() {
         if (!avance) return;
-        const parte = detenido() ? 0 : Math.min(1, transcurrido / DURACION);
+        const parte = detenido() ? 0 : Math.min(1, transcurrido / ESPERA);
         avance.style.width = (parte * 100).toFixed(2) + '%';
-        if (barra) {
-          barra.setAttribute('aria-valuenow', String(actual + 1));
-          barra.setAttribute('aria-valuemin', '1');
-          barra.setAttribute('aria-valuemax', String(CUANTAS));
-        }
       }
 
       /* --- El cambio de pieza -------------------------------------
-         La imagen nueva se carga en la capa de arriba y recien cuando
-         esta lista se le enciende la opacidad. Si se cambiara el src de
-         una sola capa, entre que se pide y llega quedaria un hueco. */
-      function ir(indice) {
-        const destino = (indice + CUANTAS) % CUANTAS;
+         La que entra se aparca del lado que corresponde y no se larga
+         hasta estar cargada: si saliera antes, cruzaria el cuadro en
+         blanco. hacia = 1 va a la siguiente y entra por la derecha;
+         hacia = -1 vuelve a la anterior y entra por la izquierda. */
+      function ir(indice, hacia) {
+        const destino = ((indice % CUANTAS) + CUANTAS) % CUANTAS;
         if (destino === actual || cambiando) return;
+        despertar();
         cambiando = true;
         transcurrido = 0;
-        pintarBarra();
 
-        const url = rutas[destino];
+        let lanzado = false;
         const listo = () => {
-          entra.classList.add('is-visible');
-          /* Al terminar el fundido, la de arriba pasa a ser la de abajo y
-             la de arriba vuelve a quedar libre para el proximo cambio. */
-          window.setTimeout(() => {
-            base.src = url;
-            base.alt = entra.alt || base.alt;
-            entra.classList.remove('is-visible');
+          if (lanzado) return;
+          lanzado = true;
+
+          colocar(detras, hacia * 100, false);
+          /* Un reflow entre aparcarla y largarla. Sin esto el navegador
+             junta las dos escrituras y la pieza aparece en su destino
+             sin haberse movido. */
+          void detras.offsetWidth;
+          colocar(frente, -hacia * 100, true);
+          colocar(detras, 0, true);
+
+          window.setTimeout(function () {
+            /* La que entro pasa al frente y la que salio se aparca. */
+            const salio = frente;
+            frente = detras;
+            detras = salio;
+            colocar(detras, 100, false);
+            frente.alt = ALT;
+            frente.removeAttribute('aria-hidden');
+            detras.alt = '';
+            detras.setAttribute('aria-hidden', 'true');
             actual = destino;
             cambiando = false;
-          }, 340);
+            marcarPunto();
+            pintarAvance();
+          }, duracion());
         };
 
-        entra.onload = listo;
-        entra.onerror = () => { cambiando = false; };
-        entra.src = url;
-        if (entra.complete && entra.naturalWidth > 0) listo();
+        detras.onload = listo;
+        detras.onerror = function () { cambiando = false; };
+        detras.src = rutas[destino];
+        if (detras.complete && detras.naturalWidth > 0) listo();
       }
 
-      const siguiente = () => ir(actual + 1);
-      const anterior  = () => ir(actual - 1);
+      const siguiente = () => ir(actual + 1, 1);
+      const anterior  = () => ir(actual - 1, -1);
 
       /* --- El reloj ----------------------------------------------- */
       function cuadro(t) {
@@ -1754,9 +1838,9 @@
 
         if (!detenido() && !cambiando) {
           transcurrido += dt;
-          if (transcurrido >= DURACION) siguiente();
+          if (transcurrido >= ESPERA) siguiente();
         }
-        pintarBarra();
+        pintarAvance();
         arrancar();
       }
 
@@ -1776,18 +1860,18 @@
          ancho para que cambie, si no cualquier roce saltea una pieza. */
       let agarrado = false, x0 = 0, movido = 0;
 
-      marco.addEventListener('pointerdown', (e) => {
+      marco.addEventListener('pointerdown', function (e) {
         if (e.button > 0) return;
         agarrado = true; quieto = true; movido = 0;
         x0 = e.clientX;
         marco.classList.add('is-dragging');
         try { marco.setPointerCapture(e.pointerId); } catch (err) {}
       });
-      marco.addEventListener('pointermove', (e) => {
+      marco.addEventListener('pointermove', function (e) {
         if (!agarrado) return;
         movido = e.clientX - x0;
       });
-      const soltar = () => {
+      const soltar = function () {
         if (!agarrado) return;
         agarrado = false;
         marco.classList.remove('is-dragging');
@@ -1803,7 +1887,7 @@
 
       /* Con el teclado, para quien no puede arrastrar. */
       marco.tabIndex = 0;
-      marco.addEventListener('keydown', (e) => {
+      marco.addEventListener('keydown', function (e) {
         if (e.key === 'ArrowLeft') anterior();
         else if (e.key === 'ArrowRight') siguiente();
         else return;
@@ -1813,22 +1897,26 @@
 
       /* Al pasar por encima se frena: si alguien se detuvo a mirar una
          pieza, no se le cambia debajo del cursor. */
-      marco.addEventListener('pointerenter', () => { quieto = true; });
-      marco.addEventListener('pointerleave', () => { if (!agarrado) { quieto = false; ultimo = 0; } });
+      marco.addEventListener('pointerenter', function () { quieto = true; });
+      marco.addEventListener('pointerleave', function () {
+        if (!agarrado) { quieto = false; ultimo = 0; }
+      });
 
       /* --- Puesta en marcha ---------------------------------------
          Fuera de pantalla no corre: no tiene sentido gastar cuadros ni
          bajar imagenes que nadie esta mirando. */
-      pintarBarra();
+      marcarPunto();
+      pintarAvance();
       if ('IntersectionObserver' in window) {
-        const obs = new IntersectionObserver((entradas) => {
-          entradas.forEach((en) => {
-            if (en.isIntersecting) { ultimo = 0; arrancar(); }
+        const obs = new IntersectionObserver(function (entradas) {
+          entradas.forEach(function (en) {
+            if (en.isIntersecting) { despertar(); ultimo = 0; arrancar(); }
             else parar();
           });
         }, { rootMargin: '200px 0px' });
         obs.observe(pase);
       } else {
+        despertar();
         arrancar();
       }
     }

@@ -20,14 +20,14 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 - Rama main, sincronizada con origin.
 
 ```
-index.html          1383 líneas — estructura y contenido (14 secciones)
-css/styles.css      1769 líneas — todo el estilo; config en :root
-javascript/main.js   826 líneas — 14 módulos
-assets/             150 MB (!) — ver "Problemas conocidos"
+index.html          1816 líneas — estructura y contenido (14 secciones)
+css/styles.css      2445 líneas — todo el estilo; config en :root
+javascript/main.js  1954 líneas — 18 módulos
+assets/             151 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=79**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=83**.
 
 ---
 
@@ -65,9 +65,11 @@ assets/             150 MB (!) — ver "Problemas conocidos"
 ## 3. Sistema visual
 
 **Escuela suiza.** Blanco, negro y un solo acento naranja. Una sola
-familia (Inter). Todo con esquinas rectas. Es la tercera dirección que se
-probó: antes hubo una editorial con serif y una de "pizarrón", las dos
-descartadas. No reproponerlas.
+familia (Inter). Todo con esquinas rectas salvo tres excepciones
+puntuales: el carrusel de Green Eat, las cartas de Remeras y los puntos
+del pase de Mush. Es la tercera dirección que se probó: antes hubo una
+editorial con serif y una de "pizarrón", las dos descartadas. No
+reproponerlas.
 
 | Rol | Token | Valor |
 |---|---|---|
@@ -100,12 +102,12 @@ en blanco (3,4:1).
 | 10 | Almacenit | #p-almacenit | **contenido real del autor** |
 | 11 | Estrella de Maldonado (destacado) | #p-estrella | maqueta de wireframe |
 | 12 | Remeras Delira | #p-remeras | **visor 3D + contenido real** |
-| 13 | Mush Type | #p-mush | maqueta de wireframe |
+| 13 | Mush Type | #p-mush | **contenido real del autor** |
 | 14 | Contacto / footer | #contact | terminada |
 
 ---
 
-## 5. Qué se hizo en esta sesión (13 al 24 de agosto)
+## 5. Qué se hizo (13 de agosto al 2 de septiembre)
 
 ### Hero
 - Asterisco: cuerpo 1.125em, translateX -0.269em. Tracking de la palabra
@@ -145,9 +147,11 @@ de locales, cupones y canje.
 - Fuente: `D:\Martin\PORTFOLIO WEB\3APP GREEN EAT\carrusel` (21 PNG de
   1170x2532, 14 MB). Convertidas a JPG de 480 px de ancho, calidad 82:
   **1,3 MB en total**, en `assets/images/green-eat/carrusel/`.
-- **Único lugar del sitio con esquinas redondeadas.** Son capturas
+- **Esquinas redondeadas, contra la regla general.** Son capturas
   full-bleed, sin marco de teléfono: el redondeo es lo que las hace leer
-  como pantallas. No extenderlo al resto.
+  como pantallas. No extenderlo al resto. Es una de las **tres**
+  excepciones del sitio, junto con las cartas de Remeras y los puntos del
+  pase de Mush; todo lo demás va con esquinas rectas.
 - El módulo 15 de `main.js` clona el juego de imágenes hasta cubrir la
   ventana más una vuelta y mueve el track por `transform`, envolviendo
   la posición con un módulo. **No usa scroll nativo**: con `overflow-x`
@@ -390,21 +394,82 @@ amarillo. En mobile la banda quedaba de 109 px y no se leía nada, así que
 por debajo de 768 px vuelve a 16:9 y a `contain`. El `--ar` de la apertura
 va en `.fig--apertura` y no inline, si no la media query no lo puede pisar.
 
-**Pase del universo gráfico** (a la izquierda del texto). Diez piezas de
-`universo grafico` (622 KB) que pasan solas cada 4,2 s, con una barra
-naranja abajo que muestra cuánto falta. Se puede arrastrar —hace falta
-recorrer el 12% del ancho, con un piso de 40 px, para que un roce no
-saltee una pieza—, usar las flechas del teclado, y al pasar el mouse por
-encima se frena. Módulo 18 del JS, clases `.pase*`.
+**Dos pases del universo gráfico**, uno a cada lado del texto, con las
+**dieciséis** piezas de `universo grafico` repartidas ocho y ocho, en
+orden de archivo: `universo/a/01-08` son la 1 a la 9 y `universo/b/01-08`
+la 10 a la 17 (en la carpeta del autor no hay 6). Pesan 1 MB en total, a
+1000x1250 y calidad 82. Módulo 18 del JS, clases `.pase*`.
 
-Dos detalles que importan: el cruce entre piezas usa **dos `<img>`
-superpuestas** —la de arriba entra en fundido recién cuando cargó— porque
-cambiando el `src` de una sola quedaba un parpadeo en blanco; y la barra
-la mueve el JS cuadro a cuadro y no una animación de CSS, así se puede
-frenar y reanudar en cualquier punto —al arrastrar, o cuando el pase sale
-de pantalla— sin que el relleno pegue un salto. Con
-`prefers-reduced-motion` no avanza sola: quedan el arrastre y el teclado,
-y la barra no se dibuja.
+Sale del montaje que dejó el autor en `universo grafico/referencia.jpg`,
+una captura del sitio en vivo con la propuesta pegada encima. Medido por
+escaneo de píxeles: pases de 452 y 451 y texto de 540 sobre un tramo útil
+de 1562, con calles de unos 59 px. De ahí salen las tres fracciones de
+`.split--universo` —0.84fr 1fr 0.84fr— y el gap que ya usaba `.split`.
+
+**El cambio de pieza es un desplazamiento, no un fundido.** La que entra
+viene desde la derecha y empuja fuera del cuadro a la anterior. Los
+tiempos salen de medir el sitio que dio de referencia el autor
+(animography.net, que usa Swiper): **3000 ms quieta y 1100 ms
+corriéndose, con la curva `ease`**.
+
+En el marco hay dos `<img>`: una a la vista y la otra aparcada afuera, a
+la derecha. Al terminar cada desplazamiento **se intercambian los papeles**
+en vez de reescribir el `src` de la que se ve, así que el cuadro nunca
+queda en blanco.
+
+**El `loading="lazy"` de la imagen aparcada hay que sacarlo.** Fue un bug
+real y costó encontrarlo: la que espera su turno está fuera del marco, y
+para el navegador eso es estar fuera de pantalla, así que con `lazy`
+puesto **no baja nunca** —no llega el `onload` y el pase se queda clavado
+en la primera pieza—. Lo saca `despertar()`, la primera vez que el pase
+entra en pantalla o cambia de pieza. Se deja puesto en el HTML para no
+bajar las dos primeras piezas hasta que alguien se acerque, y para que
+sin JavaScript igual se vea una.
+
+**Los puntos, uno por pieza.** Reemplazan a la barra maciza de antes: el
+de la pieza en pantalla se estira y se va llenando de naranja, como en el
+montaje. Las medidas salen de ahí: puntos de 6 px, calles de 6 y el
+activo de 108. Los pone el JS, así que el HTML no sabe cuántas piezas
+hay; sin JavaScript la fila queda vacía y no se dibuja nada. **Son lo
+único redondeado del sitio junto con el carrusel de Green Eat y las
+cartas de Remeras** —así los dibujó el autor—.
+
+El de la derecha arranca con medio ciclo de adelanto (`data-desfase`)
+para que los dos no se muevan al mismo tiempo a los costados del texto.
+En el montaje del autor también están desfasados.
+
+**Tres disposiciones según el ancho.** Las tres columnas sólo entran de
+**1280** para arriba; por debajo el texto queda encajonado y se estira muy
+por debajo de las imágenes. De 768 a 1279 el texto va arriba a todo el
+ancho y los dos pases abajo, uno al lado del otro, con un tope de 420 px
+para que cerca de 1280 no se vayan a 550x690. Por debajo de 768 se apila
+todo.
+
+**El cuerpo del texto baja con el ancho de la ventana** (de 17,5 a 20 px)
+en vez de quedar clavado en 21. Es el mismo caso que el visor de remeras:
+acá el texto no manda su propio alto, lo mandan los dos pases, que son
+4:5 y por lo tanto miden lo que da el ancho de su columna. Al angostarse
+la ventana los pases se achican y el texto, en una columna también más
+angosta, se alarga: las dos cosas van en contra. Con el cuerpo de siempre,
+a 1366 el texto sobraba **84 px** por debajo de las imágenes.
+
+Margen medido entre el pie del texto y el pie de las imágenes, de 1280 a
+2039: **entre 4 y 86 px, siempre del lado bueno.** El peor caso es 2039,
+no 1280, porque de 1920 para arriba el gutter crece y la caja útil se
+angosta. Si se agrega texto, hay que volver a medir.
+
+Se puede arrastrar —hace falta recorrer el 12% del ancho, con un piso de
+40 px, para que un roce no saltee una pieza—, usar las flechas del
+teclado, y al pasar el mouse por encima se frena. **El arrastre no sigue
+al dedo:** decide al soltar y recién ahí corre la pieza. Con la barra
+vieja se notaba menos; ahora que el cambio es un desplazamiento, hacer que
+la pieza acompañe al dedo sería el próximo paso.
+
+Con `prefers-reduced-motion` no avanza solo y el cambio es instantáneo:
+quedan el arrastre y el teclado, y el relleno no se dibuja.
+
+Sin uso: los diez `universo/01.jpg` a `10.jpg` sueltos (620 KB), que eran
+la selección anterior de diez piezas. **No se borraron.**
 
 **Video de presentación.** Este sí lleva controles porque tiene sonido, y
 `preload="none"` porque pesa. Origen: `MUSH FUENTE/video mas chico.mp4`
@@ -415,9 +480,11 @@ escaneo mostró que en varios momentos usa el cuadro entero (a los 60 s el
 contenido va del 76% al 100% del alto; a los 85 s ocupa todo), así que
 cualquier recorte le cortaría la pieza. A 1366 mide 1239x697.
 
-**Espécimen.** Dejó de ser dos arriba y una horizontal abajo: son cuatro
-láminas iguales en una fila (`.grid-4`), de 1400x990 → `--ar: 1.4142`.
-A 1366 van de 56 a 1295, los mismos márgenes que los dos videos.
+**Espécimen.** Son cuatro láminas iguales de 1400x990 → `--ar: 1.4142`,
+**dos arriba y dos abajo** (`.grid-2`), que es como las quiere el autor.
+Estuvieron un rato en una sola fila de cuatro (`.grid-4`) por un error de
+lectura del wireframe. A 1366 cada una mide 605 px y las dos filas van de
+56 a 1295, los mismos márgenes que los dos videos.
 
 **El tope de altura, otra vez.** Los dos videos salían de 804 px de ancho
 en vez de 1239: con `aspect-ratio` puesto, `--media-max-h` les recortaba
@@ -456,7 +523,8 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | .fig__frame--tall | Marco sin tope de altura. |
 | .marcas / .marcas__in | Columna cuyo alto lo fija el texto de al lado. |
 | .fig-stack, .trio, .screens, .fig--narrow | Ayudantes que pedían los wireframes. |
-| .pase + .pase__marco / .pase__img / .pase__barra / .pase__avance | Pase de imágenes que corren solas, con barra de progreso naranja. Dos <img> superpuestas para cruzar sin parpadeo. Lo mueve el módulo 18. |
+| .pase + .pase__marco / .pase__img / .pase__barra / .pase__punto / .pase__avance | Pase de imágenes que corren solas. La pieza que entra se desplaza desde la derecha y empuja a la anterior; son dos `<img>`, una a la vista y otra aparcada afuera, que se intercambian los papeles. Debajo, un punto por pieza y el activo se estira y se llena de naranja. Los puntos los pone el módulo 18. |
+| .split--universo | Las tres columnas del universo gráfico de Mush: pase, texto, pase. Sólo desde 1280; de 768 a 1279 el texto va arriba y los dos pases abajo. Es el segundo bloque del sitio —después del visor de remeras— donde el cuerpo del texto no es fijo, porque el alto lo mandan las figuras y no el texto. |
 | .video-pieza (+ --recorte) | Banda de video de margen a margen. Va siempre con .fig__frame--tall. La variante --recorte usa object-fit: cover. |
 | .fig--apertura | El 3:1 de la portada de Mush, en CSS y no inline para que la media query de mobile lo pueda pisar. |
 | ar-3x1, ar-3x5, ar-3x7, ar-27x10, ar-9x11 | Proporciones nuevas. |
@@ -498,8 +566,10 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 ## 8. Qué falta
 
 ### Contenido definitivo
-Siete secciones siguen con imágenes de relleno y textos cortos:
-**Cerveceros, Dosel, Fascículos, Almacenit, Estrella, Remeras y Mush**.
+Quedan **tres** secciones con imágenes de relleno y textos cortos:
+**Dosel, Fascículos y Estrella de Maldonado**. Las otras cuatro que
+estaban en esta lista —Cerveceros, Almacenit, Remeras y Mush— ya tienen
+el material real del autor.
 
 El flujo que viene funcionando: el autor deja en la carpeta del proyecto,
 dentro de PORTFOLIO WEB, una imagen de referencia con el diseño ya
@@ -507,6 +577,13 @@ compuesto más las piezas sueltas nombradas (a.jpg, b.jpg...). Se mide la
 referencia por escaneo de píxeles y se maqueta a partir de eso.
 
 ### Pendientes concretos
+0. **El bloque "Aplicaciones" de Mush repite piezas del pase.** El
+   abecedario, los números y el "¡Siempre!" son los mismos archivos que
+   ahora aparecen en los dos pases del universo gráfico, y encima están
+   recortados a 4:5 dentro de marcos 3:2, así que se los come por los
+   costados. Las únicas dos que no se repiten son la foto de las
+   hamburguesas (`11-ig.jpg`) y las letras sueltas (`03-letras.jpg`). Se
+   le preguntó al autor qué hacer y quedó sin responder.
 1. **El video de Green Eat pesa 60,4 MB.** Es el archivo más pesado del
    sitio por lejos: el segundo, el de Mush, pesa 28,4 MB. Reexportar a
    720 px de ancho, 2 Mbps, 20-30 s → 5-8 MB.
@@ -532,11 +609,21 @@ referencia por escaneo de píxeles y se maqueta a partir de eso.
 
 ## 9. Problemas conocidos
 
+- **Los dos videos pesados ya están en la historia de git.** `.git` pesa
+  148 MB. Los únicos blobs grandes son `green-eat-prototipo.mp4` (60,4
+  MB) y `mush-presentacion.mp4` (28,4 MB); el export de 69,4 MB de Mush
+  nunca llegó a commitearse. Ojo: reexportar el de Green Eat achica el
+  checkout pero **no** la historia —el blob viejo queda igual—, así que
+  si en algún momento importa el tamaño del clon hay que reescribirla.
+  Además GitHub avisa por archivos de más de 50 MB y rechaza los de más
+  de 100.
 - **Caché de GitHub Pages.** Sirve el HTML cacheado unos minutos. Si el
   autor dice "no se ve el cambio", verificar primero contra origin/main
   antes de asumir que hay un bug. Ya pasó una vez.
-- **Las imágenes se cachean por nombre.** Al reemplazar una manteniendo
-  el nombre hay que abrir con Ctrl+F5 o en incógnito. Ya pasó.
+- **Las imágenes y los videos se cachean por nombre.** Al reemplazar uno
+  manteniendo el nombre hay que abrir con Ctrl+F5 o en incógnito. Ya
+  pasó, y volvió a aplicar al cambiar el video de Mush por el liviano:
+  el `?v=` versiona el CSS y el JS, no los assets.
 - **El botón de copiar email nunca se probó con un clic real:** el
   entorno deniega el permiso de portapapeles.
 - **La pausa del video al salir de pantalla no se pudo verificar:**
@@ -565,6 +652,14 @@ referencia por escaneo de píxeles y se maqueta a partir de eso.
 
 ## 11. Estado de verificación
 
-Última pasada completa: cero imágenes rotas, cero anclas rotas, sin
-scroll horizontal de 375 a 2039 px, sin errores de consola, contraste
-por encima de AA en todas las secciones revisadas.
+Última pasada completa (2 de septiembre): cero imágenes rotas —las 170—,
+cero anclas rotas, sin scroll horizontal de 375 a 2039 px, sin errores de
+consola, contraste por encima de AA en todas las secciones revisadas.
+
+Del pase de Mush se verificó además, midiendo el DOM: los dos recorren
+sus ocho piezas y vuelven al arranque, las imágenes que entran cargan
+todas, el desplazamiento sale de translateX(100%) a 0 con la que sale
+yendo a -100% en 1100 ms, y el punto activo, el relleno y el
+`aria-valuenow` coinciden siempre. **Lo único que no se pudo ver es cómo
+queda la animación en movimiento**, porque el panel no compone cuadros:
+eso hay que mirarlo en un navegador de verdad.

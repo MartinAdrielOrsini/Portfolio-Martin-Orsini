@@ -893,21 +893,26 @@ em { font-style: italic; }
   color: var(--accent);
   border-color: var(--accent);
 }
-
-
 /* ------------ Pase de imagenes ------------
-   Las piezas del universo grafico van pasando solas. Debajo, una barra
-   que muestra cuanto falta para la siguiente. Se puede arrastrar para
-   cambiar a mano. Ver el modulo 18 del JS.
+   Las piezas del universo grafico van pasando solas. Hay dos pases, uno
+   a cada lado del texto, con ocho piezas cada uno. Se puede arrastrar
+   para cambiar a mano. Ver el modulo 18 del JS.
 
-   El cruce entre una pieza y la otra se hace con dos <img> superpuestas:
-   la de abajo es la que esta, la de arriba entra en fundido. Cambiar el
-   src de una sola dejaba un parpadeo en blanco mientras cargaba. */
-.pase { display: grid; gap: 0.55rem; }
+   El cambio de pieza es un desplazamiento, no un fundido: la que entra
+   viene desde la derecha y empuja fuera del cuadro a la que estaba. En
+   el marco hay dos <img>, una a la vista y la otra aparcada afuera, y el
+   modulo las mueve con transform y despues las intercambia de papel. Al
+   intercambiarlas en vez de reescribir el src de la que se ve, no queda
+   ningun momento con el cuadro en blanco.
+
+   Sin will-change a proposito: son cuatro imagenes y dejarles una capa
+   viva todo el tiempo cuesta mas de lo que ahorra. Ya paso con el
+   asterisco del hero. */
+.pase { display: grid; gap: 0.75rem; }
 
 .pase__marco {
   position: relative;
-  overflow: hidden;
+  overflow: hidden;             /* recorta lo que entra y lo que sale */
   aspect-ratio: 4 / 5;          /* la proporcion de los archivos */
   background: var(--bg-warm);
   cursor: grab;
@@ -923,22 +928,43 @@ em { font-style: italic; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* La transicion la pone y la saca el JS: para aparcar la pieza que
+     acaba de salir hay que moverla de golpe al otro lado, y si estuviera
+     puesta desde el CSS se la veria cruzar el cuadro al reves. */
 }
-.pase__img--entra {
-  opacity: 0;
-  transition: opacity var(--t-mid) var(--ease);
-}
-.pase__img--entra.is-visible { opacity: 1; }
 
-/* La barra. El relleno lo mueve el JS cuadro a cuadro, no una animacion
-   de CSS: asi se puede frenar y reanudar en cualquier punto —al
-   arrastrar, o cuando el pase sale de pantalla— sin que salte. */
+/* Los puntos, uno por pieza. El de la pieza en pantalla se estira y se
+   va llenando de naranja.
+
+   El relleno lo mueve el JS cuadro a cuadro y no una animacion de CSS:
+   asi se puede frenar y reanudar en cualquier punto —al arrastrar, o
+   cuando el pase sale de pantalla— sin que el naranja pegue un salto.
+   El ancho del punto activo, en cambio, si es una transicion de CSS:
+   eso es un cambio de estado y no una cuenta de tiempo.
+
+   Los puntos los pone el modulo 18, uno por pieza. Sin JavaScript la
+   fila queda vacia y no se dibuja nada: por eso el fondo va en cada
+   punto y no en la fila. */
 .pase__barra {
-  position: relative;
-  height: 3px;
-  overflow: hidden;
-  background: var(--line);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  min-height: 6px;
 }
+.pase__punto {
+  position: relative;
+  overflow: hidden;
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: width var(--t-mid) var(--ease);
+}
+/* La medida sale del montaje del autor: puntos de 6 px con calles de 6 y
+   el activo de 108, dieciocho veces el punto. */
+.pase__punto.is-activo { width: 108px; }
 .pase__avance {
   position: absolute;
   inset: 0 auto 0 0;
@@ -2136,6 +2162,19 @@ em { font-style: italic; }
     grid-template-columns: 43fr 56fr;
     gap: clamp(0.75rem, 0.8vw, 1rem);
   }
+  /* Universo grafico de Mush: de tablet a 1023 no hay lugar para las
+     tres columnas —darian 196 px cada pase— asi que el texto va arriba,
+     a todo el ancho, y los dos pases abajo, uno al lado del otro.
+     Recien desde 1024 se ponen a los costados del texto. */
+  .split--universo { grid-template-columns: 1fr 1fr; }
+  .split--universo .split__text  { grid-column: 1 / 3; grid-row: 1; }
+  .split--universo .split__aside { grid-row: 2; }
+
+  /* Con media pagina cada uno y la proporcion 4:5, cerca de 1280 los dos
+     pases se irian a 550 px de ancho y casi 700 de alto: mas que la
+     pantalla del portatil del autor. El tope los deja en una medida
+     razonable y los centra en su mitad. */
+  .split--universo .pase { max-width: 420px; margin-inline: auto; }
 
   /* Antes y despues: los dos logos se reparten, en partes iguales, el
      alto que ocupa el texto de al lado.
@@ -2276,6 +2315,51 @@ em { font-style: italic; }
   .about__col:last-child { align-content: stretch; }
   .about__col:last-child > .about__block { display: grid; grid-template-rows: auto 1fr; }
   .about__col:last-child .about__entries { align-content: space-between; }
+}
+
+/* --- >= 1280px : el universo grafico de Mush pasa a tres columnas ---
+   Antes de este ancho las columnas darian menos de 320 px cada pase y el
+   texto, encajonado en el medio, se estira muy por debajo de las dos
+   imagenes. Hasta aca va la otra disposicion: el texto arriba y los dos
+   pases abajo, uno al lado del otro. */
+@media (min-width: 1280px) {
+  /* Universo grafico de Mush: el texto entre los dos pases.
+
+     Las tres medidas salen de medir el montaje del autor por escaneo de
+     pixeles: los pases dan 452 y 451 y el texto 540, sobre un tramo util
+     de 1562. La calle que queda entre columna y columna es de unos 59 px
+     y el gap que ya usa .split —4rem en estos anchos— cae justo ahi, asi
+     que no hace falta uno propio.
+
+     Simetrico a proposito: los dos pases llevan piezas del mismo tamaño
+     y tienen que leerse como un par, no como una principal y una
+     secundaria. */
+  .split--universo { grid-template-columns: 0.84fr 1fr 0.84fr; }
+  .split--universo .split__text  { grid-column: 2; grid-row: 1; }
+  .split--universo .split__aside { grid-row: 1; }
+  /* Aca el ancho lo manda la columna: se saca el tope de la disposicion
+     de dos filas, que si no seguiria puesto. Hoy no llega a apretar
+     —la columna mas ancha da 399 px, a 1600— pero dejarlo seria dejar
+     una medida escondida esperando a que alguien toque la reticula. */
+  .split--universo .pase { max-width: none; margin-inline: 0; }
+
+  /* Aca el texto no lleva el tope de 38ch —la columna del medio ya lo
+     acota— y el cuerpo baja con el ancho de la ventana en vez de quedar
+     clavado en 21 px.
+
+     Es el mismo caso que el visor de remeras: en este bloque el texto no
+     manda su propio alto, lo mandan los dos pases, que son 4:5 y por lo
+     tanto miden lo que da el ancho de su columna. Al angostarse la
+     ventana los pases se achican y el texto, en una columna tambien mas
+     angosta, se alarga: las dos cosas van en contra. Con el cuerpo de
+     siempre, a 1366 el texto sobraba 84 px por debajo de las imagenes.
+
+     El tope de arriba es el mismo 21 px de la escala general, asi que de
+     1920 en adelante no cambia nada. */
+  .split--universo .split__text p {
+    max-width: none;
+    font-size: clamp(1rem, 0.78rem + 0.39vw, 1.25rem);
+  }
 }
 
 /* --- ≥ 1440px : pantallas grandes --- */

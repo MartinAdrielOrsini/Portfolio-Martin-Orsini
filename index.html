@@ -30,7 +30,7 @@
        9  Fascículos editorial
       10  Web Almacenit
       11  Identidad Estrella de Maldonado ← destacado
-      12  Remeras custom
+      12  Remeras Delira
       13  Mush Type
       14  Footer / contacto
      ============================================================ -->
@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=82">
+<link rel="stylesheet" href="css/styles.css?v=83">
 </head>
 <body>
 
@@ -438,7 +438,7 @@
           <button class="index__item" type="button" id="ix-remeras"
                   aria-expanded="false" aria-controls="pnl-remeras"
                   data-img="assets/images/indice/09-remeras.jpg"
-                  data-alt="Remera custom estampada"
+                  data-alt="Remera estampada de Remeras Delira"
                   data-href="#p-remeras">
             <span class="index__num">09</span>
             <span class="index__name">Remeras Delira</span>
@@ -449,7 +449,7 @@
             <div class="index__panel-in">
               <figure class="index__shot">
                 <div class="fig__frame ar-1x1" data-slot="Vista previa">
-                  <img src="assets/images/indice/09-remeras.jpg" alt="Remera custom estampada" loading="lazy" decoding="async">
+                  <img src="assets/images/indice/09-remeras.jpg" alt="Remera estampada de Remeras Delira" loading="lazy" decoding="async">
                 </div>
               </figure>
               <p class="index__desc">Desarrollo de estampas textiles personalizadas para remeras y buzos, realizadas a partir de diferentes temáticas, artistas y referentes, buscando otorgar una identidad visual propia a cada prenda.</p>
@@ -1262,14 +1262,14 @@
       </a>
       <a class="project-nav__link project-nav__link--next" href="#p-remeras">
         <span class="project-nav__dir">Siguiente</span>
-        <span class="project-nav__name">Remeras custom</span>
+        <span class="project-nav__name">Remeras Delira</span>
       </a>
     </nav>
   </div>
 </section>
 
 <!-- ============================================================
-     12 — PROYECTO 09 · REMERAS CUSTOM
+     12 — PROYECTO 09 · REMERAS DELIRA
      ============================================================ -->
 <section class="section section--rule project" id="p-remeras">
   <div class="container">
@@ -1290,7 +1290,7 @@
       <figure class="fig reveal">
         <div class="fig__frame shirt3d__frame" data-slot="Remera">
           <!-- Lo que se ve si no hay WebGL2 o si el modelo no baja -->
-          <img class="shirt3d__fallback" src="assets/images/remeras/mini-2pac.jpg" alt="Remera custom con estampa" loading="lazy" decoding="async">
+          <img class="shirt3d__fallback" src="assets/images/remeras/mini-2pac.jpg" alt="Remera estampada de Remeras Delira" loading="lazy" decoding="async">
           <canvas class="shirt3d__canvas" tabindex="0" role="img"
                   aria-label="Modelo 3D de la remera. Arrastrá para girarla; con la rueda, o con las flechas del teclado, se acerca."></canvas>
         </div>
@@ -1599,20 +1599,30 @@
     </figure>
   </div>
 
-  <!-- El universo grafico pasa solo, con una barra que muestra cuanto
-       falta para la siguiente. Se puede arrastrar para cambiar a mano.
-       Ver el modulo 18 del JS. -->
+  <!-- El universo grafico va en dos pases, uno a cada lado del texto, con
+       ocho piezas cada uno: las dieciseis de la carpeta del autor.
+
+       Las piezas ya no se funden. La que entra viene desplazandose desde
+       la derecha y empuja a la anterior fuera del cuadro, como en la
+       referencia que dejo el autor. Debajo de cada pase hay un punto por
+       pieza y el de la que esta en pantalla se estira y se va llenando.
+       Ver el modulo 18 del JS.
+
+       El de la derecha arranca con medio ciclo de adelanto (data-desfase)
+       para que los dos no se muevan al mismo tiempo: dos piezas grandes
+       cambiando a la vez a los costados del texto son mucho movimiento. -->
   <div class="container">
-    <div class="split">
+    <div class="split split--universo">
       <div class="split__aside">
-        <div class="pase reveal" data-pase>
+        <div class="pase reveal" data-pase data-cuantas="8">
           <div class="pase__marco">
-            <img class="pase__img" src="assets/images/mush-type/universo/01.jpg" alt="Pieza del universo gráfico de Mush Type" loading="lazy" decoding="async">
-            <img class="pase__img pase__img--entra" alt="" aria-hidden="true" decoding="async">
+            <img class="pase__img" src="assets/images/mush-type/universo/a/01.jpg" alt="Pieza del universo gráfico de Mush Type" loading="lazy" decoding="async">
+            <img class="pase__img" alt="" aria-hidden="true" decoding="async">
           </div>
-          <div class="pase__barra" role="progressbar" aria-label="Tiempo hasta la siguiente pieza">
-            <span class="pase__avance"></span>
-          </div>
+          <!-- Los puntos los pone el modulo 18: hay uno por pieza y el HTML
+               no tiene por que saber cuantas son. Sin JavaScript queda
+               vacio, y vacio no dibuja nada. -->
+          <div class="pase__barra" role="progressbar" aria-label="Pieza del universo gráfico en pantalla"></div>
         </div>
       </div>
 
@@ -1634,6 +1644,16 @@
           comunicar sus características e identidad.
         </p>
       </div>
+
+      <div class="split__aside">
+        <div class="pase reveal" data-pase data-cuantas="8" data-desfase="2050">
+          <div class="pase__marco">
+            <img class="pase__img" src="assets/images/mush-type/universo/b/01.jpg" alt="Pieza del universo gráfico de Mush Type" loading="lazy" decoding="async">
+            <img class="pase__img" alt="" aria-hidden="true" decoding="async">
+          </div>
+          <div class="pase__barra" role="progressbar" aria-label="Pieza del universo gráfico en pantalla"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1653,7 +1673,7 @@
 
   <div class="container">
     <h3 class="block-title block-title--section reveal">Espécimen</h3>
-    <div class="grid-4">
+    <div class="grid-2">
       <figure class="fig fig--ar reveal" style="--ar: 1.4142"><div class="fig__frame" data-slot="Espécimen"><img src="assets/images/mush-type/especimen/01.jpg" alt="Lámina del espécimen tipográfico de Mush Type" loading="lazy" decoding="async"></div></figure>
       <figure class="fig fig--ar reveal" style="--ar: 1.4142"><div class="fig__frame" data-slot="Espécimen"><img src="assets/images/mush-type/especimen/02.jpg" alt="Lámina del espécimen tipográfico de Mush Type" loading="lazy" decoding="async"></div></figure>
       <figure class="fig fig--ar reveal" style="--ar: 1.4142"><div class="fig__frame" data-slot="Espécimen"><img src="assets/images/mush-type/especimen/03.jpg" alt="Lámina del espécimen tipográfico de Mush Type" loading="lazy" decoding="async"></div></figure>
@@ -1678,7 +1698,7 @@
     <nav class="project-nav" aria-label="Navegación entre proyectos">
       <a class="project-nav__link project-nav__link--prev" href="#p-remeras">
         <span class="project-nav__dir">Anterior</span>
-        <span class="project-nav__name">Remeras custom</span>
+        <span class="project-nav__name">Remeras Delira</span>
       </a>
       <a class="project-nav__link project-nav__link--next" href="#contact">
         <span class="project-nav__dir">Siguiente</span>
@@ -1791,6 +1811,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=82"></script>
+<script src="javascript/main.js?v=83"></script>
 </body>
 </html>
