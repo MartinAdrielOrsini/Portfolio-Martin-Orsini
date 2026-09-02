@@ -20,14 +20,14 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 - Rama main, sincronizada con origin.
 
 ```
-index.html          1816 líneas — estructura y contenido (14 secciones)
-css/styles.css      2452 líneas — todo el estilo; config en :root
-javascript/main.js  2048 líneas — 18 módulos
+index.html          1831 líneas — estructura y contenido (14 secciones)
+css/styles.css      2504 líneas — todo el estilo; config en :root
+javascript/main.js  2097 líneas — 19 módulos
 assets/             151 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=85**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=86**.
 
 ---
 
@@ -526,6 +526,20 @@ Es lo único que se baja antes de que alguien apriete play.
 Queda una franja de menos de 1 px de fondo a los costados: el borde de
 1 px del marco deja la caja del video en 1237x695 y esa no es exactamente
 16:9. Le pasa igual al video, no lo trae el póster.
+
+Y encima del póster va un **botón de play** (`.video-play`, módulo 14b):
+los controles nativos dejan el play chiquito abajo a la izquierda y cuesta
+darle. Es un cuadrado naranja con la flecha en negro —la misma decisión de
+contraste que el bloque naranja de la sección 2— de `clamp(64px, 9%,
+104px)`: 104 en escritorio y **nunca menos de 64**, que es blanco táctil
+cómodo. Centrado con `inset: 0; margin: auto` y no con `transform`, así el
+`scale` del hover queda libre.
+
+Dos detalles: viene con `hidden` desde el HTML y **lo enciende el JS**, así
+que sin JavaScript no queda un botón que no hace nada; y se retira con el
+evento `play`, no con el click, así que si la reproducción no arranca el
+botón sigue ahí. El `display: grid` del botón le gana al `[hidden]` del
+navegador, por eso hay una regla `.video-play[hidden] { display: none; }`.
 
 **Espécimen.** Son cuatro láminas iguales de 1400x990 → `--ar: 1.4142`,
 **dos arriba y dos abajo** (`.grid-2`), que es como las quiere el autor.

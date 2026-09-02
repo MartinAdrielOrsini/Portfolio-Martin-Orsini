@@ -2444,6 +2444,45 @@ em { font-style: italic; }
   position: relative;
   z-index: 1;
 }
+
+/* Boton de play sobre el poster. Los controles nativos dejan el play
+   chiquito abajo a la izquierda; este da un blanco grande en el centro.
+   Lo enciende el modulo 14 y se va con el primer play.
+
+   Cuadrado y naranja, como el resto del sitio, y la flecha en negro: es
+   la misma decision de contraste que el bloque naranja de la seccion 2
+   —sobre el acento el negro da 5,56:1 y el blanco 3,4:1—. */
+.video-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;                  /* centra sin usar transform */
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 9%, 104px); /* nunca menos que un blanco tactil comodo */
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease);
+}
+/* El display: grid de arriba le gana al [hidden] del navegador, asi que
+   hay que apagarlo a mano. */
+.video-play[hidden] { display: none; }
+.video-play:hover,
+.video-play:focus-visible { transform: scale(1.06); }
+.video-play:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.video-play__flecha {
+  width: 34%;
+  aspect-ratio: 1 / 1.1;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  /* Un triangulo apuntando a la derecha centrado por caja se ve corrido
+     a la izquierda: el peso esta en la base. Se lo empuja un poco. */
+  margin-left: 8%;
+}
 /* La apertura va en 3:1 como el wireframe, y ahi si recorta: el archivo
    es 16:9 y contain lo dejaria flotando con aire a los costados. El
    recorte se come 20% arriba y abajo, donde el video no tiene mas que

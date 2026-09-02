@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=85">
+<link rel="stylesheet" href="css/styles.css?v=86">
 </head>
 <body>
 
@@ -1673,6 +1673,15 @@
                poster="assets/images/mush-type/portada-video.jpg"
                controls playsinline preload="none"
                aria-label="Video de presentación de Mush Type"></video>
+        <!-- Blanco grande en el centro del poster. Los controles nativos
+             dejan el play chiquito abajo a la izquierda y cuesta darle.
+             Se va con el primer play y desde ahi mandan los del
+             navegador. Sin JavaScript no aparece: lo enciende el modulo
+             14, asi que no queda un boton que no hace nada. -->
+        <button class="video-play" type="button" data-play hidden
+                aria-label="Reproducir el video de presentación de Mush Type">
+          <span class="video-play__flecha" aria-hidden="true"></span>
+        </button>
       </div>
     </figure>
   </div>
@@ -1817,6 +1826,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=85"></script>
+<script src="javascript/main.js?v=86"></script>
 </body>
 </html>

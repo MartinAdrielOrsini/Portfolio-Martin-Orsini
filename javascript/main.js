@@ -804,6 +804,36 @@
 
 
   /* ==========================================================
+     14b — BOTON DE PLAY SOBRE EL POSTER
+     El video de presentacion no se baja hasta que alguien lo
+     pide, asi que hasta entonces se ve el poster. Los controles
+     nativos dejan el play chiquito abajo a la izquierda; este
+     boton da un blanco grande en el centro.
+
+     Viene con hidden puesto desde el HTML y lo enciende este
+     modulo: sin JavaScript no se puede reproducir nada, y un
+     boton que no hace nada es peor que ninguno.
+
+     Se retira con el primer play —no cuando se lo clickea— asi
+     que si la reproduccion no arranca el boton sigue ahi. Desde
+     ese momento mandan los controles del navegador.
+     ========================================================== */
+  function initPlay() {
+    $$('[data-play]').forEach((boton) => {
+      const video = $('video', boton.parentElement);
+      if (!video) return;
+      boton.hidden = false;
+      boton.addEventListener('click', () => {
+        const p = video.play();
+        /* Si el navegador rechaza la reproduccion, el boton se queda. */
+        if (p && p.catch) p.catch(() => {});
+      });
+      video.addEventListener('play', () => { boton.hidden = true; }, { once: true });
+    });
+  }
+
+
+  /* ==========================================================
      15 — CARRUSEL DE PANTALLAS
      Una cinta que no tiene extremos: al llegar al final vuelve a
      empezar, y hacia atras lo mismo. No hay "primera" ni "ultima"
@@ -2052,6 +2082,7 @@
     initYear();
     initHeroMark();
     initLoopVideos();
+    initPlay();
     initCarousels();
     initShirt3D();
     initCards();
