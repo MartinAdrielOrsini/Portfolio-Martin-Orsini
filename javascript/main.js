@@ -1932,6 +1932,18 @@
         if (lado !== 0) colocar(detras, lado * 100 + pct, 0);
       }
 
+      /* El arrastre nativo del navegador tiene que estar cortado. Si no,
+         apenas se empieza a mover la pieza el navegador cree que le estan
+         sacando la imagen del documento: se lleva el JPG en fantasma y
+         —lo que importa— suelta la captura del puntero, asi que dejan de
+         llegar los pointermove y el gesto se muere a mitad de camino.
+         Se ve como que la imagen "no se deja arrastrar".
+
+         Ojo: esto no aparece probando con eventos sintéticos, porque un
+         PointerEvent hecho a mano no dispara el arrastre nativo. Hay que
+         probarlo con el mouse de verdad. */
+      marco.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
       marco.addEventListener('pointerdown', function (e) {
         if (e.button > 0 || cambiando) return;
         despertar();
@@ -1939,6 +1951,12 @@
         ancho = marco.getBoundingClientRect().width || 1;
         x0 = e.clientX;
         marco.classList.add('is-dragging');
+        /* Corta la seleccion de texto y, en los navegadores que no miran
+           el draggable, tambien el arrastre nativo. Con el dedo no: ahi
+           no hay arrastre nativo que cortar, y cancelar el pointerdown
+           puede llevarse puesto el scroll vertical de la pagina, que es
+           justo lo que el touch-action: pan-y deja pasar. */
+        if (e.pointerType !== 'touch') e.preventDefault();
         try { marco.setPointerCapture(e.pointerId); } catch (err) {}
       });
 

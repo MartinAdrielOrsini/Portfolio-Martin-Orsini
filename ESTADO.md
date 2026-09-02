@@ -27,7 +27,7 @@ assets/             151 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=84**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=85**.
 
 ---
 
@@ -485,6 +485,18 @@ después. Sin un cerrojo, esa segunda llamada le devolvía la vecina al
 borde **en medio del arrastre** y la pieza pegaba un salto. Fue un bug
 real, y es el mismo patrón que ya había aparecido en `ir()`.
 
+**El arrastre nativo del navegador hay que apagarlo, y con tres candados.**
+Si no, apenas se empieza a mover la pieza el navegador cree que le están
+sacando la imagen del documento: se lleva el JPG en fantasma y —lo que
+importa— **suelta la captura del puntero**, así que dejan de llegar los
+`pointermove` y el gesto se muere. Desde afuera se ve como que la imagen
+"no se deja arrastrar". Los tres candados son `draggable="false"` en el
+HTML, `-webkit-user-drag: none` en el CSS y un `dragstart` cortado en el
+módulo 18; van los tres porque cada navegador se agarra de uno distinto.
+El `preventDefault` del `pointerdown` **no va en táctil**: ahí no hay
+arrastre nativo que cortar y puede llevarse puesto el scroll vertical de
+la página, que es justo lo que el `touch-action: pan-y` deja pasar.
+
 También se puede usar las flechas del teclado, y al pasar el mouse por
 encima se frena.
 
@@ -669,7 +681,12 @@ referencia por escaneo de píxeles y se maqueta a partir de eso.
    margen", probar además **varios zooms**: 125, 100, 90, 80 y 67 por
    ciento, simulados cambiando el tamaño de ventana.
 4. Chequear balance de llaves en CSS y JS después de editar con scripts.
-5. Subir el ?v=.
+5. **Los gestos, con el mouse de verdad** (`computer` / `left_click_drag`),
+   no con `PointerEvent` hechos a mano. Un evento sintético no dispara el
+   arrastre nativo del navegador ni la pérdida de captura del puntero, así
+   que un arrastre puede pasar todas las pruebas sintéticas y estar roto
+   para el que lo usa. Ya pasó, con el pase de Mush.
+6. Subir el ?v=.
 
 ---
 

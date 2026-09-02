@@ -919,6 +919,9 @@ em { font-style: italic; }
   /* El gesto vertical sigue siendo el de la pagina: en mobile se puede
      scrollear por encima del pase. */
   touch-action: pan-y;
+  /* Sin esto, al arrastrar se selecciona el contenido de alrededor. */
+  user-select: none;
+  -webkit-user-select: none;
 }
 .pase__marco.is-dragging { cursor: grabbing; }
 
@@ -931,6 +934,16 @@ em { font-style: italic; }
   /* La transicion la pone y la saca el JS: para aparcar la pieza que
      acaba de salir hay que moverla de golpe al otro lado, y si estuviera
      puesta desde el CSS se la veria cruzar el cuadro al reves. */
+
+  /* El arrastre nativo del navegador tiene que estar apagado. Si no, al
+     empezar a arrastrar la pieza el navegador cree que le estan sacando
+     la imagen del documento: se lleva el JPG en fantasma y —lo que
+     importa— suelta la captura del puntero, asi que dejan de llegar los
+     pointermove y el gesto se muere a mitad de camino. Va tambien el
+     draggable="false" en el HTML y un dragstart cortado en el modulo 18:
+     los tres hacen falta, porque cada navegador se agarra de uno. */
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 /* Los puntos, uno por pieza. El de la pieza en pantalla se estira y se
