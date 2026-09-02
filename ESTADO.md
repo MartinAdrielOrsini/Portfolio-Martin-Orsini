@@ -21,13 +21,13 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 
 ```
 index.html          1816 líneas — estructura y contenido (14 secciones)
-css/styles.css      2445 líneas — todo el estilo; config en :root
-javascript/main.js  1954 líneas — 18 módulos
+css/styles.css      2452 líneas — todo el estilo; config en :root
+javascript/main.js  2048 líneas — 18 módulos
 assets/             151 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=83**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=84**.
 
 ---
 
@@ -458,12 +458,35 @@ Margen medido entre el pie del texto y el pie de las imágenes, de 1280 a
 no 1280, porque de 1920 para arriba el gutter crece y la caja útil se
 angosta. Si se agrega texto, hay que volver a medir.
 
-Se puede arrastrar —hace falta recorrer el 12% del ancho, con un piso de
-40 px, para que un roce no saltee una pieza—, usar las flechas del
-teclado, y al pasar el mouse por encima se frena. **El arrastre no sigue
-al dedo:** decide al soltar y recién ahí corre la pieza. Con la barra
-vieja se notaba menos; ahora que el cambio es un desplazamiento, hacer que
-la pieza acompañe al dedo sería el próximo paso.
+**Todo lo que se mueve, se mueve junto.** El punto largo se acorta y el
+chico se estira **en el mismo momento y durante el mismo tiempo** que la
+imagen cruza el cuadro, con la misma curva. Por eso la duración de los
+puntos la cronometra el módulo 18 y va inline, no en la hoja: en la
+primera versión el CSS los movía en 320 ms con `--ease` y el JS marcaba
+el punto **recién al terminar** el deslizamiento, así que el conjunto se
+veía tosco. Si se cambia uno de los dos tiempos hay que cambiar el otro.
+
+**Se arrastra y las piezas acompañan al dedo.** El lado se decide con el
+primer movimiento —hacia la izquierda trae la siguiente, hacia la derecha
+la anterior— y las dos imágenes se mueven como una sola tira, siempre a
+100% de separación. Al soltar, si se recorrió más del 12% del ancho (con
+un piso de 40 px) el cambio se completa, y si no vuelve atrás; en los dos
+casos **descontando lo ya recorrido**, con un piso de 180 ms, así un
+gesto casi terminado no tarda lo mismo que uno desde cero.
+
+Para que el gesto arranque sin esperar, las dos piezas vecinas se
+precargan en la caché apenas el pase entra en pantalla y después de cada
+cambio. Si igual la vecina no llegó, la pieza se queda quieta en vez de
+dejar un hueco.
+
+**Cuidado con el `onload` de la vecina.** Aunque ya esté en caché y se la
+pueda aparcar en el acto, el navegador dispara igual el `onload` un rato
+después. Sin un cerrojo, esa segunda llamada le devolvía la vecina al
+borde **en medio del arrastre** y la pieza pegaba un salto. Fue un bug
+real, y es el mismo patrón que ya había aparecido en `ir()`.
+
+También se puede usar las flechas del teclado, y al pasar el mouse por
+encima se frena.
 
 Con `prefers-reduced-motion` no avanza solo y el cambio es instantáneo:
 quedan el arrastre y el teclado, y el relleno no se dibuja.

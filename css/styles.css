@@ -960,7 +960,14 @@ em { font-style: italic; }
   height: 6px;
   border-radius: 999px;
   background: var(--line);
-  transition: width var(--t-mid) var(--ease);
+  /* La duracion la pone el modulo 18, inline, y no esta hoja: el punto
+     largo tiene que acortarse en el mismo momento y durante el mismo
+     tiempo que la imagen cruza el cuadro. Si cada cosa lleva su propio
+     tiempo —y su propia curva— el conjunto se ve tosco. Por eso tambien
+     la curva es ease, la del desplazamiento, y no --ease. */
+  transition-property: width;
+  transition-timing-function: ease;
+  transition-duration: 0ms;
 }
 /* La medida sale del montaje del autor: puntos de 6 px con calles de 6 y
    el activo de 108, dieciocho veces el punto. */

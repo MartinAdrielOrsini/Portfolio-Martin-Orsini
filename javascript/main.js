@@ -1662,7 +1662,7 @@
      Las piezas van pasando solas y, debajo, un punto por pieza
      muestra cual esta en pantalla y cuanto le falta.
 
-     El cambio es un desplazamiento y no un fundido: la que entra
+     El cambio es un desplazamiento, no un fundido: la que entra
      viene desde la derecha y empuja fuera del cuadro a la que
      estaba. Los tiempos —3000 ms quieta y 1100 ms corriendose,
      con la curva ease— salen de medir el sitio que dio de
@@ -1673,14 +1673,26 @@
      papeles en vez de reescribir el src de la que se ve, asi que
      el cuadro nunca queda en blanco.
 
-     El relleno del punto activo lo mueve este modulo cuadro a
-     cuadro y no una animacion de CSS: asi se puede frenar y
-     reanudar en cualquier punto —mientras se arrastra, o cuando
-     el pase sale de pantalla— sin que pegue un salto.
+     TODO LO QUE SE MUEVE, SE MUEVE JUNTO. El punto largo se
+     acorta y el chico se estira en el mismo momento y durante el
+     mismo tiempo que la imagen cruza el cuadro, con la misma
+     curva. Por eso el ancho de los puntos lo cronometra este
+     modulo y no el CSS: si cada cosa lleva su propio tiempo, el
+     conjunto se ve tosco.
 
-     Con prefers-reduced-motion no avanza solo y el cambio es
-     instantaneo: quedan el arrastre y el teclado, y el relleno no
-     se dibuja.
+     El relleno naranja, en cambio, si va cuadro a cuadro y no por
+     transicion: asi se puede frenar y reanudar en cualquier punto
+     —mientras se arrastra, o cuando el pase sale de pantalla— sin
+     que pegue un salto.
+
+     Se puede arrastrar con el dedo o el mouse y las piezas
+     acompañan el gesto. Al soltar, si se recorrio lo suficiente
+     el cambio se completa y si no vuelve atras, en los dos casos
+     a la velocidad de siempre y descontando lo ya recorrido.
+
+     Con prefers-reduced-motion no avanza solo y los cambios son
+     instantaneos: quedan el arrastre y el teclado, y el relleno
+     no se dibuja.
      ========================================================== */
   function initPase() {
     $$('[data-pase]').forEach(armar);
@@ -1697,6 +1709,7 @@
       const CUANTAS = Math.max(2, parseInt(pase.dataset.cuantas, 10) || 10);
       const ESPERA  = 3000;          /* lo que queda quieta cada pieza */
       const DESLIZ  = 1100;          /* lo que tarda en correrse */
+      const MINIMO  = 180;           /* ningun tramo dura menos que esto */
 
       /* Las rutas salen de la primera imagen: 01.jpg, 02.jpg... asi el
          HTML no repite ocho veces el nombre de la misma carpeta. */
@@ -1707,32 +1720,18 @@
       const ALT = imgs[0].alt;
 
       const duracion = () => (prefersReducedMotion.matches ? 0 : DESLIZ);
-
-      /* La primera pieza viene con loading="lazy" para no bajarla hasta
-         que alguien se acerque. Pero apenas el pase empieza a andar hay
-         que sacarselo: la imagen que espera su turno esta aparcada fuera
-         del marco, y para el navegador eso es estar fuera de pantalla,
-         asi que con lazy puesto no baja nunca —no llega el onload y el
-         pase se queda clavado en la primera pieza—. */
-      let despierto = false;
-      function despertar() {
-        if (despierto) return;
-        despierto = true;
-        imgs.forEach(function (i) { i.removeAttribute('loading'); });
-      }
+      const vecina = (dir) => (((actual + dir) % CUANTAS) + CUANTAS) % CUANTAS;
 
       /* pct es donde queda la imagen, en porcentaje del ancho del marco:
          0 es a la vista y 100 es aparcada afuera, a la derecha. */
-      function colocar(img, pct, conTransicion) {
-        img.style.transition = conTransicion
-          ? 'transform ' + duracion() + 'ms ease'
-          : 'none';
+      function colocar(img, pct, ms) {
+        img.style.transition = ms ? 'transform ' + ms + 'ms ease' : 'none';
         img.style.transform = 'translateX(' + pct + '%)';
       }
 
       let frente = imgs[0], detras = imgs[1];
-      colocar(frente, 0, false);
-      colocar(detras, 100, false);
+      colocar(frente, 0, 0);
+      colocar(detras, 100, 0);
 
       /* --- Los puntos ---------------------------------------------
          Uno por pieza, puestos aca y no en el HTML: el HTML no tiene
@@ -1759,68 +1758,129 @@
       let transcurrido = Math.min(ESPERA, parseInt(pase.dataset.desfase, 10) || 0);
       let ultimo = 0;
       let raf = 0, corriendo = false, quieto = false, cambiando = false;
+      /* De que lado esta aparcada la vecina: 1 a la derecha, -1 a la
+         izquierda, 0 si todavia no hay ninguna preparada. */
+      let lado = 0;
 
       const detenido = () => quieto || prefersReducedMotion.matches;
 
-      function marcarPunto() {
+      /* El ancho de los puntos lo cronometra el JS —ver la nota de
+         arriba— asi que la duracion va inline, no en la hoja. */
+      function marcarPunto(indice, ms) {
         if (!puntos.length) return;
-        puntos.forEach((p, i) => p.classList.toggle('is-activo', i === actual));
-        if (avance) puntos[actual].appendChild(avance);
-        if (barra) barra.setAttribute('aria-valuenow', String(actual + 1));
+        puntos.forEach(function (p, i) {
+          p.style.transitionDuration = (ms || 0) + 'ms';
+          p.classList.toggle('is-activo', i === indice);
+        });
+        if (avance) puntos[indice].appendChild(avance);
+        if (barra) barra.setAttribute('aria-valuenow', String(indice + 1));
       }
 
       function pintarAvance() {
         if (!avance) return;
-        const parte = detenido() ? 0 : Math.min(1, transcurrido / ESPERA);
+        const parte = (detenido() || cambiando) ? 0 : Math.min(1, transcurrido / ESPERA);
         avance.style.width = (parte * 100).toFixed(2) + '%';
       }
 
-      /* --- El cambio de pieza -------------------------------------
-         La que entra se aparca del lado que corresponde y no se larga
-         hasta estar cargada: si saliera antes, cruzaria el cuadro en
-         blanco. hacia = 1 va a la siguiente y entra por la derecha;
-         hacia = -1 vuelve a la anterior y entra por la izquierda. */
+      /* La primera pieza viene con loading="lazy" para no bajarla hasta
+         que alguien se acerque. Pero apenas el pase empieza a andar hay
+         que sacarselo: la imagen que espera su turno esta aparcada fuera
+         del marco, y para el navegador eso es estar fuera de pantalla,
+         asi que con lazy puesto no baja nunca —no llega el onload y el
+         pase se queda clavado en la primera pieza—. */
+      let despierto = false;
+      function despertar() {
+        if (despierto) return;
+        despierto = true;
+        imgs.forEach(function (i) { i.removeAttribute('loading'); });
+        precargarVecinas();
+      }
+
+      /* Las dos de al lado, en la cache del navegador. Sin esto, al
+         empezar a arrastrar hacia un lado la pieza vecina todavia no
+         llego y el gesto no arranca hasta que baja. */
+      function precargarVecinas() {
+        [1, -1].forEach(function (d) { (new Image()).src = rutas[vecina(d)]; });
+      }
+
+      /* --- Completar un cambio -------------------------------------
+         Las dos imagenes ya estan donde tienen que estar; esto las
+         lleva a destino y confirma. ms es lo que dura el tramo que
+         falta: en el cambio automatico es el deslizamiento entero y al
+         soltar un arrastre es lo que quedaba sin recorrer. */
+      function completar(destino, hacia, ms) {
+        cambiando = true;
+        transcurrido = 0;
+        colocar(frente, -hacia * 100, ms);
+        colocar(detras, 0, ms);
+        marcarPunto(destino, ms);
+        pintarAvance();
+        window.setTimeout(function () {
+          /* La que entro pasa al frente y la que salio se aparca. */
+          const salio = frente;
+          frente = detras;
+          detras = salio;
+          colocar(detras, 100, 0);
+          frente.alt = ALT;
+          frente.removeAttribute('aria-hidden');
+          detras.alt = '';
+          detras.setAttribute('aria-hidden', 'true');
+          actual = destino;
+          lado = 0;
+          cambiando = false;
+          pintarAvance();
+          precargarVecinas();
+        }, ms);
+      }
+
+      /* Deja la vecina de ese lado cargada y aparcada, lista para
+         acompañar al dedo. Devuelve si ya se la puede mostrar. */
+      function prepararVecina(dir) {
+        if (lado === dir) return true;
+        const url = rutas[vecina(dir)];
+        /* Una sola vez. Aunque la imagen ya este en la cache y se la
+           pueda aparcar en el acto, el navegador dispara igual el onload
+           un rato despues: sin este cerrojo, esa segunda llamada le
+           devolvia la vecina al borde en medio del arrastre y la pieza
+           pegaba un salto. */
+        let hecho = false;
+        const listo = function () {
+          if (hecho) return;
+          hecho = true;
+          colocar(detras, dir * 100, 0);
+          lado = dir;
+        };
+        detras.onload = listo;
+        detras.onerror = function () { lado = 0; };
+        if (detras.src !== url) detras.src = url;
+        if (detras.complete && detras.naturalWidth > 0) { listo(); return true; }
+        return false;
+      }
+
+      /* --- El cambio automatico ----------------------------------- */
       function ir(indice, hacia) {
         const destino = ((indice % CUANTAS) + CUANTAS) % CUANTAS;
         if (destino === actual || cambiando) return;
         despertar();
-        cambiando = true;
-        transcurrido = 0;
 
         let lanzado = false;
-        const listo = () => {
+        const salir = function () {
           if (lanzado) return;
           lanzado = true;
-
-          colocar(detras, hacia * 100, false);
+          colocar(detras, hacia * 100, 0);
           /* Un reflow entre aparcarla y largarla. Sin esto el navegador
              junta las dos escrituras y la pieza aparece en su destino
              sin haberse movido. */
           void detras.offsetWidth;
-          colocar(frente, -hacia * 100, true);
-          colocar(detras, 0, true);
-
-          window.setTimeout(function () {
-            /* La que entro pasa al frente y la que salio se aparca. */
-            const salio = frente;
-            frente = detras;
-            detras = salio;
-            colocar(detras, 100, false);
-            frente.alt = ALT;
-            frente.removeAttribute('aria-hidden');
-            detras.alt = '';
-            detras.setAttribute('aria-hidden', 'true');
-            actual = destino;
-            cambiando = false;
-            marcarPunto();
-            pintarAvance();
-          }, duracion());
+          lado = hacia;
+          completar(destino, hacia, duracion());
         };
 
-        detras.onload = listo;
+        const url = rutas[destino];
+        detras.onload = salir;
         detras.onerror = function () { cambiando = false; };
-        detras.src = rutas[destino];
-        if (detras.complete && detras.naturalWidth > 0) listo();
+        if (detras.src !== url) detras.src = url;
+        if (detras.complete && detras.naturalWidth > 0) salir();
       }
 
       const siguiente = () => ir(actual + 1, 1);
@@ -1856,30 +1916,64 @@
       }
 
       /* --- Arrastre -----------------------------------------------
-         Un gesto corto no cuenta: hace falta recorrer una parte del
-         ancho para que cambie, si no cualquier roce saltea una pieza. */
-      let agarrado = false, x0 = 0, movido = 0;
+         Las piezas acompañan al dedo. El lado se decide con el primer
+         movimiento: hacia la izquierda trae la siguiente y hacia la
+         derecha la anterior. Si esa vecina todavia no cargo, la pieza
+         se queda quieta en vez de dejar un hueco.
+
+         Al soltar, un gesto corto vuelve atras: hace falta recorrer una
+         parte del ancho para que el cambio se confirme, si no cualquier
+         roce saltea una pieza. */
+      let agarrado = false, x0 = 0, movido = 0, ancho = 1;
+
+      function arrastrarA(d) {
+        const pct = (d / ancho) * 100;
+        colocar(frente, pct, 0);
+        if (lado !== 0) colocar(detras, lado * 100 + pct, 0);
+      }
 
       marco.addEventListener('pointerdown', function (e) {
-        if (e.button > 0) return;
-        agarrado = true; quieto = true; movido = 0;
+        if (e.button > 0 || cambiando) return;
+        despertar();
+        agarrado = true; quieto = true; movido = 0; lado = 0;
+        ancho = marco.getBoundingClientRect().width || 1;
         x0 = e.clientX;
         marco.classList.add('is-dragging');
         try { marco.setPointerCapture(e.pointerId); } catch (err) {}
       });
+
       marco.addEventListener('pointermove', function (e) {
         if (!agarrado) return;
-        movido = e.clientX - x0;
+        const d = e.clientX - x0;
+        if (d === 0) { movido = 0; arrastrarA(0); return; }
+        /* Arrastrar hacia la izquierda trae la siguiente. */
+        movido = prepararVecina(d < 0 ? 1 : -1) ? d : 0;
+        arrastrarA(movido);
       });
+
       const soltar = function () {
         if (!agarrado) return;
         agarrado = false;
         marco.classList.remove('is-dragging');
-        const umbral = Math.max(40, marco.getBoundingClientRect().width * 0.12);
-        if (movido <= -umbral) siguiente();
-        else if (movido >= umbral) anterior();
+
+        const umbral = Math.max(40, ancho * 0.12);
+        const recorrido = Math.min(1, Math.abs(movido) / ancho);
+        /* Lo que falta —o lo que hay que deshacer— a la misma velocidad
+           que el desplazamiento automatico, descontando lo ya andado.
+           Sin el descuento, un gesto casi completo tardaria lo mismo que
+           uno desde cero y se veria pesado. */
+        const restante = Math.max(MINIMO, Math.round(duracion() * (1 - recorrido)));
+        const vuelta   = Math.max(MINIMO, Math.round(duracion() * recorrido));
+
+        if (lado !== 0 && Math.abs(movido) >= umbral) {
+          completar(vecina(lado), lado, restante);
+        } else if (lado !== 0) {
+          colocar(frente, 0, vuelta);
+          colocar(detras, lado * 100, vuelta);
+        }
         quieto = false;
         ultimo = 0;
+        transcurrido = 0;
       };
       marco.addEventListener('pointerup', soltar);
       marco.addEventListener('pointercancel', soltar);
@@ -1905,7 +1999,7 @@
       /* --- Puesta en marcha ---------------------------------------
          Fuera de pantalla no corre: no tiene sentido gastar cuadros ni
          bajar imagenes que nadie esta mirando. */
-      marcarPunto();
+      marcarPunto(actual, 0);
       pintarAvance();
       if ('IntersectionObserver' in window) {
         const obs = new IntersectionObserver(function (entradas) {
