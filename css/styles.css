@@ -894,6 +894,58 @@ em { font-style: italic; }
   border-color: var(--accent);
 }
 
+
+/* ------------ Pase de imagenes ------------
+   Las piezas del universo grafico van pasando solas. Debajo, una barra
+   que muestra cuanto falta para la siguiente. Se puede arrastrar para
+   cambiar a mano. Ver el modulo 18 del JS.
+
+   El cruce entre una pieza y la otra se hace con dos <img> superpuestas:
+   la de abajo es la que esta, la de arriba entra en fundido. Cambiar el
+   src de una sola dejaba un parpadeo en blanco mientras cargaba. */
+.pase { display: grid; gap: 0.55rem; }
+
+.pase__marco {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;          /* la proporcion de los archivos */
+  background: var(--bg-warm);
+  cursor: grab;
+  /* El gesto vertical sigue siendo el de la pagina: en mobile se puede
+     scrollear por encima del pase. */
+  touch-action: pan-y;
+}
+.pase__marco.is-dragging { cursor: grabbing; }
+
+.pase__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pase__img--entra {
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease);
+}
+.pase__img--entra.is-visible { opacity: 1; }
+
+/* La barra. El relleno lo mueve el JS cuadro a cuadro, no una animacion
+   de CSS: asi se puede frenar y reanudar en cualquier punto —al
+   arrastrar, o cuando el pase sale de pantalla— sin que salte. */
+.pase__barra {
+  position: relative;
+  height: 3px;
+  overflow: hidden;
+  background: var(--line);
+}
+.pase__avance {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--accent);
+}
+
 /* Manejadores tactiles. Solo aparecen en pantalla chica y con el visor
    andando: con el dedo se puede girar arrastrando, pero no hay rueda
    para acercar y afinar el giro a pulso es incomodo. */
@@ -2273,4 +2325,37 @@ em { font-style: italic; }
   .project__title, .contact__claim { text-shadow: none !important; color: #000 !important; }
   .js .reveal { opacity: 1; transform: none; }
   .fig__frame { break-inside: avoid; }
+}
+
+/* ------------ Videos de pieza (Mush Type) ------------
+   Bandas de video que van de margen a margen. Llevan --tall junto a esta
+   clase: con el tope de --media-max-h puesto, la proporcion fija les
+   recortaba el alto y, para sostenerla, se angostaban y dejaban de tocar
+   los margenes. Es la trampa de siempre en este sitio.
+
+   El video se apoya sobre la trama del placeholder, que se ve mientras el
+   archivo no bajo todavia (los dos van con preload="none"). */
+.video-pieza { padding: 0; }
+.video-pieza video {
+  position: relative;
+  z-index: 1;
+}
+/* La apertura va en 3:1 como el wireframe, y ahi si recorta: el archivo
+   es 16:9 y contain lo dejaria flotando con aire a los costados. El
+   recorte se come 20% arriba y abajo, donde el video no tiene mas que
+   fondo amarillo —la tipografia vive entre el 32% y el 62% del alto—.
+   El de presentacion, en cambio, usa el cuadro entero en varios momentos,
+   asi que se queda en 16:9 y no se le recorta nada. */
+.video-pieza--recorte video { object-fit: cover; }
+
+/* La apertura va en banda 3:1 como el wireframe. El --ar no va inline
+   para que la media query de abajo lo pueda pisar. */
+.fig--apertura { --ar: 3; }
+
+/* En una columna angosta la banda 3:1 de la apertura queda de unos cien
+   pixeles de alto y no se lee nada. Ahi vuelve a 16:9 —el cuadro entero
+   del archivo— y recien desde tablet toma la proporcion del wireframe. */
+@media (max-width: 767px) {
+  .fig--apertura { --ar: 1.7778; }
+  .video-pieza--recorte video { object-fit: contain; }
 }

@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=79">
+<link rel="stylesheet" href="css/styles.css?v=82">
 </head>
 <body>
 
@@ -1585,46 +1585,80 @@
     </header>
   </div>
 
+  <!-- Portada: el mismo patron que el antes y despues de Suma. Sin
+       controles, en loop y sin sonido; el src va en data-src y lo pone el
+       modulo 14 recien cuando la pieza se acerca al viewport. -->
   <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-3x1" data-slot="Apertura">
-        <img src="assets/images/mush-type/02-apertura.jpg" alt="Apertura de Mush Type" loading="lazy" decoding="async">
+    <figure class="fig fig--ar fig--apertura">
+      <div class="fig__frame fig__frame--tall video-pieza video-pieza--recorte" data-slot="Apertura">
+        <video class="marcas__video"
+               data-src="assets/video/mush-portada.mp4"
+               loop muted playsinline preload="none"
+               aria-label="Animación de apertura de Mush Type"></video>
       </div>
     </figure>
   </div>
 
+  <!-- El universo grafico pasa solo, con una barra que muestra cuanto
+       falta para la siguiente. Se puede arrastrar para cambiar a mano.
+       Ver el modulo 18 del JS. -->
   <div class="container">
     <div class="split">
       <div class="split__aside">
-        <figure class="fig reveal">
-          <div class="fig__frame ar-4x3" data-slot="Letras"><img src="assets/images/mush-type/03-letras.jpg" alt="Letras de la tipografía Mush Type" loading="lazy" decoding="async"></div>
-        </figure>
+        <div class="pase reveal" data-pase>
+          <div class="pase__marco">
+            <img class="pase__img" src="assets/images/mush-type/universo/01.jpg" alt="Pieza del universo gráfico de Mush Type" loading="lazy" decoding="async">
+            <img class="pase__img pase__img--entra" alt="" aria-hidden="true" decoding="async">
+          </div>
+          <div class="pase__barra" role="progressbar" aria-label="Tiempo hasta la siguiente pieza">
+            <span class="pase__avance"></span>
+          </div>
+        </div>
       </div>
+
       <div class="split__text reveal">
         <p class="project__lead">
-          Desarrollo de una fuente tipográfica a partir de un objeto o trazo
-          disparador, construyendo un universo gráfico propio y una pieza
-          audiovisual para presentar Mush Type.
+          Proyecto de diseño y desarrollo de una fuente tipográfica realizado
+          en grupos de dos para la materia <strong>Tipomov de la facultad</strong>.
+          La tipografía surgió de la experimentación con sobres de mostaza, que
+          dieron origen a formas irregulares, espontáneas y expresivas. A partir
+          de esta exploración desarrollamos una fuente de fantasía informal,
+          juguetona y descontracturada, manteniendo su carácter gestual y
+          orgánico.
+        </p>
+        <p class="project__lead">
+          Como parte del proyecto, desarrollamos un
+          <strong>espécimen tipográfico</strong>, un
+          <strong>universo gráfico</strong> en el que la fuente pudiera habitar
+          y, finalmente, un <strong>video de presentación</strong> para
+          comunicar sus características e identidad.
         </p>
       </div>
     </div>
   </div>
 
+  <!-- El video de presentacion si lleva controles: tiene sonido. El
+       archivo pesa, asi que preload="none": no se baja hasta que alguien
+       le da play. -->
   <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-2x1" data-slot="Amarillo"><img src="assets/images/mush-type/04-amarillo.jpg" alt="Pieza gráfica de Mush Type" loading="lazy" decoding="async"></div>
+    <figure class="fig fig--ar" style="--ar: 1.7778">
+      <div class="fig__frame fig__frame--tall video-pieza" data-slot="Presentación">
+        <video class="marcas__video"
+               src="assets/video/mush-presentacion.mp4"
+               controls playsinline preload="none"
+               aria-label="Video de presentación de Mush Type"></video>
+      </div>
     </figure>
   </div>
 
   <div class="container">
     <h3 class="block-title block-title--section reveal">Espécimen</h3>
-    <div class="grid-2">
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Espécimen"><img src="assets/images/mush-type/05-frame.jpg" alt="Espécimen tipográfico" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Espécimen"><img src="assets/images/mush-type/01-card.jpg" alt="Espécimen tipográfico" loading="lazy" decoding="async"></div></figure>
+    <div class="grid-4">
+      <figure class="fig fig--ar reveal" style="--ar: 1.4142"><div class="fig__frame" data-slot="Espécimen"><img src="assets/images/mush-type/especimen/01.jpg" alt="Lámina del espécimen tipográfico de Mush Type" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar reveal" style="--ar: 1.4142"><div class="fig__frame" data-slot="Espécimen"><img src="assets/images/mush-type/especimen/02.jpg" alt="Lámina del espécimen tipográfico de Mush Type" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar reveal" style="--ar: 1.4142"><div class="fig__frame" data-slot="Espécimen"><img src="assets/images/mush-type/especimen/03.jpg" alt="Lámina del espécimen tipográfico de Mush Type" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar reveal" style="--ar: 1.4142"><div class="fig__frame" data-slot="Espécimen"><img src="assets/images/mush-type/especimen/04.jpg" alt="Lámina del espécimen tipográfico de Mush Type" loading="lazy" decoding="async"></div></figure>
     </div>
-    <figure class="fig reveal">
-      <div class="fig__frame ar-2x1" data-slot="Cierre"><img src="assets/images/mush-type/10-cierre.jpg" alt="Pieza de cierre de Mush Type" loading="lazy" decoding="async"></div>
-    </figure>
   </div>
 
   <div class="container">
@@ -1757,6 +1791,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=79"></script>
+<script src="javascript/main.js?v=82"></script>
 </body>
 </html>

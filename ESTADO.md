@@ -1,7 +1,7 @@
 # Estado del proyecto — traspaso
 
 Documento para retomar el trabajo en una conversación nueva.
-Última actualización: 24 de agosto de 2026.
+Última actualización: 2 de septiembre de 2026.
 
 El README.md documenta **cómo funciona** el sitio. Este archivo cuenta
 **dónde estamos, qué se decidió y por qué, y qué falta**.
@@ -23,7 +23,7 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 index.html          1383 líneas — estructura y contenido (14 secciones)
 css/styles.css      1769 líneas — todo el estilo; config en :root
 javascript/main.js   826 líneas — 14 módulos
-assets/             102 MB (!) — ver "Problemas conocidos"
+assets/             150 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
@@ -373,6 +373,58 @@ hizo falta retícula nueva—.
 - Sin uso: `01-home.jpg` y `02-detalle.jpg` (980 KB), reemplazados por
   `home.jpg` y `detalle.jpg`.
 
+### Mush Type — contenido real
+
+**Portada.** El JPG de apertura pasó a ser video, con el mismo patrón que
+el antes/después de Suma: sin controles, en loop, mudo, `playsinline`, y
+el `src` en `data-src` para que el módulo 14 lo cargue recién cuando la
+pieza se acerca al viewport. Origen: `MUSH FUENTE/mush portada 2` →
+`assets/video/mush-portada.mp4` (725 KB).
+
+Va en banda **3:1** desde tablet, como el wireframe, y ahí recorta: el
+archivo es 16:9. Antes de recortar se midió el video en el navegador
+—dibujando cuadros en un canvas y buscando los píxeles que se apartan del
+color de la esquina— y la tipografía vive entre el **32% y el 62%** del
+alto; el 3:1 se come el 20% de arriba y el 20% de abajo, o sea puro fondo
+amarillo. En mobile la banda quedaba de 109 px y no se leía nada, así que
+por debajo de 768 px vuelve a 16:9 y a `contain`. El `--ar` de la apertura
+va en `.fig--apertura` y no inline, si no la media query no lo puede pisar.
+
+**Pase del universo gráfico** (a la izquierda del texto). Diez piezas de
+`universo grafico` (622 KB) que pasan solas cada 4,2 s, con una barra
+naranja abajo que muestra cuánto falta. Se puede arrastrar —hace falta
+recorrer el 12% del ancho, con un piso de 40 px, para que un roce no
+saltee una pieza—, usar las flechas del teclado, y al pasar el mouse por
+encima se frena. Módulo 18 del JS, clases `.pase*`.
+
+Dos detalles que importan: el cruce entre piezas usa **dos `<img>`
+superpuestas** —la de arriba entra en fundido recién cuando cargó— porque
+cambiando el `src` de una sola quedaba un parpadeo en blanco; y la barra
+la mueve el JS cuadro a cuadro y no una animación de CSS, así se puede
+frenar y reanudar en cualquier punto —al arrastrar, o cuando el pase sale
+de pantalla— sin que el relleno pegue un salto. Con
+`prefers-reduced-motion` no avanza sola: quedan el arrastre y el teclado,
+y la barra no se dibuja.
+
+**Video de presentación.** Este sí lleva controles porque tiene sonido, y
+`preload="none"` porque pesa. Origen: `MUSH FUENTE/video mas chico.mp4`
+(1280x720, 91 s, 2.618 kbps, 28,4 MB). El primer export era el mismo corte
+a 1080p y 6.074 kbps: 69,4 MB. Misma proporción, así que el reemplazo no
+tocó la maqueta. Se queda en **16:9 sin recortar**: el mismo
+escaneo mostró que en varios momentos usa el cuadro entero (a los 60 s el
+contenido va del 76% al 100% del alto; a los 85 s ocupa todo), así que
+cualquier recorte le cortaría la pieza. A 1366 mide 1239x697.
+
+**Espécimen.** Dejó de ser dos arriba y una horizontal abajo: son cuatro
+láminas iguales en una fila (`.grid-4`), de 1400x990 → `--ar: 1.4142`.
+A 1366 van de 56 a 1295, los mismos márgenes que los dos videos.
+
+**El tope de altura, otra vez.** Los dos videos salían de 804 px de ancho
+en vez de 1239: con `aspect-ratio` puesto, `--media-max-h` les recortaba
+el alto y, para sostener la proporción, se angostaban. Se resolvió con
+`.fig__frame--tall`, igual que en el collage de Suma, Almacenit y el
+visor 3D. Es la trampa que más veces apareció en este sitio.
+
 ### Sin uso en `assets/images/cerveceros-del-sur/` (4,5 MB)
 Los 13 archivos viejos, de `01-packaging.jpg` a `13-table-tent.png`. Eran
 las imágenes de relleno de la maqueta. **No se borraron.**
@@ -404,6 +456,9 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | .fig__frame--tall | Marco sin tope de altura. |
 | .marcas / .marcas__in | Columna cuyo alto lo fija el texto de al lado. |
 | .fig-stack, .trio, .screens, .fig--narrow | Ayudantes que pedían los wireframes. |
+| .pase + .pase__marco / .pase__img / .pase__barra / .pase__avance | Pase de imágenes que corren solas, con barra de progreso naranja. Dos <img> superpuestas para cruzar sin parpadeo. Lo mueve el módulo 18. |
+| .video-pieza (+ --recorte) | Banda de video de margen a margen. Va siempre con .fig__frame--tall. La variante --recorte usa object-fit: cover. |
+| .fig--apertura | El 3:1 de la portada de Mush, en CSS y no inline para que la media query de mobile lo pueda pisar. |
 | ar-3x1, ar-3x5, ar-3x7, ar-27x10, ar-9x11 | Proporciones nuevas. |
 
 ---
@@ -452,9 +507,11 @@ compuesto más las piezas sueltas nombradas (a.jpg, b.jpg...). Se mide la
 referencia por escaneo de píxeles y se maqueta a partir de eso.
 
 ### Pendientes concretos
-1. **El video de Green Eat pesa 60,4 MB.** Es el problema más grave del
-   sitio. Reexportar a 720 px de ancho, 2 Mbps, 20-30 s → 5-8 MB.
-2. **assets/ pesa 102 MB.** Además del video hay originales sin usar.
+1. **El video de Green Eat pesa 60,4 MB.** Es el archivo más pesado del
+   sitio por lejos: el segundo, el de Mush, pesa 28,4 MB. Reexportar a
+   720 px de ancho, 2 Mbps, 20-30 s → 5-8 MB.
+2. **assets/ pesa 150 MB.** Además del video de Green Eat hay
+   originales sin usar.
 3. **Confirmar el mail:** figura martinorsain@hotmail.com, con "orsain"
    y no "orsini". Está en cuatro lugares. Si es un tipeo, se pierden
    los mensajes sin que nadie se entere.
@@ -495,7 +552,7 @@ referencia por escaneo de píxeles y se maqueta a partir de eso.
 ## 10. Cómo verificar un cambio
 
 1. Levantar serve2.ps1 (puerto 8100) y abrir con preview_start.
-2. **Medir por JavaScript, no mirar.** Alto de secciones, scrollWidth
+3. **Medir por JavaScript, no mirar.** Alto de secciones, scrollWidth
    contra innerWidth para overflow, naturalWidth igual a cero para
    imágenes rotas, anclas rotas, contraste por composición de alfa.
 3. Verificar a **1366x630**, 375 y 1920. Para problemas de "no llega al

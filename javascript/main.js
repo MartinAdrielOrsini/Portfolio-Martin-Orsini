@@ -18,6 +18,7 @@
     15. Carrusel de pantallas (cinta continua, sin extremos)
     16. Visor 3D de remeras (WebGL a mano, sin libreria)
     17. Cartas de remeras (giro y vista grande)
+    18. Pase de imagenes (avanza solo, con barra de progreso)
    Vanilla ES6+. Sin dependencias.
    ============================================================ */
 
@@ -1657,6 +1658,184 @@
 
 
   /* ==========================================================
+     18 — PASE DE IMAGENES
+     Las piezas van pasando solas y una barra muestra cuanto falta
+     para la siguiente. Se puede arrastrar para cambiar a mano, o
+     usar las flechas del teclado.
+
+     La barra la mueve este modulo cuadro a cuadro y no una
+     animacion de CSS: asi se puede frenar y reanudar en cualquier
+     punto —mientras se arrastra, o cuando el pase sale de
+     pantalla— sin que el relleno pegue un salto.
+
+     Con prefers-reduced-motion no avanza solo: quedan el arrastre
+     y el teclado, y la barra no se dibuja.
+     ========================================================== */
+  function initPase() {
+    $$('[data-pase]').forEach(armar);
+
+    function armar(pase) {
+      /* Las rutas salen de la primera imagen: 01.jpg, 02.jpg... asi el
+         HTML no tiene que repetir diez veces lo mismo. */
+      const base = $('.pase__img', pase);
+      const entra = $('.pase__img--entra', pase);
+      const avance = $('.pase__avance', pase);
+      const barra = $('.pase__barra', pase);
+      const marco = $('.pase__marco', pase);
+      if (!base || !entra || !marco) return;
+
+      const CUANTAS = 10;
+      const DURACION = 4200;          /* lo que dura cada pieza, en ms */
+
+      const rutas = [];
+      for (let i = 1; i <= CUANTAS; i++) {
+        rutas.push(base.src.replace(/\d+\.jpg$/, String(i).padStart(2, '0') + '.jpg'));
+      }
+
+      let actual = 0, transcurrido = 0, ultimo = 0;
+      let raf = 0, corriendo = false, quieto = false, cambiando = false;
+
+      const detenido = () => quieto || prefersReducedMotion.matches;
+
+      function pintarBarra() {
+        if (!avance) return;
+        const parte = detenido() ? 0 : Math.min(1, transcurrido / DURACION);
+        avance.style.width = (parte * 100).toFixed(2) + '%';
+        if (barra) {
+          barra.setAttribute('aria-valuenow', String(actual + 1));
+          barra.setAttribute('aria-valuemin', '1');
+          barra.setAttribute('aria-valuemax', String(CUANTAS));
+        }
+      }
+
+      /* --- El cambio de pieza -------------------------------------
+         La imagen nueva se carga en la capa de arriba y recien cuando
+         esta lista se le enciende la opacidad. Si se cambiara el src de
+         una sola capa, entre que se pide y llega quedaria un hueco. */
+      function ir(indice) {
+        const destino = (indice + CUANTAS) % CUANTAS;
+        if (destino === actual || cambiando) return;
+        cambiando = true;
+        transcurrido = 0;
+        pintarBarra();
+
+        const url = rutas[destino];
+        const listo = () => {
+          entra.classList.add('is-visible');
+          /* Al terminar el fundido, la de arriba pasa a ser la de abajo y
+             la de arriba vuelve a quedar libre para el proximo cambio. */
+          window.setTimeout(() => {
+            base.src = url;
+            base.alt = entra.alt || base.alt;
+            entra.classList.remove('is-visible');
+            actual = destino;
+            cambiando = false;
+          }, 340);
+        };
+
+        entra.onload = listo;
+        entra.onerror = () => { cambiando = false; };
+        entra.src = url;
+        if (entra.complete && entra.naturalWidth > 0) listo();
+      }
+
+      const siguiente = () => ir(actual + 1);
+      const anterior  = () => ir(actual - 1);
+
+      /* --- El reloj ----------------------------------------------- */
+      function cuadro(t) {
+        corriendo = false;
+        if (!ultimo) ultimo = t;
+        let dt = t - ultimo;
+        ultimo = t;
+        /* Volver de una pestaña en segundo plano no puede saltear
+           media docena de piezas de golpe. */
+        if (dt > 250) dt = 250;
+
+        if (!detenido() && !cambiando) {
+          transcurrido += dt;
+          if (transcurrido >= DURACION) siguiente();
+        }
+        pintarBarra();
+        arrancar();
+      }
+
+      function arrancar() {
+        if (corriendo) return;
+        corriendo = true;
+        raf = requestAnimationFrame(cuadro);
+      }
+      function parar() {
+        corriendo = false;
+        cancelAnimationFrame(raf);
+        ultimo = 0;
+      }
+
+      /* --- Arrastre -----------------------------------------------
+         Un gesto corto no cuenta: hace falta recorrer una parte del
+         ancho para que cambie, si no cualquier roce saltea una pieza. */
+      let agarrado = false, x0 = 0, movido = 0;
+
+      marco.addEventListener('pointerdown', (e) => {
+        if (e.button > 0) return;
+        agarrado = true; quieto = true; movido = 0;
+        x0 = e.clientX;
+        marco.classList.add('is-dragging');
+        try { marco.setPointerCapture(e.pointerId); } catch (err) {}
+      });
+      marco.addEventListener('pointermove', (e) => {
+        if (!agarrado) return;
+        movido = e.clientX - x0;
+      });
+      const soltar = () => {
+        if (!agarrado) return;
+        agarrado = false;
+        marco.classList.remove('is-dragging');
+        const umbral = Math.max(40, marco.getBoundingClientRect().width * 0.12);
+        if (movido <= -umbral) siguiente();
+        else if (movido >= umbral) anterior();
+        quieto = false;
+        ultimo = 0;
+      };
+      marco.addEventListener('pointerup', soltar);
+      marco.addEventListener('pointercancel', soltar);
+      marco.addEventListener('lostpointercapture', soltar);
+
+      /* Con el teclado, para quien no puede arrastrar. */
+      marco.tabIndex = 0;
+      marco.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') anterior();
+        else if (e.key === 'ArrowRight') siguiente();
+        else return;
+        e.preventDefault();
+        transcurrido = 0;
+      });
+
+      /* Al pasar por encima se frena: si alguien se detuvo a mirar una
+         pieza, no se le cambia debajo del cursor. */
+      marco.addEventListener('pointerenter', () => { quieto = true; });
+      marco.addEventListener('pointerleave', () => { if (!agarrado) { quieto = false; ultimo = 0; } });
+
+      /* --- Puesta en marcha ---------------------------------------
+         Fuera de pantalla no corre: no tiene sentido gastar cuadros ni
+         bajar imagenes que nadie esta mirando. */
+      pintarBarra();
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entradas) => {
+          entradas.forEach((en) => {
+            if (en.isIntersecting) { ultimo = 0; arrancar(); }
+            else parar();
+          });
+        }, { rootMargin: '200px 0px' });
+        obs.observe(pase);
+      } else {
+        arrancar();
+      }
+    }
+  }
+
+
+  /* ==========================================================
      ARRANQUE
      ========================================================== */
   function init() {
@@ -1676,6 +1855,7 @@
     initCarousels();
     initShirt3D();
     initCards();
+    initPase();
   }
 
   if (document.readyState === 'loading') {
