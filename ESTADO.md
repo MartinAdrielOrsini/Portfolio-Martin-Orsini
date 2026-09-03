@@ -20,14 +20,14 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 - Rama main, sincronizada con origin.
 
 ```
-index.html          1831 líneas — estructura y contenido (14 secciones)
-css/styles.css      2504 líneas — todo el estilo; config en :root
+index.html          1840 líneas — estructura y contenido (14 secciones)
+css/styles.css      2518 líneas — todo el estilo; config en :root
 javascript/main.js  2097 líneas — 19 módulos
 assets/             151 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=86**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=87**.
 
 ---
 
@@ -547,6 +547,29 @@ Estuvieron un rato en una sola fila de cuatro (`.grid-4`) por un error de
 lectura del wireframe. A 1366 cada una mide 605 px y las dos filas van de
 56 a 1295, los mismos márgenes que los dos videos.
 
+**Aplicaciones.** Las seis definitivas del autor, de
+`MUSH FUENTE/aplicaciones/aplicaciones definitivas` (a.jpg a f.jpg,
+1617x1080 salvo la a que es 4500x3000). Convertidas a **1200x800, 1 MB en
+total**, en `assets/images/mush-type/aplicaciones/`. Vienen en 3:2, que es
+justo el `ar-3x2` que el bloque ya usaba, así que no hubo que tocar el
+marco. Son: cartel de Mordisco, cartel de Mustard, latas, heladería ice!,
+neón de Gota y fachada de Chulin.
+
+**Van en tres columnas de a dos y el orden es por columna**: a y b en la
+primera, c y d en la segunda, e y f en la tercera. En el HTML siguen en su
+orden natural —a, b, c, d, e, f— y quien las acomoda es el CSS, con
+`grid-auto-flow: column` en `.grid-3--por-columna`. Reordenar el HTML
+habría sido más corto pero sólo serviría para este ancho: de 768 para
+abajo la retícula pasa a dos columnas y después a una, y ahí las piezas
+saldrían barajadas. Verificado: `a c e / b d f` de 768 a 1920, `a b / c d /
+e f` a 600 y una sola columna a 375.
+
+Esto reemplazó a seis imágenes que **repetían piezas del pase** —el
+abecedario, los números y el "¡Siempre!"— y encima estaban recortadas de
+4:5 a 3:2. Quedaron sin uso `06-pieza-a.jpg` a `09-pieza-d.jpg`,
+`11-ig.jpg` y `03-letras.jpg` en `assets/images/mush-type/`. **No se
+borraron.**
+
 **El tope de altura, otra vez.** Los dos videos salían de 804 px de ancho
 en vez de 1239: con `aspect-ratio` puesto, `--media-max-h` les recortaba
 el alto y, para sostener la proporción, se angostaban. Se resolvió con
@@ -576,6 +599,7 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 
 | Clase | Para qué |
 |---|---|
+| .grid-3--por-columna | Llena la retícula por columna en vez de por fila. Con seis piezas quedan tres columnas de a dos y las parejas caen una debajo de la otra. Sólo desde 768: más abajo la grilla se reacomoda sola y el orden del HTML vuelve a mandar. |
 | .row-fit + .fit-16 / .fit-10 / .fit-08 | Fila justificada: las piezas comparten alto y el ancho sale de su proporción. El flex-grow **es** la relación de aspecto. |
 | .project--fit | Levanta el tope --media-max-h de una sección entera, para que las filas lleguen a los dos márgenes. |
 | .project--phones + .phones + .phone | Maquetas de teléfono dibujadas en CSS: marco #C3AE8F, anillo negro, muesca y pantalla. Se miden al **17 % del ancho del contenedor**. |
@@ -638,13 +662,6 @@ compuesto más las piezas sueltas nombradas (a.jpg, b.jpg...). Se mide la
 referencia por escaneo de píxeles y se maqueta a partir de eso.
 
 ### Pendientes concretos
-0. **El bloque "Aplicaciones" de Mush repite piezas del pase.** El
-   abecedario, los números y el "¡Siempre!" son los mismos archivos que
-   ahora aparecen en los dos pases del universo gráfico, y encima están
-   recortados a 4:5 dentro de marcos 3:2, así que se los come por los
-   costados. Las únicas dos que no se repiten son la foto de las
-   hamburguesas (`11-ig.jpg`) y las letras sueltas (`03-letras.jpg`). Se
-   le preguntó al autor qué hacer y quedó sin responder.
 1. **El video de Green Eat pesa 60,4 MB.** Es el archivo más pesado del
    sitio por lejos: el segundo, el de Mush, pesa 28,4 MB. Reexportar a
    720 px de ancho, 2 Mbps, 20-30 s → 5-8 MB.

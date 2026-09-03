@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=86">
+<link rel="stylesheet" href="css/styles.css?v=87">
 </head>
 <body>
 
@@ -1696,15 +1696,24 @@
     </div>
   </div>
 
+  <!-- Las seis aplicaciones definitivas del autor. Van en tres columnas
+       de a dos, y el orden que pidio es por columna: a y b en la primera,
+       c y d en la segunda, e y f en la tercera.
+
+       En el HTML siguen en su orden natural —a, b, c, d, e, f— y el que
+       las acomoda por columna es el CSS, con grid-auto-flow: column. Es a
+       proposito: asi en pantalla angosta, donde la retícula pasa a dos
+       columnas y despues a una, las piezas se leen en el orden del autor
+       en vez de en el que dejo un reacomodo pensado para otro ancho. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
-    <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/06-pieza-a.jpg" alt="Aplicación de Mush Type" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/07-pieza-b.jpg" alt="Aplicación de Mush Type" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/08-pieza-c.jpg" alt="Aplicación de Mush Type" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/09-pieza-d.jpg" alt="Aplicación de Mush Type" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Instagram"><img src="assets/images/mush-type/11-ig.jpg" alt="Pieza para Instagram" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Letras"><img src="assets/images/mush-type/03-letras.jpg" alt="Letras de la tipografía" loading="lazy" decoding="async"></div></figure>
+    <div class="grid-3 grid-3--por-columna">
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/aplicaciones/a.jpg" alt="Cartel de vía pública de Mordisco con la tipografía Mush" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/aplicaciones/b.jpg" alt="Cartel iluminado de Mustard en la calle, con la tipografía Mush" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/aplicaciones/c.jpg" alt="Latas de bebida rotuladas con la tipografía Mush" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/aplicaciones/d.jpg" alt="Heladería ice! con la tipografía Mush en los envases y la carta" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/aplicaciones/e.jpg" alt="Cartel de neón de Gota, cócteles de autor, con la tipografía Mush" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/mush-type/aplicaciones/f.jpg" alt="Fachada de la cafetería Chulin con la tipografía Mush" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
@@ -1826,6 +1835,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=86"></script>
+<script src="javascript/main.js?v=87"></script>
 </body>
 </html>

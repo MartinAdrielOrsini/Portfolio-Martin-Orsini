@@ -2224,6 +2224,20 @@ em { font-style: italic; }
 
   .grid-2 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+  /* Se llena por columna y no por fila: con seis piezas quedan tres
+     columnas de a dos, y las parejas que arma el autor —a con b, c con d,
+     e con f— caen una debajo de la otra en vez de una al lado de la otra.
+
+     Va aca y no reordenando el HTML a proposito. Reordenado, el orden de
+     lectura seria el de esta retícula y sólo el de esta: mas abajo de 768
+     la grilla pasa a dos columnas y despues a una, y ahi las piezas
+     saldrian barajadas. Dejando el HTML en su orden natural, cada ancho
+     lee bien. */
+  .grid-3--por-columna {
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+  }
   .grid-4 { grid-template-columns: repeat(4, 1fr); }
 
   .grid-asym { grid-template-columns: repeat(3, 1fr); }
