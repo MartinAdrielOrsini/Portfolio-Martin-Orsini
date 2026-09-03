@@ -893,6 +893,87 @@ em { font-style: italic; }
   color: var(--accent);
   border-color: var(--accent);
 }
+
+/* ------------ Aplicaciones en grande ------------
+   Las piezas de Aplicaciones se abren en grande y ahi se pueden mirar de
+   cerca. Ver el modulo 19 del JS.
+
+   El marco de la grilla es un <button> y no un <div>: es lo que se
+   clickea, asi que tiene que serlo tambien para el teclado y para un
+   lector de pantalla. Hay que devolverle las medidas que el navegador le
+   pone a los botones, que .fig__frame no contempla. */
+.fig__frame--ampliable {
+  display: block;
+  width: 100%;
+  padding: 0;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: zoom-in;
+}
+
+.visor {
+  --visor-aire: clamp(1rem, 4vw, 3rem);
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: grid;
+  place-items: center;
+  padding: var(--visor-aire);
+  background: rgba(17, 17, 17, 0.72);
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease);
+}
+.visor[hidden] { display: none; }
+.visor.is-open { opacity: 1; }
+
+/* El marco es la ventana: se queda quieto y del tamaño de la pieza
+   entera, y lo que se agranda adentro es la imagen. Por eso el recorte va
+   aca y no en la imagen.
+
+   La medida sale de un solo numero, --ar, que pone el JS con la
+   proporcion real del archivo: el ancho es el menor entre el que hay y el
+   que permite la altura de pantalla. Con la proporcion puesta en el marco
+   no hace falta que la imagen elija entre contain y cover —le calza
+   exacto— y de paso el hueco nunca cambia de forma al ampliar. */
+.visor__marco {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--ar, 1.5);
+  width: min(100%, calc((100svh - var(--visor-aire) * 2) * var(--ar, 1.5)));
+  background: var(--bg-warm);
+  cursor: zoom-in;
+  /* Sin ampliar, el gesto vertical sigue siendo el de la pagina. */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.visor__marco.is-zoom {
+  cursor: zoom-out;
+  /* Ampliada, el dedo mueve la imagen en las dos direcciones y ya no
+     scrollea: si no, el gesto vertical se lo lleva la pagina y la pieza
+     solo se puede recorrer a lo ancho. */
+  touch-action: none;
+}
+
+.visor__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;             /* el marco ya tiene su proporcion */
+  transform-origin: 50% 50%;
+  /* El arrastre nativo del navegador, apagado. Si no, apretar sobre la
+     pieza para recorrerla hace que se la lleve en fantasma y suelte la
+     captura del puntero. Es el mismo problema que tuvo el pase. */
+  -webkit-user-drag: none;
+  user-drag: none;
+  /* El desplazamiento mientras se mira de cerca no lleva transicion: la
+     imagen tiene que ir pegada al cursor. La clase la pone el JS solo
+     para el momento de agrandar y achicar. */
+}
+.visor__marco.is-animando .visor__img {
+  transition: transform var(--t-mid) var(--ease);
+}
 /* ------------ Pase de imagenes ------------
    Las piezas del universo grafico van pasando solas. Hay dos pases, uno
    a cada lado del texto, con ocho piezas cada uno. Se puede arrastrar

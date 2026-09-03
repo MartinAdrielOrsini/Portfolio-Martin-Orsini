@@ -2066,6 +2066,244 @@
 
 
   /* ==========================================================
+     19 — APLICACIONES EN GRANDE
+     Las piezas de Aplicaciones se abren en grande, como las cartas
+     de remeras, y ahi se pueden mirar de cerca: un click amplia,
+     otro devuelve la pieza entera. Se sale tocando fuera, con
+     Escape o con la cruz de arriba a la derecha.
+
+     Mientras esta ampliada, el desplazamiento no se hace moviendo
+     la imagen sino corriendo su transform-origin. Es la unica
+     forma de que el punto que esta bajo el cursor se quede quieto
+     y, a la vez, de que no haga falta calcular ningun limite: el
+     origen va de 0% a 100% y con eso nunca se ve mas alla del
+     borde. Moviendo la imagen habria que acotar el corrimiento a
+     mano, y ese calculo cambia con el zoom y con cada proporcion.
+
+     Con el mouse alcanza con pasar por encima; con el dedo, que no
+     tiene cursor, se arrastra. Un arrastre no cuenta como click,
+     asi que mover la imagen no la achica sin querer.
+
+     La vista se arma una sola vez y se reusa. La pieza grande vive
+     en su propia carpeta y **se baja recien al abrir**: en la
+     grilla se ve a 394 px y no tiene sentido bajar 2 MB para eso.
+     Mientras llega se muestra la chica, que ya esta en la cache,
+     asi que no hay un hueco en blanco.
+     ========================================================== */
+  function initAplicaciones() {
+    const botones = $$('[data-aplic]');
+    if (!botones.length) return;
+
+    const ZOOM = 2.5;
+
+    let caja = null, marco = null, img = null;
+    let quienAbrio = null, ampliado = false, animacion = 0;
+    let ox = 50, oy = 50;
+
+    botones.forEach((b) => b.addEventListener('click', () => abrir(b)));
+
+    function construir() {
+      caja = document.createElement('div');
+      caja.className = 'visor';
+      caja.hidden = true;
+
+      marco = document.createElement('div');
+      marco.className = 'visor__marco';
+      /* Es lo que se amplia, asi que tambien tiene que poder hacerse
+         desde el teclado. */
+      marco.tabIndex = 0;
+      marco.setAttribute('role', 'button');
+      marco.setAttribute('aria-label', 'Ampliar o achicar la imagen');
+
+      img = document.createElement('img');
+      img.className = 'visor__img';
+      img.decoding = 'async';
+      /* Sin esto, apretar sobre la pieza para recorrerla arranca el
+         arrastre nativo del navegador: se lleva el JPG en fantasma y
+         suelta la captura del puntero. Ya paso con el pase. */
+      img.draggable = false;
+      marco.appendChild(img);
+
+      /* La misma cruz que la vista grande de las cartas. */
+      const cerrar = document.createElement('button');
+      cerrar.type = 'button';
+      cerrar.className = 'lightbox__cerrar';
+      cerrar.setAttribute('aria-label', 'Cerrar');
+      cerrar.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+        '<path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" ' +
+        'stroke-linecap="round"></path></svg>';
+
+      caja.appendChild(marco);
+      caja.appendChild(cerrar);
+      document.body.appendChild(caja);
+
+      cerrar.addEventListener('click', salir);
+      /* Tocar el fondo cierra; tocar la pieza no, porque ese click no
+         llega hasta aca. */
+      caja.addEventListener('click', (e) => { if (e.target === caja) salir(); });
+
+      armarGestos();
+    }
+
+    /* --- Mirar de cerca ------------------------------------------ */
+    function poner(px, py) {
+      ox = Math.min(100, Math.max(0, px));
+      oy = Math.min(100, Math.max(0, py));
+      img.style.transformOrigin = ox + '% ' + oy + '%';
+    }
+
+    /* Lleva el origen al punto que esta bajo el cursor. */
+    function seguir(e) {
+      const r = marco.getBoundingClientRect();
+      poner(((e.clientX - r.left) / r.width) * 100,
+            ((e.clientY - r.top) / r.height) * 100);
+    }
+
+    /* Con el dedo. Un corrimiento de d pixeles mueve el contenido
+       d * (ZOOM - 1) / 100 por cada punto de origen, asi que hay que
+       dividir por eso para que la imagen vaya al ritmo del dedo. */
+    function correr(dx, dy) {
+      const r = marco.getBoundingClientRect();
+      const k = 100 / (ZOOM - 1);
+      poner(ox - (dx / r.width) * k, oy - (dy / r.height) * k);
+    }
+
+    function animar() {
+      marco.classList.add('is-animando');
+      window.clearTimeout(animacion);
+      animacion = window.setTimeout(() => {
+        marco.classList.remove('is-animando');
+      }, 340);
+    }
+
+    function ampliar(e) {
+      ampliado = true;
+      marco.classList.add('is-zoom');
+      /* El origen se pone antes de arrancar la transicion, asi el punto
+         que se clickeo es el que queda a la vista. */
+      if (e) seguir(e); else poner(50, 50);
+      animar();
+      img.style.transform = 'scale(' + ZOOM + ')';
+    }
+
+    function achicar() {
+      if (!ampliado) return;
+      ampliado = false;
+      marco.classList.remove('is-zoom');
+      animar();
+      img.style.transform = 'none';
+      /* El origen se devuelve al centro recien al final: si se lo moviera
+         ahora, la imagen pegaria un salto mientras se achica. En escala 1
+         el origen no cambia nada. */
+      window.setTimeout(() => { if (!ampliado) poner(50, 50); }, 340);
+    }
+
+    function armarGestos() {
+      let apretado = false, movido = 0, ux = 0, uy = 0;
+
+      /* Segundo candado contra el arrastre nativo, para los navegadores
+         que no miran el draggable. Con el dedo no se toca: ahi no hay
+         arrastre nativo y cancelar el pointerdown se lleva puesto el
+         scroll de la pagina. */
+      marco.addEventListener('dragstart', (e) => e.preventDefault());
+
+      marco.addEventListener('pointerdown', (e) => {
+        if (e.button > 0) return;
+        apretado = true; movido = 0;
+        ux = e.clientX; uy = e.clientY;
+        if (e.pointerType !== 'touch') e.preventDefault();
+        try { marco.setPointerCapture(e.pointerId); } catch (err) {}
+      });
+
+      marco.addEventListener('pointermove', (e) => {
+        if (apretado) {
+          movido += Math.abs(e.clientX - ux) + Math.abs(e.clientY - uy);
+        }
+        if (ampliado) {
+          if (e.pointerType === 'mouse') seguir(e);
+          else if (apretado) correr(e.clientX - ux, e.clientY - uy);
+        }
+        ux = e.clientX; uy = e.clientY;
+      });
+
+      const soltar = () => { apretado = false; };
+      marco.addEventListener('pointerup', soltar);
+      marco.addEventListener('pointercancel', soltar);
+
+      marco.addEventListener('click', (e) => {
+        /* Si se arrastro, fue para mover la imagen y no para achicarla. */
+        if (movido > 10) { movido = 0; return; }
+        if (ampliado) achicar(); else ampliar(e);
+      });
+
+      marco.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        if (ampliado) achicar(); else ampliar(null);
+      });
+    }
+
+    /* --- Abrir y cerrar ------------------------------------------ */
+    function abrir(boton) {
+      if (!caja) construir();
+
+      const chica = $('img', boton);
+      const grande = boton.dataset.grande;
+
+      achicar();
+      marco.classList.remove('is-animando');
+      img.style.transform = 'none';
+      poner(50, 50);
+
+      /* Primero la chica, que ya esta en la cache y aparece en el acto, y
+         cuando llega la grande se cambia. Asi no hay un hueco vacio. */
+      img.alt = chica.alt;
+      img.src = chica.currentSrc || chica.src;
+      ponerProporcion(chica.naturalWidth, chica.naturalHeight);
+
+      if (grande) {
+        const previa = new Image();
+        previa.onload = () => {
+          /* Puede haber llegado tarde, con el visor ya cerrado o con otra
+             pieza abierta. */
+          if (caja.hidden || quienAbrio !== boton) return;
+          img.src = previa.src;
+          ponerProporcion(previa.naturalWidth, previa.naturalHeight);
+        };
+        previa.src = grande;
+      }
+
+      quienAbrio = boton;
+      caja.hidden = false;
+      /* Leer una medida fuerza el reflow, y con eso el navegador toma el
+         estado cerrado antes de que se agregue la clase: la transicion de
+         opacidad arranca desde ahi. */
+      void caja.offsetWidth;
+      caja.classList.add('is-open');
+      document.documentElement.style.overflow = 'hidden';
+      marco.focus();
+    }
+
+    function ponerProporcion(w, h) {
+      if (w > 0 && h > 0) marco.style.setProperty('--ar', (w / h).toFixed(4));
+    }
+
+    function salir() {
+      if (!caja || caja.hidden) return;
+      achicar();
+      caja.classList.remove('is-open');
+      document.documentElement.style.overflow = '';
+      window.setTimeout(() => { caja.hidden = true; }, 320);
+      if (quienAbrio) { quienAbrio.focus(); quienAbrio = null; }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') salir();
+    });
+  }
+
+
+  /* ==========================================================
      ARRANQUE
      ========================================================== */
   function init() {
@@ -2087,6 +2325,7 @@
     initShirt3D();
     initCards();
     initPase();
+    initAplicaciones();
   }
 
   if (document.readyState === 'loading') {

@@ -21,13 +21,13 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 
 ```
 index.html          1840 líneas — estructura y contenido (14 secciones)
-css/styles.css      2518 líneas — todo el estilo; config en :root
-javascript/main.js  2097 líneas — 19 módulos
+css/styles.css      2599 líneas — todo el estilo; config en :root
+javascript/main.js  2336 líneas — 20 módulos
 assets/             151 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=87**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=89**.
 
 ---
 
@@ -40,11 +40,17 @@ assets/             151 MB (!) — ver "Problemas conocidos"
   navegador aborte descargas. Sin eso, se cae al servir el mp4 grande.
 - **El autor revisa en un portátil de 1366x768** → unos **630 px
   útiles**. Verificar siempre ahí, además de 375 y 1920.
-- **El panel del navegador no saca capturas** ("not compositing frames").
-  Se verifica **midiendo el DOM por JavaScript**. Además congela
-  requestAnimationFrame y los IntersectionObserver, así que el scroll
-  suave y las animaciones parecen rotos cuando no lo están: para probar
-  anclas, desactivar scroll-behavior y usar saltos instantáneos.
+- **El panel del navegador saca capturas sólo cuando está a la vista.**
+  Con el panel oculto devuelve una imagen en blanco ("not compositing
+  frames") y además congela requestAnimationFrame y los
+  IntersectionObserver, así que el scroll suave y las animaciones parecen
+  rotos cuando no lo están: para probar anclas, desactivar scroll-behavior
+  y usar saltos instantáneos. Con el panel visible se ve todo y las
+  coordenadas del mouse son 1:1 con el viewport, **si antes se hace
+  `resize_window` con preset desktop**; con un viewport emulado más grande
+  que el panel, la captura sale escalada y las coordenadas no coinciden.
+- **Igual conviene medir el DOM por JavaScript** y no fiarse de mirar: es
+  lo que detecta un desborde de 1 px o un contraste flojo.
 - **Leer PDFs:** no hay poppler ni ImageMagick ni Python real. Se
   rasterizan con la **API nativa de Windows** (Windows.Data.Pdf) desde
   PowerShell. Hay un script hecho en el scratchpad (pdf2png.ps1).
@@ -570,6 +576,45 @@ abecedario, los números y el "¡Siempre!"— y encima estaban recortadas de
 `11-ig.jpg` y `03-letras.jpg` en `assets/images/mush-type/`. **No se
 borraron.**
 
+**Se abren en grande y se pueden mirar de cerca** (módulo 19, clases
+`.visor*`). Un click amplia 2,5x, otro devuelve la pieza entera; se sale
+tocando fuera, con Escape o con la cruz, que es la misma
+`.lightbox__cerrar` de las cartas de remeras.
+
+- El marco de la grilla es un **`<button>`**, no un `<div>`: es lo que se
+  clickea, así que tiene que serlo también para el teclado y para un
+  lector de pantalla. La clase `.fig__frame--ampliable` le devuelve las
+  medidas que el navegador le pone a los botones.
+- **El desplazamiento corre el `transform-origin`, no la imagen.** Es la
+  única forma de que el punto bajo el cursor se quede quieto y, a la vez,
+  de no tener que calcular ningún límite: el origen va de 0% a 100% y con
+  eso nunca se ve más allá del borde. Moviendo la imagen habría que acotar
+  el corrimiento a mano, y ese cálculo cambia con el zoom y con cada
+  proporción.
+- Con el mouse alcanza con pasar por encima; con el dedo se arrastra, y
+  ampliada el marco pasa a `touch-action: none` para que el gesto vertical
+  no se lo lleve la página. Un arrastre de más de 10 px no cuenta como
+  click, así que recorrer la imagen no la achica sin querer.
+- El marco lleva su proporción real en `--ar`, que pone el JS: así el
+  hueco no cambia de forma al ampliar y la imagen no tiene que elegir
+  entre `contain` y `cover`.
+- **La pieza grande vive aparte y se baja recién al abrir.** En la grilla
+  se ve a 394 px y no tiene sentido bajar 2 MB para eso.
+  `aplicaciones/grande/` son 2,2 MB: la `a` a 2400x1600 y el resto a
+  1617x1080, que es su **nativo** —no se agranda ninguna—. Mientras llega
+  se muestra la chica, que ya está en caché, así que no hay hueco blanco.
+- **El zoom de b a f es blando y no hay cómo evitarlo:** el archivo final
+  del autor mide 1617 px y a 2,5x se renderiza a unos 3700. Las de la
+  carpeta padre no sirven —son los ingredientes en bruto, con otros
+  recortes y proporciones—. Si alguna vez se quiere zoom nítido, hay que
+  reexportarlas más grandes desde `aplicaciones.psd`. La `a` sí tiene
+  resolución de sobra.
+- Van los mismos tres candados contra el arrastre nativo que en el pase
+  (`draggable`, `-webkit-user-drag` y `dragstart` cortado). **Probado con
+  el mouse de verdad**, no con eventos sintéticos: abrir, ampliar,
+  recorrer de una esquina a la otra, achicar y cerrar, con cero
+  `dragstart` en todo el recorrido.
+
 **El tope de altura, otra vez.** Los dos videos salían de 804 px de ancho
 en vez de 1239: con `aspect-ratio` puesto, `--media-max-h` les recortaba
 el alto y, para sostener la proporción, se angostaban. Se resolvió con
@@ -600,6 +645,7 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | Clase | Para qué |
 |---|---|
 | .grid-3--por-columna | Llena la retícula por columna en vez de por fila. Con seis piezas quedan tres columnas de a dos y las parejas caen una debajo de la otra. Sólo desde 768: más abajo la grilla se reacomoda sola y el orden del HTML vuelve a mandar. |
+| .visor + .visor__marco / .visor__img / .fig__frame--ampliable | Vista grande de una imagen con lupa. Un click amplia, otro achica; el desplazamiento corre el transform-origin y por eso nunca se pasa del borde. El marco de la grilla es un botón. Lo mueve el módulo 19. |
 | .row-fit + .fit-16 / .fit-10 / .fit-08 | Fila justificada: las piezas comparten alto y el ancho sale de su proporción. El flex-grow **es** la relación de aspecto. |
 | .project--fit | Levanta el tope --media-max-h de una sección entera, para que las filas lleguen a los dos márgenes. |
 | .project--phones + .phones + .phone | Maquetas de teléfono dibujadas en CSS: marco #C3AE8F, anillo negro, muesca y pantalla. Se miden al **17 % del ancho del contenedor**. |
