@@ -910,6 +910,32 @@ em { font-style: italic; }
   font: inherit;
   color: inherit;
   cursor: zoom-in;
+  /* El filete naranja del hover se hace engrosando el borde que la pieza
+     ya tiene, y lo que lo engrosa es un outline y no mas border: el
+     border entra en la caja, asi que subirlo a 2 px correria la imagen un
+     pixel y movería toda la fila. El outline se dibuja por fuera y no
+     ocupa lugar.
+
+     Va puesto siempre y transparente para poder animar el color: de
+     outline: none no hay transicion posible. Con eso tambien se pisa el
+     anillo de foco que pone el navegador, y por eso el :focus-visible
+     lleva el mismo filete: quien va con el teclado ve lo mismo que quien
+     va con el mouse. */
+  outline: 1px solid transparent;
+  outline-offset: 0;
+  transition: border-color var(--t-fast) var(--ease),
+              outline-color var(--t-fast) var(--ease);
+}
+/* Los dos nombres de clase a proposito, aunque con uno alcanzaria para
+   seleccionar: hay que ganarle a `.fig__frame.is-loaded`, que apaga el
+   borde una vez cargada la imagen —el filete gris es del placeholder, no
+   de la pieza—. Con un solo nombre las dos reglas empatan en
+   especificidad y decide cual va ultima en el archivo, que es una forma
+   fragil de ganar: alguien reordena y el hover deja de verse. */
+.fig__frame.fig__frame--ampliable:hover,
+.fig__frame.fig__frame--ampliable:focus-visible {
+  border-color: var(--accent);
+  outline-color: var(--accent);
 }
 
 .visor {

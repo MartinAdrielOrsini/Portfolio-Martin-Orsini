@@ -21,13 +21,13 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 
 ```
 index.html          1840 líneas — estructura y contenido (14 secciones)
-css/styles.css      2599 líneas — todo el estilo; config en :root
+css/styles.css      2626 líneas — todo el estilo; config en :root
 javascript/main.js  2336 líneas — 20 módulos
 assets/             151 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=89**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=91**.
 
 ---
 
@@ -585,6 +585,18 @@ tocando fuera, con Escape o con la cruz, que es la misma
   clickea, así que tiene que serlo también para el teclado y para un
   lector de pantalla. La clase `.fig__frame--ampliable` le devuelve las
   medidas que el navegador le pone a los botones.
+- **Al pasar por encima aparece un filete naranja** de 2 px, y lo mismo al
+  llegar con el teclado. Se hace con el borde que la pieza ya tiene más un
+  `outline` de 1 px: subir el borde a 2 px correría la imagen un píxel y
+  movería toda la fila, mientras que el outline se dibuja por fuera y no
+  ocupa lugar. Verificado a 375, 768, 1366 y 1920: la pieza no se mueve ni
+  un píxel al encenderse. El outline va siempre puesto y transparente para
+  poder animarle el color —de `outline: none` no hay transición posible—.
+- **El selector lleva los dos nombres de clase a propósito.** Hay que
+  ganarle a `.fig__frame.is-loaded`, que apaga el borde una vez cargada la
+  imagen (el filete gris es del placeholder, no de la pieza). Con un solo
+  nombre las dos reglas empatan en especificidad y decide cuál va última
+  en el archivo: alguien reordena y el hover deja de verse.
 - **El desplazamiento corre el `transform-origin`, no la imagen.** Es la
   única forma de que el punto bajo el cursor se quede quieto y, a la vez,
   de no tener que calcular ningún límite: el origen va de 0% a 100% y con
