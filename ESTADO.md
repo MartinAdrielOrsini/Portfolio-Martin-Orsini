@@ -20,14 +20,14 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 - Rama main, sincronizada con origin.
 
 ```
-index.html          1873 líneas — estructura y contenido (14 secciones)
-css/styles.css      2626 líneas — todo el estilo; config en :root
+index.html          1903 líneas — estructura y contenido (14 secciones)
+css/styles.css      2657 líneas — todo el estilo; config en :root
 javascript/main.js  2336 líneas — 20 módulos
 assets/             151 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=91**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=92**.
 
 ---
 
@@ -139,6 +139,19 @@ Acordeón: cada ítem despliega una descripción breve y un "Ver más".
 imagen de la derecha cambia **sólo al hacer click**. El ítem abierto se
 marca con bloque naranja pleno y su texto pasa a negro. Las imágenes
 viven en assets/images/indice/ y son **cuadradas**.
+
+**El año del proyecto** va en el pie del panel, a la derecha del "Ver
+más" y sobre su misma línea de base (`.index__pie` y `.index__anio`).
+Cierra contra el mismo margen que la categoría del ítem —no contra el
+borde del bloque naranja— y eso sale de dejarle libre la columna del
+signo + / −, que mide 12 px más el medianil de la lista. Verificado de
+375 a 1920: cierra exacto con la categoría en todos, con 0 px de desvío.
+Lleva el cuerpo y el color de la categoría, porque cae en esa misma
+columna, y numeración tabular para que los diez queden del mismo ancho.
+
+Los años, por si hay que rehacerlos: Suma 2025, Centenera 2025, Green Eat
+2024, Cerveceros 2025, 3 Esencias 2024, Fascículos 2025, Almacenit 2024,
+Estrella 2025, Remeras 2022, Mush 2026.
 
 ### Contacto
 Mail, redes y CV cargados. El formulario envía por **FormSubmit** vía
@@ -714,6 +727,7 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | Clase | Para qué |
 |---|---|
 | .grid-3--por-columna | Llena la retícula por columna en vez de por fila. Con seis piezas quedan tres columnas de a dos y las parejas caen una debajo de la otra. Sólo desde 768: más abajo la grilla se reacomoda sola y el orden del HTML vuelve a mandar. |
+| .index__pie + .index__anio | El pie del panel del índice: el "Ver más" a la izquierda y el año a la derecha, sobre la misma línea de base. El padding derecho deja libre la columna del signo, así el año cierra contra el mismo margen que la categoría. |
 | .visor + .visor__marco / .visor__img / .fig__frame--ampliable | Vista grande de una imagen con lupa. Un click amplia, otro achica; el desplazamiento corre el transform-origin y por eso nunca se pasa del borde. El marco de la grilla es un botón. Lo mueve el módulo 19. |
 | .row-fit + .fit-16 / .fit-10 / .fit-08 | Fila justificada: las piezas comparten alto y el ancho sale de su proporción. El flex-grow **es** la relación de aspecto. |
 | .project--fit | Levanta el tope --media-max-h de una sección entera, para que las filas lleguen a los dos márgenes. |
