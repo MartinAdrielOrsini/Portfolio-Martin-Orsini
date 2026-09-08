@@ -20,7 +20,7 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 - Rama main, sincronizada con origin.
 
 ```
-index.html          1903 líneas — estructura y contenido (14 secciones)
+index.html          1907 líneas — estructura y contenido (14 secciones)
 css/styles.css      2657 líneas — todo el estilo; config en :root
 javascript/main.js  2336 líneas — 20 módulos
 assets/             151 MB (!) — ver "Problemas conocidos"
@@ -442,6 +442,17 @@ tres presentaciones, una por fila.
   09), con el ancho de salida según lo grande que se ve cada pieza —1400
   las de arriba, 1100 las botellas, 1600 las escenas— y sin agrandar
   ninguna. La del índice va cuadrada a 1181 px, como las otras nueve.
+
+**El nombre de la marca no se parte nunca.** "3 Esencias" lleva un espacio
+duro (`&nbsp;`) en los cuatro lugares donde se ve como texto: el nombre
+del índice, el título de la sección, los dos enlaces de navegación y la
+bajada. Sin eso el "3" quedaba al final de un renglón y "Esencias" al
+principio del siguiente. **Va con `&nbsp;` y no con un `<span>` de
+`nowrap`** a propósito: meter la marca en un span mataría el kerning
+contra las comillas que la rodean, que es el mismo problema que ya está
+anotado para el asterisco del hero. Verificado de 320 a 1920 px: una sola
+línea en los cuatro sitios. Si se reescribe el texto, hay que volver a
+poner el espacio duro.
 
 **Dos rótulos los puse yo y conviene que los revise el autor:** la volanta
 dice **"Packaging"** —era "Juego de mesa"— y el título del bloque de
