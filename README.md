@@ -20,7 +20,7 @@ assets/images/        → imágenes por proyecto (18,7 MB)
 | 5 | Redes Centenera FC | `#p-centenera` | 8 |
 | 6 | App Green Eat | `#p-green-eat` | 8 |
 | 7 | Cerveceros del Sur ★ | `#p-cerveceros` | 14 |
-| 8 | Dosel | `#p-dosel` | 9 |
+| 8 | 3 Esencias | `#p-esencias` | 9 |
 | 9 | Fascículos editorial | `#p-fasciculos` | 9 |
 | 10 | Web Almacenit | `#p-almacenit` | 3 |
 | 11 | Estrella de Maldonado ★ | `#p-estrella` | 12 |

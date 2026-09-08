@@ -20,7 +20,7 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 - Rama main, sincronizada con origin.
 
 ```
-index.html          1840 líneas — estructura y contenido (14 secciones)
+index.html          1873 líneas — estructura y contenido (14 secciones)
 css/styles.css      2626 líneas — todo el estilo; config en :root
 javascript/main.js  2336 líneas — 20 módulos
 assets/             151 MB (!) — ver "Problemas conocidos"
@@ -103,7 +103,7 @@ en blanco (3,4:1).
 | 5 | Centenera FC | #p-centenera | **contenido real del autor** |
 | 6 | Green Eat | #p-green-eat | **contenido real del autor** |
 | 7 | Cerveceros del Sur (destacado) | #p-cerveceros | **contenido real del autor** |
-| 8 | Dosel | #p-dosel | maqueta de wireframe |
+| 8 | 3 Esencias | #p-esencias | **contenido real del autor** |
 | 9 | Fascículos | #p-fasciculos | maqueta de wireframe |
 | 10 | Almacenit | #p-almacenit | **contenido real del autor** |
 | 11 | Estrella de Maldonado (destacado) | #p-estrella | maqueta de wireframe |
@@ -382,6 +382,63 @@ hizo falta retícula nueva—.
   proporciones genéricas, no una clase de esta sección.
 - Sin uso: `01-home.jpg` y `02-detalle.jpg` (980 KB), reemplazados por
   `home.jpg` y `detalle.jpg`.
+
+### 3 Esencias — reemplazó a Dosel
+La sección que era **Dosel** pasó a ser **3 Esencias**, un proyecto de
+packaging de whiskey, licor y ron. Cambió el contenido entero: título,
+volanta, textos, imágenes y la entrada del índice. También cambiaron los
+identificadores —`p-dosel` → `p-esencias`, `ix-dosel` → `ix-esencias`,
+`pnl-dosel` → `pnl-esencias`—, así que hay que tocar los enlaces
+Siguiente de Cerveceros y Anterior de Fascículos, el `data-href` y el
+"Ver más" del índice, el mapa de secciones del principio del HTML y la
+tabla del README. Verificado: cero anclas rotas.
+
+Maquetada sobre `3 esencias/imagenes/web/referencia.jpg` (1920x4113),
+medida por escaneo de píxeles. Caja útil de la referencia: x 163 a 1736,
+**1573 de ancho**.
+
+Orden: dos tomas del set a lo ancho · una foto con el texto al lado · las
+tres presentaciones, una por fila.
+
+- **No hizo falta ninguna clase nueva.** Todo sale de piezas que ya
+  existían: `.grid-2` para la apertura y para el bloque de texto, y
+  `.row-fit .row-fit--even` para las tres filas de abajo.
+- **La fila de imagen y texto va en `.grid-2` y no en `.split`.** En la
+  referencia las dos columnas miden lo mismo —la pieza ocupa 768 de los
+  1573 útiles, que es la mitad justa descontada la calle— mientras que el
+  `.split` reparte 0.9 y 1.1 y dejaría la imagen bastante más chica. El
+  texto conserva su tope de 38ch, así que no llena la columna entera;
+  tampoco lo hace en el montaje del autor.
+- **Las tres filas de abajo comparten geometría.** Cada una es una
+  `.row-fit`: las dos piezas comparten el alto y el ancho sale de su
+  `--ar`. Medido en la referencia, las tres filas miden 771 px de alto y
+  las calles horizontal y vertical son de 49 y 50 px —de ahí el `--even`,
+  que iguala la calle entre filas con la de adentro—.
+- **La pieza 07 se recortó 14 px arriba y abajo al convertirla.** Venía en
+  1.1833 y sus dos hermanas de fila en 1.2007; sin igualarlas, su fila
+  salía 6 px más alta y el corte entre las dos columnas quedaba 4 px
+  corrido respecto de las otras dos filas. El montaje del autor ya la
+  traía recortada. Es la única imagen a la que se le tocó el encuadre.
+- **La sección lleva `project--fit`**, como Centenera y Cerveceros. Sin
+  eso el tope de `--media-max-h` les recorta el alto a las filas, las
+  piezas se angostan para sostener su proporción y dejan de llegar al
+  margen derecho: a 1366 la fila pide 613 px de alto contra los 454 del
+  tope. Medido de 768 a 1920, las tres filas llegan a los dos márgenes.
+- Fuente: nueve JPG de `3 esencias/imagenes/web`, más `imagen indice.jpg`.
+  Convertidas a **1,7 MB en total** en `assets/images/esencias/` (01 a
+  09), con el ancho de salida según lo grande que se ve cada pieza —1400
+  las de arriba, 1100 las botellas, 1600 las escenas— y sin agrandar
+  ninguna. La del índice va cuadrada a 1181 px, como las otras nueve.
+
+**Dos rótulos los puse yo y conviene que los revise el autor:** la volanta
+dice **"Packaging"** —era "Juego de mesa"— y el título del bloque de
+abajo dice **"Los tres packagings"** —era "Elementos del juego"—. El
+montaje venía con los de Dosel porque es una captura de la página vieja
+con las fotos nuevas encima.
+
+**Sin uso desde este cambio:** los diez archivos de
+`assets/images/dosel/` (1,4 MB) y `assets/images/indice/05-dosel.jpg`
+(1,1 MB). **No se borraron.**
 
 ### Mush Type — contenido real
 
@@ -709,10 +766,10 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 ## 8. Qué falta
 
 ### Contenido definitivo
-Quedan **tres** secciones con imágenes de relleno y textos cortos:
-**Dosel, Fascículos y Estrella de Maldonado**. Las otras cuatro que
-estaban en esta lista —Cerveceros, Almacenit, Remeras y Mush— ya tienen
-el material real del autor.
+Quedan **dos** secciones con imágenes de relleno y textos cortos:
+**Fascículos y Estrella de Maldonado**. Las otras cinco que estaban en
+esta lista —Cerveceros, Almacenit, Remeras, Mush y Dosel, que paso a ser
+3 Esencias— ya tienen el material real del autor.
 
 El flujo que viene funcionando: el autor deja en la carpeta del proyecto,
 dentro de PORTFOLIO WEB, una imagen de referencia con el diseño ya
