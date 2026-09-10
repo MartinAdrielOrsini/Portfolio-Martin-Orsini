@@ -46,10 +46,11 @@ proporciones del material.
    pantallas de la app, sólo el sistema de ilustración, los tres boards
    de onboarding y los recortes de producto. Armé la sección con eso. Si
    tenés las pantallas exportadas, entran en `assets/images/green-eat/`.
-4. **Fascículos editorial** — las imágenes que puse son del libro
-   fotográfico de `Editorial / tp3`, el único editorial con JPG finales.
-   Si "Fascículos" es otro TP, sus entregas están sólo en PDF y hacen
-   falta exportaciones en imagen.
+4. **Fascículos editorial** — la fila de tres son las tapas de la
+   colección y cada una abre su fascículo en un libro que se hojea
+   (módulo 20 de `main.js`). Por ahora las tres abren el fascículo 01,
+   *Los viernes*: faltan las páginas del 02 y del 03. Las tres dobles
+   páginas de más abajo siguen siendo de relleno.
 5. **Los textos** — están redactados mirando las piezas, no los briefs.
    Revisá cliente, año y rol de cada caso.
 

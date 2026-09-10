@@ -1,7 +1,7 @@
 # Estado del proyecto — traspaso
 
 Documento para retomar el trabajo en una conversación nueva.
-Última actualización: 2 de septiembre de 2026.
+Última actualización: 10 de septiembre de 2026.
 
 El README.md documenta **cómo funciona** el sitio. Este archivo cuenta
 **dónde estamos, qué se decidió y por qué, y qué falta**.
@@ -20,14 +20,14 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 - Rama main, sincronizada con origin.
 
 ```
-index.html          1907 líneas — estructura y contenido (14 secciones)
-css/styles.css      2657 líneas — todo el estilo; config en :root
-javascript/main.js  2336 líneas — 20 módulos
-assets/             151 MB (!) — ver "Problemas conocidos"
+index.html          1940 líneas — estructura y contenido (14 secciones)
+css/styles.css      2867 líneas — todo el estilo; config en :root
+javascript/main.js  2856 líneas — 21 módulos
+assets/             157 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=92**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=93**.
 
 ---
 
@@ -104,7 +104,7 @@ en blanco (3,4:1).
 | 6 | Green Eat | #p-green-eat | **contenido real del autor** |
 | 7 | Cerveceros del Sur (destacado) | #p-cerveceros | **contenido real del autor** |
 | 8 | 3 Esencias | #p-esencias | **contenido real del autor** |
-| 9 | Fascículos | #p-fasciculos | maqueta de wireframe |
+| 9 | Fascículos | #p-fasciculos | **tapas y libro interactivo del autor** (fascículo 01); dobles páginas de relleno |
 | 10 | Almacenit | #p-almacenit | **contenido real del autor** |
 | 11 | Estrella de Maldonado (destacado) | #p-estrella | maqueta de wireframe |
 | 12 | Remeras Delira | #p-remeras | **visor 3D + contenido real** |
@@ -113,7 +113,7 @@ en blanco (3,4:1).
 
 ---
 
-## 5. Qué se hizo (13 de agosto al 2 de septiembre)
+## 5. Qué se hizo (13 de agosto al 10 de septiembre)
 
 ### Hero
 - Asterisco: cuerpo 1.125em, translateX -0.269em. Tracking de la palabra
@@ -464,6 +464,72 @@ con las fotos nuevas encima.
 `assets/images/dosel/` (1,4 MB) y `assets/images/indice/05-dosel.jpg`
 (1,1 MB). **No se borraron.**
 
+### Fascículos — tapas y libro interactivo
+La fila de tres imágenes —la única de la sección que va de margen a
+margen— pasó a ser **las tres tapas de la colección**, y cada una abre su
+fascículo en un **libro que se hojea**. Por ahora las tres son del
+fascículo 01, *Los viernes* de Juan Forn, que es el único terminado.
+Cuando estén el 02 y el 03, en cada botón se cambian `data-libro` (la
+carpeta), `data-paginas`, `data-titulo` y la imagen de la tapa.
+
+- Fuente: `6FASCICULOS EDITORIAL/hojas forn`, 36 JPG de 1515x2008. La 1 es
+  la tapa y la 36 la contratapa; la 6, 12, 18, 24, 30 y 32 son blancas.
+  Convertidas a **1100x1458, calidad 80** en
+  `assets/images/fasciculos-editorial/fasciculo-01/01.jpg` a `36.jpg`
+  (6,2 MB) más `portada.jpg` a 800x1060 para la grilla (139 KB). Los 1100
+  de ancho no son al azar: con la lupa, a 1920, una página se ve a unos
+  1100 px, así que el archivo queda casi 1:1 y el texto se lee nítido.
+- **Las tapas son botones** `.fig__frame--ampliable` —la misma lupa y el
+  mismo filete naranja que Aplicaciones— y llevan **`fig__frame--tall`**:
+  son verticales, y con el tope de `--media-max-h` se angostarían y la
+  fila dejaría de llegar al margen. A 1366 miden 394x522.
+- **El libro no usa librerías** (módulo 20), por la regla de cero
+  dependencias. Es una pila de hojas con frente —la página impar— y dorso
+  —la par—, que giran 180° sobre el lomo con transforms 3D. El ángulo lo
+  mueve el JS cuadro a cuadro, como el pase, para que la hoja pueda seguir
+  al dedo y soltarse en cualquier punto.
+- La tapa y la contratapa van **solas y centradas**, como un libro
+  cerrado. El centrado es un corrimiento de media página del libro entero,
+  con la misma curva que la vuelta: al abrir, la tapa gira mientras el
+  libro se corre, no después.
+- **Cómo se hojea:** un toque en la página derecha avanza y en la
+  izquierda retrocede; con el mouse, la hoja se agarra y se arrastra
+  —pasada la mitad completa la vuelta, si no vuelve—; flechas del pie; ←
+  y → del teclado. Se cierra con la cruz, tocando el fondo o con Escape, y
+  el foco vuelve a la tapa. Varios toques seguidos no dejan hojas a mitad
+  de camino: cada uno termina la vuelta anterior y arranca la suya.
+- **El borde de la hoja va pegado al cursor.** El ángulo sale del
+  arcocoseno de la distancia del cursor al lomo, medida en páginas, y no
+  de una regla de tres con el recorrido: con la regla de tres la hoja se
+  adelanta o se atrasa respecto del dedo a mitad de camino. Verificado: en
+  siete muestras, el ángulo medido coincide con el de la fórmula al grado.
+- **De a una página en pantalla vertical.** Se pasa a ese modo cuando, de a
+  dos, cada página quedaría a menos del 78 % de lo que mide sola. El libro
+  es el mismo: se lo mira por una ventana de una página de ancho y se
+  corre hacia el lado que toca. Ahí la hoja no sigue al dedo —quedaría
+  medio afuera de la ventana—: deslizar en horizontal hojea y un gesto
+  vertical no.
+- **La lupa amplía ×2** y se recorre como en Aplicaciones, corriendo el
+  `transform-origin`: pasando el mouse, o arrastrando con el dedo. Con la
+  lupa puesta, las flechas achican y hojean. **Hace falta para leer:** sin
+  ella, a 1366x630 la página mide 324x429 y el texto no se distingue; con
+  ella se lee bien (verificado en captura).
+- **Las páginas se bajan de a poco:** sólo las de las dos hojas a cada
+  lado de la abierta. Abrir el libro baja 6 imágenes, no 36.
+- **El fondo va casi opaco** (0.97, más que las otras vistas grandes):
+  con más transparencia, detrás se leía la tipografía gigante del hero
+  como una mancha gris alrededor del libro.
+- Medido: una vuelta tarda **781 ms reales a 61 fps** contra los 750
+  previstos; a 1366 la tapa cae centrada exacta; llega a `36 / 36` con
+  "siguiente" deshabilitado y vuelve; recorriéndolo entero bajan las 36
+  páginas, ninguna rota. A 280x606 entra solo en modo de a una página, de
+  256x339. Sin errores de consola.
+
+**Sin uso desde este cambio:** `03-pagina-a.jpg`, `04-pagina-b.jpg` y
+`05-pagina-c.jpg` en `assets/images/fasciculos-editorial/`. **No se
+borraron.** Las tres dobles páginas de abajo ("Fascículo 01/02/03")
+siguen con imágenes de relleno.
+
 ### Mush Type — contenido real
 
 **Portada.** El JPG de apertura pasó a ser video, con el mismo patrón que
@@ -738,6 +804,7 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | Clase | Para qué |
 |---|---|
 | .grid-3--por-columna | Llena la retícula por columna en vez de por fila. Con seis piezas quedan tres columnas de a dos y las parejas caen una debajo de la otra. Sólo desde 768: más abajo la grilla se reacomoda sola y el orden del HTML vuelve a mandar. |
+| .libro-visor + .libro / .hoja / .hoja__cara | El libro interactivo de Fascículos. Visor en tres filas —título y cruz, escena, pie con flechas, contador y lupa—. Cada hoja gira 180° sobre el lomo con transforms 3D; el frente es la página impar y el dorso la par. Las medidas salen de --pw y --ph, que pone el módulo 20. |
 | .index__pie + .index__anio | El pie del panel del índice: el "Ver más" a la izquierda y el año a la derecha, sobre la misma línea de base. El padding derecho deja libre la columna del signo, así el año cierra contra el mismo margen que la categoría. |
 | .visor + .visor__marco / .visor__img / .fig__frame--ampliable | Vista grande de una imagen con lupa. Un click amplia, otro achica; el desplazamiento corre el transform-origin y por eso nunca se pasa del borde. El marco de la grilla es un botón. Lo mueve el módulo 19. |
 | .row-fit + .fit-16 / .fit-10 / .fit-08 | Fila justificada: las piezas comparten alto y el ancho sale de su proporción. El flex-grow **es** la relación de aspecto. |
@@ -791,10 +858,12 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 ## 8. Qué falta
 
 ### Contenido definitivo
-Quedan **dos** secciones con imágenes de relleno y textos cortos:
-**Fascículos y Estrella de Maldonado**. Las otras cinco que estaban en
-esta lista —Cerveceros, Almacenit, Remeras, Mush y Dosel, que paso a ser
-3 Esencias— ya tienen el material real del autor.
+Queda **Estrella de Maldonado** entera con imágenes de relleno y textos
+cortos. **Fascículos, a medias:** las tapas y el libro ya son del autor,
+pero las tres tapas abren el fascículo 01 —faltan las páginas del 02 y del
+03— y las tres dobles páginas de abajo siguen siendo de relleno. Las demás
+que estaban en esta lista —Cerveceros, Almacenit, Remeras, Mush y Dosel,
+que pasó a ser 3 Esencias— ya tienen el material real del autor.
 
 El flujo que viene funcionando: el autor deja en la carpeta del proyecto,
 dentro de PORTFOLIO WEB, una imagen de referencia con el diseño ya
@@ -869,7 +938,17 @@ referencia por escaneo de píxeles y se maqueta a partir de eso.
    arrastre nativo del navegador ni la pérdida de captura del puntero, así
    que un arrastre puede pasar todas las pruebas sintéticas y estar roto
    para el que lo usa. Ya pasó, con el pase de Mush.
-6. Subir el ?v=.
+6. **No usar `left_click_drag` en este panel.** Se cuelga a los 30 s y
+   deja el botón del mouse apretado: los clics que siguen llegan con un
+   movimiento fantasma —el final de aquel arrastre— o se cuelgan también.
+   Pasó probando el libro de Fascículos. Para arrastres, eventos de
+   puntero sintéticos midiendo el efecto, con los tres candados contra el
+   arrastre nativo ya puestos; los clics reales, sólo en el viewport
+   nativo del panel (preset desktop) y antes de cualquier arrastre.
+7. **Scripts de `javascript_tool` cortos.** Aunque la herramienta corte a
+   los 45 s, el script sigue corriendo en la página: sus clics se mezclan
+   con los pasos siguientes y dan resultados que no se entienden.
+8. Subir el ?v=.
 
 ---
 

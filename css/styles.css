@@ -1000,6 +1000,216 @@ em { font-style: italic; }
 .visor__marco.is-animando .visor__img {
   transition: transform var(--t-mid) var(--ease);
 }
+/* ------------ Libro interactivo ------------
+   Las tapas de Fascículos abren el fascículo en grande para hojearlo. La
+   mecánica está en el módulo 20 del JS; acá va sólo la forma.
+
+   Tres filas: arriba el título y la cruz, en el medio el libro y abajo
+   las flechas, el contador y la lupa. La cruz va en su fila y no flotando
+   en la esquina, como en las otras vistas grandes, porque acá el libro
+   puede llenar todo el ancho —en vertical, de a una página— y le taparía
+   el borde a la hoja.
+
+   Las medidas del libro las pone el JS en --pw y --ph —ancho y alto de
+   una página— a partir del lugar que hay. Todo lo demás sale de ahí. */
+.libro-visor {
+  --aire: clamp(0.75rem, 3vw, 2.5rem);
+  --pw: 300px;
+  --ph: 400px;
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  row-gap: clamp(0.5rem, 1.5vw, 1rem);
+  padding: var(--aire);
+  /* Casi opaco, más que las otras vistas grandes: detrás queda el hero, y
+     con más transparencia su tipografía gigante se leía como una mancha
+     gris alrededor del libro. Acá se viene a leer. */
+  background: rgba(17, 17, 17, 0.97);
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease);
+}
+.libro-visor[hidden] { display: none; }
+.libro-visor.is-open { opacity: 1; }
+
+.libro-visor__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 0;
+}
+.libro-visor__titulo {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-small);
+  color: var(--dark-ink);
+}
+/* La misma cruz que las otras vistas grandes, pero en su fila. */
+.libro-visor .lightbox__cerrar { position: static; flex: 0 0 auto; }
+
+/* La escena recorta: con la lupa puesta el libro se agranda más allá de
+   su lugar y no puede salirse por encima de la barra ni del pie. */
+.libro-visor__escena {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+/* La ventana por la que se mira el libro. De a dos páginas mide dos de
+   ancho; de a una, una, y recorta: el libro sigue siendo el mismo y se
+   corre hacia el lado de la página que toca. */
+.libro-visor__ventana {
+  position: relative;
+  width: calc(var(--pw) * 2);
+  height: var(--ph);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.libro-visor.is-simple .libro-visor__ventana {
+  width: var(--pw);
+  overflow: hidden;
+  cursor: pointer;
+}
+.libro-visor.is-ampliado .libro-visor__ventana {
+  cursor: zoom-out;
+  touch-action: none;
+}
+
+/* La capa que se agranda con la lupa. Como en la vista de Aplicaciones,
+   para recorrer lo ampliado se corre el transform-origin y no la capa:
+   así nunca se ve más allá del borde. */
+.libro-visor__capa {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--t-mid) var(--ease);
+}
+
+/* El libro mide dos páginas y está centrado en la ventana: el lomo cae en
+   el medio. El corrimiento —para centrar la tapa, la contratapa o la
+   página de turno— lo pone el JS en el transform, con la misma curva que
+   la vuelta de la hoja para que las dos cosas se muevan juntas.
+
+   La perspectiva va en el libro y no en la escena: así el punto de fuga
+   queda en el lomo, que es de donde gira la hoja. */
+.libro {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: calc(var(--pw) * 2);
+  height: var(--ph);
+  margin-left: calc(var(--pw) * -1);
+  perspective: calc(var(--pw) * 6);
+  transition: transform 750ms cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.libro.sin-transicion { transition: none; }
+
+/* Cada hoja ocupa la mitad derecha y gira sobre su borde izquierdo, que
+   es el lomo. El frente es la página impar y el dorso la par, dado vuelta
+   para que se lea derecho cuando la hoja queda del lado izquierdo. */
+.hoja {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+}
+.hoja__cara {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg-warm);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.hoja__cara--dorso { transform: rotateY(180deg); }
+.hoja__cara img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* La sombra del lomo: el papel se hunde hacia la costura. En el frente
+   el lomo está a la izquierda; en el dorso, que está dado vuelta, a la
+   derecha. La tapa y la contratapa no la llevan. */
+.hoja__cara::before,
+.hoja__cara::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hoja__cara--frente::before { background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0) 6%); }
+.hoja__cara--dorso::before  { background: linear-gradient(to left,  rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0) 6%); }
+.hoja__cara--tapa::before { display: none; }
+
+/* La luz de la vuelta: la hoja se oscurece mientras está levantada y se
+   aclara al asentarse. --luz la pone el JS en cada cuadro. */
+.hoja__cara::after { background: #000; opacity: var(--luz, 0); }
+
+.hoja__cara--vacia { background: transparent; }
+.hoja__cara--vacia::before,
+.hoja__cara--vacia::after { display: none; }
+
+/* El pie: las flechas y el contador al centro, la lupa a la derecha. */
+.libro-visor__pie {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: 1rem;
+}
+.libro-visor__nav {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.libro-visor__contador {
+  margin: 0;
+  min-width: 7.5ch;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--dark-ink);
+}
+.libro-visor__boton {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--dark-line);
+  background: none;
+  color: var(--dark-ink);
+  cursor: pointer;
+  transition: color var(--t-fast) var(--ease),
+              border-color var(--t-fast) var(--ease),
+              opacity var(--t-fast) var(--ease);
+}
+.libro-visor__boton svg { width: 20px; height: 20px; }
+.libro-visor__boton:hover:not(:disabled),
+.libro-visor__boton:focus-visible,
+.libro-visor__boton[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.libro-visor__boton:disabled { opacity: 0.3; cursor: default; }
+.libro-visor__boton--lupa { grid-column: 3; justify-self: end; }
+
 /* ------------ Pase de imagenes ------------
    Las piezas del universo grafico van pasando solas. Hay dos pases, uno
    a cada lado del texto, con ocho piezas cada uno. Se puede arrastrar

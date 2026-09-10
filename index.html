@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=92">
+<link rel="stylesheet" href="css/styles.css?v=93">
 </head>
 <body>
 
@@ -1114,11 +1114,44 @@
     </div>
   </div>
 
+  <!-- Las tres tapas de la colección. Cada una abre su fascículo en
+       grande para hojearlo: ver el módulo 20 del JS.
+
+       Por ahora las tres abren el fascículo 01, que es el único terminado.
+       Cuando estén el 02 y el 03 alcanza con cambiar, en cada botón, la
+       carpeta (data-libro), la cantidad de páginas, el título y la imagen
+       de la tapa. Dentro de la carpeta las páginas van numeradas 01.jpg,
+       02.jpg... y la tapa de la grilla es portada.jpg.
+
+       Van con fig__frame--tall porque son verticales: el tope de
+       --media-max-h les recortaría el alto, se angostarían para sostener
+       la proporción y la fila dejaría de llegar al margen derecho. -->
   <div class="container">
     <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Página"><img src="assets/images/fasciculos-editorial/03-pagina-a.jpg" alt="Página interior de un fascículo" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Página"><img src="assets/images/fasciculos-editorial/04-pagina-b.jpg" alt="Página interior de un fascículo" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-1x1" data-slot="Página"><img src="assets/images/fasciculos-editorial/05-pagina-c.jpg" alt="Página interior de un fascículo" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar reveal" style="--ar: 0.7545">
+        <button class="fig__frame fig__frame--tall fig__frame--ampliable" type="button" data-slot="Fascículo 01"
+                data-libro="assets/images/fasciculos-editorial/fasciculo-01/" data-paginas="36" data-proporcion="0.7545"
+                data-titulo="Los viernes — Juan Forn"
+                aria-label="Hojear el fascículo Los viernes, de Juan Forn">
+          <img src="assets/images/fasciculos-editorial/fasciculo-01/portada.jpg" alt="Tapa del fascículo Los viernes, de Juan Forn" loading="lazy" decoding="async">
+        </button>
+      </figure>
+      <figure class="fig fig--ar reveal" style="--ar: 0.7545">
+        <button class="fig__frame fig__frame--tall fig__frame--ampliable" type="button" data-slot="Fascículo 02"
+                data-libro="assets/images/fasciculos-editorial/fasciculo-01/" data-paginas="36" data-proporcion="0.7545"
+                data-titulo="Los viernes — Juan Forn"
+                aria-label="Hojear el fascículo Los viernes, de Juan Forn">
+          <img src="assets/images/fasciculos-editorial/fasciculo-01/portada.jpg" alt="Tapa del fascículo Los viernes, de Juan Forn" loading="lazy" decoding="async">
+        </button>
+      </figure>
+      <figure class="fig fig--ar reveal" style="--ar: 0.7545">
+        <button class="fig__frame fig__frame--tall fig__frame--ampliable" type="button" data-slot="Fascículo 03"
+                data-libro="assets/images/fasciculos-editorial/fasciculo-01/" data-paginas="36" data-proporcion="0.7545"
+                data-titulo="Los viernes — Juan Forn"
+                aria-label="Hojear el fascículo Los viernes, de Juan Forn">
+          <img src="assets/images/fasciculos-editorial/fasciculo-01/portada.jpg" alt="Tapa del fascículo Los viernes, de Juan Forn" loading="lazy" decoding="async">
+        </button>
+      </figure>
     </div>
   </div>
 
@@ -1902,6 +1935,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=92"></script>
+<script src="javascript/main.js?v=93"></script>
 </body>
 </html>
