@@ -20,14 +20,14 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 - Rama main, sincronizada con origin.
 
 ```
-index.html          1940 líneas — estructura y contenido (14 secciones)
-css/styles.css      2867 líneas — todo el estilo; config en :root
-javascript/main.js  2856 líneas — 21 módulos
+index.html          1941 líneas — estructura y contenido (14 secciones)
+css/styles.css      2923 líneas — todo el estilo; config en :root
+javascript/main.js  3196 líneas — 21 módulos
 assets/             157 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=93**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=94**.
 
 ---
 
@@ -466,64 +466,106 @@ con las fotos nuevas encima.
 
 ### Fascículos — tapas y libro interactivo
 La fila de tres imágenes —la única de la sección que va de margen a
-margen— pasó a ser **las tres tapas de la colección**, y cada una abre su
+margen— son **las tres tapas de la colección**, y cada una abre su
 fascículo en un **libro que se hojea**. Por ahora las tres son del
 fascículo 01, *Los viernes* de Juan Forn, que es el único terminado.
 Cuando estén el 02 y el 03, en cada botón se cambian `data-libro` (la
-carpeta), `data-paginas`, `data-titulo` y la imagen de la tapa.
+carpeta), `data-paginas`, `data-titulo`, `data-calco` y la imagen de la
+tapa.
 
 - Fuente: `6FASCICULOS EDITORIAL/hojas forn`, 36 JPG de 1515x2008. La 1 es
   la tapa y la 36 la contratapa; la 6, 12, 18, 24, 30 y 32 son blancas.
   Convertidas a **1100x1458, calidad 80** en
   `assets/images/fasciculos-editorial/fasciculo-01/01.jpg` a `36.jpg`
-  (6,2 MB) más `portada.jpg` a 800x1060 para la grilla (139 KB). Los 1100
-  de ancho no son al azar: con la lupa, a 1920, una página se ve a unos
-  1100 px, así que el archivo queda casi 1:1 y el texto se lee nítido.
-- **Las tapas son botones** `.fig__frame--ampliable` —la misma lupa y el
-  mismo filete naranja que Aplicaciones— y llevan **`fig__frame--tall`**:
-  son verticales, y con el tope de `--media-max-h` se angostarían y la
-  fila dejaría de llegar al margen. A 1366 miden 394x522.
-- **El libro no usa librerías** (módulo 20), por la regla de cero
-  dependencias. Es una pila de hojas con frente —la página impar— y dorso
-  —la par—, que giran 180° sobre el lomo con transforms 3D. El ángulo lo
-  mueve el JS cuadro a cuadro, como el pase, para que la hoja pueda seguir
-  al dedo y soltarse en cualquier punto.
-- La tapa y la contratapa van **solas y centradas**, como un libro
-  cerrado. El centrado es un corrimiento de media página del libro entero,
-  con la misma curva que la vuelta: al abrir, la tapa gira mientras el
-  libro se corre, no después.
-- **Cómo se hojea:** un toque en la página derecha avanza y en la
-  izquierda retrocede; con el mouse, la hoja se agarra y se arrastra
-  —pasada la mitad completa la vuelta, si no vuelve—; flechas del pie; ←
-  y → del teclado. Se cierra con la cruz, tocando el fondo o con Escape, y
-  el foco vuelve a la tapa. Varios toques seguidos no dejan hojas a mitad
-  de camino: cada uno termina la vuelta anterior y arranca la suya.
-- **El borde de la hoja va pegado al cursor.** El ángulo sale del
-  arcocoseno de la distancia del cursor al lomo, medida en páginas, y no
-  de una regla de tres con el recorrido: con la regla de tres la hoja se
-  adelanta o se atrasa respecto del dedo a mitad de camino. Verificado: en
-  siete muestras, el ángulo medido coincide con el de la fórmula al grado.
-- **De a una página en pantalla vertical.** Se pasa a ese modo cuando, de a
-  dos, cada página quedaría a menos del 78 % de lo que mide sola. El libro
-  es el mismo: se lo mira por una ventana de una página de ancho y se
-  corre hacia el lado que toca. Ahí la hoja no sigue al dedo —quedaría
-  medio afuera de la ventana—: deslizar en horizontal hojea y un gesto
-  vertical no.
-- **La lupa amplía ×2** y se recorre como en Aplicaciones, corriendo el
-  `transform-origin`: pasando el mouse, o arrastrando con el dedo. Con la
-  lupa puesta, las flechas achican y hojean. **Hace falta para leer:** sin
-  ella, a 1366x630 la página mide 324x429 y el texto no se distingue; con
-  ella se lee bien (verificado en captura).
-- **Las páginas se bajan de a poco:** sólo las de las dos hojas a cada
-  lado de la abierta. Abrir el libro baja 6 imágenes, no 36.
-- **El fondo va casi opaco** (0.97, más que las otras vistas grandes):
-  con más transparencia, detrás se leía la tipografía gigante del hero
-  como una mancha gris alrededor del libro.
-- Medido: una vuelta tarda **781 ms reales a 61 fps** contra los 750
-  previstos; a 1366 la tapa cae centrada exacta; llega a `36 / 36` con
-  "siguiente" deshabilitado y vuelve; recorriéndolo entero bajan las 36
-  páginas, ninguna rota. A 280x606 entra solo en modo de a una página, de
-  256x339. Sin errores de consola.
+  (6,2 MB) más `portada.jpg` a 800x1060 para la grilla (139 KB). Con la
+  lupa, a 1920, una página se ve a unos 1100 px: el archivo queda casi
+  1:1 y el texto se lee nítido.
+- **Las tapas van al 80 % de su columna** (`.tapas`), para que el hover
+  tenga dónde crecer: al pasar el mouse crecen un 7 %, se levantan con una
+  sombra y toman el filete naranja de siempre. Así se nota que se tocan.
+  Verificado con hover real: de 174 a 186 px, borde y contorno naranjas.
+  A 1366 miden 315x417. Llevan `fig__frame--tall`: son verticales y el
+  tope de `--media-max-h` las angostaría.
+
+**El libro pliega las hojas, no las gira** (módulo 20, sin librerías). La
+primera versión giraba hojas rígidas con transforms 3D y el autor la
+encontró tosca; además la escena recortaba, y la hoja en perspectiva se
+cortaba justo contra el borde del libro. Ahora:
+
+- **La esquina que se agarra va al cursor y la hoja se dobla sobre la
+  mediatriz** entre esa esquina y su lugar original. Quedan tres partes:
+  lo que sigue apoyado de la página (recortado con `clip-path` del lado
+  del lomo), la solapa doblada y, donde la página se levantó, la de
+  abajo. La solapa muestra el dorso con **una sola matriz**: son dos
+  reflejos seguidos —sobre el lomo, para pasar del dorso a su lugar
+  final, y sobre el pliegue— y dos reflejos son una rotación. Verificado:
+  el determinante da 1 y la esquina de la solapa cae exacto en el punto
+  del cursor.
+- **La hoja está atada al lomo:** la esquina no se aleja del punto del
+  lomo de su mismo borde más que el ancho de la página, ni del otro más
+  que la diagonal. Sin eso el papel se estira como goma.
+- **Sombras:** la que cae sobre la página que se descubre y la curva de
+  luz de la solapa son degradados alineados con el pliegue y recortados a
+  su zona. Miden 4x3 páginas, porque un fondo sólo se pinta dentro de su
+  caja y la solapa se sale del libro. La solapa, además, proyecta sombra
+  sobre lo que tapa: va en **su propia capa** (`.pliegue-solapa`), porque
+  con `filter` en la página misma el recorte se comería la sombra —el
+  filtro se aplica antes que el `clip-path`—.
+- **La esquina se asoma** al acercar el mouse (a menos del 17 % de la
+  página de una esquina) y vuelve al alejarse. Tocar con la esquina
+  asomada completa la vuelta desde ahí, sin salto.
+- **Cómo se hojea:** un toque en la derecha avanza y en la izquierda
+  retrocede; arrastrando se agarra la esquina de arriba o la de abajo
+  según la mitad donde se apriete, y va con el cursor sin saltar. Pasada
+  la mitad de la página —o con un tirón en esa dirección— la vuelta se
+  completa; si no, vuelve. Flechas del pie, las del teclado, Escape, la
+  cruz o tocar el fondo para cerrar. Toques seguidos no dejan hojas a
+  mitad de camino.
+- **La escena no recorta** (sólo con la lupa puesta) y el libro deja 10 %
+  de aire arriba y abajo para que la solapa no pise la barra ni el pie.
+  **Ojo:** sin recorte, un elemento de grilla no se achica por debajo de
+  su contenido, así que la escena tomaba el ancho del libro y en un
+  teléfono entraba de a dos, con páginas más anchas que la pantalla. Lo
+  arreglan `min-width: 0` en la escena y `minmax(0, 1fr)` en la columna.
+- **Carillas de calco** (`data-calco="3,4,33,34"`): dejan ver lo que
+  tienen debajo, un poco empañado —imagen al 80 % y un velo blanco del
+  10 %—. La 4 es la 3 espejada (por diferencia de píxeles, 7 contra 85),
+  así que el reverso no hace falta mostrarlo. **Sin `backdrop-filter`:**
+  se probó y lo de abajo dejaba de verse del todo. El JS dibuja debajo de
+  cada calco la página que corresponde: la 5 bajo la 3, la 2 bajo la 4, la
+  35 bajo la 33 y la 32 bajo la 34 —verificado—. En la captura de la
+  carilla 3 se lee "Los viernes" a través. La solapa de un calco es rosa
+  sobre rosa y se distingue poco: es lo que pasa con el papel.
+- **De a una página en pantalla vertical,** cuando de a dos cada página
+  quedaría a menos del 78 % de lo que mide sola: el mismo libro visto por
+  una ventana de una página, que se corre hacia el lado que toca. Ahí la
+  hoja no sigue al dedo: se hojea tocando o deslizando, y un gesto
+  vertical no hojea. La ventana recorta sólo a lo ancho
+  (`overflow-x: clip`), así la solapa puede salirse arriba y abajo.
+- **La lupa amplía ×2** y se recorre corriendo el `transform-origin`.
+  Sin ella, a 1366x630 la página mide unos 300 px de ancho y el texto no
+  se distingue.
+- **Las páginas se bajan de a poco:** sólo las de las hojas vecinas. Cada
+  página es un elemento que se crea la primera vez y se reusa, así una
+  imagen no se vuelve a pedir cuando pasa de quieta a solapa.
+- **El fondo del visor es opaco** (`--dark-bg`): al 94 % y al 97 % se
+  adivinaba detrás la tipografía gigante del hero.
+- **Gancho de prueba:** con `?libro-prueba` en la dirección,
+  `window.__libroPrueba.plegar(s, arriba, fx, fy)` congela un pliegue
+  —s 1 derecha o -1 izquierda; fx y fy, dónde va la esquina, en páginas
+  desde el lomo—, `soltar()` lo deshace y `estado()` devuelve vuelta,
+  página y modo. Sin el parámetro no existe. Es la única forma de sacarle
+  captura a un pliegue en el navegador de pruebas, que no puede arrastrar.
+
+Verificado con eventos de puntero en modo doble: la esquina se asoma y
+vuelve; el toque da vuelta la hoja; el arrastre corto regresa, el largo
+completa y hacia atrás retrocede; teclado; llega a `36 / 36` con
+"siguiente" deshabilitado y el libro corrido media página, y vuelve a la
+tapa. A 280 px entra de a una página. Capturas del pliegue en página de
+texto, de la tapa levantándose sobre el calco y del calco quieto. Barrido
+de 375 a 1920: sin imágenes ni anclas rotas y sin scroll horizontal. Sin
+errores de consola. **Lo que no se pudo probar es el arrastre con el mouse
+real**: la herramienta se cuelga en el panel (ver la sección 10).
 
 **Sin uso desde este cambio:** `03-pagina-a.jpg`, `04-pagina-b.jpg` y
 `05-pagina-c.jpg` en `assets/images/fasciculos-editorial/`. **No se
@@ -804,7 +846,8 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | Clase | Para qué |
 |---|---|
 | .grid-3--por-columna | Llena la retícula por columna en vez de por fila. Con seis piezas quedan tres columnas de a dos y las parejas caen una debajo de la otra. Sólo desde 768: más abajo la grilla se reacomoda sola y el orden del HTML vuelve a mandar. |
-| .libro-visor + .libro / .hoja / .hoja__cara | El libro interactivo de Fascículos. Visor en tres filas —título y cruz, escena, pie con flechas, contador y lupa—. Cada hoja gira 180° sobre el lomo con transforms 3D; el frente es la página impar y el dorso la par. Las medidas salen de --pw y --ph, que pone el módulo 20. |
+| .libro-visor + .libro / .pagina / .pliegue-sombra / .pliegue-solapa | El libro interactivo de Fascículos. Cada página es un elemento que el módulo 20 ubica, recorta con clip-path y —si hace de solapa— transforma con la matriz del pliegue. Las dos sombras del pliegue miden 4x3 páginas para poder pintarse fuera del libro. La solapa va en su propia capa para que el drop-shadow no se lo coma el recorte. |
+| .tapas | La fila de tapas de Fascículos: cada tapa al 80 % de su columna; al pasar el mouse crece un 7 %, se levanta con sombra y toma el filete naranja. |
 | .index__pie + .index__anio | El pie del panel del índice: el "Ver más" a la izquierda y el año a la derecha, sobre la misma línea de base. El padding derecho deja libre la columna del signo, así el año cierra contra el mismo margen que la categoría. |
 | .visor + .visor__marco / .visor__img / .fig__frame--ampliable | Vista grande de una imagen con lupa. Un click amplia, otro achica; el desplazamiento corre el transform-origin y por eso nunca se pasa del borde. El marco de la grilla es un botón. Lo mueve el módulo 19. |
 | .row-fit + .fit-16 / .fit-10 / .fit-08 | Fila justificada: las piezas comparten alto y el ancho sale de su proporción. El flex-grow **es** la relación de aspecto. |
@@ -948,7 +991,11 @@ referencia por escaneo de píxeles y se maqueta a partir de eso.
 7. **Scripts de `javascript_tool` cortos.** Aunque la herramienta corte a
    los 45 s, el script sigue corriendo en la página: sus clics se mezclan
    con los pasos siguientes y dan resultados que no se entienden.
-8. Subir el ?v=.
+8. **El libro de Fascículos tiene un gancho de prueba:** abriendo la
+   página con `?libro-prueba`, `window.__libroPrueba.plegar(s, arriba,
+   fx, fy)` congela un pliegue y `soltar()` lo deshace. Es la única forma
+   de sacarle captura a un pliegue en este panel. Detalle en la sección 5.
+9. Subir el ?v=.
 
 ---
 

@@ -2308,42 +2308,55 @@
      Las tapas de Fascículos abren el fascículo entero en grande y
      se lo puede hojear: un toque en la página de la derecha avanza
      y en la de la izquierda retrocede; con el mouse, además, la
-     hoja se agarra y se da vuelta arrastrándola. También con las
-     flechas del pie o del teclado. La lupa amplía para leer.
+     esquina se asoma al pasar por encima y la hoja se agarra y se
+     dobla arrastrándola. También con las flechas del pie o del
+     teclado. La lupa amplía para leer.
 
-     Cómo está hecho. El libro es una pila de hojas, cada una con
-     su frente y su dorso: la página impar adelante y la par atrás.
-     Una hoja sin girar está en la mitad derecha; girada, rota 180°
-     sobre el lomo y queda en la izquierda mostrando el dorso. No
-     hay librería: son transforms 3D y un reloj, como el visor de
-     remeras, para no romper la regla de cero dependencias.
+     Cómo se dobla. No es una hoja rígida que gira: es un pliegue,
+     como el papel de verdad. La esquina que se agarra va a donde
+     está el cursor y la hoja se dobla sobre la mediatriz entre esa
+     esquina y su lugar original. Así quedan tres partes: lo que
+     sigue apoyado de la página, que se recorta del lado del lomo;
+     la solapa doblada, que muestra el dorso reflejado sobre la
+     línea del pliegue; y, donde la página se levantó, la de abajo.
+     Dos reflejos seguidos —el del lomo, para pasar del dorso a su
+     lugar final, y el del pliegue— dan una sola matriz, así que la
+     solapa es una sola transformación de CSS.
 
-     El ángulo lo mueve el JS cuadro a cuadro y no una transición
-     de CSS, por lo mismo que el pase: así la hoja puede seguir al
-     dedo, soltarse en cualquier ángulo y terminar la vuelta desde
-     ahí.
+     La hoja está atada al lomo: la esquina no puede alejarse del
+     punto del lomo de su mismo borde más que el ancho de la página,
+     ni del otro más que la diagonal. Sin esa restricción el papel
+     se estiraría como si fuera de goma.
 
-     Al arrastrar, el borde de la hoja va pegado al cursor: el
-     ángulo sale del arcocoseno de la distancia al lomo y no de una
-     regla de tres con el recorrido. Con la regla de tres la hoja se
-     adelanta o se atrasa respecto del dedo a mitad de camino.
+     Las sombras —la que cae sobre la página que se descubre y la
+     curva de luz de la solapa— son degradados alineados con la
+     línea del pliegue y recortados a cada zona. La solapa, además,
+     proyecta sombra sobre lo que tapa.
 
-     En pantalla vertical entra de a una página. El libro es el
-     mismo, pero se lo mira por una ventana de una página de ancho y
-     se corre hacia el lado que toca. La tapa y la contratapa, que
-     van solas, se centran con ese mismo corrimiento.
+     No hay librería, por la regla de cero dependencias del sitio:
+     son recortes con clip-path, una matriz y un reloj.
+
+     Las carillas de calco (data-calco) dejan ver lo que tienen
+     debajo, un poco empañado. El reverso de una hoja de calco es el
+     mismo dibujo espejado, así que no hace falta mostrarlo.
+
+     En pantalla vertical entra de a una página: el libro es el
+     mismo, visto por una ventana de una página de ancho que se corre
+     hacia el lado que toca. Ahí la hoja no sigue al dedo: se hojea
+     tocando o deslizando.
 
      Las páginas se bajan de a poco: sólo las de las hojas vecinas a
-     la que está abierta. El fascículo entero son 6 MB y no tiene
-     sentido bajarlos para mirar la tapa.
+     la abierta. El fascículo entero son 6 MB.
      ========================================================== */
   function initLibros() {
     const tapas = $$('[data-libro]');
     if (!tapas.length) return;
 
     const ZOOM = 2;
-    const GIRO = 750;                /* lo que tarda una vuelta entera, en ms */
-    const PROPORCION = 0.7545;       /* ancho / alto de una página */
+    const GIRO = 900;              /* de una esquina a la otra, en ms */
+    const REGRESO = 420;           /* lo que tarda en volver a su lugar */
+    const PROPORCION = 0.7545;     /* ancho / alto de una página */
+    const ASOMO = 0.17;            /* radio de la esquina que se asoma, en páginas */
 
     const svg = (d) => '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' + d + '</svg>';
     const T = 'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
@@ -2357,12 +2370,17 @@
 
     let visor = null, escena = null, ventana = null, capa = null, libro = null;
     let titulo = null, contador = null, btnPrev = null, btnNext = null, btnLupa = null;
-    let hojas = [], ruta = '', N = 0, H = 0, proporcion = PROPORCION;
-    /* vuelta: cuántas hojas están giradas. pag: la página que se ve de a
-       una. Las dos se mantienen al día siempre, así al rotar el teléfono
-       se puede pasar de un modo al otro sin perder dónde se estaba. */
+    let clave = '', ruta = '', N = 0, nHojas = 0, proporcion = PROPORCION, calcos = new Set();
+    let paginas = {}, sombraBajo = null, sombraHoja = null, solapa = null;
+    /* vuelta: cuántas hojas están del lado izquierdo. pag: la página que
+       se ve de a una. Las dos se mantienen al día, así al girar el
+       teléfono se pasa de un modo al otro sin perder dónde se estaba. */
     let vuelta = 0, pag = 1, modo = 'doble', pw = 0, ph = 0;
-    let anim = null, ampliado = false, ox = 50, oy = 50, quienAbrio = null;
+    /* El pliegue en curso, si hay uno. fase: 'asomo' (la esquina se
+       levanta al pasar el mouse), 'arrastre', 'giro' (completa la vuelta)
+       o 'regreso' (vuelve a su lugar). */
+    let vuelo = null, raf = 0;
+    let ampliado = false, ox = 50, oy = 50, quienAbrio = null;
 
     const nodo = (tag, clase) => {
       const n = document.createElement(tag);
@@ -2377,8 +2395,13 @@
       return b;
     }
     /* Con una cantidad impar de páginas la última va sola a la derecha y
-       no hay que girar la hoja: su dorso está en blanco. */
-    const ultimaVuelta = () => (N % 2 === 0 ? H : H - 1);
+       no hay que girar su hoja: el dorso está en blanco. */
+    const ultimaVuelta = () => (N % 2 === 0 ? nHojas : nHojas - 1);
+    /* Las coordenadas del libro tienen el origen arriba, en el lomo: la
+       página derecha va de 0 a pw y la izquierda de -pw a 0. */
+    const esquina = (s, arriba) => ({ x: s * pw, y: arriba ? 0 : ph });
+    const suaveIO = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const suaveO = (x) => 1 - Math.pow(1 - x, 3);
 
     tapas.forEach((t) => t.addEventListener('click', () => abrir(t)));
 
@@ -2428,8 +2451,7 @@
       });
 
       /* Ampliado, con el mouse alcanza con pasar por encima para recorrer.
-         Va en la escena y no en la ventana porque lo ampliado se sale de
-         la ventana y el cursor puede estar sobre esa parte. */
+         Va en la escena porque lo ampliado se sale de la ventana. */
       escena.addEventListener('pointermove', (e) => {
         if (ampliado && e.pointerType === 'mouse') seguir(e);
       });
@@ -2439,46 +2461,66 @@
       document.addEventListener('keydown', teclado);
     }
 
-    function armarHojas() {
+    function armarLibro() {
       libro.textContent = '';
-      hojas = [];
-      H = Math.ceil(N / 2);
-      for (let k = 0; k < H; k++) {
-        const hoja = nodo('div', 'hoja');
-        const imgs = [2 * k + 1, 2 * k + 2].map((n, i) => {
-          const cara = nodo('div', 'hoja__cara ' + (i === 0 ? 'hoja__cara--frente' : 'hoja__cara--dorso'));
-          hoja.appendChild(cara);
-          if (n > N) {
-            cara.classList.add('hoja__cara--vacia');
-            return null;
-          }
-          if (n === 1 || n === N) cara.classList.add('hoja__cara--tapa');
-          const img = document.createElement('img');
-          img.alt = n === 1 ? 'Tapa' : n === N ? 'Contratapa' : 'Página ' + n;
-          img.decoding = 'async';
-          img.draggable = false;
-          img.dataset.src = ruta + String(n).padStart(2, '0') + '.jpg';
-          cara.appendChild(img);
-          return img;
-        });
-        libro.appendChild(hoja);
-        hojas.push({ el: hoja, imgs, ang: 0 });
+      paginas = {};
+      nHojas = Math.ceil(N / 2);
+      sombraBajo = nodo('div', 'pliegue-sombra');
+      sombraHoja = nodo('div', 'pliegue-sombra');
+      sombraBajo.hidden = true;
+      sombraHoja.hidden = true;
+      /* La solapa va en su propia capa para que tenga sombra: con filter
+         en la página misma el recorte se comería la sombra, porque el
+         filtro se aplica antes que el clip-path. En la capa de afuera el
+         filtro ve la solapa ya recortada y le pone la sombra alrededor. */
+      solapa = nodo('div', 'pliegue-solapa');
+      solapa.hidden = true;
+      libro.append(sombraBajo, sombraHoja, solapa);
+    }
+
+    /* Cada página es un elemento propio que se crea la primera vez que
+       hace falta y se reusa: así una imagen que ya bajó no vuelve a
+       pedirse cuando la página pasa de estar quieta a ser la solapa. */
+    function pagina(n) {
+      if (n < 1 || n > N) return null;
+      let p = paginas[n];
+      if (!p) {
+        const el = nodo('div', 'pagina ' + (n % 2 === 0 ? 'pagina--izq' : 'pagina--der'));
+        if (n === 1 || n === N) el.classList.add('pagina--tapa');
+        if (calcos.has(n)) el.classList.add('pagina--calco');
+        const img = document.createElement('img');
+        img.alt = n === 1 ? 'Tapa' : n === N ? 'Contratapa' : 'Página ' + n;
+        img.decoding = 'async';
+        img.draggable = false;
+        el.appendChild(img);
+        el.hidden = true;
+        libro.appendChild(el);
+        p = paginas[n] = { el, img };
       }
+      if (!p.img.getAttribute('src')) p.img.src = ruta + String(n).padStart(2, '0') + '.jpg';
+      return p;
+    }
+
+    function precargar(v) {
+      for (let n = 2 * v - 4; n <= 2 * v + 5; n++) pagina(n);
     }
 
     /* --- Abrir, medir y cerrar ----------------------------------- */
     function abrir(tapa) {
       const carpeta = tapa.dataset.libro;
-      const paginas = parseInt(tapa.dataset.paginas, 10);
-      if (!carpeta || !(paginas > 0)) return;
+      const cantidad = parseInt(tapa.dataset.paginas, 10);
+      if (!carpeta || !(cantidad > 0)) return;
       if (!visor) construir();
 
       terminar();
       achicar();
-      if (carpeta !== ruta || paginas !== N) {
+      const nuevaClave = carpeta + '|' + cantidad + '|' + (tapa.dataset.calco || '');
+      if (nuevaClave !== clave) {
+        clave = nuevaClave;
         ruta = carpeta;
-        N = paginas;
-        armarHojas();
+        N = cantidad;
+        calcos = new Set((tapa.dataset.calco || '').split(',').map((x) => parseInt(x, 10)).filter((x) => x > 0));
+        armarLibro();
       }
       proporcion = parseFloat(tapa.dataset.proporcion) || PROPORCION;
       titulo.textContent = tapa.dataset.titulo || '';
@@ -2500,8 +2542,12 @@
     function medir() {
       terminar();
       const r = escena.getBoundingClientRect();
-      const anchoDoble = Math.min(r.width / 2, r.height * proporcion);
-      const anchoSimple = Math.min(r.width, r.height * proporcion);
+      /* Se deja aire arriba y abajo: la solapa, al doblarse, sale del
+         rectángulo del libro, y pegado al borde de la escena se cortaría
+         contra la barra o el pie. */
+      const alto = r.height * 0.9, ancho = r.width * 0.96;
+      const anchoDoble = Math.min(ancho / 2, alto * proporcion);
+      const anchoSimple = Math.min(ancho, alto * proporcion);
       /* De a dos mientras cada página no quede mucho más chica que de a
          una. En horizontal dan casi lo mismo; en vertical, de a dos cada
          página quedaría a la mitad. */
@@ -2526,13 +2572,9 @@
       if (quienAbrio) { quienAbrio.focus(); quienAbrio = null; }
     }
 
-    /* --- El estado en pantalla ----------------------------------- */
+    /* --- Estado quieto ------------------------------------------- */
     function pintar(conTransicion) {
-      hojas.forEach((h, k) => {
-        ponerAngulo(k, k < vuelta ? 180 : 0);
-        /* Las no giradas, la primera arriba; las giradas, la última. */
-        h.el.style.zIndex = k < vuelta ? k + 1 : H - k;
-      });
+      dibujar();
       correrLibro(vuelta, pag, conTransicion);
       actualizarControles();
       precargar(modo === 'simple' ? Math.floor(pag / 2) : vuelta);
@@ -2540,18 +2582,15 @@
 
     /* Dónde queda el libro: centrado en el lomo, o corrido media página
        para que se vea sola la tapa, la contratapa o —de a una— la página
-       que toca. */
-    function correrLibro(v, p, conTransicion) {
+       que toca. Dura lo mismo que la vuelta de la hoja que lo provoca. */
+    function correrLibro(v, p, conTransicion, dur) {
       let x = 0;
       if (modo === 'simple') x = (p % 2 === 1 ? -1 : 1) * pw / 2;
       else if (v === 0) x = -pw / 2;
-      else if (v === H && N % 2 === 0) x = pw / 2;
-      libro.classList.toggle('sin-transicion', !conTransicion);
+      else if (v === nHojas && N % 2 === 0) x = pw / 2;
+      libro.style.transitionDuration = conTransicion ? Math.round(dur || GIRO) + 'ms' : '0ms';
       libro.style.transform = 'translateX(' + x + 'px)';
-      if (!conTransicion) {
-        void libro.offsetWidth;
-        libro.classList.remove('sin-transicion');
-      }
+      if (!conTransicion) void libro.offsetWidth;
     }
 
     function actualizarControles() {
@@ -2569,106 +2608,400 @@
         contador.textContent = pag + ' / ' + N;
       } else {
         const vistas = [2 * vuelta, 2 * vuelta + 1].filter((n) =>
-          n >= 1 && n <= N && (n % 2 === 0 ? vuelta > 0 : vuelta < H));
+          n >= 1 && n <= N && (n % 2 === 0 ? vuelta > 0 : vuelta < nHojas));
         contador.textContent = vistas.join('–') + ' / ' + N;
       }
     }
 
-    function precargar(centro) {
-      for (let k = centro - 2; k <= centro + 2; k++) {
-        if (!hojas[k]) continue;
-        hojas[k].imgs.forEach((img) => {
-          if (img && !img.getAttribute('src')) img.src = img.dataset.src;
-        });
-      }
+    /* --- La geometría del pliegue -------------------------------- */
+
+    /* La hoja atada al lomo: la esquina no se aleja del punto del lomo de
+       su mismo borde más que el ancho de la página, ni del otro más que
+       la diagonal. */
+    function restringir(arriba, P) {
+      const fijo = { x: 0, y: arriba ? 0 : ph };
+      const opuesto = { x: 0, y: arriba ? ph : 0 };
+      let x = P.x, y = P.y;
+      let dx = x - fijo.x, dy = y - fijo.y, d = Math.hypot(dx, dy);
+      if (d > pw) { x = fijo.x + dx * pw / d; y = fijo.y + dy * pw / d; }
+      const diagonal = Math.hypot(pw, ph);
+      dx = x - opuesto.x; dy = y - opuesto.y; d = Math.hypot(dx, dy);
+      if (d > diagonal) { x = opuesto.x + dx * diagonal / d; y = opuesto.y + dy * diagonal / d; }
+      return { x, y };
     }
 
-    function ponerAngulo(k, a) {
-      const h = hojas[k];
-      h.ang = a;
-      h.el.style.transform = 'rotateY(' + (-a).toFixed(2) + 'deg)';
-      h.el.style.setProperty('--luz', (Math.sin(a * Math.PI / 180) * 0.28).toFixed(3));
+    /* Recorta un polígono con un semiplano: se queda con los puntos donde
+       lado(p) >= 0. Sutherland–Hodgman con un solo borde. */
+    function recortar(poligono, lado) {
+      const salida = [];
+      for (let i = 0; i < poligono.length; i++) {
+        const a = poligono[i], b = poligono[(i + 1) % poligono.length];
+        const fa = lado(a), fb = lado(b);
+        if (fa >= 0) salida.push(a);
+        if ((fa >= 0) !== (fb >= 0)) {
+          const t = fa / (fa - fb);
+          salida.push({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
+        }
+      }
+      return salida;
+    }
+
+    /* Todo lo que hace falta para dibujar la hoja s doblada con la esquina
+       C llevada a P. null si no hay pliegue. */
+    function geometria(s, C, P) {
+      const dx = P.x - C.x, dy = P.y - C.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 0.5) return null;
+      const nx = dx / dist, ny = dy / dist;            /* normal del pliegue, hacia P */
+      const mx = (P.x + C.x) / 2, my = (P.y + C.y) / 2; /* un punto del pliegue */
+      /* > 0: del lado de P y del lomo, donde la página sigue apoyada. */
+      const lado = (q) => (q.x - mx) * nx + (q.y - my) * ny;
+      const rect = s === 1
+        ? [{ x: 0, y: 0 }, { x: pw, y: 0 }, { x: pw, y: ph }, { x: 0, y: ph }]
+        : [{ x: -pw, y: 0 }, { x: 0, y: 0 }, { x: 0, y: ph }, { x: -pw, y: ph }];
+      const apoyada = recortar(rect, lado);
+      const levantada = recortar(rect, (q) => -lado(q));
+      const reflejar = (q) => {
+        const k = 2 * lado(q);
+        return { x: q.x - k * nx, y: q.y - k * ny };
+      };
+      const solapa = levantada.map(reflejar);
+
+      /* El dorso, en su lugar final, está del otro lado del lomo. Un punto
+         (u, v) de esa imagen corresponde al punto (q0 - u, v) de la hoja
+         —el reflejo sobre el lomo— y ese punto, doblado, cae en su reflejo
+         sobre el pliegue. Los dos reflejos juntos son la matriz. */
+      const q0 = s === 1 ? pw : 0;
+      const r11 = 1 - 2 * nx * nx, r12 = -2 * nx * ny, r22 = 1 - 2 * ny * ny;
+      const k = 2 * (mx * nx + my * ny);
+      const matriz = 'matrix(' + [-r11, -r12, r12, r22, r11 * q0 + k * nx, r12 * q0 + k * ny]
+        .map((v) => v.toFixed(5)).join(',') + ')';
+      const levantadaDorso = levantada.map((q) => ({ x: q0 - q.x, y: q.y }));
+
+      return { nx, ny, mx, my, dist, apoyada, levantada, solapa, matriz, levantadaDorso };
+    }
+
+    const poligono = (puntos, origenX) => (puntos.length < 3
+      ? 'polygon(0 0, 0 0, 0 0)'
+      : 'polygon(' + puntos.map((q) => (q.x - origenX).toFixed(1) + 'px ' + q.y.toFixed(1) + 'px').join(', ') + ')');
+
+    /* Una sombra alineada con el pliegue, recortada a una zona. El
+       contenedor mide cuatro páginas por tres para que la solapa, que se
+       sale del libro, siga teniendo fondo donde pintarse. sentido: 1 hacia
+       la solapa, -1 hacia la página que se descubre. */
+    function ponerSombra(el, zona, sentido, g, z, degrade) {
+      if (zona.length < 3) { el.hidden = true; return; }
+      el.hidden = false;
+      el.style.zIndex = z;
+      const ox = 2 * pw, oy = ph;
+      el.style.clipPath = 'polygon(' + zona.map((q) =>
+        (q.x + ox).toFixed(1) + 'px ' + (q.y + oy).toFixed(1) + 'px').join(', ') + ')';
+      const ux = g.nx * sentido, uy = g.ny * sentido;
+      const ancho = 4 * pw, alto = 3 * ph;
+      /* Un linear-gradient con ángulo mide sus paradas sobre una línea que
+         pasa por el centro de la caja: se calcula dónde cae el pliegue
+         sobre esa línea para que la sombra arranque justo ahí. */
+      const largo = Math.abs(ancho * ux) + Math.abs(alto * uy);
+      const sx = ancho / 2 - ux * largo / 2, sy = alto / 2 - uy * largo / 2;
+      const p0 = (g.mx + ox - sx) * ux + (g.my + oy - sy) * uy;
+      const angulo = Math.atan2(ux, -uy) * 180 / Math.PI;
+      el.style.background = degrade(angulo.toFixed(2), p0, g);
+    }
+
+    const px = (v) => v.toFixed(1) + 'px';
+    const degradeSolapa = (a, p0, g) => {
+      const d = Math.max(1, g.dist / 2);
+      return 'linear-gradient(' + a + 'deg, rgba(0,0,0,0) ' + px(p0 - 1) +
+        ', rgba(0,0,0,0.24) ' + px(p0) + ', rgba(0,0,0,0.07) ' + px(p0 + d * 0.14) +
+        ', rgba(255,255,255,0.14) ' + px(p0 + d * 0.34) + ', rgba(255,255,255,0) ' + px(p0 + d * 0.62) +
+        ', rgba(0,0,0,0.06) ' + px(p0 + d) + ')';
+    };
+    const degradeDebajo = (a, p0, g) => {
+      const e = Math.min(pw * 0.4, g.dist * 0.55 + 10);
+      return 'linear-gradient(' + a + 'deg, rgba(0,0,0,0) ' + px(p0 - 1) +
+        ', rgba(0,0,0,0.42) ' + px(p0) + ', rgba(0,0,0,0.14) ' + px(p0 + e * 0.3) +
+        ', rgba(0,0,0,0) ' + px(p0 + e) + ')';
+    };
+
+    /* --- Dibujar ------------------------------------------------- */
+    function dibujar() {
+      const ordenes = [];
+      /* Una página y, si es de calco, las que se ven a través de ella. */
+      const apilar = (n, lado, zBase) => {
+        const pila = [];
+        let p = n;
+        while (p >= 1 && p <= N && pila.length < 4) {
+          pila.push(p);
+          if (!calcos.has(p)) break;
+          p += 2 * lado;
+        }
+        pila.reverse().forEach((q, i) => ordenes.push({ n: q, x: lado === 1 ? pw : 0, z: zBase + i }));
+        return zBase + pila.length;
+      };
+
+      sombraBajo.hidden = true;
+      sombraHoja.hidden = true;
+      solapa.hidden = true;
+
+      if (!vuelo) {
+        if (vuelta > 0) apilar(2 * vuelta, -1, 1);
+        if (2 * vuelta + 1 <= N) apilar(2 * vuelta + 1, 1, 1);
+      } else {
+        const s = vuelo.s;
+        const frente = s === 1 ? 2 * vuelta + 1 : 2 * vuelta;
+        const dorso = s === 1 ? 2 * vuelta + 2 : 2 * vuelta - 1;
+        const debajo = s === 1 ? 2 * vuelta + 3 : 2 * vuelta - 2;
+        const quieta = s === 1 ? 2 * vuelta : 2 * vuelta + 1;
+        const z1 = quieta >= 1 && quieta <= N ? apilar(quieta, -s, 1) : 1;
+        const z2 = debajo >= 1 && debajo <= N ? apilar(debajo, s, 1) : 1;
+        const z = Math.max(z1, z2);
+        const g = geometria(s, vuelo.C, vuelo.P);
+        if (!g) {
+          ordenes.push({ n: frente, x: s === 1 ? pw : 0, z });
+        } else {
+          ponerSombra(sombraBajo, g.levantada, -1, g, z, degradeDebajo);
+          ordenes.push({ n: frente, x: s === 1 ? pw : 0, z: z + 1, clip: poligono(g.apoyada, s === 1 ? 0 : -pw) });
+          if (dorso >= 1 && dorso <= N) {
+            solapa.hidden = false;
+            solapa.style.zIndex = z + 2;
+            ordenes.push({ n: dorso, x: pw, z: 1, clip: poligono(g.levantadaDorso, 0), tr: g.matriz, enSolapa: true });
+          }
+          ponerSombra(sombraHoja, g.solapa, 1, g, z + 3, degradeSolapa);
+        }
+      }
+
+      const usadas = new Set();
+      ordenes.forEach((o) => {
+        const p = pagina(o.n);
+        if (!p) return;
+        usadas.add(o.n);
+        /* La página se muda a la capa de la solapa mientras hace de
+           solapa, y vuelve al libro cuando se queda quieta. La imagen no
+           se vuelve a pedir: el elemento es el mismo. */
+        const madre = o.enSolapa ? solapa : libro;
+        if (p.el.parentNode !== madre) madre.appendChild(p.el);
+        const st = p.el.style;
+        p.el.hidden = false;
+        st.left = o.x + 'px';
+        st.zIndex = o.z;
+        st.clipPath = o.clip || '';
+        st.transform = o.tr || '';
+      });
+      Object.keys(paginas).forEach((k) => {
+        if (!usadas.has(+k)) paginas[k].el.hidden = true;
+      });
+    }
+
+    /* --- El reloj ------------------------------------------------ */
+    function cancelar() {
+      if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    }
+    function arrancarBucle() {
+      if (!raf) raf = requestAnimationFrame(bucle);
+    }
+
+    function bucle(t) {
+      raf = 0;
+      const f = vuelo;
+      if (!f) return;
+      if (f.fase === 'giro' || f.fase === 'regreso') {
+        if (!f.t0) f.t0 = t;
+        const x = f.dur > 0 ? Math.min(1, (t - f.t0) / f.dur) : 1;
+        const e = f.curva(x);
+        f.P = restringir(f.arriba, {
+          x: f.P0.x + (f.P1.x - f.P0.x) * e,
+          y: f.P0.y + (f.P1.y - f.P0.y) * e + f.elevar * Math.sin(Math.PI * e)
+        });
+        dibujar();
+        if (x >= 1) {
+          if (f.fase === 'giro') cerrarGiro(); else cerrarRegreso();
+          return;
+        }
+      } else if (f.fase === 'asomo') {
+        const o = f.objetivo;
+        f.P = { x: f.P.x + (o.x - f.P.x) * 0.22, y: f.P.y + (o.y - f.P.y) * 0.22 };
+        if (Math.hypot(o.x - f.P.x, o.y - f.P.y) < 0.4) {
+          f.P = { x: o.x, y: o.y };
+          if (o.x === f.C.x && o.y === f.C.y) vuelo = null;
+          dibujar();
+          return;
+        }
+        dibujar();
+      } else {
+        return;
+      }
+      raf = requestAnimationFrame(bucle);
+    }
+
+    /* Completa la vuelta desde donde esté la esquina. suave: curva de ida
+       y vuelta para el toque; al soltar un arrastre, sólo de salida,
+       porque la hoja ya venía moviéndose. La esquina se levanta un poco a
+       mitad de camino, como cuando se pasa una hoja con la mano. El libro
+       se corre a la vez, así la tapa se abre mientras el libro se centra. */
+    function empezarGiro(s, arriba, P0, suave) {
+      cancelar();
+      const C = esquina(s, arriba);
+      const P1 = { x: -C.x, y: C.y };
+      const recorrido = Math.min(1, Math.abs(P1.x - P0.x) / (2 * pw));
+      const dur = prefersReducedMotion.matches ? 0 : Math.max(260, GIRO * recorrido);
+      const vFinal = vuelta + s;
+      const pFinal = modo === 'simple' ? pag : (vFinal === 0 ? 1 : 2 * vFinal);
+      correrLibro(vFinal, pFinal, true, dur);
+      precargar(vFinal);
+      vuelo = {
+        s, arriba, C, P: P0, P0, P1, fase: 'giro', t0: 0, dur,
+        curva: suave ? suaveIO : suaveO,
+        elevar: (arriba ? 1 : -1) * ph * 0.09 * recorrido
+      };
+      arrancarBucle();
+    }
+
+    function cerrarGiro() {
+      const f = vuelo;
+      vuelo = null;
+      cancelar();
+      vuelta += f.s;
+      if (modo === 'doble') pag = vuelta === 0 ? 1 : 2 * vuelta;
+      visor.classList.remove('is-arrastrando');
+      dibujar();
+      actualizarControles();
+      precargar(modo === 'simple' ? Math.floor(pag / 2) : vuelta);
+    }
+
+    function empezarRegreso() {
+      cancelar();
+      const f = vuelo;
+      const dist = Math.hypot(f.P.x - f.C.x, f.P.y - f.C.y);
+      vuelo = Object.assign({}, f, {
+        fase: 'regreso', P0: f.P, P1: f.C, t0: 0, curva: suaveO, elevar: 0,
+        dur: prefersReducedMotion.matches ? 0 : Math.max(160, REGRESO * Math.min(1, dist / pw))
+      });
+      arrancarBucle();
+    }
+
+    function cerrarRegreso() {
+      vuelo = null;
+      cancelar();
+      dibujar();
+    }
+
+    /* Cierra lo que esté en curso: una vuelta se completa en su destino y
+       todo lo demás vuelve a su lugar. Se llama antes de empezar otra
+       cosa: tocar varias veces seguidas no deja hojas a mitad de camino. */
+    function terminar() {
+      if (!vuelo) return;
+      cancelar();
+      if (vuelo.fase === 'giro') cerrarGiro();
+      else { vuelo = null; visor.classList.remove('is-arrastrando'); dibujar(); }
     }
 
     /* --- Hojear -------------------------------------------------- */
     function siguiente() {
-      terminar();
+      const asomo = vuelo && vuelo.fase === 'asomo' && vuelo.s === 1 ? vuelo : null;
+      if (asomo) { cancelar(); vuelo = null; } else terminar();
       if (modo === 'simple') {
         if (pag >= N) return;
-        /* De la derecha a la izquierda se da vuelta la hoja; de la
-           izquierda a la derecha la página ya está ahí y sólo se corre
-           el libro. */
-        if (pag % 2 === 1) { pag++; girar((pag - 2) / 2, 180, true); }
+        /* De la derecha a la izquierda se dobla la hoja; de la izquierda a
+           la derecha la página ya está ahí y sólo se corre el libro. */
+        if (pag % 2 === 1) { pag++; empezarGiro(1, false, esquina(1, false), true); }
         else { pag++; pintar(true); }
         return;
       }
-      if (vuelta < ultimaVuelta()) girar(vuelta, 180, true);
+      if (vuelta >= ultimaVuelta()) { dibujar(); return; }
+      /* Si la esquina ya estaba asomada, la vuelta sigue desde ahí. */
+      const arriba = asomo ? asomo.arriba : false;
+      empezarGiro(1, arriba, asomo ? asomo.P : esquina(1, arriba), !asomo);
     }
 
     function anterior() {
-      terminar();
+      const asomo = vuelo && vuelo.fase === 'asomo' && vuelo.s === -1 ? vuelo : null;
+      if (asomo) { cancelar(); vuelo = null; } else terminar();
       if (modo === 'simple') {
         if (pag <= 1) return;
-        if (pag % 2 === 0) { pag--; girar((pag - 1) / 2, 0, true); }
+        if (pag % 2 === 0) { pag--; empezarGiro(-1, false, esquina(-1, false), true); }
         else { pag--; pintar(true); }
         return;
       }
-      if (vuelta > 0) girar(vuelta - 1, 0, true);
-    }
-
-    const suaveIO = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-    const suaveO = (x) => 1 - Math.pow(1 - x, 3);
-
-    /* Lleva la hoja k al ángulo pedido desde donde esté. El libro se
-       corre a la vez, así la tapa se abre mientras el libro se centra y
-       no después. suave: curva de ida y vuelta para el toque; al soltar
-       un arrastre, sólo de salida, porque la hoja ya venía moviéndose. */
-    function girar(k, hasta, suave) {
-      terminar();
-      const h = hojas[k];
-      if (!h) return;
-      const vFinal = hasta === 180 ? k + 1 : k;
-      const pFinal = modo === 'simple' ? pag : (vFinal === 0 ? 1 : 2 * vFinal);
-      correrLibro(vFinal, pFinal, true);
-      precargar(vFinal);
-      h.el.style.zIndex = H + 1;
-      const dur = prefersReducedMotion.matches ? 0 : GIRO * Math.abs(hasta - h.ang) / 180;
-      anim = { k, desde: h.ang, hasta, suave, dur, t0: 0, raf: 0 };
-      if (dur < 16) { terminar(); return; }
-      anim.raf = requestAnimationFrame(paso);
-    }
-
-    function paso(t) {
-      if (!anim) return;
-      if (!anim.t0) anim.t0 = t;
-      const x = Math.min(1, (t - anim.t0) / anim.dur);
-      const e = anim.suave ? suaveIO(x) : suaveO(x);
-      ponerAngulo(anim.k, anim.desde + (anim.hasta - anim.desde) * e);
-      if (x < 1) anim.raf = requestAnimationFrame(paso);
-      else terminar();
-    }
-
-    /* Cierra la vuelta en curso en su destino. Se llama antes de empezar
-       cualquier otra: tocar varias veces seguidas no deja hojas a mitad
-       de camino, cada toque termina la anterior y arranca la suya. */
-    function terminar() {
-      if (!anim) return;
-      const a = anim;
-      anim = null;
-      cancelAnimationFrame(a.raf);
-      vuelta = a.hasta === 180 ? a.k + 1 : a.k;
-      if (modo === 'doble') pag = vuelta === 0 ? 1 : 2 * vuelta;
-      pintar(true);
+      if (vuelta <= 0) { dibujar(); return; }
+      const arriba = asomo ? asomo.arriba : false;
+      empezarGiro(-1, arriba, asomo ? asomo.P : esquina(-1, arriba), !asomo);
     }
 
     /* --- Gestos -------------------------------------------------- */
-    function lomoX() {
+    function aLibro(cx, cy) {
       const r = libro.getBoundingClientRect();
-      return r.left + r.width / 2;
+      return { x: cx - r.left - pw, y: cy - r.top };
+    }
+
+    /* La esquina se asoma cuando el mouse se acerca: una pista de que la
+       hoja se puede agarrar. */
+    function asomar(e) {
+      if (modo !== 'doble' || ampliado) return;
+      if (vuelo && vuelo.fase !== 'asomo') return;
+      const q = aLibro(e.clientX, e.clientY);
+      const candidatas = [];
+      if (vuelta < ultimaVuelta()) candidatas.push([1, false], [1, true]);
+      if (vuelta > 0) candidatas.push([-1, false], [-1, true]);
+      const cerca = candidatas.find(([s, arriba]) => {
+        const C = esquina(s, arriba);
+        return Math.hypot(q.x - C.x, q.y - C.y) < pw * ASOMO;
+      });
+      if (!cerca) {
+        if (vuelo) { vuelo.objetivo = vuelo.C; arrancarBucle(); }
+        return;
+      }
+      const [s, arriba] = cerca;
+      if (!vuelo || vuelo.s !== s || vuelo.arriba !== arriba) {
+        const C = esquina(s, arriba);
+        vuelo = { s, arriba, C, P: { x: C.x, y: C.y }, fase: 'asomo', objetivo: C };
+      }
+      vuelo.objetivo = restringir(arriba, {
+        x: vuelo.C.x - s * pw * 0.13,
+        y: vuelo.C.y + (arriba ? 1 : -1) * ph * 0.07
+      });
+      arrancarBucle();
+    }
+
+    function empezarArrastre(cx, cy) {
+      const previo = vuelo;
+      cancelar();
+      if (previo && previo.fase === 'giro') cerrarGiro();
+      else vuelo = null;
+      const q = aLibro(cx, cy);
+      const s = q.x >= 0 ? 1 : -1;
+      if ((s === 1 && vuelta >= ultimaVuelta()) || (s === -1 && vuelta <= 0)) {
+        dibujar();
+        return false;
+      }
+      /* Se agarra la esquina del mismo borde, arriba o abajo, según de qué
+         mitad de la página se tome la hoja, y va con el cursor sin saltar:
+         se mueve lo que se mueve el cursor desde donde se apretó. */
+      const arriba = q.y < ph / 2;
+      const C = esquina(s, arriba);
+      const P = previo && previo.fase === 'asomo' && previo.s === s && previo.arriba === arriba ? previo.P : C;
+      vuelo = { s, arriba, C, P, fase: 'arrastre', dx: P.x - q.x, dy: P.y - q.y };
+      precargar(vuelta + s);
+      visor.classList.add('is-arrastrando');
+      dibujar();
+      return true;
+    }
+
+    /* Pasada la mitad de la página —o con un tirón en esa dirección— la
+       vuelta se completa; si no, la hoja vuelve. */
+    function soltarArrastre(velocidad) {
+      visor.classList.remove('is-arrastrando');
+      if (!vuelo || vuelo.fase !== 'arrastre') return;
+      const f = vuelo;
+      const pasa = f.s === 1
+        ? f.P.x < pw * 0.5 || velocidad < -0.45
+        : f.P.x > -pw * 0.5 || velocidad > 0.45;
+      if (pasa) empezarGiro(f.s, f.arriba, f.P, false);
+      else empezarRegreso();
     }
 
     function armarGestos() {
-      let apretado = false, x0 = 0, y0 = 0, ux = 0, uy = 0, movido = 0, arrastre = null;
+      let apretado = false, x0 = 0, y0 = 0, ux = 0, uy = 0, movido = 0;
+      let arrastrando = false, velocidad = 0, tAnterior = 0;
 
       /* Sin esto, arrastrar sobre la página arranca el arrastre nativo de
          la imagen y el navegador suelta la captura del puntero. Ya pasó
@@ -2679,15 +3012,20 @@
         if (e.button > 0) return;
         apretado = true;
         movido = 0;
-        arrastre = null;
+        arrastrando = false;
+        velocidad = 0;
         x0 = ux = e.clientX;
         y0 = uy = e.clientY;
+        tAnterior = e.timeStamp;
         if (e.pointerType !== 'touch') e.preventDefault();
         try { ventana.setPointerCapture(e.pointerId); } catch (err) {}
       });
 
       ventana.addEventListener('pointermove', (e) => {
-        if (!apretado) return;
+        if (!apretado) {
+          if (e.pointerType === 'mouse') asomar(e);
+          return;
+        }
         movido = Math.max(movido, Math.hypot(e.clientX - x0, e.clientY - y0));
         if (ampliado) {
           if (e.pointerType !== 'mouse') correr(e.clientX - ux, e.clientY - uy);
@@ -2695,23 +3033,28 @@
           uy = e.clientY;
           return;
         }
-        /* De a una página no se sigue al dedo: el gesto se decide al
-           soltar, porque la hoja que gira quedaría medio afuera de la
-           ventana. */
         if (modo !== 'doble') return;
-        if (arrastre === null && movido > 6) arrastre = empezarArrastre(x0) || false;
-        if (arrastre) moverArrastre(arrastre, e.clientX - x0);
+        const dt = Math.max(1, e.timeStamp - tAnterior);
+        velocidad = velocidad * 0.6 + ((e.clientX - ux) / dt) * 0.4;
+        ux = e.clientX;
+        uy = e.clientY;
+        tAnterior = e.timeStamp;
+        if (!arrastrando && movido > 6) arrastrando = empezarArrastre(x0, y0);
+        if (arrastrando && vuelo && vuelo.fase === 'arrastre') {
+          const q = aLibro(e.clientX, e.clientY);
+          vuelo.P = restringir(vuelo.arriba, { x: q.x + vuelo.dx, y: q.y + vuelo.dy });
+          dibujar();
+        }
       });
 
       ventana.addEventListener('pointerup', (e) => {
         if (!apretado) return;
         apretado = false;
-        if (arrastre) {
-          soltarArrastre(arrastre);
-          arrastre = null;
+        if (arrastrando) {
+          arrastrando = false;
+          soltarArrastre(velocidad);
           return;
         }
-        arrastre = null;
         if (ampliado) {
           if (movido < 8) achicar();
           return;
@@ -2724,54 +3067,31 @@
         if (movido > 8) return;
         /* Un toque: del lomo para la derecha avanza, para la izquierda
            retrocede. De a una, la mitad de la página hace de lomo. */
-        let lomo = lomoX();
-        if (modo === 'simple') {
-          const r = ventana.getBoundingClientRect();
-          lomo = r.left + r.width / 2;
-        }
-        if (x0 >= lomo) siguiente(); else anterior();
+        const r = (modo === 'simple' ? ventana : libro).getBoundingClientRect();
+        if (x0 >= r.left + r.width / 2) siguiente(); else anterior();
       });
 
       ventana.addEventListener('pointercancel', () => {
         apretado = false;
-        if (arrastre) soltarArrastre(arrastre);
-        arrastre = null;
+        if (arrastrando) {
+          arrastrando = false;
+          soltarArrastre(0);
+        }
+      });
+
+      /* Al salir de la ventana, la esquina asomada vuelve a su lugar. */
+      ventana.addEventListener('pointerleave', () => {
+        if (!apretado && vuelo && vuelo.fase === 'asomo') {
+          vuelo.objetivo = vuelo.C;
+          arrancarBucle();
+        }
       });
     }
 
-    function empezarArrastre(x) {
-      terminar();
-      const lomo = lomoX();
-      let k;
-      if (x >= lomo) {
-        if (vuelta >= ultimaVuelta()) return null;
-        k = vuelta;
-      } else {
-        if (vuelta <= 0) return null;
-        k = vuelta - 1;
-      }
-      const h = hojas[k];
-      h.el.style.zIndex = H + 1;
-      precargar(k + 1);
-      return { k, lomo, borde0: lomo + pw * Math.cos(h.ang * Math.PI / 180) };
-    }
-
-    /* El borde libre de la hoja va donde está el dedo: su distancia al
-       lomo, en páginas, es el coseno del ángulo. */
-    function moverArrastre(a, dx) {
-      const c = Math.max(-1, Math.min(1, (a.borde0 + dx - a.lomo) / pw));
-      ponerAngulo(a.k, Math.acos(c) * 180 / Math.PI);
-    }
-
-    /* Pasada la mitad, la vuelta se completa; si no, la hoja vuelve. */
-    function soltarArrastre(a) {
-      girar(a.k, hojas[a.k].ang > 90 ? 180 : 0, false);
-    }
-
     /* --- La lupa ------------------------------------------------- */
-    function ponerOrigen(px, py) {
-      ox = Math.min(100, Math.max(0, px));
-      oy = Math.min(100, Math.max(0, py));
+    function ponerOrigen(x, y) {
+      ox = Math.min(100, Math.max(0, x));
+      oy = Math.min(100, Math.max(0, y));
       capa.style.transformOrigin = ox + '% ' + oy + '%';
     }
 
@@ -2781,8 +3101,8 @@
                   ((e.clientY - r.top) / r.height) * 100);
     }
 
-    /* Con el dedo, para que lo ampliado vaya al ritmo del gesto: igual
-       que en la vista de Aplicaciones. */
+    /* Con el dedo, para que lo ampliado vaya al ritmo del gesto: igual que
+       en la vista de Aplicaciones. */
     function correr(dx, dy) {
       const r = ventana.getBoundingClientRect();
       const k = 100 / (ZOOM - 1);
@@ -2818,6 +3138,26 @@
       else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { achicar(); anterior(); }
       else return;
       e.preventDefault();
+    }
+
+    /* Sólo para verificar desde el navegador de pruebas, que no puede
+       arrastrar con el mouse: con ?libro-prueba en la dirección se puede
+       congelar un pliegue en cualquier punto y sacarle una captura. Sin
+       ese parámetro esto no existe. fx y fy: dónde va la esquina, en
+       páginas, medido desde el lomo. */
+    if (/[?&]libro-prueba\b/.test(window.location.search)) {
+      window.__libroPrueba = {
+        plegar(s, arriba, fx, fy) {
+          if (!visor || visor.hidden) return 'cerrado';
+          cancelar();
+          const C = esquina(s, arriba);
+          vuelo = { s, arriba, C, P: restringir(arriba, { x: fx * pw, y: fy * ph }), fase: 'arrastre', dx: 0, dy: 0 };
+          dibujar();
+          return { P: vuelo.P, pw, ph, vuelta };
+        },
+        soltar() { cancelar(); vuelo = null; dibujar(); },
+        estado() { return { vuelta, pag, modo, pw, ph, fase: vuelo && vuelo.fase }; }
+      };
     }
   }
 

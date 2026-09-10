@@ -1002,13 +1002,13 @@ em { font-style: italic; }
 }
 /* ------------ Libro interactivo ------------
    Las tapas de Fascículos abren el fascículo en grande para hojearlo. La
-   mecánica está en el módulo 20 del JS; acá va sólo la forma.
+   mecánica —el pliegue de la hoja— está en el módulo 20 del JS; acá va
+   sólo la forma.
 
    Tres filas: arriba el título y la cruz, en el medio el libro y abajo
    las flechas, el contador y la lupa. La cruz va en su fila y no flotando
    en la esquina, como en las otras vistas grandes, porque acá el libro
-   puede llenar todo el ancho —en vertical, de a una página— y le taparía
-   el borde a la hoja.
+   puede llenar todo el ancho y le taparía el borde a la hoja.
 
    Las medidas del libro las pone el JS en --pw y --ph —ancho y alto de
    una página— a partir del lugar que hay. Todo lo demás sale de ahí. */
@@ -1023,10 +1023,11 @@ em { font-style: italic; }
   grid-template-rows: auto minmax(0, 1fr) auto;
   row-gap: clamp(0.5rem, 1.5vw, 1rem);
   padding: var(--aire);
-  /* Casi opaco, más que las otras vistas grandes: detrás queda el hero, y
-     con más transparencia su tipografía gigante se leía como una mancha
-     gris alrededor del libro. Acá se viene a leer. */
-  background: rgba(17, 17, 17, 0.97);
+  /* Opaco, a diferencia de las otras vistas grandes: detrás queda el hero,
+     y su tipografía gigante se leía como una mancha gris alrededor del
+     libro. Se probó al 94 % y al 97 %, y en los dos casos se adivinaba.
+     Acá se viene a leer. */
+  background: var(--dark-bg);
   opacity: 0;
   transition: opacity var(--t-mid) var(--ease);
 }
@@ -1052,19 +1053,28 @@ em { font-style: italic; }
 /* La misma cruz que las otras vistas grandes, pero en su fila. */
 .libro-visor .lightbox__cerrar { position: static; flex: 0 0 auto; }
 
-/* La escena recorta: con la lupa puesta el libro se agranda más allá de
-   su lugar y no puede salirse por encima de la barra ni del pie. */
+/* La escena NO recorta. La solapa, al doblarse, sale del rectángulo del
+   libro —hacia arriba o hacia abajo, según qué esquina se tome— y con la
+   escena recortando se cortaba justo en el borde del libro y se veía
+   tosco. Sólo recorta con la lupa puesta, que agranda el libro entero. */
 .libro-visor__escena {
   position: relative;
+  min-width: 0;
   min-height: 0;
-  overflow: hidden;
   display: grid;
   place-items: center;
 }
+/* Sin recorte, un elemento de grilla no se achica por debajo de su
+   contenido: la escena tomaba el ancho del libro y el JS medía de más.
+   En un teléfono entraba de a dos, con páginas más anchas que la
+   pantalla y el pie cortado. La columna en minmax(0, 1fr) y el
+   min-width: 0 le devuelven el ancho de la pantalla. */
+.libro-visor { grid-template-columns: minmax(0, 1fr); }
+.libro-visor.is-ampliado .libro-visor__escena { overflow: hidden; }
 
 /* La ventana por la que se mira el libro. De a dos páginas mide dos de
-   ancho; de a una, una, y recorta: el libro sigue siendo el mismo y se
-   corre hacia el lado de la página que toca. */
+   ancho; de a una, una, y recorta a los costados: el libro sigue siendo
+   el mismo y se corre hacia el lado de la página que toca. */
 .libro-visor__ventana {
   position: relative;
   width: calc(var(--pw) * 2);
@@ -1074,10 +1084,20 @@ em { font-style: italic; }
   user-select: none;
   -webkit-user-select: none;
 }
+.libro-visor.is-arrastrando .libro-visor__ventana { cursor: grabbing; }
 .libro-visor.is-simple .libro-visor__ventana {
   width: var(--pw);
   overflow: hidden;
   cursor: pointer;
+}
+/* Donde se puede, recorta sólo a lo ancho: arriba y abajo la solapa
+   tiene que poder salirse, igual que de a dos. Con overflow-x: hidden no
+   sirve, porque obliga al otro eje a hacer scroll. */
+@supports (overflow-x: clip) {
+  .libro-visor.is-simple .libro-visor__ventana {
+    overflow: visible;
+    overflow-x: clip;
+  }
 }
 .libro-visor.is-ampliado .libro-visor__ventana {
   cursor: zoom-out;
@@ -1095,11 +1115,8 @@ em { font-style: italic; }
 
 /* El libro mide dos páginas y está centrado en la ventana: el lomo cae en
    el medio. El corrimiento —para centrar la tapa, la contratapa o la
-   página de turno— lo pone el JS en el transform, con la misma curva que
-   la vuelta de la hoja para que las dos cosas se muevan juntas.
-
-   La perspectiva va en el libro y no en la escena: así el punto de fuga
-   queda en el lomo, que es de donde gira la hoja. */
+   página de turno— lo pone el JS en el transform, y también la duración,
+   que es la de la vuelta de la hoja que lo provoca. */
 .libro {
   position: absolute;
   top: 0;
@@ -1107,33 +1124,25 @@ em { font-style: italic; }
   width: calc(var(--pw) * 2);
   height: var(--ph);
   margin-left: calc(var(--pw) * -1);
-  perspective: calc(var(--pw) * 6);
-  transition: transform 750ms cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition-duration: 900ms;
 }
-.libro.sin-transicion { transition: none; }
 
-/* Cada hoja ocupa la mitad derecha y gira sobre su borde izquierdo, que
-   es el lomo. El frente es la página impar y el dorso la par, dado vuelta
-   para que se lea derecho cuando la hoja queda del lado izquierdo. */
-.hoja {
+/* Una página. El JS la ubica a la izquierda o a la derecha del lomo y,
+   cuando se dobla, le pone el recorte y —si es la solapa— la matriz del
+   pliegue. Por eso el origen de las transformaciones es la esquina de
+   arriba a la izquierda y no el centro. */
+.pagina {
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 50%;
-  height: 100%;
-  transform-origin: left center;
-  transform-style: preserve-3d;
-}
-.hoja__cara {
-  position: absolute;
-  inset: 0;
+  width: var(--pw);
+  height: var(--ph);
   overflow: hidden;
   background: var(--bg-warm);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  transform-origin: 0 0;
 }
-.hoja__cara--dorso { transform: rotateY(180deg); }
-.hoja__cara img {
+.pagina img {
   display: block;
   width: 100%;
   height: 100%;
@@ -1143,27 +1152,54 @@ em { font-style: italic; }
   user-drag: none;
 }
 
-/* La sombra del lomo: el papel se hunde hacia la costura. En el frente
-   el lomo está a la izquierda; en el dorso, que está dado vuelta, a la
-   derecha. La tapa y la contratapa no la llevan. */
-.hoja__cara::before,
-.hoja__cara::after {
+/* La sombra del lomo: el papel se hunde hacia la costura. En las páginas
+   de la derecha el lomo está a la izquierda y viceversa. La tapa y la
+   contratapa no la llevan. */
+.pagina::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-.hoja__cara--frente::before { background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0) 6%); }
-.hoja__cara--dorso::before  { background: linear-gradient(to left,  rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0) 6%); }
-.hoja__cara--tapa::before { display: none; }
+.pagina--der::after { background: linear-gradient(to right, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0) 7%); }
+.pagina--izq::after { background: linear-gradient(to left,  rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0) 7%); }
+.pagina--tapa::after { display: none; }
 
-/* La luz de la vuelta: la hoja se oscurece mientras está levantada y se
-   aclara al asentarse. --luz la pone el JS en cada cuadro. */
-.hoja__cara::after { background: #000; opacity: var(--luz, 0); }
+/* Las carillas de calco: dejan ver la página de abajo, un poco empañada,
+   como el papel vegetal de verdad. La de abajo la dibuja el JS debajo de
+   esta; acá el dibujo impreso se afina al 80 % y un velo blanco empaña lo
+   que queda detrás.
 
-.hoja__cara--vacia { background: transparent; }
-.hoja__cara--vacia::before,
-.hoja__cara--vacia::after { display: none; }
+   Sin desenfoque de fondo: se probó con backdrop-filter y lo de abajo
+   dejaba de verse del todo —la portadilla desaparecía detrás de la
+   carilla 3—. Sin él, el título se lee apenas, que es lo que pasa en el
+   papel. */
+.pagina--calco { background: rgba(255, 255, 255, 0.1); }
+.pagina--calco img { opacity: 0.8; }
+
+/* Las dos sombras del pliegue: la que cae sobre la página que se descubre
+   y la curva de luz de la solapa. El JS les pone un degradado alineado con
+   la línea del pliegue y las recorta a su zona. Miden cuatro páginas por
+   tres porque la solapa se sale del libro y un fondo sólo se pinta
+   dentro de su caja. */
+.pliegue-sombra {
+  position: absolute;
+  left: calc(var(--pw) * -1);
+  top: calc(var(--ph) * -1);
+  width: calc(var(--pw) * 4);
+  height: calc(var(--ph) * 3);
+  pointer-events: none;
+}
+
+/* La capa de la solapa, sólo para la sombra que proyecta sobre lo que
+   tapa. Mide lo mismo que el libro, así la página de adentro conserva
+   sus coordenadas. */
+.pliegue-solapa {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 7px rgba(0, 0, 0, 0.32));
+}
 
 /* El pie: las flechas y el contador al centro, la lupa a la derecha. */
 .libro-visor__pie {
@@ -1209,6 +1245,26 @@ em { font-style: italic; }
 }
 .libro-visor__boton:disabled { opacity: 0.3; cursor: default; }
 .libro-visor__boton--lupa { grid-column: 3; justify-self: end; }
+
+/* Las tres tapas de la grilla. Van al 80 % de su columna para que el
+   hover tenga dónde crecer: al pasar por encima la tapa se agranda, se
+   levanta con una sombra y toma el filete naranja de siempre. Así se nota
+   que es algo que se toca, y no sólo una imagen con otro cursor. */
+.tapas > .fig {
+  width: 80%;
+  margin-inline: auto;
+}
+.tapas .fig__frame--ampliable {
+  transition: transform var(--t-mid) var(--ease),
+              box-shadow var(--t-mid) var(--ease),
+              border-color var(--t-fast) var(--ease),
+              outline-color var(--t-fast) var(--ease);
+}
+.tapas .fig__frame.fig__frame--ampliable:hover,
+.tapas .fig__frame.fig__frame--ampliable:focus-visible {
+  transform: scale(1.07);
+  box-shadow: 0 24px 40px -24px rgba(17, 17, 17, 0.55);
+}
 
 /* ------------ Pase de imagenes ------------
    Las piezas del universo grafico van pasando solas. Hay dos pases, uno
