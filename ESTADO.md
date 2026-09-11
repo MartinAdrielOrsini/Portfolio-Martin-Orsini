@@ -1,10 +1,23 @@
 # Estado del proyecto — traspaso
 
 Documento para retomar el trabajo en una conversación nueva.
-Última actualización: 10 de septiembre de 2026.
+Última actualización: 11 de septiembre de 2026.
 
 El README.md documenta **cómo funciona** el sitio. Este archivo cuenta
 **dónde estamos, qué se decidió y por qué, y qué falta**.
+
+## Para retomar en una conversación nueva
+
+1. Leer este archivo entero y el README antes de tocar nada.
+2. `git status` y `git log`: el autor commitea y sube él mismo, con
+   mensajes cortos del estilo "fasciculos 10-9". Ver si hubo cambios
+   después de la última actualización de este archivo.
+3. Mirar en `D:\Martin\PORTFOLIO WEB` si dejó material nuevo en la
+   carpeta del proyecto de turno.
+4. Levantar el servidor (sección 2) y abrir el sitio.
+5. No hacer cambios hasta que el autor pida algo. Después de cada cambio:
+   subir el `?v=` si se tocó CSS o JS, verificar en el navegador y
+   **actualizar este archivo**. Commitear o subir sólo si lo pide.
 
 ---
 
@@ -22,8 +35,8 @@ cátedra en Diseño Gráfico 3 (cátedra Belluccia, UBA / FADU).
 ```
 index.html          1941 líneas — estructura y contenido (14 secciones)
 css/styles.css      2923 líneas — todo el estilo; config en :root
-javascript/main.js  3196 líneas — 21 módulos
-assets/             157 MB (!) — ver "Problemas conocidos"
+javascript/main.js  3196 líneas — 22 módulos
+assets/             164 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
@@ -33,11 +46,15 @@ assets/             157 MB (!) — ver "Problemas conocidos"
 
 ## 2. Cómo se trabaja acá
 
-- **Servidor de pruebas:** no hay uno en el repo. Se levanta un
-  HttpListener de PowerShell. El script que funciona está en el
-  scratchpad como serve2.ps1, en el **puerto 8100**, y soporta
-  *range requests* (imprescindible para servir video) y tolera que el
-  navegador aborte descargas. Sin eso, se cae al servir el mp4 grande.
+- **Servidor de pruebas:** `.herramientas/servidor.ps1`, en el **puerto 8100**.
+  Desde Claude Code se levanta con `preview_start` y el nombre
+  `portfolio` (está en `.claude/launch.json`); a mano,
+  `powershell -NoProfile -ExecutionPolicy Bypass -File .herramientas/servidor.ps1`.
+  Soporta *range requests* —imprescindible para servir video—, tolera que
+  el navegador aborte descargas y manda `no-store`. Sin eso se cae al
+  servir el mp4 grande. Antes vivía en la carpeta temporal de cada sesión
+  y se perdía al cerrarla; ahora está en el repo. La carpeta empieza con
+  punto para que GitHub Pages no la publique.
 - **El autor revisa en un portátil de 1366x768** → unos **630 px
   útiles**. Verificar siempre ahí, además de 375 y 1920.
 - **El panel del navegador saca capturas sólo cuando está a la vista.**
@@ -53,7 +70,9 @@ assets/             157 MB (!) — ver "Problemas conocidos"
   lo que detecta un desborde de 1 px o un contraste flojo.
 - **Leer PDFs:** no hay poppler ni ImageMagick ni Python real. Se
   rasterizan con la **API nativa de Windows** (Windows.Data.Pdf) desde
-  PowerShell. Hay un script hecho en el scratchpad (pdf2png.ps1).
+  PowerShell. El script de una sesión anterior se perdió con su carpeta
+  temporal: si vuelve a hacer falta, rehacerlo y guardarlo en
+  `.herramientas/`.
 - **PowerShell 5.1 lee los .ps1 como ANSI:** una ruta con eñe rompe el
   script. Resolver con comodín, por ejemplo 1REDISE*O DE SUMA.
 - **Las variables de PowerShell no distinguen mayúsculas**: $h pisa a $H.
@@ -65,6 +84,9 @@ assets/             157 MB (!) — ver "Problemas conocidos"
   /usr/bin y /bin al principio.
 - **Procesamiento de imágenes:** System.Drawing desde PowerShell,
   calidad 82. **No hay ffmpeg**, así que el video no se puede comprimir.
+  Para convertir material del autor: `.herramientas/convertir.ps1
+  -Origen ... -Destino ... -Ancho N` —un archivo o una carpeta entera,
+  nunca agranda, calidad 82 salvo que se pida otra—.
 
 ---
 
@@ -905,42 +927,75 @@ Queda **Estrella de Maldonado** entera con imágenes de relleno y textos
 cortos. **Fascículos, a medias:** las tapas y el libro ya son del autor,
 pero las tres tapas abren el fascículo 01 —faltan las páginas del 02 y del
 03— y las tres dobles páginas de abajo siguen siendo de relleno. Las demás
-que estaban en esta lista —Cerveceros, Almacenit, Remeras, Mush y Dosel,
-que pasó a ser 3 Esencias— ya tienen el material real del autor.
+—Suma, Centenera, Green Eat, Cerveceros, 3 Esencias (ex Dosel), Almacenit,
+Remeras y Mush— ya tienen el material real del autor.
 
 El flujo que viene funcionando: el autor deja en la carpeta del proyecto,
-dentro de PORTFOLIO WEB, una imagen de referencia con el diseño ya
-compuesto más las piezas sueltas nombradas (a.jpg, b.jpg...). Se mide la
-referencia por escaneo de píxeles y se maqueta a partir de eso.
+dentro de `D:\Martin\PORTFOLIO WEB`, una imagen de referencia con el
+diseño ya compuesto —muchas veces una captura del sitio publicado con las
+piezas nuevas pegadas encima— más las piezas sueltas numeradas o con
+letras. Se mide la referencia por escaneo de píxeles y se maqueta a partir
+de eso. **Ojo:** esas capturas traen los rótulos viejos de la página que
+se usó de fondo (así pasó con "Juego de mesa" en 3 Esencias).
+
+### Decidido por el autor: no volver a proponer
+El 10 de septiembre se le pasó al autor la lista de pendientes chicos y
+respondió que **sólo había que corregir "Remeras custom"** —hecho: dice
+"Remeras Delira" en todos lados— y que **el resto está bien como está**:
+- El mail `martinorsain@hotmail.com`, con "orsain".
+- FormSubmit.
+- "SUMA" en mayúsculas en el enlace Anterior de Centenera.
+- "Trabajemos juntos!" sin signo de apertura en la sección 2.
+- El video de Green Eat de 61 MB.
 
 ### Pendientes concretos
-1. **El video de Green Eat pesa 60,4 MB.** Es el archivo más pesado del
-   sitio por lejos: el segundo, el de Mush, pesa 28,4 MB. Reexportar a
-   720 px de ancho, 2 Mbps, 20-30 s → 5-8 MB.
-2. **assets/ pesa 150 MB.** Además del video de Green Eat hay
-   originales sin usar.
-3. **Confirmar el mail:** figura martinorsain@hotmail.com, con "orsain"
-   y no "orsini". Está en cuatro lugares. Si es un tipeo, se pierden
-   los mensajes sin que nadie se entere.
-4. **Activar FormSubmit:** la primera vez que alguien envíe el
-   formulario llega un mail de confirmación. Hasta hacer click ahí, los
-   mensajes no llegan.
-5. **Los enlaces Siguiente/Anterior** entre proyectos todavía dicen
-   "SUMA" y "Remeras custom"; los demás ya coinciden con el índice.
-6. **La sección 2** dice "Trabajemos juntos!" sin signo de apertura,
-   mientras el footer dice "¡Trabajemos juntos!".
-7. **El CV pesa 4,15 MB** y no se pudo abrir para verificar que sea el
+1. **Fascículos 02 y 03.** Cuando el autor tenga las páginas: carpetas
+   `fasciculo-02/` y `fasciculo-03/` con `01.jpg`… y `portada.jpg`, y en
+   el segundo y tercer botón de la fila de tapas cambiar `data-libro`,
+   `data-paginas`, `data-titulo`, `data-calco` y la imagen.
+2. **Las tres dobles páginas de Fascículos** ("Fascículo 01/02/03") son de
+   relleno.
+3. **Estrella de Maldonado,** entera.
+4. **Probar con mouse real el arrastre de las hojas** del libro de
+   Fascículos: en el panel de pruebas no se pudo (ver sección 10).
+5. **Zoom de Aplicaciones de Mush, blando en b a f:** los archivos del
+   autor miden 1617 px. Si quiere zoom nítido hay que reexportarlas más
+   grandes desde `aplicaciones.psd` (3000 px alcanza). Se le ofreció.
+6. **Rótulos de 3 Esencias** que puse yo: la volanta "Packaging" y el
+   bloque "Los tres packagings". El autor no los objetó.
+7. **La solapa de las carillas de calco** se distingue poco al plegarse
+   (rosa sobre rosa). Si el autor lo pide, se le puede marcar más el borde.
+8. **En mobile los dos teléfonos de Green Eat** quedan de 155 px de ancho y
+   el prototipo se ve chico. Se ofreció apilarlos; sin respuesta.
+9. **El CV pesa 4,15 MB** y no se pudo abrir para verificar que sea el
    archivo correcto.
-8. **En mobile los dos teléfonos de Green Eat** quedan de 155 px de
-   ancho cada uno y el prototipo se ve muy chico. Se ofreció apilarlos.
-9. **retrato.jpg** quedó sin uso desde que se rehízo la sección 2.
+10. **Peso:** `assets/` son 164 MB y `.git` 162 MB. El grueso son los
+    videos (Green Eat 61 MB, Mush 29 MB). Ver la sección 9 antes de
+    tocar nada.
+
+### Archivos sin uso (unos 12 MB, **no se borraron**)
+Quedaron sin ninguna referencia en HTML, CSS ni JS —verificado el 11 de
+septiembre—. Borrarlos sólo si el autor lo pide.
+
+| Archivos | Peso | Por qué |
+|---|---:|---|
+| `cerveceros-del-sur/01-packaging.jpg` a `13-table-tent.png` | 4,5 MB | relleno de la maqueta |
+| `dosel/` entera | 1,4 MB | Dosel pasó a ser 3 Esencias |
+| `indice/05-dosel.jpg` | 1,1 MB | ídem |
+| `green-eat/01-card.jpg` a `08-wraps.png` | 1,5 MB | los reemplazaron el carrusel y las ilustraciones |
+| `almacenit/01-home.jpg`, `02-detalle.jpg` | 980 KB | reemplazados por `home.jpg` y `detalle.jpg` |
+| `remeras/01-billie.jpg` a `05-hasbulla.jpg` | 944 KB | reemplazados por las cartas |
+| `mush-type/universo/01.jpg` a `10.jpg` (sueltos) | 640 KB | la selección vieja; ahora son `universo/a` y `universo/b` |
+| `mush-type/06-pieza-a.jpg` a `09-pieza-d.jpg`, `11-ig.jpg`, `03-letras.jpg` | 592 KB | las Aplicaciones viejas |
+| `fasciculos-editorial/03-pagina-a.jpg` a `05-pagina-c.jpg` | 300 KB | reemplazadas por las tapas |
+| `retrato.jpg` | 208 KB | desde que se rehízo la sección 2 |
 
 ---
 
 ## 9. Problemas conocidos
 
 - **Los dos videos pesados ya están en la historia de git.** `.git` pesa
-  148 MB. Los únicos blobs grandes son `green-eat-prototipo.mp4` (60,4
+  162 MB. Los únicos blobs grandes son `green-eat-prototipo.mp4` (60,4
   MB) y `mush-presentacion.mp4` (28,4 MB); el export de 69,4 MB de Mush
   nunca llegó a commitearse. Ojo: reexportar el de Green Eat achica el
   checkout pero **no** la historia —el blob viejo queda igual—, así que
@@ -950,6 +1005,12 @@ referencia por escaneo de píxeles y se maqueta a partir de eso.
 - **Caché de GitHub Pages.** Sirve el HTML cacheado unos minutos. Si el
   autor dice "no se ve el cambio", verificar primero contra origin/main
   antes de asumir que hay un bug. Ya pasó una vez.
+- **GitHub Pages puede quedarse sin reconstruir.** El 8 de septiembre
+  sirvió más de una hora un build viejo con el commit ya en `origin/main`
+  (se veía en la cabecera `Last-Modified`). Lo destrabó un commit vacío:
+  `git commit --allow-empty -m "rebuild pages"` y push. Para saber qué
+  se sirve de verdad, pedir el HTML con un parámetro al azar en la URL y
+  buscar ahí el cambio.
 - **Las imágenes y los videos se cachean por nombre.** Al reemplazar uno
   manteniendo el nombre hay que abrir con Ctrl+F5 o en incógnito. Ya
   pasó, y volvió a aplicar al cambiar el video de Mush por el liviano:
@@ -968,8 +1029,8 @@ referencia por escaneo de píxeles y se maqueta a partir de eso.
 
 ## 10. Cómo verificar un cambio
 
-1. Levantar serve2.ps1 (puerto 8100) y abrir con preview_start.
-3. **Medir por JavaScript, no mirar.** Alto de secciones, scrollWidth
+1. Levantar el servidor con `preview_start`, nombre `portfolio` (puerto 8100).
+2. **Medir por JavaScript, no mirar.** Alto de secciones, scrollWidth
    contra innerWidth para overflow, naturalWidth igual a cero para
    imágenes rotas, anclas rotas, contraste por composición de alfa.
 3. Verificar a **1366x630**, 375 y 1920. Para problemas de "no llega al

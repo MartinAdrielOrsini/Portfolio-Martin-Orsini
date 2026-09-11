@@ -36,16 +36,29 @@ título, ficha, imagen de apertura, bajada y galería— pero varía la
 retícula: `stack`, `grid-2`, `grid-3`, `grid-4` o `grid-asym` según las
 proporciones del material.
 
+## Herramientas locales
+
+En `.herramientas/` —empieza con punto para que GitHub Pages no la
+publique—:
+
+- **`servidor.ps1`** — sirve el sitio en `http://localhost:8100/`, con
+  soporte para adelantar video y sin caché. Desde Claude Code se levanta
+  con `preview_start` y el nombre `portfolio` (`.claude/launch.json`); a
+  mano: `powershell -NoProfile -ExecutionPolicy Bypass -File .herramientas/servidor.ps1`.
+- **`convertir.ps1`** — pasa el material del autor a tamaño web:
+  `-Origen` (archivo o carpeta), `-Destino`, `-Ancho` y, opcional,
+  `-Calidad` (82 por defecto). Nunca agranda.
+
 ## Qué falta
 
-**Las 88 imágenes cargan.** Queda pendiente:
+El detalle —pendientes, decisiones del autor, archivos sin uso y
+problemas conocidos— está en `ESTADO.md`, secciones 8 y 9. En corto:
 
-1. **Email** — buscá `hola@tudominio.com` en `index.html`.
-2. **Redes** — los `href="#"` de la sección de contacto.
-3. **Green Eat** — en `tp3 disenio ux ui / UI` no hay capturas de las
-   pantallas de la app, sólo el sistema de ilustración, los tres boards
-   de onboarding y los recortes de producto. Armé la sección con eso. Si
-   tenés las pantallas exportadas, entran en `assets/images/green-eat/`.
+1. **Estrella de Maldonado** — sigue con imágenes de relleno.
+2. **Archivos sin uso** — unos 12 MB de imágenes viejas quedaron sin
+   referencia. No se borraron: la lista está en `ESTADO.md`.
+3. **Peso** — `assets/` son 164 MB; el grueso son los videos de Green Eat
+   (61 MB) y Mush (29 MB).
 4. **Fascículos editorial** — la fila de tres son las tapas de la
    colección y cada una abre su fascículo en un libro que se hojea
    (módulo 20 de `main.js`). Por ahora las tres abren el fascículo 01,
