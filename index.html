@@ -43,7 +43,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=94">
+<link rel="stylesheet" href="css/styles.css?v=95">
 </head>
 <body>
 
@@ -1117,40 +1117,46 @@
   <!-- Las tres tapas de la colección. Cada una abre su fascículo en
        grande para hojearlo: ver el módulo 20 del JS.
 
-       Por ahora las tres abren el fascículo 01, que es el único terminado.
-       Cuando estén el 02 y el 03 alcanza con cambiar, en cada botón, la
-       carpeta (data-libro), la cantidad de páginas, el título, la imagen
-       de la tapa y las carillas de calco (data-calco), si las tiene.
-       Dentro de la carpeta las páginas van numeradas 01.jpg, 02.jpg... y
-       la tapa de la grilla es portada.jpg.
+       Las páginas salen de los PDF del autor (6FASCICULOS EDITORIAL/WEB),
+       rasterizadas con .herramientas/pdf.ps1. Cada fascículo tiene su
+       carpeta, con las páginas numeradas 01.jpg, 02.jpg... y la tapa de la
+       grilla en portada.jpg. En cada botón van la carpeta (data-libro), la
+       cantidad de páginas, el título, la proporción de la página y las
+       carillas de calco (data-calco).
+
+       El 03 tiene 40 páginas y dos hojas de calco más, entre los relatos.
+       En su PDF las cuatro primeras páginas venían al final y en orden
+       inverso (36 tapa, 35, 34, 33); en la carpeta ya van en su lugar, así
+       que las hojas de calco 11-12 y 21-22 del PDF son acá la 15-16 y la
+       25-26.
 
        Van con fig__frame--tall porque son verticales: el tope de
        --media-max-h les recortaría el alto, se angostarían para sostener
        la proporción y la fila dejaría de llegar al margen derecho. -->
   <div class="container">
     <div class="grid-3 tapas">
-      <figure class="fig fig--ar reveal" style="--ar: 0.7545">
+      <figure class="fig fig--ar reveal" style="--ar: 0.7565">
         <button class="fig__frame fig__frame--tall fig__frame--ampliable" type="button" data-slot="Fascículo 01"
-                data-libro="assets/images/fasciculos-editorial/fasciculo-01/" data-paginas="36" data-calco="3,4,33,34" data-proporcion="0.7545"
+                data-libro="assets/images/fasciculos-editorial/fasciculo-01/" data-paginas="36" data-calco="3,4,33,34" data-proporcion="0.7565"
                 data-titulo="Los viernes — Juan Forn"
                 aria-label="Hojear el fascículo Los viernes, de Juan Forn">
           <img src="assets/images/fasciculos-editorial/fasciculo-01/portada.jpg" alt="Tapa del fascículo Los viernes, de Juan Forn" loading="lazy" decoding="async">
         </button>
       </figure>
-      <figure class="fig fig--ar reveal" style="--ar: 0.7545">
+      <figure class="fig fig--ar reveal" style="--ar: 0.7565">
         <button class="fig__frame fig__frame--tall fig__frame--ampliable" type="button" data-slot="Fascículo 02"
-                data-libro="assets/images/fasciculos-editorial/fasciculo-01/" data-paginas="36" data-calco="3,4,33,34" data-proporcion="0.7545"
-                data-titulo="Los viernes — Juan Forn"
-                aria-label="Hojear el fascículo Los viernes, de Juan Forn">
-          <img src="assets/images/fasciculos-editorial/fasciculo-01/portada.jpg" alt="Tapa del fascículo Los viernes, de Juan Forn" loading="lazy" decoding="async">
+                data-libro="assets/images/fasciculos-editorial/fasciculo-02/" data-paginas="36" data-calco="3,4,33,34" data-proporcion="0.7565"
+                data-titulo="Panfleto: erótica y feminismo — María Moreno"
+                aria-label="Hojear el fascículo Panfleto: erótica y feminismo, de María Moreno">
+          <img src="assets/images/fasciculos-editorial/fasciculo-02/portada.jpg" alt="Tapa del fascículo Panfleto: erótica y feminismo, de María Moreno" loading="lazy" decoding="async">
         </button>
       </figure>
-      <figure class="fig fig--ar reveal" style="--ar: 0.7545">
+      <figure class="fig fig--ar reveal" style="--ar: 0.7565">
         <button class="fig__frame fig__frame--tall fig__frame--ampliable" type="button" data-slot="Fascículo 03"
-                data-libro="assets/images/fasciculos-editorial/fasciculo-01/" data-paginas="36" data-calco="3,4,33,34" data-proporcion="0.7545"
-                data-titulo="Los viernes — Juan Forn"
-                aria-label="Hojear el fascículo Los viernes, de Juan Forn">
-          <img src="assets/images/fasciculos-editorial/fasciculo-01/portada.jpg" alt="Tapa del fascículo Los viernes, de Juan Forn" loading="lazy" decoding="async">
+                data-libro="assets/images/fasciculos-editorial/fasciculo-03/" data-paginas="40" data-calco="3,4,15,16,25,26,37,38" data-proporcion="0.7565"
+                data-titulo="Otra cosa es permanecer — Romina Paula"
+                aria-label="Hojear el fascículo Otra cosa es permanecer, de Romina Paula">
+          <img src="assets/images/fasciculos-editorial/fasciculo-03/portada.jpg" alt="Tapa del fascículo Otra cosa es permanecer, de Romina Paula" loading="lazy" decoding="async">
         </button>
       </figure>
     </div>
@@ -1936,6 +1942,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=94"></script>
+<script src="javascript/main.js?v=95"></script>
 </body>
 </html>

@@ -40,7 +40,7 @@ assets/             164 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=94**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=95**.
 
 ---
 
@@ -70,9 +70,13 @@ assets/             164 MB (!) — ver "Problemas conocidos"
   lo que detecta un desborde de 1 px o un contraste flojo.
 - **Leer PDFs:** no hay poppler ni ImageMagick ni Python real. Se
   rasterizan con la **API nativa de Windows** (Windows.Data.Pdf) desde
-  PowerShell. El script de una sesión anterior se perdió con su carpeta
-  temporal: si vuelve a hacer falta, rehacerlo y guardarlo en
-  `.herramientas/`.
+  PowerShell, con **`.herramientas/pdf.ps1`**: `-Info` lista páginas y
+  tamaños; `-Destino` carpeta y `-Ancho` las saca todas como `01.jpg`…;
+  `-Pagina N` saca una. Dibuja la página al doble y la achica con
+  bicubica, calidad 80. Una tanda de 40 páginas de un PDF de 64 MB tarda
+  un par de minutos. **Ojo con la memoria:** cargar 40 páginas de 1100 px
+  a la vez con System.Drawing hace caer el proceso; hay que liberar cada
+  imagen al terminar con ella.
 - **PowerShell 5.1 lee los .ps1 como ANSI:** una ruta con eñe rompe el
   script. Resolver con comodín, por ejemplo 1REDISE*O DE SUMA.
 - **Las variables de PowerShell no distinguen mayúsculas**: $h pisa a $H.
@@ -126,7 +130,7 @@ en blanco (3,4:1).
 | 6 | Green Eat | #p-green-eat | **contenido real del autor** |
 | 7 | Cerveceros del Sur (destacado) | #p-cerveceros | **contenido real del autor** |
 | 8 | 3 Esencias | #p-esencias | **contenido real del autor** |
-| 9 | Fascículos | #p-fasciculos | **tapas y libro interactivo del autor** (fascículo 01); dobles páginas de relleno |
+| 9 | Fascículos | #p-fasciculos | **tapas y libro interactivo con los tres fascículos del autor** (desde PDF); dobles páginas de relleno |
 | 10 | Almacenit | #p-almacenit | **contenido real del autor** |
 | 11 | Estrella de Maldonado (destacado) | #p-estrella | maqueta de wireframe |
 | 12 | Remeras Delira | #p-remeras | **visor 3D + contenido real** |
@@ -489,24 +493,50 @@ con las fotos nuevas encima.
 ### Fascículos — tapas y libro interactivo
 La fila de tres imágenes —la única de la sección que va de margen a
 margen— son **las tres tapas de la colección**, y cada una abre su
-fascículo en un **libro que se hojea**. Por ahora las tres son del
-fascículo 01, *Los viernes* de Juan Forn, que es el único terminado.
-Cuando estén el 02 y el 03, en cada botón se cambian `data-libro` (la
-carpeta), `data-paginas`, `data-titulo`, `data-calco` y la imagen de la
-tapa.
+fascículo en un **libro que se hojea**: *Los viernes* de Juan Forn,
+*Panfleto: erótica y feminismo* de María Moreno y *Otra cosa es
+permanecer* de Romina Paula. Los títulos salen de las tapas y portadillas
+de los PDF. Para cambiar un fascículo se tocan, en su botón,
+`data-libro` (la carpeta), `data-paginas`, `data-titulo`, `data-calco`,
+`data-proporcion` y la imagen de la tapa.
 
-- Fuente: `6FASCICULOS EDITORIAL/hojas forn`, 36 JPG de 1515x2008. La 1 es
-  la tapa y la 36 la contratapa; la 6, 12, 18, 24, 30 y 32 son blancas.
-  Convertidas a **1100x1458, calidad 80** en
-  `assets/images/fasciculos-editorial/fasciculo-01/01.jpg` a `36.jpg`
-  (6,2 MB) más `portada.jpg` a 800x1060 para la grilla (139 KB). Con la
+- **Fuente: los PDF del autor** (11 de septiembre),
+  `6FASCICULOS EDITORIAL/WEB/FORN.pdf`, `MORENO.pdf` y `PAULA.pdf` (43, 28
+  y 64 MB). Reemplazaron a los 36 JPG de `hojas forn` con los que se había
+  armado el 01, que se pisaron con los mismos nombres. Rasterizados con
+  `.herramientas/pdf.ps1` a **1100x1454, calidad 80** —dibujados al doble
+  y achicados— en `fasciculo-01/`, `fasciculo-02/` y `fasciculo-03/`:
+  6,3, 5,3 y 6,9 MB. La `portada.jpg` de cada uno va a 800x1058. Con la
   lupa, a 1920, una página se ve a unos 1100 px: el archivo queda casi
   1:1 y el texto se lee nítido.
+- **La página del PDF mide 364,54 x 481,89 pt: proporción 0,7565**, apenas
+  más ancha que la de los JPG viejos (0,7545). Se cambió en el `--ar` y
+  el `data-proporcion` de las tres tapas y en la constante `PROPORCION`
+  del módulo 20, que es sólo el valor por defecto.
+- **Forn y Moreno tienen 36 páginas y la misma estructura:** 1 tapa, 2
+  retiro de tapa, 3-4 calco, 5 portadilla, 6 blanca, relatos desde la 7,
+  33-34 calco, 35 retiro de contratapa y 36 contratapa. Calcos
+  `3,4,33,34`. **Paula tiene 40** y dos hojas de calco más, entre relato
+  y relato.
+- **En el PDF de Paula las cuatro primeras páginas venían al final y en
+  orden inverso.** La 1 del PDF es la portadilla, y al final vienen
+  33 calco, 34 calco, 35 retiro, 36 tapa (el bloque de apertura al revés)
+  y después 37-38 calco, 39 retiro y 40 contratapa (el de cierre, en
+  orden). Se reordenó al copiar: 36→1, 35→2, 34→3, 33→4, las 1 a 32
+  corridas cuatro lugares (5 a 36) y las 37 a 40 en su lugar. Queda con
+  el mismo patrón que Forn: portadilla en la 5, los tres relatos empiezan
+  en página impar (7, 17 y 27) y la carilla 3 es igual a la 38 sin
+  espejar —diferencia 11 contra 141 espejada—, como en Forn la 3 es igual
+  a la 34. Por eso sus calcos son **`3,4,15,16,25,26,37,38`**: las hojas
+  11-12 y 21-22 que marcó el autor, contadas en el PDF, son la 15-16 y la
+  25-26 del libro. **Conviene que el autor lo confirme.** Si algún día
+  reexporta el PDF en orden, basta con volver a sacar las páginas y dejar
+  el `data-calco` como está.
 - **Las tapas van al 80 % de su columna** (`.tapas`), para que el hover
   tenga dónde crecer: al pasar el mouse crecen un 7 %, se levantan con una
   sombra y toman el filete naranja de siempre. Así se nota que se tocan.
   Verificado con hover real: de 174 a 186 px, borde y contorno naranjas.
-  A 1366 miden 315x417. Llevan `fig__frame--tall`: son verticales y el
+  A 1366 miden 315x416. Llevan `fig__frame--tall`: son verticales y el
   tope de `--media-max-h` las angostaría.
 
 **El libro pliega las hojas, no las gira** (módulo 20, sin librerías). La
@@ -924,11 +954,10 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 
 ### Contenido definitivo
 Queda **Estrella de Maldonado** entera con imágenes de relleno y textos
-cortos. **Fascículos, a medias:** las tapas y el libro ya son del autor,
-pero las tres tapas abren el fascículo 01 —faltan las páginas del 02 y del
-03— y las tres dobles páginas de abajo siguen siendo de relleno. Las demás
-—Suma, Centenera, Green Eat, Cerveceros, 3 Esencias (ex Dosel), Almacenit,
-Remeras y Mush— ya tienen el material real del autor.
+cortos. **Fascículos, casi:** las tapas y los tres libros ya son del autor
+(desde sus PDF), pero las tres dobles páginas de abajo siguen siendo de
+relleno. Las demás —Suma, Centenera, Green Eat, Cerveceros, 3 Esencias (ex
+Dosel), Almacenit, Remeras y Mush— ya tienen el material real del autor.
 
 El flujo que viene funcionando: el autor deja en la carpeta del proyecto,
 dentro de `D:\Martin\PORTFOLIO WEB`, una imagen de referencia con el
@@ -949,10 +978,11 @@ respondió que **sólo había que corregir "Remeras custom"** —hecho: dice
 - El video de Green Eat de 61 MB.
 
 ### Pendientes concretos
-1. **Fascículos 02 y 03.** Cuando el autor tenga las páginas: carpetas
-   `fasciculo-02/` y `fasciculo-03/` con `01.jpg`… y `portada.jpg`, y en
-   el segundo y tercer botón de la fila de tapas cambiar `data-libro`,
-   `data-paginas`, `data-titulo`, `data-calco` y la imagen.
+1. **Confirmar el orden de Paula (fascículo 03).** Hecho el 11 de
+   septiembre: los tres libros salen de los PDF del autor. Falta que el
+   autor confirme el reorden de las cuatro primeras páginas y que sus
+   calcos quedaron en 3-4, 15-16, 25-26 y 37-38 (en el PDF, 11-12 y
+   21-22). Detalle en la sección 5.
 2. **Las tres dobles páginas de Fascículos** ("Fascículo 01/02/03") son de
    relleno.
 3. **Estrella de Maldonado,** entera.
@@ -1061,6 +1091,18 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 ---
 
 ## 11. Estado de verificación
+
+**Fascículos desde PDF (11 de septiembre),** medido en el DOM a 1366x630:
+las 112 páginas y las tres portadas responden 200 y cargan a 1100 px; las
+tres tapas miden 315x416 (0,7565) y no hay scroll horizontal; cada libro
+abre con su título y su cantidad de páginas (36, 36 y 40). En Paula,
+hojeando con el teclado: en 14-15 la carilla 15 es calco y deja ver la 17,
+en 24-25 la 25 deja ver la 27, en 36-37 la 37 deja ver la 39, y llega a
+`40 / 40` en la contratapa. En Forn y Moreno la 3 es calco y deja ver la
+5. Sin errores de consola. **Lo que no se pudo ver** es cómo quedan en
+pantalla: el panel estaba oculto, así que las capturas salían en blanco,
+y para que las vueltas terminaran hubo que cambiar requestAnimationFrame
+por un setTimeout dentro de la prueba —el panel oculto lo congela—.
 
 Última pasada completa (2 de septiembre): cero imágenes rotas —las 170—,
 cero anclas rotas, sin scroll horizontal de 375 a 2039 px, sin errores de

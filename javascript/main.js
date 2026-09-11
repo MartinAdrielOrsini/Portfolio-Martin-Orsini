@@ -2355,7 +2355,7 @@
     const ZOOM = 2;
     const GIRO = 900;              /* de una esquina a la otra, en ms */
     const REGRESO = 420;           /* lo que tarda en volver a su lugar */
-    const PROPORCION = 0.7545;     /* ancho / alto de una página */
+    const PROPORCION = 0.7565;     /* ancho / alto de una página */
     const ASOMO = 0.17;            /* radio de la esquina que se asoma, en páginas */
 
     const svg = (d) => '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' + d + '</svg>';

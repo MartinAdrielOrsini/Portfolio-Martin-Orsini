@@ -48,6 +48,10 @@ publique—:
 - **`convertir.ps1`** — pasa el material del autor a tamaño web:
   `-Origen` (archivo o carpeta), `-Destino`, `-Ancho` y, opcional,
   `-Calidad` (82 por defecto). Nunca agranda.
+- **`pdf.ps1`** — rasteriza un PDF a JPG con la API nativa de Windows:
+  `-Pdf` y `-Info` para ver páginas y tamaños; `-Destino` (carpeta) y
+  `-Ancho` para sacarlas todas como `01.jpg`, `02.jpg`…; `-Pagina N` para
+  una sola. Calidad 80 por defecto.
 
 ## Qué falta
 
@@ -61,9 +65,10 @@ problemas conocidos— está en `ESTADO.md`, secciones 8 y 9. En corto:
    (61 MB) y Mush (29 MB).
 4. **Fascículos editorial** — la fila de tres son las tapas de la
    colección y cada una abre su fascículo en un libro que se hojea
-   (módulo 20 de `main.js`). Por ahora las tres abren el fascículo 01,
-   *Los viernes*: faltan las páginas del 02 y del 03. Las tres dobles
-   páginas de más abajo siguen siendo de relleno.
+   (módulo 20 de `main.js`): *Los viernes* (Forn), *Panfleto: erótica y
+   feminismo* (Moreno) y *Otra cosa es permanecer* (Paula), con las
+   páginas sacadas de los PDF del autor. Las tres dobles páginas de más
+   abajo siguen siendo de relleno.
 5. **Los textos** — están redactados mirando las piezas, no los briefs.
    Revisá cliente, año y rol de cada caso.
 
