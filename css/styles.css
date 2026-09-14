@@ -1656,10 +1656,15 @@ em { font-style: italic; }
    sin serlo. Meter la o en un span desactiva el par de kerning "Po" de
    Inter, que valía −0,0086 em (1,85 px a este cuerpo). La diferencia
    entre los dos márgenes es exactamente ese kern devuelto a mano: sin
-   él la o se iría a la derecha y la palabra quedaría más ancha. */
+   él la o se iría a la derecha y la palabra quedaría más ancha.
+
+   Retoque del autor (14 de septiembre): la o se veía pegada a la r y se
+   corrió 0,012 em más a la izquierda —2,6 px a 1366x630— devolviendo lo
+   mismo por derecha. Medido fila por fila sobre la tinta, a ese tamaño:
+   antes P-o 9 px y o-r 2 px; ahora P-o 6 px y o-r 4 px. */
 .hero__o {
-  margin-left: -0.0161em;   /* 0,0075 de corrimiento + 0,0086 de kern */
-  margin-right: 0.0075em;
+  margin-left: -0.0281em;   /* 0,0195 de corrimiento + 0,0086 de kern */
+  margin-right: 0.0195em;
 }
 
 .hero__r {

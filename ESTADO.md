@@ -40,7 +40,7 @@ assets/             164 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=95**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=96**.
 
 ---
 
@@ -145,6 +145,14 @@ en blanco (3,4:1).
 - Asterisco: cuerpo 1.125em, translateX -0.269em. Tracking de la palabra
   ajustado: la r a -0,045 em y la o con márgenes **asimétricos**, porque
   meterla en un span mata el par de kerning "Po" y hay que devolverlo.
+- **Retoque del 14 de septiembre:** el autor vio la o pegada a la r. Se la
+  corrió 0,012 em más a la izquierda devolviendo lo mismo por derecha
+  (`.hero__o`: margin-left −0,0281 em, margin-right 0,0195 em). Medido a
+  1366x630 (cuerpo 214,2 px) dibujando cada letra en un canvas en su
+  posición real y comparando la tinta fila por fila: antes P-o 9 px y o-r
+  2 px; ahora P-o 6 px y o-r 4 px. La o se movió 2,58 px; la r, el
+  asterisco y el ancho de la palabra (784,41 px) quedaron exactamente
+  igual.
 - **Animación de scroll:** el asterisco baja y gira 540 grados hasta
   esconderse bajo la sección 2. Gira sobre el **centro de la mancha**
   (transform-origin 49.9% 34.04%), no sobre el de su caja.
