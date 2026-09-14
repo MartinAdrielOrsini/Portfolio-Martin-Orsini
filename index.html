@@ -1313,43 +1313,44 @@
        La seccion lleva project--fit, como Cerveceros: sin eso el tope de
        --media-max-h les recorta el alto a las filas y dejan de llegar al
        margen derecho. -->
-  <!-- La apertura y, debajo, el redaccional: una franja de texto sobre
-       blanco (8000x1404 en el original) al ancho util entero. Van como dos
-       .row-fit --even para que la calle entre las dos sea var(--gap), la
-       misma de las filas de abajo. El redaccional va a 2400 px y calidad
-       88: es texto, y a 1800 perdia nitidez en pantallas densas. -->
   <div class="container">
-    <div class="row-fit row-fit--even reveal">
-      <figure class="fig fig--ar" style="--ar: 1.414">
-        <div class="fig__frame" data-slot="Apertura">
-          <img src="assets/images/estrella-de-maldonado/piezas/01.jpg" alt="Collage de apertura de la identidad de Estrella de Maldonado, con fotos de archivo del club" loading="lazy" decoding="async">
-        </div>
-      </figure>
-    </div>
-    <div class="row-fit row-fit--even reveal">
-      <figure class="fig fig--ar" style="--ar: 5.698">
-        <div class="fig__frame" data-slot="Redaccional">
-          <img src="assets/images/estrella-de-maldonado/piezas/redaccional.jpg" alt="Redaccional: Estrella de Maldonado es un archivo de historias compartidas, un álbum abierto donde generaciones crean nuevas páginas de recuerdos, dejando huellas y celebrando memorias compartidas en familia." loading="lazy" decoding="async">
-        </div>
-      </figure>
-    </div>
+    <figure class="fig fig--ar reveal" style="--ar: 1.414">
+      <div class="fig__frame" data-slot="Apertura">
+        <img src="assets/images/estrella-de-maldonado/piezas/01.jpg" alt="Collage de apertura de la identidad de Estrella de Maldonado, con fotos de archivo del club" loading="lazy" decoding="async">
+      </div>
+    </figure>
   </div>
 
+  <!-- Texto e imagen, mitad y mitad (.grid-2), como en Fascículos y
+       3 Esencias. El texto conserva su tope de medida, asi que no llena
+       la columna entera. -->
   <div class="container">
-    <div class="split__text reveal">
-      <p class="project__lead">
-        Este fue un proyecto grupal desarrollado para la facultad, cuyo
-        objetivo fue rediseñar y revalorizar la identidad institucional del
-        club Estrella de Maldonado, ubicado en el barrio de Palermo. El
-        proyecto partió de un moodboard y un redaccional que definieron el
-        lenguaje y los recursos gráficos para las distintas piezas.
-      </p>
-      <p class="project__lead">
-        Este proyecto puede verse completo y con mayor detalle en
-        <a class="link-inline"
-           href="https://www.behance.net/gallery/229479727/Estrella-maldonado-Diseno-de-Identidad-Institucional"
-           target="_blank" rel="noopener noreferrer">Behance</a>.
-      </p>
+    <div class="grid-2">
+      <div class="split__text reveal">
+        <p class="project__lead">
+          Este fue un proyecto grupal desarrollado para la facultad, cuyo
+          objetivo fue rediseñar y revalorizar la identidad institucional del
+          club Estrella de Maldonado, ubicado en el barrio de Palermo. El
+          proyecto partió de un moodboard y un redaccional que definieron el
+          lenguaje y los recursos gráficos para las distintas piezas:
+        </p>
+        <p class="project__lead">
+          “Estrella de Maldonado es un archivo de historias compartidas, un
+          álbum abierto donde generaciones crean nuevas páginas de recuerdos,
+          dejando huellas y celebrando memorias compartidas en familia.”
+        </p>
+        <p class="project__lead">
+          Este proyecto puede verse completo y con mayor detalle en
+          <a class="link-inline"
+             href="https://www.behance.net/gallery/229479727/Estrella-maldonado-Diseno-de-Identidad-Institucional"
+             target="_blank" rel="noopener noreferrer">Behance</a>.
+        </p>
+      </div>
+      <figure class="fig fig--ar reveal" style="--ar: 1.4925">
+        <div class="fig__frame" data-slot="Escudo">
+          <img src="assets/images/estrella-de-maldonado/piezas/texto.jpg" alt="Escudo bordado de Estrella de Maldonado sobre la camiseta del club" loading="lazy" decoding="async">
+        </div>
+      </figure>
     </div>
   </div>
 

@@ -504,19 +504,20 @@ todo el ancho, 08-09, 10-11 (GIF), y 12, 13 y 14 (GIF) a todo el ancho.
 
 - **La sección sigue oscura** (`section--dark`, destacado). La referencia
   es blanca porque es un wireframe, no porque se quisiera cambiar.
-- **El texto es el del autor**, en dos párrafos `.project__lead`. La cita
-  del redaccional **salió del texto** y pasó a ser una imagen
-  (`piezas/redaccional.jpg`) debajo de la apertura, al ancho útil entero;
-  por eso el primer párrafo, que terminaba en dos puntos para
-  presentarla, ahora cierra con punto. "Behance" es un `.link-inline` que
-  abre en pestaña nueva, igual que en Cerveceros. La descripción corta del
-  índice y su imagen **no se tocaron**.
-- **El redaccional** es una franja de texto sobre blanco (8000x1404 en
-  `web/redaccional.jpg`; hay otro de 8000x4500 en la carpeta padre, que no
-  se usó). Va a **2400 px y calidad 88**, 95 KB: es texto, y a 1800 perdía
-  nitidez en pantallas densas. La apertura y el redaccional van como dos
-  `.row-fit--even`, así la calle entre ellos es la misma de las filas de
-  abajo.
+- **El texto es el del autor**, en tres párrafos `.project__lead`: la
+  presentación (termina en dos puntos), la cita del redaccional entre
+  comillas tipográficas y "Este proyecto puede verse completo y con mayor
+  detalle en Behance". "Behance" es un `.link-inline` que abre en pestaña
+  nueva, igual que en Cerveceros. La descripción corta del índice y su
+  imagen **no se tocaron**.
+- **Al lado del texto va una foto del escudo bordado** (`web/imagen que va
+  al lado del texto.jpg`, 2475x1659 → `piezas/texto.jpg`, 1400 px), en
+  `.grid-2` como en Fascículos y 3 Esencias. No está en la referencia: la
+  pidió el autor después.
+- **Se probó y se descartó** poner el redaccional como imagen (una franja
+  de 8000x1404) debajo de la apertura, en lugar de la cita en el texto:
+  en mobile la franja quedaba de 327x57 y no se leía. El autor pidió
+  volver a la cita. Quedó sin uso `piezas/redaccional.jpg` (95 KB).
 - **Todas las filas son `.row-fit.row-fit--even`, también las de una sola
   pieza.** Así la calle entre cualquier par de filas es `var(--gap)` y no
   hizo falta CSS nuevo. En la referencia las calles, pegadas a mano, van de
@@ -1183,13 +1184,14 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 
 ## 11. Estado de verificación
 
-**Estrella, redaccional (14 de septiembre),** medido en el DOM: la imagen
-carga a 2400x421 y va de margen a margen —1239x217 a 1366, 1330x233 a
-1920—, con la calle de siempre respecto de la apertura (29 y 32 px). El
-texto quedó en dos párrafos, sin la cita, y el enlace sigue abriendo
-Behance en pestaña nueva. Sin scroll horizontal ni errores de consola.
-**En mobile la franja mide 327x57** y el texto de la imagen no se lee:
-queda como pendiente para consultar con el autor.
+**Estrella, texto con imagen (14 de septiembre),** medido en el DOM: sin
+la imagen del redaccional; tres párrafos con la cita recuperada y el
+último con la frase nueva; el enlace abre Behance en pestaña nueva; la
+foto del escudo carga a 1400x938. Texto e imagen arrancan a la misma
+altura y la imagen llega al margen derecho: 605x405 a 1366, 649x435 a
+1920. **El texto queda más alto que la foto:** 88 px a 1366, 63 a 1920 y
+163 a 1093x504 (zoom 125 %). En mobile se apila. Sin scroll horizontal ni
+errores de consola.
 
 **Estrella de Maldonado (14 de septiembre),** medido en el DOM: las 14
 piezas responden 200 con su tipo (tres `image/gif`) y cargan a su tamaño;
