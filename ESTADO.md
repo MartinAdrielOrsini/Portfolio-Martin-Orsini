@@ -132,7 +132,7 @@ en blanco (3,4:1).
 | 8 | 3 Esencias | #p-esencias | **contenido real del autor** |
 | 9 | Fascículos | #p-fasciculos | **tapas y libro interactivo con los tres fascículos del autor** (desde PDF); dobles páginas de relleno |
 | 10 | Almacenit | #p-almacenit | **contenido real del autor** |
-| 11 | Estrella de Maldonado (destacado) | #p-estrella | maqueta de wireframe |
+| 11 | Estrella de Maldonado (destacado) | #p-estrella | **contenido real del autor** (con tres GIF) |
 | 12 | Remeras Delira | #p-remeras | **visor 3D + contenido real** |
 | 13 | Mush Type | #p-mush | **contenido real del autor** |
 | 14 | Contacto / footer | #contact | terminada |
@@ -489,6 +489,58 @@ con las fotos nuevas encima.
 **Sin uso desde este cambio:** los diez archivos de
 `assets/images/dosel/` (1,4 MB) y `assets/images/indice/05-dosel.jpg`
 (1,1 MB). **No se borraron.**
+
+### Estrella de Maldonado — contenido real (14 de septiembre)
+Maquetada sobre `8ESTRELLA DE MALDONADO/web/referencia.jpg`, un wireframe
+de 6208x29216 sobre fondo blanco con rótulos de relleno ("Titulo",
+"aaaa", lorem ipsum). Para medirla se bajó a 1920 de ancho con WPF
+(`BitmapImage` con `DecodePixelWidth`: System.Drawing no abre un JPG de
+ese tamaño sin quedarse sin memoria) y se escaneó. Caja útil: x 114 a
+1821.
+
+Orden: apertura (01) a todo el ancho · texto · **Afiches** 02-03-04 en una
+fila · **Digital** 05 (GIF) y 06 · **Indumentaria, banderas y más** 07 a
+todo el ancho, 08-09, 10-11 (GIF), y 12, 13 y 14 (GIF) a todo el ancho.
+
+- **La sección sigue oscura** (`section--dark`, destacado). La referencia
+  es blanca porque es un wireframe, no porque se quisiera cambiar.
+- **El texto es el del autor**, en tres párrafos `.project__lead`; la cita
+  va entre comillas tipográficas, sin estilo aparte. "Behance" es un
+  `.link-inline` que abre en pestaña nueva, igual que en Cerveceros. La
+  descripción corta del índice y su imagen **no se tocaron**.
+- **Todas las filas son `.row-fit.row-fit--even`, también las de una sola
+  pieza.** Así la calle entre cualquier par de filas es `var(--gap)` y no
+  hizo falta CSS nuevo. En la referencia las calles, pegadas a mano, van de
+  24 a 36 px en horizontal y de 27 a 50 en vertical; a 1920 el gap da 32.
+  Las filas 08-09 y 10-11 cortan en el mismo lugar en la referencia (x
+  952-976) y acá también: sale solo del reparto por `--ar`.
+- **La sección lleva `project--fit`**, como Cerveceros.
+- Convertidas con `convertir.ps1` en
+  `assets/images/estrella-de-maldonado/piezas/`: 1800 px las de todo el
+  ancho, 1200 las de a dos, 900 los afiches y 800 el teléfono. 7,5 MB la
+  carpeta, de los que 5,8 son los tres GIF.
+
+**Los GIF 05 y 11 se recortaron sin perder la animación.** El autor dejó
+cada uno en dos versiones: el GIF entero y una imagen fija con el
+encuadre que quería. No hay ffmpeg ni ImageMagick y System.Drawing aplana
+los GIF a un cuadro, así que se escribió **`.herramientas/recortar-gif.ps1`**,
+que trabaja sobre el archivo: decodifica el LZW de cada cuadro, recorta
+los índices de color y los vuelve a codificar con la misma paleta. Quedan
+intactos los tiempos, el bucle, la transparencia y el descarte.
+
+- **El recorte lo busca solo**, comparando la imagen de encuadre contra
+  cada cuadro del GIF en todas las posiciones: el 05 cae en x 84 (1400x939
+  → 1222x939) y el 11 en y 141 (1400x1000 → 1400x731), con diferencias
+  medias de 2,7 y 1,4 por canal, que son la compresión de la imagen fija.
+- **Verificado:** al terminar reabre el GIF recortado y lo compara cuadro
+  por cuadro contra el original recortado: **diferencia 0** en los 3
+  cuadros del 05 y en los 4 del 11. Los dos conservan el bucle y sus
+  demoras (60 cs; en el 11, 60 y tres de 50).
+- El 14 va como vino (1920x886, 2,8 MB).
+
+**Sin uso desde este cambio:** los 11 archivos sueltos de
+`assets/images/estrella-de-maldonado/` (`01-mockup.jpg` a
+`11-entrenamiento.jpg`), que eran el relleno. **No se borraron.**
 
 ### Fascículos — texto y fotos (13 de septiembre)
 Maquetada sobre `6FASCICULOS EDITORIAL/imagenes fasciculos/referencia.jpg`
@@ -1013,7 +1065,9 @@ respondió que **sólo había que corregir "Remeras custom"** —hecho: dice
    dobles páginas de relleno se reemplazaron por las seis fotos del autor.
    Se sacó el rótulo "Fascículo 01" que traía la referencia; si el autor
    quiere uno encima de las fotos, que diga cuál.
-3. **Estrella de Maldonado,** entera.
+3. **Estrella de Maldonado:** hecha el 14 de septiembre (sección 5). Quedan
+   sin tocar la descripción corta y la imagen del índice
+   (`indice/08-estrella.jpg`), por si el autor quiere cambiarlas.
 4. **Probar con mouse real el arrastre de las hojas** del libro de
    Fascículos: en el panel de pruebas no se pudo (ver sección 10).
 5. **Zoom de Aplicaciones de Mush, blando en b a f:** los archivos del
@@ -1119,6 +1173,18 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 ---
 
 ## 11. Estado de verificación
+
+**Estrella de Maldonado (14 de septiembre),** medido en el DOM: las 14
+piezas responden 200 con su tipo (tres `image/gif`) y cargan a su tamaño;
+no queda ninguna imagen de relleno; sin scroll horizontal y sin errores de
+consola. El enlace "Behance" abre la galería del proyecto en pestaña nueva.
+A 1366x630, 1920x1080 y 1093x504 **las nueve filas llegan a los dos
+márgenes** (56-1295, 288-1617 y 56-1022) y todas las calles, horizontales
+y verticales, miden lo mismo: 29, 32 y 25 px. En mobile se apila. Dos
+piezas son más altas que la pantalla del autor —la apertura (876 px a
+1366) y la fila Digital (655)—: es la proporción de la referencia, igual
+que en Cerveceros. **No se pudo ver** la animación de los GIF en el panel;
+que animan se verificó sobre los archivos (cuadros, demoras y bucle).
 
 **Fascículos, texto y fotos (13 de septiembre),** medido en el DOM: las
 siete fotos responden 200, no queda ninguna imagen de relleno ni rótulo en

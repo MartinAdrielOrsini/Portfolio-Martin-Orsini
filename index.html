@@ -1298,7 +1298,7 @@
 <!-- ============================================================
      11 — PROYECTO 08 · ESTRELLA DE MALDONADO  (destacado)
      ============================================================ -->
-<section class="section section--dark project" id="p-estrella">
+<section class="section section--dark project project--fit" id="p-estrella">
   <div class="container">
     <header class="project__head reveal">
       <p class="eyebrow"><span class="eyebrow__num">10</span> Identidad Institucional</p>
@@ -1306,68 +1306,93 @@
     </header>
   </div>
 
-  <div class="container reveal">
-    <figure class="fig">
-      <div class="fig__frame ar-2x1" data-slot="Apertura">
-        <img src="assets/images/estrella-de-maldonado/02-apertura.jpg" alt="Apertura de la identidad de Estrella de Maldonado" loading="lazy" decoding="async">
+  <!-- Maquetada sobre 8ESTRELLA DE MALDONADO/web/referencia.jpg (6208x29216)
+       del autor, medida por escaneo de pixeles sobre una copia a 1920.
+       Caja util de la referencia: x 114 a 1821.
+
+       La seccion lleva project--fit, como Cerveceros: sin eso el tope de
+       --media-max-h les recorta el alto a las filas y dejan de llegar al
+       margen derecho. -->
+  <div class="container">
+    <figure class="fig fig--ar reveal" style="--ar: 1.414">
+      <div class="fig__frame" data-slot="Apertura">
+        <img src="assets/images/estrella-de-maldonado/piezas/01.jpg" alt="Collage de apertura de la identidad de Estrella de Maldonado, con fotos de archivo del club" loading="lazy" decoding="async">
       </div>
     </figure>
   </div>
 
   <div class="container">
-    <p class="project__lead reveal">
-      Desarrollo de un sistema de identidad gráfica para Estrella de Maldonado,
-      integrando redes sociales, espacios físicos y diferentes piezas de
-      comunicación para fortalecer su identidad institucional.
-    </p>
+    <div class="split__text reveal">
+      <p class="project__lead">
+        Este fue un proyecto grupal desarrollado para la facultad, cuyo
+        objetivo fue rediseñar y revalorizar la identidad institucional del
+        club Estrella de Maldonado, ubicado en el barrio de Palermo. El
+        proyecto partió de un moodboard y un redaccional que definieron el
+        lenguaje y los recursos gráficos para las distintas piezas:
+      </p>
+      <p class="project__lead">
+        “Estrella de Maldonado es un archivo de historias compartidas, un
+        álbum abierto donde generaciones crean nuevas páginas de recuerdos,
+        dejando huellas y celebrando memorias compartidas en familia.”
+      </p>
+      <p class="project__lead">
+        Este proyecto puede verse en mayor detalle en
+        <a class="link-inline"
+           href="https://www.behance.net/gallery/229479727/Estrella-maldonado-Diseno-de-Identidad-Institucional"
+           target="_blank" rel="noopener noreferrer">Behance</a>.
+      </p>
+    </div>
   </div>
 
+  <!-- Todas las filas son .row-fit: las piezas comparten el alto y el
+       ancho sale de su --ar. Las que van a todo el ancho tambien van en su
+       propia .row-fit --even, asi la calle entre cualquier par de filas es
+       la misma var(--gap). En la referencia las calles, pegadas a mano, van
+       de 24 a 36 px en horizontal y de 27 a 50 en vertical; a 1920 el gap
+       da 32. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Afiches</h3>
-    <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-4x5" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/03-titular.jpg" alt="Afiche de la camiseta titular" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-4x5" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/04-suplente.jpg" alt="Afiche de la camiseta suplente" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-4x5" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/05-auxiliar.jpg" alt="Afiche de la camiseta auxiliar" loading="lazy" decoding="async"></div></figure>
+    <div class="row-fit row-fit--even reveal">
+      <figure class="fig fig--ar" style="--ar: 0.9231"><div class="fig__frame" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/piezas/02.jpg" alt="Afiche del gran partido y jornada familiar colgado en la tribuna" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar" style="--ar: 0.9231"><div class="fig__frame" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/piezas/03.jpg" alt="Afiche de la muestra de gimnasia artística en el gimnasio del club" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar" style="--ar: 0.9259"><div class="fig__frame" data-slot="Afiche"><img src="assets/images/estrella-de-maldonado/piezas/04.jpg" alt="Afiche Archivo de grandes historias en un refugio de colectivo" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
+  <!-- El 05 es un GIF recortado al encuadre que pidio el autor con
+       .herramientas/recortar-gif.ps1: sin perder la animacion ni colores. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Digital</h3>
-    <div class="grid-2">
-      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Pieza de redes"><img src="assets/images/estrella-de-maldonado/07-anuario-a.jpg" alt="Pieza del anuario en redes" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Pieza de redes"><img src="assets/images/estrella-de-maldonado/08-anuario-b.jpg" alt="Pieza del anuario en redes" loading="lazy" decoding="async"></div></figure>
-    </div>
-    <div class="grid-3">
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/06-linea.jpg" alt="Pieza de la línea gráfica" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/10-cancha.jpg" alt="Pieza con foto de la cancha" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/11-entrenamiento.jpg" alt="Pieza con foto de entrenamiento" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/09-anuario-mockup.jpg" alt="Mockup del anuario" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/07-anuario-a.jpg" alt="Pieza del anuario" loading="lazy" decoding="async"></div></figure>
-      <figure class="fig reveal"><div class="fig__frame ar-3x2" data-slot="Pieza"><img src="assets/images/estrella-de-maldonado/08-anuario-b.jpg" alt="Pieza del anuario" loading="lazy" decoding="async"></div></figure>
+    <div class="row-fit row-fit--even reveal">
+      <figure class="fig fig--ar" style="--ar: 1.3014"><div class="fig__frame" data-slot="Sitio web"><img src="assets/images/estrella-de-maldonado/piezas/05.gif" alt="Animación del sitio web del club en una notebook" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar" style="--ar: 0.545"><div class="fig__frame" data-slot="Instagram"><img src="assets/images/estrella-de-maldonado/piezas/06.jpg" alt="Perfil de Instagram del club en un teléfono" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 
+  <!-- El 11 tambien es un GIF recortado; el 14 va como vino. En la
+       referencia las filas 08-09 y 10-11 cortan en el mismo lugar, y eso
+       sale solo del reparto por --ar: las cuatro piezas rondan 1.83-1.92. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Indumentaria, banderas y más</h3>
-
-    <div class="grid-asym">
-      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-1x1" data-slot="Camisetas"><img src="assets/images/estrella-de-maldonado/01-mockup.jpg" alt="Camisetas de la temporada" loading="lazy" decoding="async"></div></figure>
-      <div class="fig-stack">
-        <figure class="fig reveal"><div class="fig__frame ar-2x1" data-slot="Titular"><img src="assets/images/estrella-de-maldonado/03-titular.jpg" alt="Camiseta titular" loading="lazy" decoding="async"></div></figure>
-        <figure class="fig reveal"><div class="fig__frame ar-2x1" data-slot="Suplente"><img src="assets/images/estrella-de-maldonado/04-suplente.jpg" alt="Camiseta suplente" loading="lazy" decoding="async"></div></figure>
-      </div>
+    <div class="row-fit row-fit--even reveal">
+      <figure class="fig fig--ar" style="--ar: 1.8848"><div class="fig__frame" data-slot="Bandera"><img src="assets/images/estrella-de-maldonado/piezas/07.jpg" alt="Bandera Mis recuerdos más lindos son de la Estrella colgada en la fachada del club" loading="lazy" decoding="async"></div></figure>
     </div>
-
-    <figure class="fig reveal">
-      <div class="fig__frame ar-3x1" data-slot="Cancha"><img src="assets/images/estrella-de-maldonado/10-cancha.jpg" alt="Bandera desplegada en la cancha" loading="lazy" decoding="async"></div>
-    </figure>
-
-    <div class="grid-asym">
-      <div class="fig-stack">
-        <figure class="fig reveal"><div class="fig__frame ar-2x1" data-slot="Auxiliar"><img src="assets/images/estrella-de-maldonado/05-auxiliar.jpg" alt="Camiseta auxiliar" loading="lazy" decoding="async"></div></figure>
-        <figure class="fig reveal"><div class="fig__frame ar-2x1" data-slot="Entrenamiento"><img src="assets/images/estrella-de-maldonado/11-entrenamiento.jpg" alt="Indumentaria de entrenamiento" loading="lazy" decoding="async"></div></figure>
-      </div>
-      <figure class="fig fig--span2 reveal"><div class="fig__frame ar-1x1" data-slot="Anuario"><img src="assets/images/estrella-de-maldonado/09-anuario-mockup.jpg" alt="Mockup del anuario del club" loading="lazy" decoding="async"></div></figure>
+    <div class="row-fit row-fit--even reveal">
+      <figure class="fig fig--ar" style="--ar: 1.8265"><div class="fig__frame" data-slot="Anuario"><img src="assets/images/estrella-de-maldonado/piezas/08.jpg" alt="Anuario del club abierto con las fotos de los equipos" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar" style="--ar: 1.8377"><div class="fig__frame" data-slot="Credencial"><img src="assets/images/estrella-de-maldonado/piezas/09.jpg" alt="Credencial de socio del club en su porta credencial" loading="lazy" decoding="async"></div></figure>
+    </div>
+    <div class="row-fit row-fit--even reveal">
+      <figure class="fig fig--ar" style="--ar: 1.9017"><div class="fig__frame" data-slot="Carta"><img src="assets/images/estrella-de-maldonado/piezas/10.jpg" alt="Carta del buffet del club sobre una mesa de madera" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig fig--ar" style="--ar: 1.9152"><div class="fig__frame" data-slot="Banderas"><img src="assets/images/estrella-de-maldonado/piezas/11.gif" alt="Animación de banderas del club colgadas en el alambrado de la cancha" loading="lazy" decoding="async"></div></figure>
+    </div>
+    <div class="row-fit row-fit--even reveal">
+      <figure class="fig fig--ar" style="--ar: 1.9376"><div class="fig__frame" data-slot="Colectivo"><img src="assets/images/estrella-de-maldonado/piezas/12.jpg" alt="Colectivo ploteado con el nombre Maldonado" loading="lazy" decoding="async"></div></figure>
+    </div>
+    <div class="row-fit row-fit--even reveal">
+      <figure class="fig fig--ar" style="--ar: 1.8692"><div class="fig__frame" data-slot="Fachada"><img src="assets/images/estrella-de-maldonado/piezas/13.jpg" alt="Fachada del club intervenida con la identidad" loading="lazy" decoding="async"></div></figure>
+    </div>
+    <div class="row-fit row-fit--even reveal">
+      <figure class="fig fig--ar" style="--ar: 2.167"><div class="fig__frame" data-slot="Camisetas"><img src="assets/images/estrella-de-maldonado/piezas/14.gif" alt="Animación de las camisetas 2025 del club" loading="lazy" decoding="async"></div></figure>
     </div>
   </div>
 

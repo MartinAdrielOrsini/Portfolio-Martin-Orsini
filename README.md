@@ -23,7 +23,7 @@ assets/images/        → imágenes por proyecto (18,7 MB)
 | 8 | 3 Esencias | `#p-esencias` | 9 |
 | 9 | Fascículos editorial | `#p-fasciculos` | 10 |
 | 10 | Web Almacenit | `#p-almacenit` | 3 |
-| 11 | Estrella de Maldonado ★ | `#p-estrella` | 12 |
+| 11 | Estrella de Maldonado ★ | `#p-estrella` | 14 |
 | 12 | Remeras Delira | `#p-remeras` | 5 |
 | 13 | Mush Type | `#p-mush` | 9 |
 | 14 | Footer / contacto | `#contact` | — |
@@ -52,13 +52,18 @@ publique—:
   `-Pdf` y `-Info` para ver páginas y tamaños; `-Destino` (carpeta) y
   `-Ancho` para sacarlas todas como `01.jpg`, `02.jpg`…; `-Pagina N` para
   una sola. Calidad 80 por defecto.
+- **`recortar-gif.ps1`** — recorta un GIF animado sin perder la animación
+  ni recomprimir colores: `-Origen`, `-Destino` y, o bien `-Encuadre` (una
+  imagen con el encuadre buscado, que ubica sola), o bien `-X -Y -Ancho
+  -Alto`. Al terminar verifica cuadro por cuadro contra el original.
 
 ## Qué falta
 
 El detalle —pendientes, decisiones del autor, archivos sin uso y
 problemas conocidos— está en `ESTADO.md`, secciones 8 y 9. En corto:
 
-1. **Estrella de Maldonado** — sigue con imágenes de relleno.
+1. **Estrella de Maldonado** — ya tiene su contenido; quedan sin tocar la
+   descripción corta y la imagen del índice.
 2. **Archivos sin uso** — unos 12 MB de imágenes viejas quedaron sin
    referencia. No se borraron: la lista está en `ESTADO.md`.
 3. **Peso** — `assets/` son 164 MB; el grueso son los videos de Green Eat
