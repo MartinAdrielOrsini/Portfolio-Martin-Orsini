@@ -1087,7 +1087,7 @@
 <!-- ============================================================
      9 — PROYECTO 06 · FASCÍCULOS EDITORIAL
      ============================================================ -->
-<section class="section section--rule project" id="p-fasciculos">
+<section class="section section--rule project project--fit" id="p-fasciculos">
   <div class="container">
     <header class="project__head reveal">
       <p class="eyebrow"><span class="eyebrow__num">08</span> Editorial</p>
@@ -1095,22 +1095,37 @@
     </header>
   </div>
 
+  <!-- Texto e imagen, mitad y mitad, como en 3 Esencias. Medido sobre
+       imagenes fasciculos/referencia.jpg (1920x3785) del autor: caja util
+       de x 163 a 1734, y la foto ocupa 758 de esos 1572 px, la mitad justa
+       descontada la calle. El .split repartiria 0.9 y 1.1.
+
+       La seccion lleva project--fit: las seis fotos de abajo son 4:3 y a
+       1366x630 piden 454 px de alto, justo el tope de --media-max-h; con
+       cualquier zoom mayor el tope las angostaria y dejarian de llegar al
+       margen derecho. -->
   <div class="container">
-    <div class="split">
+    <div class="grid-2">
       <div class="split__text reveal">
         <p class="project__lead">
-          Diseño de una colección editorial compuesta por tres fascículos con
-          relatos de escritores argentinos, desarrollando un sistema gráfico que
-          articula las piezas y les otorga identidad.
+          Diseño de una colección editorial de tres fascículos con relatos de
+          escritores argentinos, desarrollada para la materia Diseño Gráfico
+          Editorial de la FADU. El proyecto propone un sistema gráfico común
+          desde una mirada experimental, explorando la tipografía, el texto,
+          la composición y la construcción física de los fascículos. El
+          concepto “pétalos como capas” representa los distintos niveles de
+          profundidad de los relatos: las flores con más pétalos se vinculan
+          con textos personales e introspectivos, mientras que las de menos
+          pétalos representan relatos sobre situaciones de terceros. Esta idea
+          atraviesa tanto los recursos gráficos como los elementos formales y
+          materiales de la colección.
         </p>
       </div>
-      <div class="split__aside">
-        <figure class="fig reveal">
-          <div class="fig__frame ar-3x2" data-slot="Apertura">
-            <img src="assets/images/fasciculos-editorial/02-apertura.jpg" alt="Doble página de apertura de la colección" loading="lazy" decoding="async">
-          </div>
-        </figure>
-      </div>
+      <figure class="fig fig--ar reveal" style="--ar: 1.5402">
+        <div class="fig__frame" data-slot="Colección">
+          <img src="assets/images/fasciculos-editorial/fotos/01.jpg" alt="Los tres fascículos superpuestos sobre una mesa de madera" loading="lazy" decoding="async">
+        </div>
+      </figure>
     </div>
   </div>
 
@@ -1162,25 +1177,21 @@
     </div>
   </div>
 
+  <!-- Seis fotos de la colección, en dos columnas y en el orden de los
+       archivos del autor (02 a 07). En la referencia las columnas miden 775
+       y 756 px con calles de 40 y 44: la diferencia es del pegado a mano,
+       asi que va la .grid-2 de siempre. Son 4:3, el ar-4x3 del juego.
+       El rotulo "Fasciculo 01" que asoma en la referencia es el de la
+       pagina vieja que quedo de fondo: no va. -->
   <div class="container">
-    <h3 class="block-title block-title--section reveal">Fascículo 01</h3>
-    <figure class="fig fig--narrow reveal">
-      <div class="fig__frame ar-16x10" data-slot="Doble página"><img src="assets/images/fasciculos-editorial/07-spread-a.jpg" alt="Doble página del primer fascículo" loading="lazy" decoding="async"></div>
-    </figure>
-  </div>
-
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Fascículo 02</h3>
-    <figure class="fig fig--narrow reveal">
-      <div class="fig__frame ar-16x10" data-slot="Doble página"><img src="assets/images/fasciculos-editorial/09-spread-c.jpg" alt="Doble página del segundo fascículo" loading="lazy" decoding="async"></div>
-    </figure>
-  </div>
-
-  <div class="container">
-    <h3 class="block-title block-title--section reveal">Fascículo 03</h3>
-    <figure class="fig fig--narrow reveal">
-      <div class="fig__frame ar-16x10" data-slot="Doble página"><img src="assets/images/fasciculos-editorial/11-spread-e.jpg" alt="Doble página del tercer fascículo" loading="lazy" decoding="async"></div>
-    </figure>
+    <div class="grid-2">
+      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Foto"><img src="assets/images/fasciculos-editorial/fotos/02.jpg" alt="Los tres fascículos uno al lado del otro sobre un escritorio" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Foto"><img src="assets/images/fasciculos-editorial/fotos/03.jpg" alt="Una mano sostiene un fascículo abierto sobre los otros dos" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Foto"><img src="assets/images/fasciculos-editorial/fotos/04.jpg" alt="Los tres fascículos abiertos en abanico sobre un escritorio" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Foto"><img src="assets/images/fasciculos-editorial/fotos/05.jpg" alt="Una mano sostiene los fascículos con la tapa de Otra cosa es permanecer adelante" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Foto"><img src="assets/images/fasciculos-editorial/fotos/06.jpg" alt="Los tres fascículos apilados junto a una taza y lápices" loading="lazy" decoding="async"></div></figure>
+      <figure class="fig reveal"><div class="fig__frame ar-4x3" data-slot="Foto"><img src="assets/images/fasciculos-editorial/fotos/07.jpg" alt="Los tres fascículos apilados sobre una mesa" loading="lazy" decoding="async"></div></figure>
+    </div>
   </div>
 
 

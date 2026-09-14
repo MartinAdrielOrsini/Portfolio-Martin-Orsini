@@ -490,6 +490,33 @@ con las fotos nuevas encima.
 `assets/images/dosel/` (1,4 MB) y `assets/images/indice/05-dosel.jpg`
 (1,1 MB). **No se borraron.**
 
+### Fascículos — texto y fotos (13 de septiembre)
+Maquetada sobre `6FASCICULOS EDITORIAL/imagenes fasciculos/referencia.jpg`
+(1920x3785), una captura del sitio con las fotos pegadas encima, medida
+por escaneo de píxeles. Caja útil: x 163 a 1734, **1572 de ancho**.
+
+Orden: texto a la izquierda y la foto 1 a la derecha · las tres tapas del
+libro interactivo · seis fotos en dos columnas.
+
+- **El texto es el del autor**, entero, en un solo párrafo con
+  `.project__lead`. Reemplazó a la bajada corta de antes. La descripción
+  corta del índice (sección 3) **no se tocó**.
+- **Texto e imagen van en `.grid-2`**, como en 3 Esencias: la foto ocupa
+  758 de los 1572 útiles, la mitad justa descontada la calle.
+- **Las seis fotos, en `.grid-2` con `ar-4x3`.** En la referencia las
+  columnas miden 775 y 756 px con calles de 40 y 44: la diferencia es del
+  pegado a mano, así que va la grilla de siempre, sin clase nueva.
+- **El rótulo "Fascículo 01" que asoma en la referencia no va:** es el de
+  la página vieja que quedó de fondo, y encima de seis fotos de los tres
+  fascículos no dice nada. Se sacaron los tres bloques "Fascículo 01/02/03"
+  con las dobles páginas de relleno.
+- **La sección lleva `project--fit`.** Las fotos 4:3 a 1366x630 piden
+  454 px de alto, justo el tope de `--media-max-h`: con cualquier zoom
+  mayor se angostarían y dejarían de llegar al margen.
+- Fuente: `1.jpg` a `7.jpg` (1898x1233 la primera y 1938x1453 las demás),
+  convertidas a **1400 px, calidad 82**, en
+  `assets/images/fasciculos-editorial/fotos/01.jpg` a `07.jpg`: 1,4 MB.
+
 ### Fascículos — tapas y libro interactivo
 La fila de tres imágenes —la única de la sección que va de margen a
 margen— son **las tres tapas de la colección**, y cada una abre su
@@ -954,9 +981,8 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 
 ### Contenido definitivo
 Queda **Estrella de Maldonado** entera con imágenes de relleno y textos
-cortos. **Fascículos, casi:** las tapas y los tres libros ya son del autor
-(desde sus PDF), pero las tres dobles páginas de abajo siguen siendo de
-relleno. Las demás —Suma, Centenera, Green Eat, Cerveceros, 3 Esencias (ex
+cortos. **Fascículos** ya está completa: texto, fotos, tapas y los tres
+libros (desde sus PDF) son del autor. Las demás —Suma, Centenera, Green Eat, Cerveceros, 3 Esencias (ex
 Dosel), Almacenit, Remeras y Mush— ya tienen el material real del autor.
 
 El flujo que viene funcionando: el autor deja en la carpeta del proyecto,
@@ -983,8 +1009,10 @@ respondió que **sólo había que corregir "Remeras custom"** —hecho: dice
    autor confirme el reorden de las cuatro primeras páginas y que sus
    calcos quedaron en 3-4, 15-16, 25-26 y 37-38 (en el PDF, 11-12 y
    21-22). Detalle en la sección 5.
-2. **Las tres dobles páginas de Fascículos** ("Fascículo 01/02/03") son de
-   relleno.
+2. **Fascículos, rótulo de las fotos.** Hecho el 13 de septiembre: las
+   dobles páginas de relleno se reemplazaron por las seis fotos del autor.
+   Se sacó el rótulo "Fascículo 01" que traía la referencia; si el autor
+   quiere uno encima de las fotos, que diga cuál.
 3. **Estrella de Maldonado,** entera.
 4. **Probar con mouse real el arrastre de las hojas** del libro de
    Fascículos: en el panel de pruebas no se pudo (ver sección 10).
@@ -1017,7 +1045,7 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 | `remeras/01-billie.jpg` a `05-hasbulla.jpg` | 944 KB | reemplazados por las cartas |
 | `mush-type/universo/01.jpg` a `10.jpg` (sueltos) | 640 KB | la selección vieja; ahora son `universo/a` y `universo/b` |
 | `mush-type/06-pieza-a.jpg` a `09-pieza-d.jpg`, `11-ig.jpg`, `03-letras.jpg` | 592 KB | las Aplicaciones viejas |
-| `fasciculos-editorial/03-pagina-a.jpg` a `05-pagina-c.jpg` | 300 KB | reemplazadas por las tapas |
+| `fasciculos-editorial/01-card.jpg` a `13-spread-g.jpg` (los 13 sueltos) | ~1,3 MB | relleno de la maqueta; desde el 13 de septiembre la sección usa `fotos/` y las carpetas `fasciculo-0N/` |
 | `retrato.jpg` | 208 KB | desde que se rehízo la sección 2 |
 
 ---
@@ -1091,6 +1119,16 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 ---
 
 ## 11. Estado de verificación
+
+**Fascículos, texto y fotos (13 de septiembre),** medido en el DOM: las
+siete fotos responden 200, no queda ninguna imagen de relleno ni rótulo en
+la sección, sin scroll horizontal y sin errores de consola. A 1366x630 la
+caja útil va de 56 a 1295; las seis fotos miden 605x454 y llegan a los dos
+márgenes; la foto 1, 605x393. **El texto queda más alto que la foto que
+tiene al lado:** 503x447 a 1366 (54 px más), 26 px más a 1920 y 135 px más
+a 1093x504 (zoom 125 %). La medida del texto coincide con la referencia
+—36 % de la caja allá, 38-41 % acá—; lo que cambia es que el texto real es
+más largo que el de relleno del montaje. Se le consultó al autor.
 
 **Fascículos desde PDF (11 de septiembre),** medido en el DOM a 1366x630:
 las 112 páginas y las tres portadas responden 200 y cargan a 1100 px; las

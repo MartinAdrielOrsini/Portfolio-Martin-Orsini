@@ -21,7 +21,7 @@ assets/images/        → imágenes por proyecto (18,7 MB)
 | 6 | App Green Eat | `#p-green-eat` | 8 |
 | 7 | Cerveceros del Sur ★ | `#p-cerveceros` | 14 |
 | 8 | 3 Esencias | `#p-esencias` | 9 |
-| 9 | Fascículos editorial | `#p-fasciculos` | 9 |
+| 9 | Fascículos editorial | `#p-fasciculos` | 10 |
 | 10 | Web Almacenit | `#p-almacenit` | 3 |
 | 11 | Estrella de Maldonado ★ | `#p-estrella` | 12 |
 | 12 | Remeras Delira | `#p-remeras` | 5 |
@@ -67,8 +67,8 @@ problemas conocidos— está en `ESTADO.md`, secciones 8 y 9. En corto:
    colección y cada una abre su fascículo en un libro que se hojea
    (módulo 20 de `main.js`): *Los viernes* (Forn), *Panfleto: erótica y
    feminismo* (Moreno) y *Otra cosa es permanecer* (Paula), con las
-   páginas sacadas de los PDF del autor. Las tres dobles páginas de más
-   abajo siguen siendo de relleno.
+   páginas sacadas de los PDF del autor. Arriba, el texto con una foto;
+   abajo, seis fotos de la colección.
 5. **Los textos** — están redactados mirando las piezas, no los briefs.
    Revisá cliente, año y rol de cada caso.
 
