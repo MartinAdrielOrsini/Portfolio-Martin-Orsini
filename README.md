@@ -23,7 +23,7 @@ assets/images/        → imágenes por proyecto (18,7 MB)
 | 8 | 3 Esencias | `#p-esencias` | 9 |
 | 9 | Fascículos editorial | `#p-fasciculos` | 10 |
 | 10 | Web Almacenit | `#p-almacenit` | 3 |
-| 11 | Estrella de Maldonado ★ | `#p-estrella` | 14 |
+| 11 | Estrella de Maldonado ★ | `#p-estrella` | 15 |
 | 12 | Remeras Delira | `#p-remeras` | 5 |
 | 13 | Mush Type | `#p-mush` | 9 |
 | 14 | Footer / contacto | `#contact` | — |

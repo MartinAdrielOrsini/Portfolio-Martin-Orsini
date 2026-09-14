@@ -504,10 +504,19 @@ todo el ancho, 08-09, 10-11 (GIF), y 12, 13 y 14 (GIF) a todo el ancho.
 
 - **La sección sigue oscura** (`section--dark`, destacado). La referencia
   es blanca porque es un wireframe, no porque se quisiera cambiar.
-- **El texto es el del autor**, en tres párrafos `.project__lead`; la cita
-  va entre comillas tipográficas, sin estilo aparte. "Behance" es un
-  `.link-inline` que abre en pestaña nueva, igual que en Cerveceros. La
-  descripción corta del índice y su imagen **no se tocaron**.
+- **El texto es el del autor**, en dos párrafos `.project__lead`. La cita
+  del redaccional **salió del texto** y pasó a ser una imagen
+  (`piezas/redaccional.jpg`) debajo de la apertura, al ancho útil entero;
+  por eso el primer párrafo, que terminaba en dos puntos para
+  presentarla, ahora cierra con punto. "Behance" es un `.link-inline` que
+  abre en pestaña nueva, igual que en Cerveceros. La descripción corta del
+  índice y su imagen **no se tocaron**.
+- **El redaccional** es una franja de texto sobre blanco (8000x1404 en
+  `web/redaccional.jpg`; hay otro de 8000x4500 en la carpeta padre, que no
+  se usó). Va a **2400 px y calidad 88**, 95 KB: es texto, y a 1800 perdía
+  nitidez en pantallas densas. La apertura y el redaccional van como dos
+  `.row-fit--even`, así la calle entre ellos es la misma de las filas de
+  abajo.
 - **Todas las filas son `.row-fit.row-fit--even`, también las de una sola
   pieza.** Así la calle entre cualquier par de filas es `var(--gap)` y no
   hizo falta CSS nuevo. En la referencia las calles, pegadas a mano, van de
@@ -1173,6 +1182,14 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 ---
 
 ## 11. Estado de verificación
+
+**Estrella, redaccional (14 de septiembre),** medido en el DOM: la imagen
+carga a 2400x421 y va de margen a margen —1239x217 a 1366, 1330x233 a
+1920—, con la calle de siempre respecto de la apertura (29 y 32 px). El
+texto quedó en dos párrafos, sin la cita, y el enlace sigue abriendo
+Behance en pestaña nueva. Sin scroll horizontal ni errores de consola.
+**En mobile la franja mide 327x57** y el texto de la imagen no se lee:
+queda como pendiente para consultar con el autor.
 
 **Estrella de Maldonado (14 de septiembre),** medido en el DOM: las 14
 piezas responden 200 con su tipo (tres `image/gif`) y cargan a su tamaño;
