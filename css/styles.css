@@ -832,6 +832,14 @@ em { font-style: italic; }
               border-color var(--t-fast) var(--ease);
 }
 .card__zoom svg { width: 18px; height: 18px; }
+/* Se ve de 34 px, pero se toca de 44: el área se agranda por fuera. */
+.card__zoom { position: relative; }
+.card__zoom::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+}
 .card__zoom:hover,
 .card__zoom:focus-visible {
   color: var(--accent);
@@ -1052,6 +1060,14 @@ em { font-style: italic; }
 }
 /* La misma cruz que las otras vistas grandes, pero en su fila. */
 .libro-visor .lightbox__cerrar { position: static; flex: 0 0 auto; }
+/* Debajo del título, cómo se hojea. */
+.libro-visor__textos { min-width: 0; }
+.libro-visor__ayuda {
+  margin: 0.2rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--dark-soft);
+}
 
 /* La escena NO recorta. La solapa, al doblarse, sale del rectángulo del
    libro —hacia arriba o hacia abajo, según qué esquina se tome— y con la
@@ -1424,6 +1440,90 @@ em { font-style: italic; }
   line-height: 1.45;
   color: var(--ink-soft);
   max-width: 46ch;
+}
+
+/* ------------ Indicaciones de uso ------------
+   Una línea chica que explica cómo se usa una pieza que se toca: las
+   tapas que abren el libro, las cartas que giran, las aplicaciones que
+   se amplían, la cinta que se arrastra, las sábanas que se recorren.
+
+   Cada una trae dos textos y se ve el que corresponde al puntero: con
+   mouse "Hacé clic", con el dedo "Tocá". Es CSS y no JS porque la media
+   query ya sabe qué hay; el que no corresponde va con display: none, así
+   que un lector de pantalla tampoco lo lee. */
+.ayuda {
+  margin: 0.8rem 0 0;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.ayuda--arriba { margin: 0 0 1rem; }
+.ayuda--centro { text-align: center; }
+.section--dark .ayuda { color: var(--dark-soft); }
+.ayuda__tactil { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .ayuda__fino { display: none; }
+  .ayuda__tactil { display: inline; }
+}
+
+/* ------------ Ventanas con scroll: la pista y el cerrojo ------------
+   Las sábanas de Almacenit se recorren dentro de su ventana (módulo 21).
+   El módulo la envuelve en .scroll-caja para poder ponerle cosas encima:
+   dentro del elemento que scrollea se irían con el contenido.
+
+   La pista es un degradado con una flecha al pie, que avisa que hay más
+   abajo y se va apenas se empieza a recorrer. */
+.scroll-caja { position: relative; }
+.scroll-pista {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  height: 72px;
+  display: grid;
+  place-items: end center;
+  padding-bottom: 10px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.94));
+  pointer-events: none;
+  transition: opacity var(--t-mid) var(--ease);
+}
+.scroll-pista::after {
+  content: "↓";
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--ink);
+}
+.scroll-caja.is-recorrida .scroll-pista { opacity: 0; }
+
+/* Con el dedo, la ventana atrapaba el scroll de la página: ocupa casi
+   todo el ancho, así que al deslizar por encima se recorría la sábana
+   —dos o tres pantallas— antes de seguir bajando. Por eso en pantalla
+   táctil arranca cerrada, con un botón encima; al tocarlo se abre, y se
+   vuelve a cerrar sola cuando sale de pantalla. Cerrada, deslizar por
+   encima mueve la página, porque el botón no frena el gesto. */
+.scroll-activar { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .scroll-caja:not(.is-activa) .fig__frame--scroll { overflow: hidden; }
+  .scroll-activar {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .scroll-activar span {
+    padding: 0.65rem 0.95rem;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: var(--fs-small);
+    line-height: 1.3;
+  }
+  .scroll-caja.is-activa .scroll-activar { display: none; }
 }
 
 /* Aspect ratios */
@@ -2151,6 +2251,15 @@ em { font-style: italic; }
   /* Con el texto en negrita una regla de 1px se veía endeble */
   border-bottom: 2px solid currentColor;
   padding-bottom: 2px;
+  position: relative;
+}
+/* El enlace mide 22 px de alto y con el dedo cuesta darle (el mínimo de
+   WCAG es 24, lo cómodo 44). El área que se toca se agranda por fuera,
+   sin mover nada: el pseudoelemento no ocupa lugar. */
+.index__more::before {
+  content: "";
+  position: absolute;
+  inset: -12px -8px;
 }
 .index__more::after {
   content: "→";
@@ -2388,7 +2497,18 @@ em { font-style: italic; }
 .form__input::placeholder { color: rgba(162, 154, 144, 0.6); }
 .form__input:hover { border-bottom-color: var(--dark-soft); }
 .form__input:focus { outline: none; border-bottom-color: var(--dark-ink); }
-.form__input:focus-visible { outline: none; border-bottom-color: var(--accent-ink); }
+/* El foco engrosa la línea a 2 px con una sombra interior: subir el
+   borde movería todo el formulario un píxel. */
+.form__input:focus-visible {
+  outline: none;
+  border-bottom-color: var(--accent-ink);
+  box-shadow: inset 0 -1px 0 var(--accent-ink);
+}
+/* En iPhone, un campo con letra de menos de 16 px hace que Safari
+   acerque la pantalla al tocarlo, y queda descuadrada. */
+@media (hover: none), (pointer: coarse) {
+  .form__input { font-size: 16px; }
+}
 .form__input--area { resize: vertical; min-height: 120px; line-height: 1.6; }
 
 .form__input[aria-invalid="true"] { border-bottom-color: var(--accent-ink); }
@@ -2897,6 +3017,41 @@ em { font-style: italic; }
 .video-play:hover,
 .video-play:focus-visible { transform: scale(1.06); }
 .video-play:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* ------------ Botón de pausa ------------
+   Lo que se mueve solo por más de cinco segundos tiene que poder
+   frenarse (WCAG 2.2.2): los tres videos en loop, la cinta de Green Eat y
+   los dos pases de Mush. Lo pone el JS en la esquina de cada pieza.
+   Cuadrado, como todo el sitio; se ve de 34 px y se toca de 44. */
+.pausa {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: rgba(17, 17, 17, 0.62);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color var(--t-fast) var(--ease);
+}
+.pausa::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+}
+.pausa svg { width: 14px; height: 14px; }
+.pausa:hover,
+.pausa:focus-visible { background: rgba(17, 17, 17, 0.9); }
+.pausa:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* En el teléfono de Green Eat la esquina es redonda y se comería el botón. */
+.phone__screen .pausa { right: 13%; bottom: 5%; }
+/* La cinta va de borde a borde: el botón se alinea con el margen. */
+.carousel .pausa { right: var(--gutter); }
 
 .video-play__flecha {
   width: 34%;

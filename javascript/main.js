@@ -19,6 +19,9 @@
     16. Visor 3D de remeras (WebGL a mano, sin libreria)
     17. Cartas de remeras (giro y vista grande)
     18. Pase de imagenes (avanza solo, con barra de progreso)
+    19. Aplicaciones en grande
+    20. Libro interactivo
+    21. Ventanas con scroll (Almacenit)
    Vanilla ES6+. Sin dependencias.
    ============================================================ */
 
@@ -29,6 +32,65 @@
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* El dedo o el mouse. Las indicaciones de uso cambian de verbo según
+     cuál haya: "Tocá" o "Hacé clic". */
+  const esTactil = window.matchMedia('(hover: none), (pointer: coarse)');
+
+  /* --- Vistas grandes ------------------------------------------------
+     Mientras una vista grande está abierta (la carta, la aplicación
+     ampliada, el libro) todo lo de atrás queda inerte: ni el teclado ni
+     un lector de pantalla pueden llegar a lo que tapa el fondo oscuro, y
+     el Tab da vueltas solo por los botones de la vista. Se marcan los
+     hijos directos del body salvo la vista misma, y al cerrar se
+     devuelven solo esos. Hay que liberar ANTES de devolverle el foco al
+     botón que la abrió: un elemento inerte no puede recibirlo. */
+  function bloquearFondo(vista) {
+    Array.from(document.body.children).forEach((el) => {
+      if (el === vista || el.tagName === 'SCRIPT' || el.inert) return;
+      el.inert = true;
+      el.setAttribute('data-inerte-vista', '');
+    });
+  }
+  function liberarFondo() {
+    $$('[data-inerte-vista]').forEach((el) => {
+      el.inert = false;
+      el.removeAttribute('data-inerte-vista');
+    });
+  }
+
+  /* --- Botón de pausa ------------------------------------------------
+     Lo que se mueve solo por más de cinco segundos tiene que poder
+     frenarse (WCAG 2.2.2). alCambiar recibe true si queda en pausa.
+     Devuelve poner(), para cambiar el estado desde afuera. */
+  const ICONO_PAUSA = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+    '<rect x="6" y="5" width="4" height="14" fill="currentColor"></rect>' +
+    '<rect x="14" y="5" width="4" height="14" fill="currentColor"></rect></svg>';
+  const ICONO_SEGUIR = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path d="M8 5l11 7-11 7z" fill="currentColor"></path></svg>';
+
+  function botonPausa(contenedor, pausadoAlEmpezar, alCambiar) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pausa';
+    let pausado = !!pausadoAlEmpezar;
+    const pintar = () => {
+      b.innerHTML = pausado ? ICONO_SEGUIR : ICONO_PAUSA;
+      b.setAttribute('aria-label', pausado ? 'Reanudar la animación' : 'Pausar la animación');
+    };
+    pintar();
+    /* La cinta y el pase se arrastran desde el pointerdown: sin cortarlo
+       acá, apretar el botón empezaría un arrastre y el click no llegaría. */
+    b.addEventListener('pointerdown', (e) => e.stopPropagation());
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      pausado = !pausado;
+      pintar();
+      alCambiar(pausado);
+    });
+    contenedor.appendChild(b);
+    return { poner(p) { pausado = !!p; pintar(); } };
+  }
 
 
   /* ==========================================================
@@ -425,12 +487,26 @@
     // la selección y pasaba a seguir al mouse.
 
     // Precarga silenciosa: al abrir un ítem la imagen ya está lista.
+    // Pero recién cuando el índice se acerca: antes se bajaban las diez
+    // apenas cargaba la página, aunque nadie scrolleara hasta acá.
     const precargar = () => rows.forEach((r) => {
       const src = btnDe(r).dataset.img;
       if (src) { const p = new Image(); p.src = src; }
     });
-    if ('requestIdleCallback' in window) window.requestIdleCallback(precargar);
-    else window.setTimeout(precargar, 1200);
+    const programar = () => {
+      if ('requestIdleCallback' in window) window.requestIdleCallback(precargar);
+      else window.setTimeout(precargar, 200);
+    };
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entradas) => {
+        if (!entradas.some((e) => e.isIntersecting)) return;
+        obs.disconnect();
+        programar();
+      }, { rootMargin: '600px 0px' });
+      obs.observe(list);
+    } else {
+      programar();
+    }
   }
 
 
@@ -771,13 +847,34 @@
     };
 
     const arrancar = (v) => {
-      if (prefersReducedMotion.matches) return;
+      if (prefersReducedMotion.matches || v.dataset.pausado) return;
       cargar(v);
       const p = v.play();
       // Si el navegador rechaza el autoplay, no hay nada que romper:
       // queda el poster puesto.
       if (p && typeof p.catch === 'function') p.catch(() => {});
     };
+
+    /* Un botón de pausa en la esquina de cada video. Con movimiento
+       reducido arranca en pausa, y si alguien lo aprieta igual, se le
+       hace caso: lo pidió a propósito. La caja del video se posiciona
+       solo si no lo estaba, para no pisar el absoluto de Suma. */
+    const controles = new Map();
+    videos.forEach((v) => {
+      const caja = v.parentElement;
+      if (getComputedStyle(caja).position === 'static') caja.style.position = 'relative';
+      controles.set(v, botonPausa(caja, prefersReducedMotion.matches, (pausado) => {
+        if (pausado) {
+          v.dataset.pausado = '1';
+          if (v.dataset.cargado) v.pause();
+        } else {
+          delete v.dataset.pausado;
+          cargar(v);
+          const p = v.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+      }));
+    });
 
     if (!('IntersectionObserver' in window)) {
       videos.forEach(arrancar);
@@ -795,7 +892,12 @@
 
     // Si el usuario cambia la preferencia de movimiento en caliente
     const onMQ = () => {
-      videos.forEach((v) => { if (prefersReducedMotion.matches) v.pause(); });
+      videos.forEach((v) => {
+        if (!prefersReducedMotion.matches) return;
+        v.pause();
+        const c = controles.get(v);
+        if (c) c.poner(true);
+      });
     };
     if (prefersReducedMotion.addEventListener) {
       prefersReducedMotion.addEventListener('change', onMQ);
@@ -884,7 +986,12 @@
       let ultimo = 0;
       let xInicio = 0, pInicio = 0, pUltimo = 0, tUltimo = 0, vArrastre = 0;
 
-      const objetivo = () => (prefersReducedMotion.matches ? 0 : VEL_CRUCERO);
+      /* En pausa por el botón de la esquina. Con movimiento reducido
+         arranca así; si alguien lo aprieta igual, se le hace caso. En
+         pausa se puede seguir arrastrando: solo se apaga el crucero. */
+      let pausado = prefersReducedMotion.matches;
+      const objetivo = () => (pausado ? 0 : VEL_CRUCERO);
+      botonPausa(carousel, pausado, (p) => { pausado = p; });
       const envolver = (n) => (ancho > 0 ? ((n % ancho) + ancho) % ancho : 0);
 
       /* --- Construccion y medida ---------------------------------
@@ -952,6 +1059,9 @@
           /* Convergencia hacia la velocidad de crucero, independiente
              de los fps: a mas dt, mas parte del camino se recorre. */
           v += (objetivo() - v) * (1 - Math.exp(-dt / 260));
+          /* La curva se acerca a cero pero no llega nunca: en pausa la
+             cinta seguiria corriendose fracciones de pixel. Se la corta. */
+          if (objetivo() === 0 && Math.abs(v) < 0.0005) v = 0;
           x = envolver(x + v * dt);
         }
 
@@ -1542,7 +1652,18 @@
           subirMalla(leerGlb(buf));
           host.classList.remove('is-loading');
           host.classList.add('is-ready');
-          if (aviso) aviso.textContent = 'Arrastrá para girarla. Una vez agarrada, la rueda acerca.';
+          /* Con el dedo no hay rueda: el texto de escritorio no sirve.
+             Los botones solo aparecen en pantalla chica, así que se los
+             nombra únicamente si están a la vista. */
+          if (aviso) {
+            const ctrls = $('.shirt3d__ctrls', host);
+            const conBotones = ctrls && getComputedStyle(ctrls).display !== 'none';
+            aviso.textContent = !esTactil.matches
+              ? 'Arrastrá para girarla. Una vez agarrada, la rueda acerca.'
+              : conBotones
+                ? 'Arrastrá con el dedo para girarla, o usá los botones de abajo.'
+                : 'Arrastrá con el dedo para girarla.';
+          }
           return elegir(botones[0]);
         })
         .catch(() => {
@@ -1604,6 +1725,9 @@
       caja = document.createElement('div');
       caja.className = 'lightbox';
       caja.hidden = true;
+      /* Se anuncia como ventana a los lectores de pantalla. */
+      caja.setAttribute('role', 'dialog');
+      caja.setAttribute('aria-modal', 'true');
 
       marco = document.createElement('button');
       marco.type = 'button';
@@ -1670,6 +1794,8 @@
       void caja.offsetWidth;
       caja.classList.add('is-open');
       document.documentElement.style.overflow = 'hidden';
+      caja.setAttribute('aria-label', (a.alt || 'Carta') + ', en grande');
+      bloquearFondo(caja);
       marco.focus();
     }
 
@@ -1677,6 +1803,7 @@
       if (!caja || caja.hidden) return;
       caja.classList.remove('is-open');
       document.documentElement.style.overflow = '';
+      liberarFondo();
       window.setTimeout(() => { caja.hidden = true; }, 320);
       if (quienAbrio) { quienAbrio.focus(); quienAbrio = null; }
     }
@@ -1792,7 +1919,10 @@
          izquierda, 0 si todavia no hay ninguna preparada. */
       let lado = 0;
 
-      const detenido = () => quieto || prefersReducedMotion.matches;
+      /* En pausa por el botón de la esquina. Con movimiento reducido
+         arranca así, y si alguien lo aprieta igual, se le hace caso. */
+      let pausadoUsuario = prefersReducedMotion.matches;
+      const detenido = () => quieto || pausadoUsuario;
 
       /* El ancho de los puntos lo cronometra el JS —ver la nota de
          arriba— asi que la duracion va inline, no en la hoja. */
@@ -2047,6 +2177,12 @@
       /* --- Puesta en marcha ---------------------------------------
          Fuera de pantalla no corre: no tiene sentido gastar cuadros ni
          bajar imagenes que nadie esta mirando. */
+      botonPausa(marco, pausadoUsuario, function (pausado) {
+        pausadoUsuario = pausado;
+        ultimo = 0;
+        pintarAvance();
+      });
+
       marcarPunto(actual, 0);
       pintarAvance();
       if ('IntersectionObserver' in window) {
@@ -2106,6 +2242,9 @@
       caja = document.createElement('div');
       caja.className = 'visor';
       caja.hidden = true;
+      /* Se anuncia como ventana a los lectores de pantalla. */
+      caja.setAttribute('role', 'dialog');
+      caja.setAttribute('aria-modal', 'true');
 
       marco = document.createElement('div');
       marco.className = 'visor__marco';
@@ -2281,6 +2420,8 @@
       void caja.offsetWidth;
       caja.classList.add('is-open');
       document.documentElement.style.overflow = 'hidden';
+      caja.setAttribute('aria-label', (chica.alt || 'Aplicación') + ', en grande');
+      bloquearFondo(caja);
       marco.focus();
     }
 
@@ -2293,6 +2434,7 @@
       achicar();
       caja.classList.remove('is-open');
       document.documentElement.style.overflow = '';
+      liberarFondo();
       window.setTimeout(() => { caja.hidden = true; }, 320);
       if (quienAbrio) { quienAbrio.focus(); quienAbrio = null; }
     }
@@ -2413,9 +2555,16 @@
       visor.setAttribute('aria-modal', 'true');
 
       const barra = nodo('div', 'libro-visor__barra');
+      const textos = nodo('div', 'libro-visor__textos');
       titulo = nodo('p', 'libro-visor__titulo');
+      /* Cómo se hojea, con el verbo del puntero que haya (ver .ayuda). */
+      const ayuda = nodo('p', 'libro-visor__ayuda');
+      ayuda.innerHTML =
+        '<span class="ayuda__fino">Hacé clic en una página, arrastrá su esquina o usá las flechas para pasarla.</span>' +
+        '<span class="ayuda__tactil">Tocá una página o deslizá para pasarla.</span>';
+      textos.append(titulo, ayuda);
       const cerrar = boton('lightbox__cerrar', 'Cerrar', ICONO.cruz);
-      barra.append(titulo, cerrar);
+      barra.append(textos, cerrar);
 
       escena = nodo('div', 'libro-visor__escena');
       ventana = nodo('div', 'libro-visor__ventana');
@@ -2531,6 +2680,7 @@
 
       visor.hidden = false;
       document.documentElement.style.overflow = 'hidden';
+      bloquearFondo(visor);
       medir();
       /* El reflow antes de la clase hace que la opacidad arranque desde
          cero, como en la vista grande de las cartas. */
@@ -2566,6 +2716,7 @@
       achicar();
       visor.classList.remove('is-open');
       document.documentElement.style.overflow = '';
+      liberarFondo();
       window.setTimeout(() => {
         if (!visor.classList.contains('is-open')) visor.hidden = true;
       }, 320);
@@ -3163,6 +3314,63 @@
 
 
   /* ==========================================================
+     21 — VENTANAS CON SCROLL (Almacenit)
+     Las sabanas del sitio se recorren dentro de su ventana. Este
+     modulo arregla dos cosas:
+
+     - Nadie se daba cuenta de que habia mas abajo. Se agrega una
+       pista al pie —un degradado con una flecha— que se va apenas se
+       empieza a recorrer y vuelve si se sube hasta arriba.
+     - Con el dedo, la ventana atrapaba el scroll de la pagina: ocupa
+       casi todo el ancho, y al deslizar por encima se recorria la
+       sabana en vez de seguir bajando. En pantalla tactil arranca
+       cerrada, con un boton encima, y se vuelve a cerrar sola al salir
+       de pantalla. Lo que la cierra es CSS (.scroll-activar).
+
+     La ventana se envuelve en una caja propia: lo que va encima no
+     puede vivir dentro del elemento que scrollea, se iria con el
+     contenido. Tambien se la deja tomar el foco, para recorrerla con
+     las flechas del teclado.
+     ========================================================== */
+  function initVentanasScroll() {
+    $$('.fig__frame--scroll').forEach((ventana) => {
+      const caja = document.createElement('div');
+      caja.className = 'scroll-caja';
+      ventana.parentNode.insertBefore(caja, ventana);
+      caja.appendChild(ventana);
+
+      const img = $('img', ventana);
+      ventana.tabIndex = 0;
+      ventana.setAttribute('role', 'region');
+      ventana.setAttribute('aria-label', ((img && img.alt) || 'Página') + '. Se recorre con las flechas.');
+
+      const pista = document.createElement('span');
+      pista.className = 'scroll-pista';
+      pista.setAttribute('aria-hidden', 'true');
+      caja.appendChild(pista);
+      ventana.addEventListener('scroll', () => {
+        caja.classList.toggle('is-recorrida', ventana.scrollTop > 24);
+      }, { passive: true });
+
+      /* El boton solo se ve con el dedo; con mouse no existe para nadie
+         (display: none), asi que tampoco estorba al teclado. */
+      const activar = document.createElement('button');
+      activar.type = 'button';
+      activar.className = 'scroll-activar';
+      activar.innerHTML = '<span>Tocá para recorrer la página</span>';
+      caja.appendChild(activar);
+      activar.addEventListener('click', () => caja.classList.add('is-activa'));
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((entradas) => {
+          entradas.forEach((e) => { if (!e.isIntersecting) caja.classList.remove('is-activa'); });
+        }).observe(caja);
+      }
+    });
+  }
+
+
+  /* ==========================================================
      ARRANQUE
      ========================================================== */
   function init() {
@@ -3186,6 +3394,7 @@
     initPase();
     initAplicaciones();
     initLibros();
+    initVentanasScroll();
   }
 
   if (document.readyState === 'loading') {

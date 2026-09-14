@@ -56,6 +56,9 @@ publique—:
   ni recomprimir colores: `-Origen`, `-Destino` y, o bien `-Encuadre` (una
   imagen con el encuadre buscado, que ubica sola), o bien `-X -Y -Ancho
   -Alto`. Al terminar verifica cuadro por cuadro contra el original.
+- **`psd-a-jpg.ps1`** — saca la imagen compuesta de un PSD y la exporta a
+  JPG: `-Origen`, `-Destino` y, opcionales, `-Ancho` y `-Alto` (con los dos
+  recorta al centro, para medidas fijas como la imagen de compartir).
 
 ## Qué falta
 

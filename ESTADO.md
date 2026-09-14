@@ -40,7 +40,7 @@ assets/             164 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=96**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=97**.
 
 ---
 
@@ -77,6 +77,22 @@ assets/             164 MB (!) — ver "Problemas conocidos"
   un par de minutos. **Ojo con la memoria:** cargar 40 páginas de 1100 px
   a la vez con System.Drawing hace caer el proceso; hay que liberar cada
   imagen al terminar con ella.
+- **Leer PSD:** `.herramientas/psd-a-jpg.ps1 -Origen x.psd -Destino y.jpg
+  [-Ancho -Alto]`. Ni System.Drawing ni WPF abren PSD; esto lee la imagen
+  compuesta que va al final del archivo. Si el PSD se guardó sin
+  "Maximizar compatibilidad" puede salir en blanco.
+- **Recortar GIF animados:** `.herramientas/recortar-gif.ps1` (ver
+  Estrella, sección 5). System.Drawing aplana los GIF a un cuadro.
+- **JPG enormes** (el wireframe de Estrella medía 6208x29216):
+  System.Drawing se queda sin memoria. Se abren con WPF, `BitmapImage` con
+  `DecodePixelWidth`, que decodifica ya achicado.
+- **El panel del navegador también congela los eventos de scroll** y los
+  IntersectionObserver cuando está oculto: poner `scrollTop` a mano no
+  dispara el evento. Para probar la lógica, despacharlo con
+  `dispatchEvent(new Event('scroll'))`. Y **el cursor de la herramienta se
+  queda donde quedó**: si una prueba scrollea un pase debajo de él, el
+  hover lo frena y parece roto. Moverlo a una esquina antes (`hover`
+  necesita una captura previa).
 - **PowerShell 5.1 lee los .ps1 como ANSI:** una ruta con eñe rompe el
   script. Resolver con comodín, por ejemplo 1REDISE*O DE SUMA.
 - **Las variables de PowerShell no distinguen mayúsculas**: $h pisa a $H.
@@ -497,6 +513,78 @@ con las fotos nuevas encima.
 **Sin uso desde este cambio:** los diez archivos de
 `assets/images/dosel/` (1,4 MB) y `assets/images/indice/05-dosel.jpg`
 (1,1 MB). **No se borraron.**
+
+### Accesibilidad y uso (14 de septiembre)
+Salió de una auditoría que pidió el autor, en escritorio (1366x630 y 1920)
+y en mobile (375x812). Ya estaba bien y no se tocó: contraste AA en todos
+los textos, 137 paradas de Tab con foco visible y sin caer en paneles
+cerrados, alt en las 169 imágenes, sin anclas rotas ni ids duplicados,
+modales que cierran con Escape y devuelven el foco, movimiento reducido en
+videos, cinta y pases. De la lista que se le pasó eligió los puntos 1 a 7,
+9, 10 y 11. **El 8 —versiones chicas de las imágenes para mobile— no se
+hizo.**
+
+1. **Indicaciones de uso (`.ayuda`).** Una línea chica con dos textos, uno
+   para mouse ("Hacé clic…") y otro para el dedo ("Tocá…"); elige el CSS
+   con `(hover: none), (pointer: coarse)`. Están en: la cinta de Green Eat
+   ("La cinta avanza sola: arrastrala…"), las tapas de Fascículos, las
+   sábanas de Almacenit, las cartas de Remeras y las Aplicaciones de Mush.
+   **Los textos los escribí yo: conviene que el autor los revise.**
+   - **Remeras:** el aviso del visor 3D decía "la rueda acerca" también
+     con el dedo. Ahora con el dedo dice "Arrastrá con el dedo para
+     girarla, o usá los botones de abajo" —los botones se nombran solo si
+     están a la vista—.
+   - **Libro:** debajo del título, "Hacé clic en una página, arrastrá su
+     esquina o usá las flechas para pasarla" / "Tocá una página o deslizá
+     para pasarla".
+   - **Almacenit, módulo 21 nuevo.** La ventana se envuelve en
+     `.scroll-caja` y lleva una pista al pie (degradado y flecha) que se va
+     al empezar a recorrerla. **Con el dedo arranca cerrada**, con un botón
+     encima ("Tocá para recorrer la página"): antes atrapaba el scroll de la
+     página, porque ocupa 327 de 375 px de ancho y 520 de alto y al
+     deslizar por encima se recorrían 2,4 a 2,9 pantallas de sábana antes
+     de seguir. Se vuelve a cerrar sola al salir de pantalla. Además es
+     una región que toma el foco y se recorre con las flechas.
+2. **Índice más liviano.** Al abrir la página se bajaban 10,7 MB sin
+   scrollear; 8,8 eran las diez imágenes del índice (1200 px, hasta 1,5 MB
+   cada una), que se precargaban todas. Pasaron a **1000 px y calidad 82:
+   1,5 MB en total**, con los mismos nombres. Y la precarga espera a que
+   el índice esté a 600 px de la pantalla: al abrir se baja una sola, la
+   de la vista previa.
+3. **Formulario en iPhone:** con el dedo los campos van a 16 px. Con menos,
+   Safari acerca la pantalla al tocarlos.
+4. **Vistas grandes como ventanas.** La carta de Remeras y la aplicación
+   ampliada de Mush llevan `role="dialog"`, `aria-modal` y un nombre (el
+   alt de la pieza + ", en grande"); el libro ya lo tenía. Mientras están
+   abiertas, `bloquearFondo()` pone `inert` a los hijos del body salvo la
+   vista, así el Tab no se escapa a la página tapada. `liberarFondo()` va
+   **antes** de devolver el foco: un elemento inerte no puede recibirlo.
+5. **Áreas táctiles.** "Ver más" del índice medía 22 px de alto (el mínimo
+   de WCAG es 24): un `::before` le agranda el área por fuera, sin mover
+   nada. La lupa de las cartas se ve de 34 px y se toca de 46.
+6. **Vista previa al compartir.** Open Graph, tarjeta de X y `canonical`,
+   con la imagen `assets/compartir.jpg` (1200x630, 51 KB) sacada de
+   `PORTFOLIO WEB/compartir.psd`. El `theme-color` pasó de #F3F0EA —el beige
+   de una dirección descartada— a #FFFFFF.
+7. **Botón de pausa (`.pausa`).** Seis: los tres videos en loop, la cinta y
+   los dos pases. Cuadrado, en la esquina, se ve de 34 px y se toca de 44.
+   Con movimiento reducido arranca en pausa y, si alguien lo aprieta, se le
+   hace caso. El botón corta el `pointerdown`: si no, en la cinta y el pase
+   empezaba un arrastre y el click no llegaba. La cinta, además, ahora se
+   queda quieta del todo: la velocidad se acercaba a cero sin llegar y
+   seguía corriéndose fracciones de píxel. **Los 4 GIF no se pueden
+   pausar.**
+8. **Salto de accesibilidad:** "Saltar a los proyectos", a `#projects`. Antes
+   iba al hero, que está justo debajo del menú.
+9. **Las 10 barras Anterior/Siguiente** se llamaban todas "Navegación entre
+   proyectos"; ahora "Navegación desde Suma", "…desde Centenera FC", etc.
+10. **Foco en el formulario:** la línea pasa a 2 px con una sombra interior,
+    sin mover el formulario.
+
+**Dos herramientas nuevas en `.herramientas/`:** `psd-a-jpg.ps1` lee la
+imagen compuesta que Photoshop guarda dentro del PSD (8 bits, RGB o gris,
+sin comprimir o RLE) y la exporta, con recorte al centro si se le da ancho
+y alto. Y `recortar-gif.ps1`, descripta en Estrella.
 
 ### Estrella de Maldonado — contenido real (14 de septiembre)
 Maquetada sobre `8ESTRELLA DE MALDONADO/web/referencia.jpg`, un wireframe
@@ -1012,6 +1100,10 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | .video-pieza (+ --recorte) | Banda de video de margen a margen. Va siempre con .fig__frame--tall. La variante --recorte usa object-fit: cover. |
 | .fig--apertura | El 3:1 de la portada de Mush, en CSS y no inline para que la media query de mobile lo pueda pisar. |
 | ar-3x1, ar-3x5, ar-3x7, ar-27x10, ar-9x11 | Proporciones nuevas. |
+| .ayuda (+ --arriba, --centro) + .ayuda__fino / .ayuda__tactil | Indicación de uso con dos textos; el CSS muestra el del puntero que hay (`hover: none, pointer: coarse`). También la usa la línea de ayuda del libro. |
+| .scroll-caja + .scroll-pista + .scroll-activar | Envoltura de las ventanas con scroll de Almacenit (la pone el módulo 21): pista al pie y, con el dedo, el botón que las abre. |
+| .pausa | Botón de pausa en la esquina de lo que se mueve solo. Lo crea `botonPausa()` del JS. |
+| .libro-visor__textos + .libro-visor__ayuda | Título y línea de ayuda en la barra del libro. |
 
 ---
 
@@ -1102,6 +1194,16 @@ respondió que **sólo había que corregir "Remeras custom"** —hecho: dice
 10. **Peso:** `assets/` son 164 MB y `.git` 162 MB. El grueso son los
     videos (Green Eat 61 MB, Mush 29 MB). Ver la sección 9 antes de
     tocar nada.
+11. **Revisar los textos de las indicaciones de uso** (sección 5,
+    "Accesibilidad y uso"): los escribí yo.
+12. **Probar en un teléfono de verdad** lo que el panel no deja ver: que la
+    ventana de Almacenit se vuelva a cerrar al salir de pantalla, que su
+    pista se vaya al recorrerla, y el aviso de Remeras con el dedo (el
+    modelo no terminó de cargar en la emulación).
+13. **Imágenes para mobile (srcset):** el teléfono baja las mismas de
+    1800 px que el escritorio. Se ofreció y el autor no lo eligió.
+14. **Los 4 GIF** (variables de Cerveceros y tres de Estrella) se mueven sin
+    poder pausarse. Sin ffmpeg no hay cómo pasarlos a video.
 
 ### Archivos sin uso (unos 12 MB, **no se borraron**)
 Quedaron sin ninguna referencia en HTML, CSS ni JS —verificado el 11 de
@@ -1191,6 +1293,29 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 ---
 
 ## 11. Estado de verificación
+
+**Accesibilidad y uso (14 de septiembre),** medido en el DOM a 1366x630 y
+en emulación mobile 375x812 con dedo. Se sirve `?v=97`, 11 metas de
+compartir y la imagen responde 200. Las 5 indicaciones muestran el texto
+de mouse en escritorio y el de dedo en mobile. Las 10 barras tienen nombre
+propio y el salto va a `#projects`. **Vistas grandes:** carta, aplicación
+ampliada y libro se anuncian como `dialog` con `aria-modal` y nombre; con
+cualquiera abierta, `main` y el header quedan inertes, el foco está
+adentro y **siete Tab reales no salen de la carta**; al cerrar se libera
+todo (0 marcados) y el foco vuelve al botón que la abrió. **Pausa:** seis
+botones; la cinta queda con la misma posición durante 1,5 s en pausa y
+vuelve a andar; el pase pasa de pieza cada ~3 s, en pausa se queda cinco
+muestras seguidas en la misma y al reanudar sigue; el video marca
+`data-pausado` y cambia la etiqueta. **Índice:** al abrir se baja 1 imagen y
+las 10 al acercarse. Tocar 9 px por encima de "Ver más" y 3 px a la
+izquierda de la lupa de las cartas acierta el enlace y el botón. **Mobile:**
+campos a 16 px, sin scroll horizontal; la ventana de Almacenit arranca con
+`overflow: hidden` y el botón (327x520, cartel de 204x38) encima, y al
+tocarlo pasa a `auto`; la pista se va cuando llega el evento de scroll.
+Llaves balanceadas en CSS y JS y consola sin errores. **No se pudo ver**
+—el panel oculto no dispara scroll ni IntersectionObserver—: que la
+ventana se cierre sola al salir de pantalla y el aviso de Remeras con el
+dedo.
 
 **Estrella, texto con imagen (14 de septiembre),** medido en el DOM: sin
 la imagen del redaccional; tres párrafos con la cita recuperada y el

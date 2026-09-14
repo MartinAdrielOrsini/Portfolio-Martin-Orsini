@@ -5,7 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Martin Orsini — Diseñador Gráfico</title>
 <meta name="description" content="Portfolio de Martin Orsini, diseñador gráfico. Identidad visual, packaging, editorial, redes y diseño digital.">
-<meta name="theme-color" content="#F3F0EA">
+<meta name="theme-color" content="#FFFFFF">
+
+<!-- Vista previa al compartir el enlace (WhatsApp, LinkedIn, X...). La
+     imagen va con la dirección completa porque las redes no resuelven
+     rutas relativas. Sale de PORTFOLIO WEB/compartir.psd, a 1200x630, con
+     .herramientas/psd-a-jpg.ps1. -->
+<link rel="canonical" href="https://martinadrielorsini.github.io/Portfolio-Martin-Orsini/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Martin Orsini">
+<meta property="og:title" content="Martin Orsini — Diseñador Gráfico">
+<meta property="og:description" content="Portfolio de Martin Orsini, diseñador gráfico. Identidad visual, packaging, editorial, redes y diseño digital.">
+<meta property="og:url" content="https://martinadrielorsini.github.io/Portfolio-Martin-Orsini/">
+<meta property="og:image" content="https://martinadrielorsini.github.io/Portfolio-Martin-Orsini/assets/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Portfolio de Martin Orsini, diseñador gráfico: identidad, packaging, editorial, sistemas de marca y mucho más.">
+<meta name="twitter:card" content="summary_large_image">
 
 <!-- ============================================================
      CONFIGURACIÓN RÁPIDA — qué editar primero
@@ -43,7 +60,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=96">
+<link rel="stylesheet" href="css/styles.css?v=97">
 </head>
 <body>
 
@@ -59,7 +76,9 @@
 </div>
 <noscript><style>.loader { display: none !important; }</style></noscript>
 
-<a class="skip-link" href="#hero">Saltar al contenido</a>
+<!-- Solo aparece al apretar Tab. Lleva al índice: el hero ya está justo
+     debajo del menú, así que saltar hasta ahí no ahorraba nada. -->
+<a class="skip-link" href="#projects">Saltar a los proyectos</a>
 
 <!-- ============================================================
      HEADER / NAVEGACIÓN
@@ -596,7 +615,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Suma">
       <a class="project-nav__link project-nav__link--prev" href="#projects">
         <span class="project-nav__dir">Volver al índice</span>
         <span class="project-nav__name">Proyectos</span>
@@ -661,7 +680,7 @@
   </div>
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Centenera FC">
       <a class="project-nav__link project-nav__link--prev" href="#p-suma">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">SUMA</span>
@@ -736,6 +755,7 @@
        JavaScript queda una tira que se arrastra a mano. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Pantallas</h3>
+    <p class="ayuda ayuda--arriba reveal"><span class="ayuda__fino">La cinta avanza sola: arrastrala para recorrerla a tu ritmo.</span><span class="ayuda__tactil">La cinta avanza sola: deslizala con el dedo para recorrerla a tu ritmo.</span></p>
   </div>
   <div class="carousel reveal" data-carousel role="group"
        aria-label="Recorrido por las pantallas de la aplicacion Green Eat">
@@ -812,7 +832,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Green Eat">
       <a class="project-nav__link project-nav__link--prev" href="#p-centenera">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">Centenera FC</span>
@@ -970,7 +990,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Cerveceros del Sur">
       <a class="project-nav__link project-nav__link--prev" href="#p-green-eat">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">Green Eat</span>
@@ -1071,7 +1091,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde 3 Esencias">
       <a class="project-nav__link project-nav__link--prev" href="#p-cerveceros">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">Cerveceros del Sur</span>
@@ -1175,6 +1195,9 @@
         </button>
       </figure>
     </div>
+    <!-- Nada decía que las tapas se abren, y con el dedo no hay hover que
+         lo sugiera. -->
+    <p class="ayuda ayuda--centro reveal"><span class="ayuda__fino">Hacé clic en una tapa para hojear el fascículo.</span><span class="ayuda__tactil">Tocá una tapa para hojear el fascículo.</span></p>
   </div>
 
   <!-- Seis fotos de la colección, en dos columnas y en el orden de los
@@ -1196,7 +1219,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Fascículos">
       <a class="project-nav__link project-nav__link--prev" href="#p-esencias">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">3&nbsp;Esencias</span>
@@ -1264,6 +1287,10 @@
        asi el ancho lo manda la columna y llegan anchas. Ver
        .fig__frame--scroll. -->
   <div class="container">
+    <!-- Con el mouse la ventana se recorre con la rueda; con el dedo arranca
+         cerrada y se abre al tocarla, para no atrapar el scroll de la
+         página (módulo 21). -->
+    <p class="ayuda ayuda--arriba reveal"><span class="ayuda__fino">Scrolleá dentro de cada pantalla para recorrer la página completa.</span><span class="ayuda__tactil">Tocá cada pantalla para recorrer la página completa.</span></p>
     <div class="grid-2">
       <figure class="fig reveal">
         <div class="fig__frame fig__frame--scroll" data-slot="Home">
@@ -1282,7 +1309,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Almacenit">
       <a class="project-nav__link project-nav__link--prev" href="#p-fasciculos">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">Fascículos</span>
@@ -1408,7 +1435,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Estrella de Maldonado">
       <a class="project-nav__link project-nav__link--prev" href="#p-almacenit">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">Almacenit</span>
@@ -1540,6 +1567,7 @@
        escala solo con la carta. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Diseños en uso</h3>
+    <p class="ayuda ayuda--arriba reveal"><span class="ayuda__fino">Hacé clic en una carta para darla vuelta; el + la abre en grande.</span><span class="ayuda__tactil">Tocá una carta para darla vuelta; el + la abre en grande.</span></p>
     <ul class="cards reveal" data-cards>
       <li class="card">
         <button type="button" class="card__flip" aria-pressed="false"
@@ -1714,7 +1742,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Remeras Delira">
       <a class="project-nav__link project-nav__link--prev" href="#p-estrella">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">Estrella de Maldonado</span>
@@ -1860,6 +1888,7 @@
        en vez de en el que dejo un reacomodo pensado para otro ancho. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Aplicaciones</h3>
+    <p class="ayuda ayuda--arriba reveal"><span class="ayuda__fino">Hacé clic en una imagen para verla en grande y recorrerla de cerca.</span><span class="ayuda__tactil">Tocá una imagen para verla en grande y recorrerla de cerca.</span></p>
     <div class="grid-3 grid-3--por-columna">
       <figure class="fig reveal"><button class="fig__frame fig__frame--ampliable ar-3x2" type="button" data-slot="Pieza" data-aplic data-grande="assets/images/mush-type/aplicaciones/grande/a.jpg" aria-label="Ampliar: Cartel de vía pública de Mordisco con la tipografía Mush"><img src="assets/images/mush-type/aplicaciones/a.jpg" alt="Cartel de vía pública de Mordisco con la tipografía Mush" loading="lazy" decoding="async"></button></figure>
       <figure class="fig reveal"><button class="fig__frame fig__frame--ampliable ar-3x2" type="button" data-slot="Pieza" data-aplic data-grande="assets/images/mush-type/aplicaciones/grande/b.jpg" aria-label="Ampliar: Cartel iluminado de Mustard en la calle, con la tipografía Mush"><img src="assets/images/mush-type/aplicaciones/b.jpg" alt="Cartel iluminado de Mustard en la calle, con la tipografía Mush" loading="lazy" decoding="async"></button></figure>
@@ -1872,7 +1901,7 @@
 
 
   <div class="container">
-    <nav class="project-nav" aria-label="Navegación entre proyectos">
+    <nav class="project-nav" aria-label="Navegación desde Mush Type">
       <a class="project-nav__link project-nav__link--prev" href="#p-remeras">
         <span class="project-nav__dir">Anterior</span>
         <span class="project-nav__name">Remeras Delira</span>
@@ -1988,6 +2017,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=96"></script>
+<script src="javascript/main.js?v=97"></script>
 </body>
 </html>
