@@ -701,14 +701,16 @@ em { font-style: italic; }
   position: absolute;
   inset: 0;
   z-index: 3;
-  width: clamp(64px, 14%, 96px);
+  /* Empezó en clamp(64px, 14%, 96px) y al autor le pareció chica: se la
+     llevó a unas dos veces y media, 212 px a 1366 y 150 en mobile. */
+  width: clamp(150px, 34%, 240px);
   /* Cuadrada: con alto en % saldría del alto del marco y no del ancho. */
   height: auto;
   aspect-ratio: 1;
   margin: auto;
   color: var(--ink);
   pointer-events: none;
-  filter: drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 0 4px #FFFFFF);
+  filter: drop-shadow(0 0 3px #FFFFFF) drop-shadow(0 0 8px #FFFFFF);
   transition: opacity var(--t-mid) var(--ease);
 }
 .is-ready .shirt3d__gesto { display: block; }
@@ -3060,37 +3062,8 @@ em { font-style: italic; }
 .video-play:focus-visible { transform: scale(1.06); }
 .video-play:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
-/* ------------ Botón de pausa ------------
-   Lo que se mueve solo por más de cinco segundos tiene que poder
-   frenarse (WCAG 2.2.2). Queda solo en los dos pases de Mush: en los
-   videos en loop y en la cinta de Green Eat se probó y el autor lo quitó.
-   Lo pone el JS en la esquina del marco. Cuadrado, como todo el sitio;
-   se ve de 34 px y se toca de 44. */
-.pausa {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  border: 0;
-  background: rgba(17, 17, 17, 0.62);
-  color: #FFFFFF;
-  cursor: pointer;
-  transition: background-color var(--t-fast) var(--ease);
-}
-.pausa::before {
-  content: "";
-  position: absolute;
-  inset: -5px;
-}
-.pausa svg { width: 14px; height: 14px; }
-.pausa:hover,
-.pausa:focus-visible { background: rgba(17, 17, 17, 0.9); }
-.pausa:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Los botones de pausa (videos en loop, cinta y pases) se probaron y el
+   autor los quitó el 15 de septiembre. */
 
 .video-play__flecha {
   width: 34%;

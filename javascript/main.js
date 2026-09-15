@@ -59,38 +59,8 @@
     });
   }
 
-  /* --- Botón de pausa ------------------------------------------------
-     Lo que se mueve solo por más de cinco segundos tiene que poder
-     frenarse (WCAG 2.2.2). alCambiar recibe true si queda en pausa.
-     Devuelve poner(), para cambiar el estado desde afuera. */
-  const ICONO_PAUSA = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-    '<rect x="6" y="5" width="4" height="14" fill="currentColor"></rect>' +
-    '<rect x="14" y="5" width="4" height="14" fill="currentColor"></rect></svg>';
-  const ICONO_SEGUIR = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-    '<path d="M8 5l11 7-11 7z" fill="currentColor"></path></svg>';
-
-  function botonPausa(contenedor, pausadoAlEmpezar, alCambiar) {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'pausa';
-    let pausado = !!pausadoAlEmpezar;
-    const pintar = () => {
-      b.innerHTML = pausado ? ICONO_SEGUIR : ICONO_PAUSA;
-      b.setAttribute('aria-label', pausado ? 'Reanudar la animación' : 'Pausar la animación');
-    };
-    pintar();
-    /* La cinta y el pase se arrastran desde el pointerdown: sin cortarlo
-       acá, apretar el botón empezaría un arrastre y el click no llegaría. */
-    b.addEventListener('pointerdown', (e) => e.stopPropagation());
-    b.addEventListener('click', (e) => {
-      e.stopPropagation();
-      pausado = !pausado;
-      pintar();
-      alCambiar(pausado);
-    });
-    contenedor.appendChild(b);
-    return { poner(p) { pausado = !!p; pintar(); } };
-  }
+  /* Los botones de pausa (videos en loop, cinta y pases) se probaron y el
+     autor los quito el 15 de septiembre: no volver a ponerlos. */
 
 
   /* ==========================================================
@@ -1929,10 +1899,7 @@
          izquierda, 0 si todavia no hay ninguna preparada. */
       let lado = 0;
 
-      /* En pausa por el botón de la esquina. Con movimiento reducido
-         arranca así, y si alguien lo aprieta igual, se le hace caso. */
-      let pausadoUsuario = prefersReducedMotion.matches;
-      const detenido = () => quieto || pausadoUsuario;
+      const detenido = () => quieto || prefersReducedMotion.matches;
 
       /* El ancho de los puntos lo cronometra el JS —ver la nota de
          arriba— asi que la duracion va inline, no en la hoja. */
@@ -2187,12 +2154,6 @@
       /* --- Puesta en marcha ---------------------------------------
          Fuera de pantalla no corre: no tiene sentido gastar cuadros ni
          bajar imagenes que nadie esta mirando. */
-      botonPausa(marco, pausadoUsuario, function (pausado) {
-        pausadoUsuario = pausado;
-        ultimo = 0;
-        pintarAvance();
-      });
-
       marcarPunto(actual, 0);
       pintarAvance();
       if ('IntersectionObserver' in window) {

@@ -40,7 +40,7 @@ assets/             164 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=98**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=99**.
 
 ---
 
@@ -567,9 +567,11 @@ hizo.**
    con la imagen `assets/compartir.jpg` (1200x630, 51 KB) sacada de
    `PORTFOLIO WEB/compartir.psd`. El `theme-color` pasó de #F3F0EA —el beige
    de una dirección descartada— a #FFFFFF.
-7. **Botón de pausa (`.pausa`).** Quedan dos, en los pases de Mush. Hubo
-   seis: en los tres videos en loop y en la cinta de Green Eat **el autor
-   los quitó** el 15 de septiembre. Cuadrado, en la esquina, se ve de 34 px y se toca de 44.
+7. **Botón de pausa (`.pausa`).** **No queda ninguno.** Hubo seis —los
+   tres videos en loop, la cinta de Green Eat y los dos pases de Mush— y
+   el 15 de septiembre **el autor los quitó todos**; se borraron también
+   la función `botonPausa()` y los estilos. Lo que sigue describe cómo
+   eran, por si alguna vez se vuelve a hablar del tema. Cuadrado, en la esquina, se ve de 34 px y se toca de 44.
    Con movimiento reducido arranca en pausa y, si alguien lo aprieta, se le
    hace caso. El botón corta el `pointerdown`: si no, en la cinta y el pase
    empezaba un arrastre y el click no llegaba. La cinta, además, ahora se
@@ -591,9 +593,10 @@ y alto. Y `recortar-gif.ps1`, descripta en Estrella.
 ### Retoques del 15 de septiembre
 Después de ver la tanda de accesibilidad, el autor pidió:
 
-- **Sin pausa en los videos en loop ni en la cinta.** Se sacaron los
-  botones de Suma, Green Eat (video y cinta) y la portada de Mush, con su
-  código. Quedan los de los dos pases de Mush, que no nombró.
+- **Sin ningún botón de pausa.** Primero se sacaron los de Suma, Green Eat
+  (video y cinta) y la portada de Mush, y en un segundo pedido los de los
+  dos pases de Mush. Se borró también la función `botonPausa()` y la clase
+  `.pausa`.
 - **Sin indicación en la cinta** de Green Eat: "se sobreentiende".
 - **La de las tapas, solo con el dedo y antes de las tapas.** Con mouse ya
   las anuncia el hover. Clase nueva `.ayuda--solo-tactil`, que en
@@ -604,7 +607,10 @@ Después de ver la tanda de accesibilidad, el autor pidió:
   se redibujó en SVG de trazo, así hereda el color y no pesa. Aparece
   recién con el modelo puesto, centrada sobre el lienzo, con un halo
   blanco para separarse de la estampa; la mano se balancea y la flecha
-  late (1,8 s). No ataja el puntero. **Se va con la primera interacción**
+  late (1,8 s). **Mide `clamp(150px, 34%, 240px)`: 212 px a 1366 y 150 en
+  mobile**; empezó en 87 y 64 y el autor la pidió entre el doble y el
+  triple. Sigue centrada y entra en el marco en los dos. No ataja el
+  puntero. **Se va con la primera interacción**
   —arrastrar, las flechas o la rueda sobre el lienzo, o los botones de
   mobile— y se saca del DOM. Elegir otra estampa no cuenta. Con
   movimiento reducido queda quieta.
@@ -1129,7 +1135,6 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | ar-3x1, ar-3x5, ar-3x7, ar-27x10, ar-9x11 | Proporciones nuevas. |
 | .ayuda (+ --arriba, --centro) + .ayuda__fino / .ayuda__tactil | Indicación de uso con dos textos; el CSS muestra el del puntero que hay (`hover: none, pointer: coarse`). También la usa la línea de ayuda del libro. |
 | .scroll-caja + .scroll-pista + .scroll-activar | Envoltura de las ventanas con scroll de Almacenit (la pone el módulo 21): pista al pie y, con el dedo, el botón que las abre. |
-| .pausa | Botón de pausa en la esquina de los pases de Mush. Lo crea `botonPausa()` del JS. |
 | .ayuda--solo-tactil | Indicación que solo se ve con el dedo; en escritorio no ocupa lugar. La usan las tapas de Fascículos. |
 | .shirt3d__gesto (+ -mano, -flecha) | La mano animada sobre el visor 3D de Remeras; se va con la primera interacción. |
 | .libro-visor__textos + .libro-visor__ayuda | Título y línea de ayuda en la barra del libro. |
@@ -1196,7 +1201,8 @@ respondió que **sólo había que corregir "Remeras custom"** —hecho: dice
 
 El 15 de septiembre, después de probarlas, sacó y **no hay que volver a
 proponer**:
-- Botones de pausa en los videos en loop y en la cinta de Green Eat.
+- Botones de pausa: ni en los videos en loop, ni en la cinta de Green Eat,
+  ni en los pases de Mush.
 - Una indicación de uso en la cinta de Green Eat.
 - La indicación de las tapas con mouse (queda solo con el dedo).
 
@@ -1328,6 +1334,14 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 ---
 
 ## 11. Estado de verificación
+
+**Sin pausa en los pases y mano más grande (15 de septiembre),** medido en
+el DOM: se sirve `?v=99`; no queda ningún `.pausa` ni referencias a
+`botonPausa` en HTML, CSS o JS; el pase de Mush sigue pasando solo (de
+pieza 1 a 2 en unos 3 s). La mano mide 212x212 sobre un marco de 624x449 a
+1366x630 y 150x150 sobre 327x496 en mobile, centrada al píxel y dentro del
+marco en los dos; el centro sigue siendo el lienzo y se va al tocarlo. Sin
+scroll horizontal, llaves balanceadas, consola sin errores.
 
 **Retoques del 15 de septiembre,** medido en el DOM: se sirve `?v=98`;
 quedan 2 botones de pausa, los dos en pases; no aparece el texto de la
