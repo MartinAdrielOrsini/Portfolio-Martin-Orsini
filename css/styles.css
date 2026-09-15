@@ -691,6 +691,44 @@ em { font-style: italic; }
    asi que mientras tanto se ve la foto por debajo. */
 .is-ready .shirt3d__fallback { visibility: hidden; }
 
+/* La mano que enseña a girarla (la pone el módulo 16). Va encima del
+   lienzo, sin atajar el puntero, y se va con la primera interacción.
+   El halo blanco la separa de la estampa cuando cae encima de un dibujo.
+   Con movimiento reducido la animación se apaga sola (regla general del
+   final) y queda la mano quieta. */
+.shirt3d__gesto {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: clamp(64px, 14%, 96px);
+  /* Cuadrada: con alto en % saldría del alto del marco y no del ancho. */
+  height: auto;
+  aspect-ratio: 1;
+  margin: auto;
+  color: var(--ink);
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 0 4px #FFFFFF);
+  transition: opacity var(--t-mid) var(--ease);
+}
+.is-ready .shirt3d__gesto { display: block; }
+.shirt3d__gesto.is-oculto { opacity: 0; }
+.shirt3d__gesto svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.shirt3d__gesto-mano {
+  animation: gesto-mano 1.8s var(--ease) infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.shirt3d__gesto-flecha { animation: gesto-flecha 1.8s var(--ease) infinite; }
+@keyframes gesto-mano {
+  0%, 100% { transform: translateX(6px) rotate(6deg); }
+  50%      { transform: translateX(-7px) rotate(-8deg); }
+}
+@keyframes gesto-flecha {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 1; }
+}
+
 /* El rotulo de abajo cuenta que la pieza se puede manipular. Sin JS
    no dice nada, porque no habria nada que manipular. */
 .shirt3d__status { display: none; }
@@ -1461,9 +1499,13 @@ em { font-style: italic; }
 .ayuda--centro { text-align: center; }
 .section--dark .ayuda { color: var(--dark-soft); }
 .ayuda__tactil { display: none; }
+/* La que solo tiene sentido con el dedo (la de las tapas: con mouse ya
+   las anuncia el hover) no ocupa lugar en escritorio. */
+.ayuda--solo-tactil { display: none; }
 @media (hover: none), (pointer: coarse) {
   .ayuda__fino { display: none; }
   .ayuda__tactil { display: inline; }
+  .ayuda--solo-tactil { display: block; }
 }
 
 /* ------------ Ventanas con scroll: la pista y el cerrojo ------------
@@ -3020,9 +3062,10 @@ em { font-style: italic; }
 
 /* ------------ Botón de pausa ------------
    Lo que se mueve solo por más de cinco segundos tiene que poder
-   frenarse (WCAG 2.2.2): los tres videos en loop, la cinta de Green Eat y
-   los dos pases de Mush. Lo pone el JS en la esquina de cada pieza.
-   Cuadrado, como todo el sitio; se ve de 34 px y se toca de 44. */
+   frenarse (WCAG 2.2.2). Queda solo en los dos pases de Mush: en los
+   videos en loop y en la cinta de Green Eat se probó y el autor lo quitó.
+   Lo pone el JS en la esquina del marco. Cuadrado, como todo el sitio;
+   se ve de 34 px y se toca de 44. */
 .pausa {
   position: absolute;
   right: 10px;
@@ -3048,10 +3091,6 @@ em { font-style: italic; }
 .pausa:hover,
 .pausa:focus-visible { background: rgba(17, 17, 17, 0.9); }
 .pausa:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-/* En el teléfono de Green Eat la esquina es redonda y se comería el botón. */
-.phone__screen .pausa { right: 13%; bottom: 5%; }
-/* La cinta va de borde a borde: el botón se alinea con el margen. */
-.carousel .pausa { right: var(--gutter); }
 
 .video-play__flecha {
   width: 34%;

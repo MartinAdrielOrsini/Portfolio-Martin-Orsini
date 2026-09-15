@@ -60,7 +60,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- El ?v= fuerza al navegador a bajar el CSS nuevo en vez de servir el
      cacheado. Subilo a v=4, v=5... cada vez que cambies estilos. -->
-<link rel="stylesheet" href="css/styles.css?v=97">
+<link rel="stylesheet" href="css/styles.css?v=98">
 </head>
 <body>
 
@@ -755,7 +755,6 @@
        JavaScript queda una tira que se arrastra a mano. -->
   <div class="container">
     <h3 class="block-title block-title--section reveal">Pantallas</h3>
-    <p class="ayuda ayuda--arriba reveal"><span class="ayuda__fino">La cinta avanza sola: arrastrala para recorrerla a tu ritmo.</span><span class="ayuda__tactil">La cinta avanza sola: deslizala con el dedo para recorrerla a tu ritmo.</span></p>
   </div>
   <div class="carousel reveal" data-carousel role="group"
        aria-label="Recorrido por las pantallas de la aplicacion Green Eat">
@@ -1169,6 +1168,9 @@
        --media-max-h les recortaría el alto, se angostarían para sostener
        la proporción y la fila dejaría de llegar al margen derecho. -->
   <div class="container">
+    <!-- Solo con el dedo, y antes de las tapas: con mouse ya las anuncia el
+         hover, y con el dedo no hay nada que sugiera que se abren. -->
+    <p class="ayuda ayuda--arriba ayuda--centro ayuda--solo-tactil reveal">Tocá una tapa para hojear el fascículo.</p>
     <div class="grid-3 tapas">
       <figure class="fig fig--ar reveal" style="--ar: 0.7565">
         <button class="fig__frame fig__frame--tall fig__frame--ampliable" type="button" data-slot="Fascículo 01"
@@ -1195,9 +1197,6 @@
         </button>
       </figure>
     </div>
-    <!-- Nada decía que las tapas se abren, y con el dedo no hay hover que
-         lo sugiera. -->
-    <p class="ayuda ayuda--centro reveal"><span class="ayuda__fino">Hacé clic en una tapa para hojear el fascículo.</span><span class="ayuda__tactil">Tocá una tapa para hojear el fascículo.</span></p>
   </div>
 
   <!-- Seis fotos de la colección, en dos columnas y en el orden de los
@@ -2017,6 +2016,6 @@
 
 </main>
 
-<script src="javascript/main.js?v=97"></script>
+<script src="javascript/main.js?v=98"></script>
 </body>
 </html>

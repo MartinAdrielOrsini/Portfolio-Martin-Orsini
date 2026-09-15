@@ -847,7 +847,7 @@
     };
 
     const arrancar = (v) => {
-      if (prefersReducedMotion.matches || v.dataset.pausado) return;
+      if (prefersReducedMotion.matches) return;
       cargar(v);
       const p = v.play();
       // Si el navegador rechaza el autoplay, no hay nada que romper:
@@ -855,26 +855,8 @@
       if (p && typeof p.catch === 'function') p.catch(() => {});
     };
 
-    /* Un botón de pausa en la esquina de cada video. Con movimiento
-       reducido arranca en pausa, y si alguien lo aprieta igual, se le
-       hace caso: lo pidió a propósito. La caja del video se posiciona
-       solo si no lo estaba, para no pisar el absoluto de Suma. */
-    const controles = new Map();
-    videos.forEach((v) => {
-      const caja = v.parentElement;
-      if (getComputedStyle(caja).position === 'static') caja.style.position = 'relative';
-      controles.set(v, botonPausa(caja, prefersReducedMotion.matches, (pausado) => {
-        if (pausado) {
-          v.dataset.pausado = '1';
-          if (v.dataset.cargado) v.pause();
-        } else {
-          delete v.dataset.pausado;
-          cargar(v);
-          const p = v.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        }
-      }));
-    });
+    /* Sin boton de pausa: se probo y el autor lo quito (15 de
+       septiembre). Con movimiento reducido no arrancan nunca. */
 
     if (!('IntersectionObserver' in window)) {
       videos.forEach(arrancar);
@@ -892,12 +874,7 @@
 
     // Si el usuario cambia la preferencia de movimiento en caliente
     const onMQ = () => {
-      videos.forEach((v) => {
-        if (!prefersReducedMotion.matches) return;
-        v.pause();
-        const c = controles.get(v);
-        if (c) c.poner(true);
-      });
+      videos.forEach((v) => { if (prefersReducedMotion.matches) v.pause(); });
     };
     if (prefersReducedMotion.addEventListener) {
       prefersReducedMotion.addEventListener('change', onMQ);
@@ -986,12 +963,9 @@
       let ultimo = 0;
       let xInicio = 0, pInicio = 0, pUltimo = 0, tUltimo = 0, vArrastre = 0;
 
-      /* En pausa por el botón de la esquina. Con movimiento reducido
-         arranca así; si alguien lo aprieta igual, se le hace caso. En
-         pausa se puede seguir arrastrando: solo se apaga el crucero. */
-      let pausado = prefersReducedMotion.matches;
-      const objetivo = () => (pausado ? 0 : VEL_CRUCERO);
-      botonPausa(carousel, pausado, (p) => { pausado = p; });
+      /* Sin boton de pausa: se probo y el autor lo quito (15 de
+         septiembre). */
+      const objetivo = () => (prefersReducedMotion.matches ? 0 : VEL_CRUCERO);
       const envolver = (n) => (ancho > 0 ? ((n % ancho) + ancho) % ancho : 0);
 
       /* --- Construccion y medida ---------------------------------
@@ -1059,8 +1033,8 @@
           /* Convergencia hacia la velocidad de crucero, independiente
              de los fps: a mas dt, mas parte del camino se recorre. */
           v += (objetivo() - v) * (1 - Math.exp(-dt / 260));
-          /* La curva se acerca a cero pero no llega nunca: en pausa la
-             cinta seguiria corriendose fracciones de pixel. Se la corta. */
+          /* La curva se acerca a cero pero no llega nunca: con movimiento
+             reducido la cinta seguiria corriendose fracciones de pixel. */
           if (objetivo() === 0 && Math.abs(v) < 0.0005) v = 0;
           x = envolver(x + v * dt);
         }
@@ -1601,6 +1575,42 @@
       distancia = Math.max(radio * 1.15, Math.min(radio * 9, distancia));
       pedirCuadro();
     });
+
+    /* --- El gesto de arrastrar ---------------------------------
+       Una mano que se desliza sobre la remera, para que se entienda
+       que la pieza se agarra. Aparece recien con el modelo puesto
+       (.is-ready) y se va en cuanto alguien interactua: arrastrar,
+       las flechas o la rueda sobre el lienzo, o los botones de abajo.
+       Elegir otra estampa no cuenta: no enseña a girarla.
+       No tapa el gesto: pointer-events none en el CSS. */
+    const gesto = document.createElement('div');
+    gesto.className = 'shirt3d__gesto';
+    gesto.setAttribute('aria-hidden', 'true');
+    gesto.innerHTML =
+      '<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" ' +
+      'stroke-linecap="round" stroke-linejoin="round">' +
+      '<g class="shirt3d__gesto-flecha">' +
+      '<path d="M59 27C51 18 39 17.5 29.5 28.5"></path>' +
+      '<path d="M29.5 20.5L29 29.2L37.6 30"></path></g>' +
+      '<path class="shirt3d__gesto-mano" d="M46.5 55.5L37.2 36.5C36 34 39.5 31.8 41.3 34.2L50.2 49.5' +
+      'L50.4 45.4C50.6 42.4 55.2 42.4 55.4 45.4L55.7 47.2C56 44.3 60.4 44.3 60.7 47.2L61 48.6' +
+      'C61.4 45.8 65.8 46 66 48.9L68.8 56.5C70.3 60.5 70 63.5 67.8 65.5L56.8 72.5L51 70' +
+      'L40.8 56.6C39.2 54.5 41.8 51.8 44 53.4Z"></path></svg>';
+    canvas.parentElement.appendChild(gesto);
+
+    let gestoVisto = false;
+    const sacarGesto = () => {
+      if (gestoVisto) return;
+      gestoVisto = true;
+      gesto.classList.add('is-oculto');
+      window.setTimeout(() => gesto.remove(), 400);
+    };
+    canvas.addEventListener('pointerdown', sacarGesto);
+    canvas.addEventListener('wheel', () => { if (document.activeElement === canvas) sacarGesto(); });
+    canvas.addEventListener('keydown', (e) => {
+      if (/^(Arrow|\+|=|-|_)/.test(e.key)) sacarGesto();
+    });
+    $$('[data-shirt-cmd]', host).forEach((b) => b.addEventListener('click', sacarGesto));
 
     /* --- Manejadores en pantalla ---------------------------------
        Con el dedo se puede girar arrastrando, pero no hay rueda para

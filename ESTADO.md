@@ -40,7 +40,7 @@ assets/             164 MB (!) — ver "Problemas conocidos"
 ```
 
 **Cache-busting manual:** el link del CSS y el script llevan `?v=N`.
-**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=97**.
+**Hay que subir ese número cada vez que se toca CSS o JS.** Va en **v=98**.
 
 ---
 
@@ -526,9 +526,10 @@ hizo.**
 
 1. **Indicaciones de uso (`.ayuda`).** Una línea chica con dos textos, uno
    para mouse ("Hacé clic…") y otro para el dedo ("Tocá…"); elige el CSS
-   con `(hover: none), (pointer: coarse)`. Están en: la cinta de Green Eat
-   ("La cinta avanza sola: arrastrala…"), las tapas de Fascículos, las
-   sábanas de Almacenit, las cartas de Remeras y las Aplicaciones de Mush.
+   con `(hover: none), (pointer: coarse)`. Están en las sábanas de
+   Almacenit, las cartas de Remeras y las Aplicaciones de Mush, y —solo con
+   el dedo— arriba de las tapas de Fascículos. La de la cinta de Green Eat
+   se sacó el 15 de septiembre (ver "Retoques del 15 de septiembre").
    **Los textos los escribí yo: conviene que el autor los revise.**
    - **Remeras:** el aviso del visor 3D decía "la rueda acerca" también
      con el dedo. Ahora con el dedo dice "Arrastrá con el dedo para
@@ -566,8 +567,9 @@ hizo.**
    con la imagen `assets/compartir.jpg` (1200x630, 51 KB) sacada de
    `PORTFOLIO WEB/compartir.psd`. El `theme-color` pasó de #F3F0EA —el beige
    de una dirección descartada— a #FFFFFF.
-7. **Botón de pausa (`.pausa`).** Seis: los tres videos en loop, la cinta y
-   los dos pases. Cuadrado, en la esquina, se ve de 34 px y se toca de 44.
+7. **Botón de pausa (`.pausa`).** Quedan dos, en los pases de Mush. Hubo
+   seis: en los tres videos en loop y en la cinta de Green Eat **el autor
+   los quitó** el 15 de septiembre. Cuadrado, en la esquina, se ve de 34 px y se toca de 44.
    Con movimiento reducido arranca en pausa y, si alguien lo aprieta, se le
    hace caso. El botón corta el `pointerdown`: si no, en la cinta y el pase
    empezaba un arrastre y el click no llegaba. La cinta, además, ahora se
@@ -585,6 +587,31 @@ hizo.**
 imagen compuesta que Photoshop guarda dentro del PSD (8 bits, RGB o gris,
 sin comprimir o RLE) y la exporta, con recorte al centro si se le da ancho
 y alto. Y `recortar-gif.ps1`, descripta en Estrella.
+
+### Retoques del 15 de septiembre
+Después de ver la tanda de accesibilidad, el autor pidió:
+
+- **Sin pausa en los videos en loop ni en la cinta.** Se sacaron los
+  botones de Suma, Green Eat (video y cinta) y la portada de Mush, con su
+  código. Quedan los de los dos pases de Mush, que no nombró.
+- **Sin indicación en la cinta** de Green Eat: "se sobreentiende".
+- **La de las tapas, solo con el dedo y antes de las tapas.** Con mouse ya
+  las anuncia el hover. Clase nueva `.ayuda--solo-tactil`, que en
+  escritorio no ocupa lugar.
+- **Una mano animada sobre el visor 3D de Remeras** (`.shirt3d__gesto`, en
+  el módulo 16), a partir de un ícono que mandó el autor —una mano con el
+  índice arriba y una flecha curva hacia la izquierda—. No había archivo:
+  se redibujó en SVG de trazo, así hereda el color y no pesa. Aparece
+  recién con el modelo puesto, centrada sobre el lienzo, con un halo
+  blanco para separarse de la estampa; la mano se balancea y la flecha
+  late (1,8 s). No ataja el puntero. **Se va con la primera interacción**
+  —arrastrar, las flechas o la rueda sobre el lienzo, o los botones de
+  mobile— y se saca del DOM. Elegir otra estampa no cuenta. Con
+  movimiento reducido queda quieta.
+- **CV nuevo:** `D:\Martin\CV\Martin Orsini CV.pdf` (una página A4, 3,8 MB)
+  pisó a `assets/cv-martin-orsini.pdf`, con el mismo nombre para no tocar
+  el enlace. En la carpeta hay otro casi igual, `CV Martin Orsini .pdf`, que
+  no se usó.
 
 ### Estrella de Maldonado — contenido real (14 de septiembre)
 Maquetada sobre `8ESTRELLA DE MALDONADO/web/referencia.jpg`, un wireframe
@@ -1102,7 +1129,9 @@ las ilustraciones nuevas. **No se borraron:** confirmar con el autor.
 | ar-3x1, ar-3x5, ar-3x7, ar-27x10, ar-9x11 | Proporciones nuevas. |
 | .ayuda (+ --arriba, --centro) + .ayuda__fino / .ayuda__tactil | Indicación de uso con dos textos; el CSS muestra el del puntero que hay (`hover: none, pointer: coarse`). También la usa la línea de ayuda del libro. |
 | .scroll-caja + .scroll-pista + .scroll-activar | Envoltura de las ventanas con scroll de Almacenit (la pone el módulo 21): pista al pie y, con el dedo, el botón que las abre. |
-| .pausa | Botón de pausa en la esquina de lo que se mueve solo. Lo crea `botonPausa()` del JS. |
+| .pausa | Botón de pausa en la esquina de los pases de Mush. Lo crea `botonPausa()` del JS. |
+| .ayuda--solo-tactil | Indicación que solo se ve con el dedo; en escritorio no ocupa lugar. La usan las tapas de Fascículos. |
+| .shirt3d__gesto (+ -mano, -flecha) | La mano animada sobre el visor 3D de Remeras; se va con la primera interacción. |
 | .libro-visor__textos + .libro-visor__ayuda | Título y línea de ayuda en la barra del libro. |
 
 ---
@@ -1165,6 +1194,12 @@ respondió que **sólo había que corregir "Remeras custom"** —hecho: dice
 - "Trabajemos juntos!" sin signo de apertura en la sección 2.
 - El video de Green Eat de 61 MB.
 
+El 15 de septiembre, después de probarlas, sacó y **no hay que volver a
+proponer**:
+- Botones de pausa en los videos en loop y en la cinta de Green Eat.
+- Una indicación de uso en la cinta de Green Eat.
+- La indicación de las tapas con mouse (queda solo con el dedo).
+
 ### Pendientes concretos
 1. **Confirmar el orden de Paula (fascículo 03).** Hecho el 11 de
    septiembre: los tres libros salen de los PDF del autor. Falta que el
@@ -1189,8 +1224,8 @@ respondió que **sólo había que corregir "Remeras custom"** —hecho: dice
    (rosa sobre rosa). Si el autor lo pide, se le puede marcar más el borde.
 8. **En mobile los dos teléfonos de Green Eat** quedan de 155 px de ancho y
    el prototipo se ve chico. Se ofreció apilarlos; sin respuesta.
-9. **El CV pesa 4,15 MB** y no se pudo abrir para verificar que sea el
-   archivo correcto.
+9. **CV:** resuelto el 15 de septiembre, lo reemplazó el autor por uno
+   nuevo (3,8 MB, una página, verificado).
 10. **Peso:** `assets/` son 164 MB y `.git` 162 MB. El grueso son los
     videos (Green Eat 61 MB, Mush 29 MB). Ver la sección 9 antes de
     tocar nada.
@@ -1293,6 +1328,20 @@ septiembre—. Borrarlos sólo si el autor lo pide.
 ---
 
 ## 11. Estado de verificación
+
+**Retoques del 15 de septiembre,** medido en el DOM: se sirve `?v=98`;
+quedan 2 botones de pausa, los dos en pases; no aparece el texto de la
+cinta; la indicación de las tapas no se ve con mouse y con el dedo va
+centrada, 11 px arriba de la fila. El CV responde 200 con 3.940.308 bytes,
+igual que el archivo del autor. **Mano del visor 3D:** con el modelo listo
+se ve, centrada al píxel sobre el lienzo, con la animación puesta y
+`pointer-events: none` (el punto del centro sigue siendo el lienzo); un
+pointerdown sobre el lienzo la oculta y a los 400 ms ya no está en el DOM.
+En mobile también aparece y el aviso dice "Arrastrá con el dedo para
+girarla, o usá los botones de abajo". El dibujo se revisó en una captura a
+360 px. Sin scroll horizontal, llaves balanceadas y consola sin errores.
+**No se pudo ver la animación en movimiento** (el panel no compone
+cuadros).
 
 **Accesibilidad y uso (14 de septiembre),** medido en el DOM a 1366x630 y
 en emulación mobile 375x812 con dedo. Se sirve `?v=97`, 11 metas de
